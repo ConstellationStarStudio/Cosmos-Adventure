@@ -4,7 +4,7 @@
       "description": {
          "identifier": "cosmos:tin_block",
          "menu_category": {
-            "category": "construction"
+            "category": "items"
          },
          "states": {
             "cosmos:mining_speed": ["normal", "slow", "decreased", "fast", "rapid", "instant"]

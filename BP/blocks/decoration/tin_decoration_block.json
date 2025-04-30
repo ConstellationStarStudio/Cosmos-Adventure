@@ -4,7 +4,7 @@
       "description": {
          "identifier": "cosmos:tin_decoration_block",
          "menu_category": {
-            "category": "construction"
+            "category": "items"
          }
       },
       "components": {

@@ -4,7 +4,7 @@
       "description": {
          "identifier": "cosmos:mars_dungeon_bricks",
          "menu_category": {
-            "category": "construction"
+            "category": "items"
          }
       },
       "components": {
