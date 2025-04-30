@@ -124,9 +124,9 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 				return;
 			}
 			// CAMERA MOVEMENT DETECTION TO DESPAWN THE ENTITY
-			let camera = player.getRotation(); camera = `${Math.round(camera.x)} ${Math.round(camera.y)}`
+			let camera = player.getRotation();
 			const view = entity.getDynamicProperty('view')
-			if (view && (camera != view)) {
+			if (view && (Math.abs(camera.x - view.x) > 1 || Math.abs(camera.y - view.y) > 1)) {
 				despawn(entity)
 				player.setDynamicProperty('secondInventoryEntity', undefined);
 				system.clearRun(secondInventory);
@@ -167,8 +167,8 @@ world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
 	const holdingItem = player.getComponent("equippable").getEquipment(EquipmentSlot.Mainhand)
 	if (!player.isSneaking || holdingItem) { event.cancel = true; despawn(entity); return }
 
-	let camera = player.getRotation(); camera = `${Math.round(camera.x)} ${Math.round(camera.y)}`
-	system.run(() => { entity.setDynamicProperty('view', camera) })
+	let camera = player.getRotation();
+	system.run(() => { entity.setDynamicProperty('view', {x: camera.x, y: camera.y , z: 0}) })
 });
 
 // DESPAWN ENTITY ON HIT
@@ -222,9 +222,13 @@ world.beforeEvents.worldInitialize.subscribe(({ itemComponentRegistry }) => {
 				else if (player.getProperty("cosmos:tank2") == 'no_tank') tank = "tank2"
 				if (tank) {
 					const durability = item.getComponent("minecraft:durability")
+					let saved_durability = durability ? durability.maxDurability - durability.damage:
+					0;
 					player.runCommand(`clear @s ${item.typeId} -1 1`)
-					space_gear[tank] = item.typeId + (durability ? ' ' + durability.damage : ''); sound = true
+					space_gear[tank] = item.typeId + (durability ? ' ' + saved_durability : '');
+					sound = true;
 					player.setProperty(`cosmos:${tank}`, tanks[item.typeId])
+					
 				}
 			}
 			if (sound) player.dimension.playSound("armor.equip_iron", player.location)
