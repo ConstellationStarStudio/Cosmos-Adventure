@@ -1,5 +1,5 @@
 {
-   "format_version": "1.20.20",
+   "format_version": "1.20.50",
    "minecraft:item": {
       "description": {
          "identifier": "cosmos:dehydrated_potato",
@@ -10,6 +10,17 @@
       "components": {
          "minecraft:icon": {
             "texture": "dehydrated_potato"
+         },
+	 "minecraft:use_modifiers": {
+            "use_duration": 1.6,
+            "movement_modifier": 0.5
+         },
+	 "minecraft:use_animation": "eat",
+         "minecraft:food": {
+	      "nutrition": 2,
+	      "saturation_modifier": 3.0,
+	      "can_always_eat": false,
+         "using_converts_to": "cosmos:tin_canister"
          }
       }
    }

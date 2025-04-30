@@ -10,6 +10,9 @@
       "components": {
          "minecraft:icon": {
             "texture": "fragmented_carbon"
+         },
+         "minecraft:fuel": {
+            "duration": 10
          }
       }
    }

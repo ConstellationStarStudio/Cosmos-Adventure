@@ -18,7 +18,7 @@
 	 "minecraft:use_animation": "eat",
          "minecraft:food": {
 	 "nutrition": 2,
-	 "saturation_modifier": 0.5,
+	 "saturation_modifier": 1.0,
 	 "can_always_eat": false
          }
       }
