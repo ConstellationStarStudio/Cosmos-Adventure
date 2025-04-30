@@ -23,7 +23,7 @@ system.runInterval(() => {
     if(world.gameRules.showCoordinates) coords_loop(players_in_space)
 });
 
-//space player tags
+//space player tags removing 
 world.afterEvents.playerSpawn.subscribe((data) => {
     if(data.player.dimension.id !== "minecraft:the_end") space_tags_removing(data.player)
     data.player.removeTag("oxygen_hunger");
