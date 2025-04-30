@@ -6,7 +6,7 @@
       },
   
       
-      "tags": ["furnace"],
+      "tags": ["furnace", "smoker", "campfire", "soul_campfire"],
       "input": "cosmos:ground_beef",
       "output": "cosmos:beef_patty"
     }
