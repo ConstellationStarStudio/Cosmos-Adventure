@@ -1,4 +1,4 @@
-import { Player, Entity, world } from "@minecraft/server";
+import { Player, Entity, world, ScreenDisplay, system } from "@minecraft/server";
 export { Planet };
 
 const the_end = world.getDimension('the_end');
@@ -67,7 +67,7 @@ class Planet {
      */
     get gravity() {
         return this.#gravity + 0;
-    }
+    }Z
 
     /**
      * Checks whether a given location is on the planet
@@ -87,7 +87,7 @@ class Planet {
      * @returns {Entity[]} All entities matching the query
      */
     getEntities(entityQueryOptions = {}) {
-        return the_end.getEntities(entityQueryOptions).filter(entity =>
+        return the_end.getEntities(entityQueryOptions).filter(entity => 
             this.isOnPlanet(entity.location)
         );
     }
@@ -98,7 +98,7 @@ class Planet {
      * @returns {Player[]} All players matching the query
      */
     getPlayers(entityQueryOptions = {}) {
-        return the_end.getPlayers(entityQueryOptions).filter(entity =>
+        return the_end.getPlayers(entityQueryOptions).filter(entity => 
             this.isOnPlanet(entity.location)
         );
     }
@@ -111,7 +111,7 @@ class Planet {
     offset(location) {
         return {
             x: location.x - this.center.x,
-            y: location.y,
+            y: location.y, 
             z: location.z - this.center.z
         };
     }
@@ -148,37 +148,30 @@ class Planet {
     static getAll() {
         return Object.keys(ALL_PLANETS).map(id => this.get(id));
     }
-
-    static of(entity) {
-        if (entity.dimension.id !== "minecraft:the_end") return;
-        const loc = entity.location;
-        return Object.values(ALL_PLANETS).find(p => p.isOnPlanet(loc));
-
-    }
 }
 // Coordinate display
 
 // Returns the coordinates that should be displayed on the screen
 function planet_coords(entity) {
-    if (entity.dimension.id != 'minecraft:the_end') return entity.location;
-    let planet = Planet.getAll().find(pl => pl.isOnPlanet(entity.location))
-    return planet?.offset(entity.location) || entity.location
+  if (entity.dimension.id != 'minecraft:the_end') return entity.location;
+  let planet = Planet.getAll().find(pl => pl.isOnPlanet(entity.location))
+  return planet?.offset(entity.location) || entity.location
 }
-export function coords_loop(players) {
+export function coords_loop(players){
     players.forEach(player => {
-        let { x, y, z } = planet_coords(player)
+        let {x, y, z} = planet_coords(player)
         x = Math.floor(x)
         y = Math.floor(y + 0.000001)
         z = Math.floor(z)
         player.onScreenDisplay.setActionBar(`Position: ${x}, ${y}, ${z}`)
     })
 }
-world.afterEvents.gameRuleChange.subscribe(({ rule, value }) => {
+world.afterEvents.gameRuleChange.subscribe(({rule, value}) => {
     if (rule == "showCoordinates" && value == false)
         world.getAllPlayers().forEach(player =>
             player.onScreenDisplay.setActionBar(`§.`)
         )
-}
+    }
 )
 
 /**

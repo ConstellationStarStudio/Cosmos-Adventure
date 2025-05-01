@@ -1,4 +1,3 @@
-import * as mc from "@minecraft/server";
 /**
    * "MachineLib" Mixin injector by Refracted
    * NOTE : THIS MIXIN IS NOT IMPORTED ANYWHERE IN THE GAME, DO NOT BLAME ME ON THIS
@@ -11,70 +10,49 @@ import * as mc from "@minecraft/server";
    * In addition, the library provides energy management methods so you can get, set, add, or subtract energy.
    */
 
-const { ItemStack } = mc;
-//@ts-expect-error
-Merge(mc.Container.prototype, {
 
-  add_ui_button(slot, text, lore) {
-    const button = new ItemStack('cosmos:ui_button')
-    button.nameTag = text ?? ''
-    if (lore) button.setLore(lore)
-    super.setItem(slot, button)
-  },
 
-  add_ui_display(slot, text, damage) {
-    const button = new ItemStack('cosmos:ui')
-    if (damage) {
-      const durability = button.getComponent('durability')
-      durability.damage = durability.maxDurability - damage
-    }
-    button.nameTag = text ?? ''
-    super.setItem(slot, button)
-  },
 
-  updateUI(uiConfigs, data) {
-    uiConfigs.forEach(config => {
-      const uiItem = new ItemStack('cosmos:ui');
-      const text = (typeof config.text === 'function')
-        ? config.text(data)
-        : (config.text || "");
-      uiItem.nameTag = `cosmos:${text}`;
-      if (config.lore) {
-        const lore = (typeof config.lore === 'function')
-          ? config.lore(data)
-          : config.lore;
-        uiItem.setLore(lore);
-      }
-      super.setItem(config.slot, uiItem);
-    });
-  },
+/**
+   * Adds a progress bar to the specified slot.
+   * If the slot is empty, it assigns a barrier ItemStack with nameTag "0".
+   * If an item already exists, its value is set to "0".
+   * @param {number} slotIndex - The index of the slot.
+   * @returns {object} The progress bar object.
+   */
+Container.prototype.addProgressBar = function(slotIndex) {
+ // Create a progress bar with an initial value of 0.
+ const progressBar = { slotIndex: slotIndex, value: 0 };
+ this._progressBars[slotIndex] = progressBar;
+ 
+ // Get the container slot.
+ const slot = this.getSlot(slotIndex);
+ if (slot.hasItem()) {
+   slot.nameTag = "0";
+ } else {
+   const item = new ItemStack("minecraft:barrier", 1);
+   item.nameTag = "0";
+   this.setItem(slotIndex, item);
+ }
+ return progressBar;
+};
 
-  addProgressBar(slotIndex) {
-    // Create a progress bar with an initial value of 0.
-    const progressBar = { slotIndex, value: 0 };
-    (this._progressBars ??= {})[slotIndex] = progressBar;
+/**
+* Retrieves an existing progress bar for the given slot index,
+* or creates one if it does not exist.
+* @param {number} slotIndex - The index of the slot.
+* @returns {object} The progress bar object.
+*/
+Container.prototype.getOrCreateProgressBar = function(slotIndex) {
+ return this._progressBars[slotIndex] || this.addProgressBar(slotIndex);
+};
 
-    // Get the container slot.
-    const slot = this.getSlot(slotIndex);
-    if (slot.hasItem()) {
-      slot.nameTag = "0";
-    } else {
-      const item = new ItemStack("minecraft:barrier", 1);
-      item.nameTag = "0";
-      this.setItem(slotIndex, item);
-    }
-    return progressBar;
-  },
-
-  getOrCreateProgressBar(slotIndex) {
-    return (this._progressBars ??= {})[slotIndex] || this.addProgressBar(slotIndex);
-  },
-
-  getProgressBar(slotIndex) {
+Container.prototype.getProgressBar = function(slotIndex) {
     // Return the stored progress bar if it exists.
     if (this._progressBars && this._progressBars[slotIndex]) {
       return this._progressBars[slotIndex];
     }
+    
     // Attempt to derive a progress bar from the slot's item.
     const slot = this.getSlot(slotIndex);
     if (slot && slot.hasItem() && typeof slot.nameTag === 'string') {
@@ -85,33 +63,40 @@ Merge(mc.Container.prototype, {
         const progressValue = Math.max(0, Math.min(9, value));
         const progressBar = { slotIndex: slotIndex, value: progressValue };
         // Ensure our progressBars store exists.
+        if (!this._progressBars) {
+          this._progressBars = {};
+        }
         // Save and return the derived progress bar.
-        (this._progressBars ??= {})[slotIndex] = progressBar;
+        this._progressBars[slotIndex] = progressBar;
         return progressBar;
       }
     }
-
+    
     // If nothing found, return null.
     return null;
-  },
+  };
 
-  setProgressBar(slotIndex, value) {
-    const progressBar = this.getProgressBar(slotIndex);
-    if (!progressBar) {
-      console.warn(`Progress bar at slot ${slotIndex} not found.`);
-      return;
-    }
-
-    // Clamp value between 0 and 9.
-    progressBar.value = Math.max(0, Math.min(9, value));
-
-    // Update the slot's visual indicator.
-    const slot = this.getSlot(slotIndex);
-    if (slot.hasItem()) {
-      slot.nameTag = String(progressBar.value);
-    } else {
-      console.warn(`Slot ${slotIndex} is empty.`);
-    }
-  }
-
-});
+/**
+* Sets the progress value (clamped between 0 and 9) for the progress bar
+* at the given slot, and updates the slot's value.
+* @param {number} slotIndex - The index of the slot.
+* @param {number} value - New progress value (0-9).
+*/
+Container.prototype.setProgressBar = function(slotIndex, value) {
+ const progressBar = this.getProgressBar(slotIndex);
+ if (!progressBar) {
+   console.warn(`Progress bar at slot ${slotIndex} not found.`);
+   return;
+ }
+ 
+ // Clamp value between 0 and 9.
+ progressBar.value = Math.max(0, Math.min(9, value));
+ 
+ // Update the slot's visual indicator.
+ const slot = this.getSlot(slotIndex);
+ if (slot.hasItem()) {
+   slot.nameTag = String(progressBar.value);
+ } else {
+   console.warn(`Slot ${slotIndex} is empty.`);
+ }
+};

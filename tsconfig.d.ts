@@ -7,7 +7,7 @@ declare module "@minecraft/server" {
     interface World {
         getDynamicProperty<T extends keyof WorldPropertyMap>(componentId: T): WorldPropertyMap[T];
         getDimension<T extends keyof dimensionIds>(dimensionId: T): Dimension;
-        getDims<T = Dimension[]>(callback?: (dimension: Dimension) => T): T;
+        getDims(fn?: (dim: Dimension) => any): Dimension[];
     }
 
     interface Dimension {

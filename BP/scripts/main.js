@@ -1,3 +1,7 @@
+//Depression arc over
+//i am in sweatshop-to-repay-debt now
+
+
 import "./api/mixins.js"
 import "./api/player/celestial_selector.js"
 import "./api/player/space_gear.js"

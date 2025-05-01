@@ -1,5 +1,6 @@
 import { Planet } from "./GalacticraftPlanets";
-
+import { system } from "@minecraft/server";
+import { Gravity } from "./gravity";
 
 export const planetConfigs = [
     {

@@ -1,21 +1,21 @@
-import { world } from "@minecraft/server";
-import { Planet } from "./GalacticraftPlanets";
 
 world.afterEvents.entityHitEntity.subscribe(event => {
   const { damagingEntity, hitEntity } = event;
-  if (damagingEntity.dimension.id !== "minecraft:the_end") return;
-  const planet = Planet.of(damagingEntity);
+  const planet = Planet.isOnPlanet()
   // Ensure the damaging entity is a player.
-  if (!damagingEntity || damagingEntity.typeId !== "minecraft:player" || !planet) return;
-
+  if (!damagingEntity || damagingEntity.typeId !== "minecraft:player"  || !planet ) return;
+  
   // Check if the player is holding a mace.
-  const hand = damagingEntity.getComponent("equippable").getEquipmentSlot("Mainhand");
-  if (!hand.hasItem() || hand.typeId !== "minecraft:mace") return;
-
+  const invComp = damagingEntity.getComponent("minecraft:inventory");
+  if (!invComp) return;
+  const container = invComp.container;
+  const selectedItem = container.getItem(damagingEntity.selectedSlot);
+  if (!selectedItem || selectedItem.typeId !== "minecraft:mace") return;
+  
   // Retrieve the fall distance dynamic property.
   const fallDistance = Number(damagingEntity.getDynamicProperty("fall_distance")) || 0;
   let extraDamage = 0;
-
+  
   if (fallDistance >= 1.5) {
     const extraFall = fallDistance - 1.5;
     // First segment: for the first 3 blocks, +8 damage per block.
@@ -28,17 +28,17 @@ world.afterEvents.entityHitEntity.subscribe(event => {
     const thirdSegment = Math.max(0, extraFall - 8);
     extraDamage += thirdSegment;
   }
-
+  
   // Apply the extra damage if the hit entity supports it.
   if (extraDamage > 0 && typeof hitEntity.applyDamage === "function") {
     hitEntity.applyDamage(extraDamage);
   }
-
+  
   // Reset the fall distance dynamic property on the player.
   if (typeof damagingEntity.setDynamicProperty === "function") {
     damagingEntity.setDynamicProperty("fall_distance", 0);
   }
-
+  
   // visual feedback.
   if (typeof hitEntity.playAnimation === "function") {
     hitEntity.playAnimation("animation.hurt");
@@ -47,5 +47,3 @@ world.afterEvents.entityHitEntity.subscribe(event => {
     damagingEntity.playSound("random.orb");
   }
 });
-
-export { }

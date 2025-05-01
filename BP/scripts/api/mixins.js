@@ -1,42 +1,10 @@
 import * as mc from "@minecraft/server";
 
-const { world } = mc;
-
-//Feel free to take out keys from these if you need any so it wont get deleted
-//This is just to reduce unused prototypes
-;['__quote', 'anchor', 'big', 'blink', 'bold',
-    'fixed', 'fontcolor', 'fontsize', 'italics',
-    'link', 'localeCompare', 'sub', 'sup', 'small',
-    'strike', 'toLocaleLowerCase', 'toLocaleUpperCase'
-].forEach(key => delete String.prototype[key]);
-
-["decodeURI", "decodeURIComponent", "encodeURI",
-    "encodeURIComponent", "escape", "unescape",
-    "ArrayBuffer", "SharedArrayBuffer",
-    "Uint8ClampedArray", "Int8Array", "Uint8Array",
-    "Int16Array", "Uint16Array", "Int32Array",
-    "Uint32Array", "BigInt64Array", "BigUint64Array",
-    "Float32Array", "Float64Array", "print"
-].forEach(key => delete globalThis[key]);
-
-
-/**@typedef {<T extends {}, U>(target: T, source: T & {}) => T & U} MergeType */
 /**
- * Originally from "ConMaster2112"; Modified by "Remember M9"
- * @type MergeType
- * @example give.js
- * ```js
- * mc.Player.prototype.give = function (item, amount) {
- *      this.runCommand(`give @s ${item} ${amount}`)
- * }
- * //this is similar implementation
- * Merge(mc.Player.prototype, {
- *      give(item, amount) {
- *          this.runCommand(`give @s ${item} ${amount}`)
- *      }
- * })
- * ```
- */
+ * Originally from "ConMaster2112"
+ * Rewritten and modified by "Remember M9"
+ * @type {<T extends {}, U>(target: T, source: T & {}) => T & U}
+*/
 globalThis.Merge = (() => {
     const { defineProperties: a, getOwnPropertyDescriptors: b, getPrototypeOf: c, setPrototypeOf: z } = Object;
     return (origin, object, getObject = false) => {
@@ -48,6 +16,7 @@ globalThis.Merge = (() => {
 })();
 
 
+const { world, ItemStack } = mc;
 
 //@ts-expect-error
 Merge(mc.ItemStack.prototype, {
@@ -72,10 +41,31 @@ Merge(mc.ItemStack.prototype, {
 Merge(mc.Player.prototype, {
 
     give(item, amount = 1, data = 0) {
-        world.gameRules.sendCommandFeedback &&= false;
+        const cmdfeedback = world.gameRules.sendCommandFeedback;
+        world.gameRules.sendCommandFeedback = false;
         this.runCommand(`give @s ${item} ${amount} ${data}`);
         this.runCommand("stopsound @s random.pop");
-        world.gameRules.sendCommandFeedback ||= true;
+        world.gameRules.sendCommandFeedback = cmdfeedback;
+    },
+
+    setSpawnPoint(dimensionLocation) {
+        if (!dimensionLocation) return super.setSpawnPoint();
+        if (!dimensionLocation.dimension || dimensionLocation.dimension?.id.endsWith("the_end")) {
+            dimensionLocation.dimension = world.getDimension("the_end");
+            // Save the spawn point 
+            this.setDynamicProperty("customSpawnPoint", dimensionLocation);
+
+            // Force teleport the player to the location in the End.
+            this.teleport(dimensionLocation, dimensionLocation);
+        }
+        // For non-End dimensions, call the original method.
+        super.setSpawnPoint(dimensionLocation);
+    },
+
+    getSpawnPoint(dimensionId) {
+        if (!dimensionId?.includes("the_end")) return super.getSpawnPoint();
+        let dimensionLocation = this.getDynamicProperty("customSpawnPoint");
+        return dimensionLocation && { ...dimensionLocation, dimension: world.getDimension("the_end") };
     }
 });
 
@@ -140,6 +130,45 @@ Merge(mc.World.prototype, {
 });
 
 
+//@ts-expect-error
+Merge(mc.Container.prototype, {
+
+    add_ui_button(slot, text, lore) {
+        const button = new ItemStack('cosmos:ui_button')
+        button.nameTag = text ?? ''
+        if (lore) button.setLore(lore)
+        super.setItem(slot, button)
+    },
+
+    add_ui_display(slot, text, damage) {
+        const button = new ItemStack('cosmos:ui')
+        if (damage) {
+            const durability = button.getComponent('durability')
+            durability.damage = durability.maxDurability - damage
+        }
+        button.nameTag = text ?? ''
+        super.setItem(slot, button)
+    },
+
+    updateUI(uiConfigs, data) {
+        uiConfigs.forEach(config => {
+            const uiItem = new ItemStack('cosmos:ui');
+            const text = (typeof config.text === 'function')
+                ? config.text(data)
+                : (config.text || "");
+            uiItem.nameTag = `cosmos:${text}`;
+            if (config.lore) {
+                const lore = (typeof config.lore === 'function')
+                    ? config.lore(data)
+                    : config.lore;
+                uiItem.setLore(lore);
+            }
+            super.setItem(config.slot, uiItem);
+        });
+    }
+
+});
+
 
 //@ts-expect-error
 Merge(mc.Dimension.prototype, {
@@ -152,3 +181,16 @@ Merge(mc.Dimension.prototype, {
 
 });
 
+
+import "./SpawnPointMixin";
+
+
+
+
+//Feel free to take out keys from these if you need any so it wont get deleted
+//This is just to reduce unused prototypes
+;['__quote', 'anchor', 'big', 'blink', 'bold', 'fixed', 'fontcolor', 'fontsize', 'italics', 'link', 'localeCompare', 'sub', 'sup', 'small', 'strike', 'toLocaleLowerCase', 'toLocaleUpperCase']
+    .forEach(key => delete String.prototype[key]);
+
+["decodeURI", "decodeURIComponent", "encodeURI", "encodeURIComponent", "escape", "unescape", "ArrayBuffer", "SharedArrayBuffer", "Uint8ClampedArray", "Int8Array", "Uint8Array", "Int16Array", "Uint16Array", "Int32Array", "Uint32Array", "BigInt64Array", "BigUint64Array", "Float32Array", "Float64Array", "print"]
+    .forEach(key => delete globalThis[key]);
