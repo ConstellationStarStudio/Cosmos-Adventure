@@ -16,6 +16,18 @@
             ],
             "volume": 1
          },
+         "cosmos:evolved_zombie": {
+            "events": {
+               "ambient": "mob.zombie.say",
+               "death": "mob.zombie.death",
+               "hurt": "mob.zombie.hurt"
+            },
+            "pitch": [
+               0.8,
+               1.2
+            ],
+            "volume": 0.45
+         },
          "cosmos:coal_generator": {
             "events": {
                "death": "none"
