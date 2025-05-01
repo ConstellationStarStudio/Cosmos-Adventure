@@ -29,6 +29,14 @@ function remove(block) {
     dimension.runCommand(`fill ${coords} ${coords} air destroy`)
     if(machineEntity){
       machine_entities.delete(machineEntity.id);
+      const container = machineEntity.getComponent('minecraft:inventory')?.container;
+      if (container) {
+        for (let i = 0; i < container.size; i++) {
+          const itemId = container.getItem(i)?.typeId;
+          if (!['cosmos:ui', 'cosmos:ui_button'].includes(itemId)) continue;
+          container.setItem(i);
+        }
+      }
       machineEntity?.runCommand('kill @s');
       machineEntity?.remove();
     }
