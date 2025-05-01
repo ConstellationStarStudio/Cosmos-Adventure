@@ -112,26 +112,6 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 			if (!player.getDynamicProperty('secondInventoryEntity') || !world.getEntity(player.getDynamicProperty('secondInventoryEntity')) || !entity || !entity.isValid()) {
 				entity = spawn(player)
 			}
-			if ((!player.isSneaking && !entity.getDynamicProperty('view')) || !player.isValid()) {
-				player.setDynamicProperty('secondInventoryEntity', undefined)
-				despawn(entity)
-				system.clearRun(secondInventory)
-				return;
-
-			}
-			if (player.getComponent("equippable").getEquipment(EquipmentSlot.Mainhand)) {
-				despawn(entity)
-				return;
-			}
-			// CAMERA MOVEMENT DETECTION TO DESPAWN THE ENTITY
-			let camera = player.getRotation();
-			const view = entity.getDynamicProperty('view')
-			if (view && (Math.abs(camera.x - view.x) > 1 || Math.abs(camera.y - view.y) > 1)) {
-				despawn(entity)
-				player.setDynamicProperty('secondInventoryEntity', undefined);
-				system.clearRun(secondInventory);
-				return;
-			}
 			// LET ENTITY FOLLOW THE PLAYER
 			const location = player.location;
 			entity.teleport(location, { dimension: player.dimension });
@@ -153,6 +133,21 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 
 				}
 			} update(player, container)
+			if ((!player.isSneaking && !entity.getDynamicProperty('view')) || !player.isValid()) {
+				player.setDynamicProperty('secondInventoryEntity', undefined)
+				despawn(entity)
+				system.clearRun(secondInventory)
+				return;
+			}
+			// CAMERA MOVEMENT DETECTION TO DESPAWN THE ENTITY
+			let camera = player.getRotation(); camera = `${Math.round(camera.x)} ${Math.round(camera.y)}`
+			const view = entity.getDynamicProperty('view')
+			if (view && (camera != view)){
+				despawn(entity)
+				player.setDynamicProperty('secondInventoryEntity', undefined);
+				system.clearRun(secondInventory);
+				return;
+			}
 		});
 	});
 })
@@ -167,8 +162,8 @@ world.beforeEvents.playerInteractWithEntity.subscribe((event) => {
 	const holdingItem = player.getComponent("equippable").getEquipment(EquipmentSlot.Mainhand)
 	if (!player.isSneaking || holdingItem) { event.cancel = true; despawn(entity); return }
 
-	let camera = player.getRotation();
-	system.run(() => { entity.setDynamicProperty('view', {x: camera.x, y: camera.y , z: 0}) })
+	let camera = player.getRotation(); camera = `${Math.round(camera.x)} ${Math.round(camera.y)}`
+	system.run(() => { entity.setDynamicProperty('view', camera) })
 });
 
 // DESPAWN ENTITY ON HIT

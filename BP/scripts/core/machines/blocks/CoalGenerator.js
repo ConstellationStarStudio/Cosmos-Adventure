@@ -13,7 +13,6 @@ export default class {
     this.entity = entity;
     this.block = block;
     if (entity.isValid()) {
-      this.onPlace();
       this.generateHeat();
     }
   }
