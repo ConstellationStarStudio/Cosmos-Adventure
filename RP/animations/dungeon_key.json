@@ -1,0 +1,15 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.dungeon_key.hold": {
+			"loop": true,
+			"bones": {
+				"rightitem": {
+					"rotation": ["29 + 60 * !c.is_first_person", "-21 + -54 * !c.is_first_person", "-141 + 52 * !c.is_first_person"],
+					"position": ["6 - 6 * !c.is_first_person", -3, "6 - 9 * !c.is_first_person"],
+					"scale": "1.0 - 0.5 * !c.is_first_person"
+				}
+			}
+		}
+	}
+}
