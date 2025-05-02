@@ -9,8 +9,9 @@
       },
       "components": {
          "minecraft:icon": {
-            "texture": "compressed_copper"
-         }
+            "texture": "tier1_key"
+         },
+         "minecraft:max_stack_size": 1
       }
    }
 }

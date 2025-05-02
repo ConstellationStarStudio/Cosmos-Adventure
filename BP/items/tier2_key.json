@@ -9,8 +9,9 @@
       },
       "components": {
          "minecraft:icon": {
-            "texture": "compressed_desh"
-         }
+            "texture": "tier2_key"
+         },
+         "minecraft:max_stack_size": 1
       }
    }
 }
