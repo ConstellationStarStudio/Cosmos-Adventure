@@ -478,6 +478,15 @@
     "thermal_cloth": {
       "textures": "textures/items/thermal_cloth"
     },
+    "tier1_key": {
+      "textures": "textures/items/tier1_key"
+    },
+    "tier2_key": {
+      "textures": "textures/items/tier2_key"
+    },
+    "tier3_key": {
+      "textures": "textures/items/tier3_key"
+    },
     "titanium_axe": {
       "textures": "textures/items/titanium_axe"
     },
