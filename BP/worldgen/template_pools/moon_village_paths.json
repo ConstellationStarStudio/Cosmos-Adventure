@@ -1,0 +1,109 @@
+{
+	"format_version": "1.21.20",
+	"minecraft:template_pool": {
+		"description": {
+			"identifier": "cosmos:moon_village_paths"
+		},
+		"elements": [
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/house_house",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 10
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/house_lamp",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/lamp_house",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/no_structure",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/house_left",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/house_right",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 8
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/lamp_end_left",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 8
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/lamp_end_right",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 8
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/lamps",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 8
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/j2",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 8
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_village/paths/j1",
+					"processors": "cosmos:moon_village_processor"
+				},
+				"projection": "terrain_matching",
+				"weight": 10
+			}
+		]
+	}
+}

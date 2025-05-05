@@ -1,0 +1,35 @@
+{
+	"format_version": "1.21.20",
+	"minecraft:processor_list": {
+		"description": {
+			"identifier": "cosmos:moon_village_processor"
+		},
+		"processors": [
+			{
+				"processor_type": "minecraft:rule",
+				"rules": [
+					{
+						"input_predicate": {
+							"predicate_type": "minecraft:random_block_match",
+							"block": "minecraft:cobblestone",
+							"probability": 0.2
+						},
+						"output_state": {
+							"name": "minecraft:mossy_cobblestone"
+						}
+					},
+					{
+						"input_predicate": {
+							"predicate_type": "minecraft:random_block_match",
+							"block": "grass_path",
+							"probability": 0.002
+						},
+						"output_state": {
+							"name": "grass_block"
+						}
+					}
+				]
+			}
+		]
+	}
+}
