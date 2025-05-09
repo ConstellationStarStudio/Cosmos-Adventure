@@ -1,4 +1,4 @@
-import { world } from "@minecraft/server";
+import { world, system } from "@minecraft/server";
 
 function neighbors_stairs(block) {
 	const perm = block.permutation
@@ -46,14 +46,16 @@ function set_corners(direction, [north, east, south, west]) {
 world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:stairs', {
 		beforeOnPlayerPlace(event) {
-			const perm = event.permutationToPlace
-			const direction = perm.getState("minecraft:cardinal_direction")
-			event.permutationToPlace = perm.withState(
-				'generic:north_east', ["north", "east"].includes(direction)).withState(
-				'generic:north_west', ["north", "west"].includes(direction)).withState(
-				'generic:south_east', ["south", "east"].includes(direction)).withState(
-				'generic:south_west', ["south", "west"].includes(direction)
-			)
+			system.run(() => {
+				const perm = event.permutationToPlace
+				const direction = perm.getState("minecraft:cardinal_direction")
+				event.permutationToPlace = perm.withState(
+					'generic:north_east', ["north", "east"].includes(direction)).withState(
+					'generic:north_west', ["north", "west"].includes(direction)).withState(
+					'generic:south_east', ["south", "east"].includes(direction)).withState(
+					'generic:south_west', ["south", "west"].includes(direction)
+				)
+			});
 		},
 		onTick({block}) {
 			const perm = block.permutation

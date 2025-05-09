@@ -62,7 +62,9 @@ world.afterEvents.playerBreakBlock.subscribe(({brokenBlockPermutation:block, ite
 world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:placed", {
         beforeOnPlayerPlace(e){
-            e.permutationToPlace = e.permutationToPlace.withState("cosmos:placed", true);
+			system.run(() => {
+				e.permutationToPlace = e.permutationToPlace.withState("cosmos:placed", true);
+			});
         },
     });
 })

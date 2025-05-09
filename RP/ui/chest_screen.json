@@ -76,6 +76,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§o§x§y§g§e§n§_§c§o§l§l§e§c§t§o§r') = $ct))",
+                "$screen_content": "oxygen_collector.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "$debug",
                 "$screen_content": "machines.debugging_interface",
                 "$screen_bg_content": "common.screen_background",

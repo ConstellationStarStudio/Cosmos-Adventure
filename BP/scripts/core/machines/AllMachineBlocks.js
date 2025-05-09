@@ -56,7 +56,7 @@ export default {
 		maxInput: 1500
 	},
 	"oxygen_collector": {
-		ui: "",
+		ui: "§o§x§y§g§e§n§_§c§o§l§l§e§c§t§o§r",
 		class: OxygenCollector,
 		lore: { slot: 3, energy: 0, o2: 1 },
 		

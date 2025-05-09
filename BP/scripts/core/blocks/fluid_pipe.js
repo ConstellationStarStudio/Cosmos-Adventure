@@ -1,4 +1,4 @@
-import { world, BlockPermutation } from "@minecraft/server"
+import { world, BlockPermutation, system } from "@minecraft/server"
 
 const faces = ["cosmos:up", "cosmos:north", "cosmos:east", "cosmos:west", "cosmos:south", "cosmos:down"]
 
@@ -32,18 +32,20 @@ export function attach_pipes(block, attach = true) {
 world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:fluid_pipe', {
 		beforeOnPlayerPlace(event) {
-			const { block } = event;
-			const neighbors = block.getNeighbors(6);
-			const connections = block.permutation.getAllStates()
-			for (const [i, pipe] of neighbors.entries()) {
-				connections[faces[i]] = false
-				if (['cosmos:fluid_pipe', 'cosmos:fluid_tank'].includes(pipe.typeId)) {
-					const side_connections = pipe.permutation.getAllStates()
-					side_connections[faces[5 - i]] = true
-					if ('cosmos:fluid_pipe' == pipe.typeId) pipe.setPermutation(BlockPermutation.resolve("cosmos:fluid_pipe", side_connections))
-					connections[faces[i]] = true
-				}
-			} event.permutationToPlace = BlockPermutation.resolve("cosmos:fluid_pipe", connections)
+			system.run(() => {
+				const { block } = event;
+				const neighbors = block.getNeighbors(6);
+				const connections = block.permutation.getAllStates()
+				for (const [i, pipe] of neighbors.entries()) {
+					connections[faces[i]] = false
+					if (['cosmos:fluid_pipe', 'cosmos:fluid_tank'].includes(pipe.typeId)) {
+						const side_connections = pipe.permutation.getAllStates()
+						side_connections[faces[5 - i]] = true
+						if ('cosmos:fluid_pipe' == pipe.typeId) pipe.setPermutation(BlockPermutation.resolve("cosmos:fluid_pipe", side_connections))
+						connections[faces[i]] = true
+					}
+				} event.permutationToPlace = BlockPermutation.resolve("cosmos:fluid_pipe", connections)
+			});
 		},
 		onPlayerDestroy({block}) {
 			const neighbors = block.getNeighbors(6)

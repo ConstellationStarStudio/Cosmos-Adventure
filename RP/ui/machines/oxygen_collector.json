@@ -17,121 +17,15 @@
             },
             {
                 "binding_type": "view",
-                "source_property_name": "(not(#status - 'cosmos:  Status:' = #status))",
+                "source_property_name": "(not(#status - 'Status:' = #status))",
                 "target_property_name": "#visible"
             }
-        ]
-    },
-
-    "progress_in": {
-        "type": "panel",
-        "size": [1, 0],
-        "anchor_to": "top_left",
-        "anchor_from": "top_left",
-        "controls": [
-            {
-                "clipper": {
-                    "type": "panel",
-                    "clips_children": true,
-                    "size": [1, 17],
-                    "offset": [0, 9],
-                    "anchor_to": "top_left",
-                    "anchor_from": "top_left",
-                    "controls": [
-                        {
-                            "image": {
-                                "anchor_to": "top_left",
-                                "anchor_from": "top_left",
-                                "type": "image",
-                                "size": [52, 17],
-                                "texture": "textures/ui/cosmos/oxygen_collector_bar_fill_in"
-                            }
-                        }
-                    ],
-                    "bindings": [
-                        {
-                            "binding_name": "#hover_text",
-                            "binding_name_override": "#progress_in",
-                            "binding_type": "collection",
-                            "binding_collection_name": "container_items"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "(#progress_in - 'cosmos:§prog_in' - '§o' - '§f' )",
-                            "target_property_name": "#amount"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "(not(#progress_in - 'cosmos:§prog_in' = #progress_in))",
-                            "target_property_name": "#visible"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "#amount",
-                            "target_property_name": "#size_binding_x"
-                        }
-                    ]
-                }
-            }
-        ]
-    },
-
-    "progress_out": {
-        "type": "panel",
-        "size": [1, 0],
-        "anchor_to": "top_left",
-        "anchor_from": "top_left",
-        "controls": [
-            {
-                "clipper": {
-                    "type": "panel",
-                    "clips_children": true,
-                    "size": [1, 17],
-                    "offset": [0, 9],
-                    "anchor_to": "top_left",
-                    "anchor_from": "top_left",
-                    "controls": [
-                        {
-                            "image": {
-                                "anchor_to": "top_left",
-                                "anchor_from": "top_left",
-                                "type": "image",
-                                "size": [52, 17],
-                                "texture": "textures/ui/cosmos/oxygen_collector_bar_fill_out"
-                            }
-                        }
-                    ],
-                    "bindings": [
-                        {
-                            "binding_name": "#hover_text",
-                            "binding_name_override": "#progress_out",
-                            "binding_type": "collection",
-                            "binding_collection_name": "container_items"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "(#progress_out - 'cosmos:§prog_out' - '§o' - '§f' )",
-                            "target_property_name": "#amount"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "(not(#progress_out - 'cosmos:§prog_out' = #progress_out))",
-                            "target_property_name": "#visible"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "#amount",
-                            "target_property_name": "#size_binding_x"
-                        }
-                    ]
-                }
-            }
-        ]
+       ]
     },
 
     "interface@machines.interface": {
         "$screen": "oxygen_collector.main",
-        "$size": ["100%", "120%"]
+        "$size": ["100%", "110%"]
     },
 
     "main@machines.tall_screen": {
@@ -140,79 +34,38 @@
             {
                 "label@machines.text": {
                     "text": "Oxygen Collector",
-                    "offset": [10, 10],
+                    "offset": [10, 21],
                     "anchor_from": "top_left",
                     "anchor_to": "top_left"
                 }
             },
-            {
-                "energy_slot@machines.clipper": {
-                    "offset": [-45, -5],
-                    "size": [18, 18],
-                    "bindings": [
-                        {
-                            "binding_name": "#hover_text",
-                            "binding_name_override": "#energy",
-                            "binding_type": "collection",
-                            "binding_collection_name": "container_items"
-                        }
-                    ]
+			{
+                "battery@machines.clipper": {
+                    "offset": [30, 39],
+                    "anchor_from": "top_left",
+                    "anchor_to": "top_left",
+                    "$grid_size": [ 1, 1 ],
+                    "$grid_pixels": [18, 18],
+                	"$overlay": "textures/ui/extra_slots/power"
                 }
             },
             {
-                "progress_in": {
-                    "type": "image",
-                    "texture": "textures/ui/cosmos/oxygen_collector_bar_in",
-                    "offset": [18, -5],
-                    "size": [52, 25],
-                    "controls": [
-                        {
-                            "progress_in@machines.item_data": {
-                                "$name": "progress_in",
-                                "anchor_from": "top_left",
-                                "anchor_to": "top_left"
-                            }
-                        }
-                    ]
+                "capacity@machines.energy_bar": {
+                    "offset": [ 53, -4]
                 }
             },
             {
-                "progress_out": {
-                    "type": "image",
-                    "texture": "textures/ui/cosmos/oxygen_collector_bar_out",
-                    "offset": [18, 20],
-                    "size": [52, 25],
-                    "controls": [
-                        {
-                            "progress_out@machines.item_data": {
-                                "$name": "progress_out",
-                                "anchor_from": "top_left",
-                                "anchor_to": "top_left"
-                            }
-                        }
-                    ]
+                "oxygen@machines.oxygen_bar": {
+                    "offset": [ 53, -17]
                 }
             },
             {
                 "status@machines.item_data": {
                     "$name": "status",
-                    "offset": [20, 50],
-                    "size": [18, 18],
-                    "layer": 4
-                }
-            },
-            {
-                "collecting@machines.text": {
-                    "text": "Collecting: #collecting",
-                    "offset": [20, 70],
-                    "bindings": [
-                        {
-                            "binding_name": "#hover_text",
-                            "binding_name_override": "#collecting",
-                            "binding_type": "collection",
-                            "binding_collection_name": "container_items"
-                        }
-                    ]
+                    "anchor_from": "top_middle",
+                    "anchor_to": "top_middle",
+                    "offset": [-20, 80],
+                    "size": [18, 60]
                 }
             }
         ]

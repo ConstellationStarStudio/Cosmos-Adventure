@@ -61,11 +61,13 @@ function getPlatformBlocks(rot, block){
 world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:hydraulic_platform", {
         beforeOnPlayerPlace(event){
-            let getBl = getHydraulicPlatformBlock(event.block);
-            if(getBl === 0) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 2, 'cosmos:is_full': true})
-            else if(getBl === 1) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 1, 'cosmos:is_full': true})
-            else if(getBl === 2) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 3, 'cosmos:is_full': true})
-            else if(getBl === 3) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 0, 'cosmos:is_full': true})
+            system.run(() => {
+                let getBl = getHydraulicPlatformBlock(event.block);
+                if(getBl === 0) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 2, 'cosmos:is_full': true})
+                else if(getBl === 1) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 1, 'cosmos:is_full': true})
+                else if(getBl === 2) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 3, 'cosmos:is_full': true})
+                else if(getBl === 3) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 0, 'cosmos:is_full': true})
+            });
         },
         onPlayerDestroy(event){
             if(event.destroyedBlockPermutation.getState('cosmos:is_full')){

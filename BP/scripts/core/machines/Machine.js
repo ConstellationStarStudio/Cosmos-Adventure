@@ -184,17 +184,19 @@ system.runInterval(() => {
 world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
   blockComponentRegistry.registerCustomComponent('cosmos:machine', {
     beforeOnPlayerPlace(event) {
-      const { block, permutationToPlace: perm } = event;
-      const machine_name = perm.type.id.replace('cosmos:', '');
-      const machine_object = machines[machine_name];
-      const machineEntity = block.dimension.spawnEntity(perm.type.id, block.bottomCenter());
-      machineEntity.nameTag = machine_object.ui;
-      new machine_object.class(machineEntity, block).onPlace();
-      machine_entities.set(machineEntity.id, { type: machine_name, location: block.location });
-      if (perm.getState("cosmos:full")) {
-        event.permutationToPlace = perm.withState("cosmos:full", false);
-      }
-      system.run(() => attach_to_wires(block));
+      system.run(() => {
+        const { block, permutationToPlace: perm } = event;
+        const machine_name = perm.type.id.replace('cosmos:', '');
+        const machine_object = machines[machine_name];
+        const machineEntity = block.dimension.spawnEntity(perm.type.id, block.bottomCenter());
+        machineEntity.nameTag = machine_object.ui;
+        new machine_object.class(machineEntity, block).onPlace();
+        machine_entities.set(machineEntity.id, { type: machine_name, location: block.location });
+        if (perm.getState("cosmos:full")) {
+          event.permutationToPlace = perm.withState("cosmos:full", false);
+        }
+        system.run(() => attach_to_wires(block));
+      });
     },
     onPlayerDestroy({ block, dimension, destroyedBlockPermutation: perm }) {
       detach_wires(block);

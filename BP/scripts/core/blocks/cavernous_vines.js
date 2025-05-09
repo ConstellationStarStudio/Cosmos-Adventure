@@ -207,18 +207,20 @@ world.beforeEvents.worldInitialize.subscribe(ev => {
         },
 
         beforeOnPlayerPlace: async data => {
-            if (data.cancel || !data.player || data.face !== "Down") return;
-            const abovePerm = data.block.above().permutation;
-            if (abovePerm.type.id === typeId) {
-                const permToPlace = data.permutationToPlace;
-                if (abovePerm === permToPlace) return;
-                const aboveVairant = abovePerm.getState("cosmos:variant");
-                if (abovePerm.getState("cosmos:attached_bit") === true) {
-                    data.permutationToPlace = abovePerm.withState("cosmos:attached_bit", false);
-                } else if (permToPlace.getState("cosmos:variant") !== aboveVairant) {
-                    data.permutationToPlace = abovePerm.withState("cosmos:variant", aboveVairant);
-                }
-            } else data.permutationToPlace = select_random_item(vineVariants).withState("cosmos:attached_bit", true);
+            mc.system.run(() => {
+                if (data.cancel || !data.player || data.face !== "Down") return;
+                const abovePerm = data.block.above().permutation;
+                if (abovePerm.type.id === typeId) {
+                    const permToPlace = data.permutationToPlace;
+                    if (abovePerm === permToPlace) return;
+                    const aboveVairant = abovePerm.getState("cosmos:variant");
+                    if (abovePerm.getState("cosmos:attached_bit") === true) {
+                        data.permutationToPlace = abovePerm.withState("cosmos:attached_bit", false);
+                    } else if (permToPlace.getState("cosmos:variant") !== aboveVairant) {
+                        data.permutationToPlace = abovePerm.withState("cosmos:variant", aboveVairant);
+                    }
+                } else data.permutationToPlace = select_random_item(vineVariants).withState("cosmos:attached_bit", true);
+            });
         },
 
         onPlayerInteract: ({ block, player }) => {

@@ -14,6 +14,7 @@
     "ui/machines/electric_compressor.json",
     "ui/machines/refinery.json",
     "ui/machines/fuel_loader.json",
-    "ui/machines/oxygen_collector.json"
+    "ui/machines/oxygen_collector.json",
+    "ui/rockets/rocket_tier_1.json"
   ]
 }
