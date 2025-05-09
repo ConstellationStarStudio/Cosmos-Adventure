@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:orion_drive",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:orion_drive"
       },
       "components": {
          "minecraft:icon": {

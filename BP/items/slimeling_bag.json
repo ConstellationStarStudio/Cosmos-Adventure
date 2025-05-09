@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:slimeling_bag",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:slimeling_bag"
       },
       "components": {
          "minecraft:icon": {

@@ -2,10 +2,7 @@
    "format_version": "1.21.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:schematic_cargo_rocket",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:schematic_cargo_rocket"
       },
       "components": {
          "minecraft:icon": "schematic_cargo_rocket",

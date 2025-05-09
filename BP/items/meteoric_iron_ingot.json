@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:meteoric_iron_ingot",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:meteoric_iron_ingot"
       },
       "components": {
          "minecraft:icon": {

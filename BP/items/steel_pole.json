@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:steel_pole",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:steel_pole"
       },
       "components": {
          "minecraft:icon": {

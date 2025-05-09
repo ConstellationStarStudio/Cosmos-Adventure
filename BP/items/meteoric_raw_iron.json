@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:meteoric_raw_iron",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:meteoric_raw_iron"
       },
       "components": {
          "minecraft:icon": {

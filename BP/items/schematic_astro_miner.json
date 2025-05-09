@@ -2,10 +2,7 @@
    "format_version": "1.21.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:schematic_astro_miner",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:schematic_astro_miner"
       },
       "components": {
          "minecraft:icon": "schematic_astro_miner",

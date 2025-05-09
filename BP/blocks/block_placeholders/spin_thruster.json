@@ -2,10 +2,7 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:spin_thruster",
-      "menu_category": {
-        "category": "items"
-      }
+      "identifier": "cosmos:spin_thruster"
     },
     "components": {}
   }

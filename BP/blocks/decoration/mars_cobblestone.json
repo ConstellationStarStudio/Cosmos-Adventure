@@ -2,10 +2,7 @@
    "format_version": "1.20.10",
    "minecraft:block": {
       "description": {
-         "identifier": "cosmos:mars_cobblestone",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:mars_cobblestone"
       },
       "components": {
          "minecraft:display_name": "%tile.mars.marscobblestone.name",

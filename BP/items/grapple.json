@@ -2,10 +2,7 @@
    "format_version": "1.20.80",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:grapple",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:grapple"
       },
       "components": {
          "minecraft:custom_components": [

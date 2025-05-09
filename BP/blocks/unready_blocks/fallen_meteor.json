@@ -2,10 +2,7 @@
     "format_version": "1.21.50",
     "minecraft:block": {
         "description":{
-            "identifier": "cosmos:fallen_meteor",
-            "menu_category": {
-                "category": "items"
-            }
+            "identifier": "cosmos:fallen_meteor"
         },
         "components":{
             "minecraft:geometry":{

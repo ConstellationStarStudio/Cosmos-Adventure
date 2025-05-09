@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:tier_1_booster",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:tier_1_booster"
       },
       "components": {
          "minecraft:icon": {

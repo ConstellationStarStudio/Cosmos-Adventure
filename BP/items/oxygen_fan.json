@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:oxygen_fan",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:oxygen_fan"
       },
       "components": {
          "minecraft:icon": {

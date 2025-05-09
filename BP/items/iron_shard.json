@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:iron_shard",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:iron_shard"
       },
       "components": {
          "minecraft:icon": {

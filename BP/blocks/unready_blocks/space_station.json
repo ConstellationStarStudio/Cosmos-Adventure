@@ -2,10 +2,7 @@
    "format_version": "1.20.10",
    "minecraft:block": {
       "description": {
-         "identifier": "cosmos:space_station",
-         "menu_category": {
-            "category": "construction"
-         }
+         "identifier": "cosmos:space_station"
       },
       "components": {
          "minecraft:display_name": "%tile.dummyblock.space_station_base.name",

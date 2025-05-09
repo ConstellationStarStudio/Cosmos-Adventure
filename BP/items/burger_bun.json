@@ -2,10 +2,7 @@
    "format_version": "1.20.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:burger_bun",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:burger_bun"
       },
       "components": {
          "minecraft:icon": {

@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:lead_ingot",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:lead_ingot"
       },
       "components": {
          "minecraft:icon": {

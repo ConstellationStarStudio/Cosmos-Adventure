@@ -2,10 +2,7 @@
    "format_version": "1.21.40",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:bacterial_sludge_bucket",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:bacterial_sludge_bucket"
       },
       "components": {
          "minecraft:icon": "bacterial_sludge_bucket",

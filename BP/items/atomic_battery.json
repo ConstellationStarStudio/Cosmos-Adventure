@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:atomic_battery",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:atomic_battery"
       },
       "components": {
          "minecraft:icon": {

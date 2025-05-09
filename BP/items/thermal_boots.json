@@ -2,10 +2,7 @@
    "format_version": "1.20.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:thermal_boots",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:thermal_boots"
       },
       "components": {
          "minecraft:custom_components": [

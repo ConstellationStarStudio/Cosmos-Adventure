@@ -2,10 +2,7 @@
    "format_version": "1.21.10",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:frequency_module",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:frequency_module"
       },
       "components": {
          "minecraft:custom_components": [

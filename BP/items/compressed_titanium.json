@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:compressed_titanium",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:compressed_titanium"
       },
       "components": {
          "minecraft:icon": {

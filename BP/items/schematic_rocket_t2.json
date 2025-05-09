@@ -2,10 +2,7 @@
    "format_version": "1.21.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:schematic_rocket_t2",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:schematic_rocket_t2"
       },
       "components": {
          "minecraft:icon": "schematic_rocket_t2",

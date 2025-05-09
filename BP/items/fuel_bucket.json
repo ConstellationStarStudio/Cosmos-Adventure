@@ -2,10 +2,7 @@
    "format_version": "1.21.40",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:fuel_bucket",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:fuel_bucket"
       },
       "components": {
          "minecraft:icon": "fuel_bucket",

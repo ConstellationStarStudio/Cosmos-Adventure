@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:sensor_lens",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:sensor_lens"
       },
       "components": {
          "minecraft:icon": {

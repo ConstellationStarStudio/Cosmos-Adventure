@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:n2_canister",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:n2_canister"
       },
       "components": {
          "minecraft:icon": {

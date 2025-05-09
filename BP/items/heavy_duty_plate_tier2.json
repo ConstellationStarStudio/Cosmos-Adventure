@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:heavy_duty_plate_tier2",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:heavy_duty_plate_tier2"
       },
       "components": {
          "minecraft:icon": {

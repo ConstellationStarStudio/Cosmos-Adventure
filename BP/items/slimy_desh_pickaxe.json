@@ -2,10 +2,6 @@
 	"format_version": "1.21.50",
 	"minecraft:item": {
 		"description": {
-			"menu_category": {
-				"category": "equipment",
-				"group": "itemGroup.name.pickaxe"
-			},
       "identifier": "cosmos:slimy_desh_pickaxe"
 		},
 		"components": {

@@ -2,10 +2,7 @@
    "format_version": "1.20.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:beef_patty",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:beef_patty"
       },
       "components": {
          "minecraft:icon": {

@@ -2,10 +2,7 @@
    "format_version": "1.20.80",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:oxygen_tank_heavy_full",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:oxygen_tank_heavy_full"
       },
       "components": {
          "minecraft:custom_components": [

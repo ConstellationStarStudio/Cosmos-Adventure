@@ -2,10 +2,7 @@
    "format_version": "1.20.10",
    "minecraft:block": {
       "description": {
-         "identifier": "cosmos:moon_turf",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:moon_turf"
       },
       "components": {
          "minecraft:display_name": "%tile.basic_block_moon.moongrass.name",

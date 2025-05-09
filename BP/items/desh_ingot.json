@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:desh_ingot",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:desh_ingot"
       },
       "components": {
          "minecraft:icon": {

@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:unfired_desh",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:unfired_desh"
       },
       "components": {
          "minecraft:icon": {

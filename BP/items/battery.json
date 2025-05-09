@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:battery",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:battery"
       },
       "components": {
          "minecraft:icon": {

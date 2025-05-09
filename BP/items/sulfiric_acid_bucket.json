@@ -2,10 +2,7 @@
    "format_version": "1.21.40",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:sulphuric_acid_bucket",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:sulphuric_acid_bucket"
       },
       "components": {
          "minecraft:icon": "sulphuric_acid_bucket",

@@ -2,10 +2,7 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:beam_reflector",
-      "menu_category": {
-        "category": "items"
-      }
+      "identifier": "cosmos:beam_reflector"
     },
     "components": {}
   }

@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:heavy_rocket_fins",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:heavy_rocket_fins"
       },
       "components": {
          "minecraft:icon": {

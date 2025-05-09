@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:thermal_helmet",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:thermal_helmet"
       },
       "components": {
          "minecraft:custom_components": [

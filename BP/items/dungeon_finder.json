@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:dungeon_finder",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:dungeon_finder"
       },
       "components": {
          "minecraft:icon": {

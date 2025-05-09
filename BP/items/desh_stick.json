@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:desh_stick",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:desh_stick"
       },
       "components": {
          "minecraft:icon": {

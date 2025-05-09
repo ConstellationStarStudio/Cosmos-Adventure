@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:solar_array_panel",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:solar_array_panel"
       },
       "components": {
          "minecraft:icon": {

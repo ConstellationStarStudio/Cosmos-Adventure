@@ -2,10 +2,7 @@
    "format_version": "1.20.80",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:parachute_red",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:parachute_red"
       },
       "components": {
          "minecraft:custom_components": [

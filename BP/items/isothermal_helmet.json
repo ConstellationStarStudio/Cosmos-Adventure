@@ -2,10 +2,7 @@
    "format_version": "1.20.20",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:isothermal_helmet",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:isothermal_helmet"
       },
       "components": {
          "minecraft:icon": {

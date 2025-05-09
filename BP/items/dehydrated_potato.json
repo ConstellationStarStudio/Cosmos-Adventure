@@ -2,10 +2,7 @@
    "format_version": "1.20.50",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:dehydrated_potato",
-         "menu_category": {
-            "category": "items"
-         }
+         "identifier": "cosmos:dehydrated_potato"
       },
       "components": {
          "minecraft:icon": {
