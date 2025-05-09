@@ -370,7 +370,7 @@
                         },
                         {
                             "binding_type": "view",
-                            "source_property_name": "(not((#text - 'is_powered') = #text))",
+                            "source_property_name": "(not((#hover_text - 'is_powered') = #text))",
                             "target_property_name": "#visible"
                         }
                     ]
