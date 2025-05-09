@@ -364,13 +364,12 @@
 					"bindings": [
                         {
                             "binding_name": "#hover_text",
-                            "binding_name_override": "#text",
                             "binding_type": "collection",
                             "binding_collection_name": "container_items"
                         },
                         {
                             "binding_type": "view",
-                            "source_property_name": "(not((#hover_text - 'is_powered') = #text))",
+                            "source_property_name": "(not((#hover_text - 'is_powered') = #hover_text))",
                             "target_property_name": "#visible"
                         }
                     ]
