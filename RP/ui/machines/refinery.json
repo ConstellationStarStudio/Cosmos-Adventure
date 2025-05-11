@@ -75,7 +75,7 @@
               }
             },
 			      {
-                "capacity@machines.energy_bar": {
+                "capacity@machines.old_energy_bar": {
                   "anchor_from": "top_middle",  
                   "offset": [ 0, 20 ]
                 }

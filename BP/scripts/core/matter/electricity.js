@@ -121,6 +121,7 @@ export function location_of_side(block, side) {
 
 
 export function update_battery(battery, charge) {
+	if (battery.typeId != "cosmos:battery") return battery
 	battery.setLore([`§r§${Math.floor(charge) >= 10000 ? '2' :
 			Math.floor(charge) < 5000 ? '4' : '6'
 		}${Math.floor(charge)} gJ/15,000 gJ`])

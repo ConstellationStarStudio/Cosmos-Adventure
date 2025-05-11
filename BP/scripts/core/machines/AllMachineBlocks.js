@@ -7,6 +7,7 @@ import Refinery from './blocks/Refinery'
 import ElectricCompressor from './blocks/ElectricCompressor'
 import OxygenCompressor from './blocks/OxygenCompressor'
 import FuelLoader from './blocks/FuelLoader'
+import WaterElectrolyzer from './blocks/WaterElectrolyzer'
 
 export default {
 	"coal_generator": {
@@ -100,5 +101,19 @@ export default {
 		capacity: 16000,
 		fuel_capacity: 12000,
 		maxInput: 120
+	},
+	"water_electrolyzer": {
+		ui: "§w§a§t§e§r§_§e§l§e§c§t§r§o§l§y§z§e§r",
+		class: WaterElectrolyzer,
+
+		energy_input: "below",
+		water_input: "left",
+		o2_output: "back",
+		h2_output: "right",
+		capacity: 16000,
+		water_capacity: 4000,
+		o2_capacity: 4000,
+		h2_capacity: 4000,
+		maxInput: 900
 	}
 }

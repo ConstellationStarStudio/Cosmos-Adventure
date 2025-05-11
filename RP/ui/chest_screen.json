@@ -82,6 +82,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§w§a§t§e§r§_§e§l§e§c§t§r§o§l§y§z§e§r') = $ct))",
+                "$screen_content": "water_electrolyzer.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "$debug",
                 "$screen_content": "machines.debugging_interface",
                 "$screen_bg_content": "common.screen_background",

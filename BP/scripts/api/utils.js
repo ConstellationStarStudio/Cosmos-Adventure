@@ -6,6 +6,14 @@ export function get_data(machine) {
 	return machines[machine.typeId.replace('cosmos:', '')]
 }
 
+export function load_dynamic_object(storage, name) {
+	return JSON.parse(storage.getDynamicProperty(name) ?? "{}")
+}
+
+export function save_dynamic_object(storage, name, value) {
+	storage.setDynamicProperty(name, JSON.stringify(value)) 
+}
+
 export function str(object) { return JSON.stringify(object) }
 
 /**@param {mc.Block[]} locations @param {mc.Dimension} dim */

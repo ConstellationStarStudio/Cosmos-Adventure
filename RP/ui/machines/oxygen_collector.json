@@ -50,7 +50,7 @@
                 }
             },
             {
-                "capacity@machines.energy_bar": {
+                "capacity@machines.old_energy_bar": {
                     "offset": [ 53, -4]
                 }
             },

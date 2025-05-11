@@ -1,0 +1,75 @@
+{
+    "namespace": "water_electrolyzer",
+
+    "interface": {
+        "type": "panel",
+        "controls": [
+            { "content@machines.dynamic_interface": {
+                "$size": ["100%", 168],
+		        "$show_close_button": false,
+                "$content": [
+                    { "close@common.close_button": {
+                        "offset": [-44, 12]
+                    }},
+                    { "title@machines.text": {
+                        "text": "Water Electrolyzer",
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 30, 5 ]
+                    }},
+                    { "water_intake@machines.specific_slot": {
+                        "$index": 0,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 6, 6 ]
+                    }},
+                    { "battery_slot@machines.specific_slot": {
+                        "$index": 1,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 30, 49 ]
+                    }},
+                    { "o2_output@machines.specific_slot": {
+                        "$index": 2,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 131, 6 ]
+                    }},
+                    { "h2_output@machines.specific_slot": {
+                        "$index": 3,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 152, 6 ]
+                    }},
+			        { "water_tank@machines.fluid_tank": {
+                        "$liquid": "water",
+                        "$index": 4,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 6, 27 ]
+                    }},
+			        { "oxygen_tank@machines.fluid_tank": {
+                        "$liquid": "oxygen_gas",
+                        "$index": 5,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 131, 27 ]
+                    }},
+			        { "hydrogen_tank@machines.fluid_tank": {
+                        "$liquid": "hydrogen_gas",
+                        "$index": 6,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 152, 27 ]
+                    }},
+			        { "energy_bar@machines.energy_bar": {
+                        "$index": 7,
+                        "anchor_from": "top_left",
+                        "anchor_to": "top_left",
+                        "offset": [ 41, 16 ]
+                    }}
+                ]
+            }}
+        ]
+    }
+}

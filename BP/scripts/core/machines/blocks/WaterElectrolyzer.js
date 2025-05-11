@@ -1,0 +1,56 @@
+import { system, world, ItemStack } from "@minecraft/server"
+import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { charge_from_machine, charge_from_battery, get_data } from "../../matter/electricity"
+
+export default class {
+    constructor(entity, block) {
+        this.entity = entity;
+        this.block = block;
+        if (entity.isValid()) this.electrolyze_water();
+    }
+
+    electrolyze_water() {
+        if (system.currentTick % 3 != 0) return //this machine runs every 3 ticks
+
+        //loading data
+        const data = get_data(this.entity)
+        const container = this.entity.getComponent('minecraft:inventory').container
+        const variables = load_dynamic_object(this.entity, 'machine_data')
+        
+        let energy = variables.energy || 0
+        let water = variables.water || 0
+        let o2 = variables.o2 || 0
+        let h2 = variables.h2 || 0
+
+        //processing
+        energy = charge_from_machine(this.entity, this.block, energy);
+        energy = charge_from_battery(this.entity, energy, 1)
+        
+        water = insert_water(this.entity, water, data.water_capacity, 0)
+        
+        if (water && energy && o2 + 2 <= data.o2_capacity && h2 + 4 <= data.h2_capacity) {
+            if (energy >= 375) {
+                water --
+                o2 += 2
+                h2 += 4
+            }
+            energy = Math.max(0, energy - 375)
+        }
+        save_dynamic_object(this.entity, 'machine_data', {energy, water, o2, h2})
+        
+        //ui display
+        container.add_ui_display(4, `Water Tank\n§e${water} / ${data.water_capacity}`, Math.ceil((water / data.water_capacity) * 38))
+        container.add_ui_display(5, `Gas Storage\n(Oxygen Gas)\n§e${o2} / ${data.o2_capacity}`, Math.ceil((o2 / data.o2_capacity) * 38))
+        container.add_ui_display(6, `Gas Storage\n(Hydrogen Gas)\n§e${h2} / ${data.h2_capacity}`, Math.ceil((h2 / data.h2_capacity) * 38))
+        container.add_ui_display(7, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`, Math.ceil((energy / data.capacity) * 55))
+    }
+}
+
+function insert_water(entity, water, capacity, slot) {
+    const container = entity.getComponent('minecraft:inventory').container
+    const intake_slot = container.getItem(slot)
+    if (intake_slot && intake_slot.typeId == "minecraft:water_bucket" && water + 1000 <= capacity) {
+        container.setItem(slot, new ItemStack('bucket'))
+        return water + 1000
+    } else return water
+}

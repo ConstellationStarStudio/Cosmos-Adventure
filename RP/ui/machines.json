@@ -10,7 +10,7 @@
 			"collection_index": "$index"
 		}}]
 	},
-
+	
 	"specific_screen@machines.specific_slot": {
 		"controls": [ { "condition": {
 			"type": "panel",
@@ -21,6 +21,25 @@
 		}}]
 	},
 
+	"item_hover@machines.specific_slot": {
+		"size": ["100%", "100%"],
+		"controls": [
+			{ "input_box": {
+				"type": "button",
+				"hover_control": "hover",
+				"collection_index": "$index",
+				"controls": [
+					{ "hover": {
+						"type": "custom",
+						"renderer": "hover_text_renderer",
+						"layer": 50,
+						"bindings": "$fetch_item_hover"
+					}}
+				]
+			}}
+		]
+	},
+	
 	"stack_factory": {
 		"type": "stack_panel",
 		"collection_name": "container_items",
@@ -261,7 +280,73 @@
 			}
 		]
 	},
-	"liquid_tank": {
+	"fluid_tank": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/tank_back",
+		"layer": 2,
+		"size": [ 18, 40 ],
+		"controls": [
+			{
+				"fluid@machines.specific_slot": {
+					"anchor_from": "bottom_left",
+					"anchor_to": "bottom_left",
+					"offset": [0, -1],
+					"controls": [
+						{"unit": {
+							"type": "panel",
+							"collection_index": "$index",
+							"anchor_from": "bottom_left",
+							"anchor_to": "bottom_left",
+							"size": [0, 1],
+							"controls": [
+								{
+									"image": {
+										"type": "image",
+										"tiled": true,
+										"texture": "('textures/ui/liquids/' + $liquid)",
+										"anchor_from": "bottom_left",
+										"anchor_to": "bottom_left",
+										"size": [18, 1],
+										"bindings": [
+											{
+												"binding_type": "collection",
+												"binding_collection_name": "container_items",
+												"binding_name": "#item_durability_current_amount"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
+												"target_property_name": "#data"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "#data",
+												"target_property_name": "#size_binding_y"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "(not (#data = 1000))",
+												"target_property_name": "#visible"
+											}
+										]
+									}
+								}
+							]
+						}}
+					]
+				}
+			},
+			{
+				"tank_front": {
+					"type": "image",
+					"layer": 4,
+					"texture": "textures/ui/cosmos/tank_front"
+				}
+			},
+			{ "tank_hover@machines.item_hover": {} }
+		]
+	},
+	"liquid_tank": { //this is deprecated; use fluid_tank instead
 		"type":"image",
 		"texture": "textures/ui/cosmos/tank_back",
 		"layer": 2,
@@ -341,6 +426,101 @@
 	},
 
 	"energy_bar": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/progress_bar",
+		"layer": 2,
+		"size": [ 55, 9 ],
+		"controls": [
+			{
+				"energy@machines.specific_slot": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"controls": [
+						{
+							"gray_icon": {
+								"type": "image",
+								"texture": "textures/ui/extra_slots/power",
+								"size": [16, 16],
+								"anchor_from": "top_left",
+								"anchor_to": "top_right",
+								"color": [0.9, 0.9, 0.9]
+							}
+						},
+						{ "energy_bar": {
+							"type": "panel",
+							"collection_index": "$index",
+							"anchor_from": "top_left",
+							"anchor_to": "top_left",
+							"size": [1, 0],
+							"controls": [
+								{
+									"active_icon": {
+										"type": "image",
+										"texture": "textures/ui/extra_slots/power_active",
+										"size": [16, 16],
+										"anchor_from": "top_left",
+										"anchor_to": "top_right",
+										"bindings": [
+											{
+												"binding_type": "collection",
+												"binding_collection_name": "container_items",
+												"binding_name": "#item_durability_current_amount"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
+												"target_property_name": "#data"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "(not (#data = 1000))",
+												"target_property_name": "#visible"
+											}
+										]
+									}
+								},
+								{
+									"image": {
+										"type": "image",
+										"texture": "textures/ui/cosmos/progress_bar_fill",
+										"color": [0.75, 0.66, 0.14],
+										"anchor_from": "top_left",
+										"anchor_to": "top_left",
+										"size": [1, 9],
+										"bindings": [
+											{
+												"binding_type": "collection",
+												"binding_collection_name": "container_items",
+												"binding_name": "#item_durability_current_amount"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
+												"target_property_name": "#data"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "#data",
+												"target_property_name": "#size_binding_x"
+											},
+											{
+												"binding_type": "view",
+												"source_property_name": "(not (#data = 1000))",
+												"target_property_name": "#visible"
+											}
+										]
+									}
+								}
+							]
+						}}
+					]
+				}
+			},
+			{ "energy_hover@machines.item_hover": {} }
+		]
+	},
+
+	"old_energy_bar": { //deprecated; use energy bar instead
 		"type":"image",
 		"texture": "textures/ui/cosmos/progress_bar",
 		"layer": 2,
@@ -529,6 +709,7 @@
         "type": "panel",
 		"$content": [],
 		"$size": ["100%", 166],
+		"$show_close_button": true,
         "controls": [
             { "container_gamepad_helpers@common.container_gamepad_helpers": {} },
             { "selected_item_details_factory@common.selected_item_details_factory": {} },
@@ -541,7 +722,9 @@
                         { "content@common.dialog_background_opaque": {
 							"size": "$size",
 							"controls": [
-								{"close_button@common.close_button": {}},
+								{"close_button@common.close_button": {
+									"visible": "$show_close_button"
+								}},
 								{ "top_half": {
 									"type": "panel",
 									"layer": 5,
