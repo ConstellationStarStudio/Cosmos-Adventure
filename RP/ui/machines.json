@@ -457,7 +457,9 @@
 									"active_icon": {
 										"type": "image",
 										"texture": "textures/ui/extra_slots/power_active",
-										"size": [16, 16],
+										"size": [9, 9],
+										"uv_size": [16, 16],
+										"offset":  [-2, 0],
 										"anchor_from": "top_left",
 										"anchor_to": "top_right",
 										"bindings": [
