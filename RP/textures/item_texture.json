@@ -519,6 +519,10 @@
     },
     "titanium_sword": {
       "textures": "textures/items/titanium_sword"
+    },
+
+    "none": {
+      "textures": "textures/empty"
     }
   }
 }

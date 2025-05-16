@@ -1,70 +1,35 @@
 {
     "namespace": "coal_generator",
 	
-	"heat_power_text@machines.text": {
-		"text": "#text",
-		"bindings": [
-			{
-				"binding_name": "#hover_text",
-				"binding_name_override": "#heat",
-				"binding_type": "collection",
-				"binding_collection_name": "container_items"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(#heat - 'cosmos:' - '§o' - '§f' )",
-				"target_property_name": "#text"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(not(#heat - 'cosmos:' = #heat))",
-				"target_property_name": "#visible"
-			}
-		]
-	},
-
-    "interface@machines.interface": {
-        "$screen": "coal_generator.main"
-    },
-    
-    "main@machines.small_screen": {
-        "$machine": "coal_generator",
-        "controls": [
-            //{"test@machines.screen_filler": {}},
-			{ "label@machines.text": {
-                "offset": [ 0, 5 ],
+    "interface@machines.dynamic_interface": {
+        "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Coal Generator",
+				"color": "$title_text_color",
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-				"text": "Coal Generator"
+                "offset": [ 0, 5 ]
 			}},
-            {
-                "coal_input@machines.item_grid": {
-                    "offset": [ -50, 0 ],
-					"grid_dimensions": [ 1, 1 ]
-                }
-            },
-            {
-                "fuel_overlay@machines.item_image": {
-                    "offset": [ -50, 0 ],
-					"texture": "textures/items/coal",
-					"alpha": 0.25
-                }
-            },
-			{
-				"arrow@crafting.crafting_arrow_large": {
-					"anchor_to": "center",
-					"anchor_from": "center",
-					"offset": [-20, 0]
-				}
-			},
-            {
-                "heat_and_power@machines.item_data": {
-                    "$name": "heat_power_text",
-                    "offset": [ 10, 0 ],
-                    "size": [ 18, 18 ],
-					"layer": 4
-                }
-            }
-        ]
+			{ "coal_input@machines.item_slot": {
+				"$index": 0,
+				"$overlay_texture": "textures/items/coal",
+				"$overlay_alpha": 0.25,
+				"anchor_from": "top_middle",
+				"anchor_to": "top_middle",
+				"offset": [ -50, 33 ]
+			}},
+			{ "arrow@crafting.crafting_arrow_large": {
+				"anchor_from": "top_middle",
+				"anchor_to": "top_middle",
+				"offset": [ -20, 33 ]
+			}},
+            { "heat_and_power@machines.item_text": {
+				"$index": 1,
+				"anchor_from": "top_middle",
+				"anchor_to": "top_left",
+				"offset": [ 25, 33 ]
+			}}
+		]
     }
 }

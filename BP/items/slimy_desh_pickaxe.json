@@ -220,10 +220,6 @@
 						"speed": 24
 					},
 					{
-						"block": "minecraft:stonebrick",
-						"speed": 24
-					},
-					{
 						"block": "minecraft:end_bricks",
 						"speed": 24
 					},
@@ -268,10 +264,6 @@
 						"speed": 24
 					},
 					{
-						"block": "minecraft:concrete",
-						"speed": 24
-					},
-					{
 						"block": "minecraft:honeycomb_block",
 						"speed": 24
 					},
@@ -308,10 +300,6 @@
 						"speed": 24
 					},
 					{
-						"block": "minecraft:shulker_box",
-						"speed": 24
-					},
-					{
 						"block": "minecraft:undyed_shulker_box",
 						"speed": 24
 					},
@@ -329,34 +317,6 @@
 					},
 					{
 						"block": "minecraft:warped_nylium",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral_block",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral_fan",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral_fan_dead",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral_fan_hang",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral_fan_hang2",
-						"speed": 24
-					},
-					{
-						"block": "minecraft:coral_fan_hang3",
 						"speed": 24
 					},
 					{

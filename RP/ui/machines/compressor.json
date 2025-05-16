@@ -1,238 +1,166 @@
 {
     "namespace": "compressor",
 
-	"status@machines.text": {
-		"text": "#text",
-		"bindings": [
-			{
-				"binding_name": "#hover_text",
-				"binding_name_override": "#status",
-				"binding_type": "collection",
-				"binding_collection_name": "container_items"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(#status - 'cosmos:' - '§o' - '§f' )",
-				"target_property_name": "#text"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(not(#status - 'cosmos:  Status:' = #status))",
-				"target_property_name": "#visible"
-			}
-		]
-	},
-
-	"progress": {
-		"type": "panel",
-		"size": [1, 0],
-		"anchor_to": "top_left",
-		"anchor_from": "top_left",
-		"controls": [
-			{
-				"clipper": {
-					"type": "panel",
-					"clips_children": true,
-					"size": [1, 17],
-					"offset": [0, 9],
-					"anchor_to": "top_left",
-					"anchor_from": "top_left",
-					"controls": [
-						{
-							"image": {
-								"anchor_to": "top_left",
-								"anchor_from": "top_left",
-								"type": "image",
-								"size": [52, 17],
-								"texture": "textures/ui/cosmos/compressor_bar_fill"
-							}
-						}
-					],
-					"bindings": [
-						{
-							"binding_name": "#hover_text",
-							"binding_name_override": "#progress",
-							"binding_type": "collection",
-							"binding_collection_name": "container_items"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(#progress - 'cosmos:§prog' - '§o' - '§f' )",
-							"target_property_name": "#amount"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(not(#progress - 'cosmos:§prog' = #progress))",
-							"target_property_name": "#visible"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "#amount",
-							"target_property_name": "#size_binding_x"
-						}
-					]
-				}
-			}
-		]
-	},
-
-	"burning": {
-		"type": "panel",
-		"size": [0, 1],
-		"anchor_to": "bottom_left",
-		"anchor_from": "bottom_left",
-		"controls": [
-			{
-				"clipper": {
-					"type": "panel",
-					"clips_children": true,
-					"size": [13, 1],
-					"offset": [0, 9],
-					"anchor_to": "bottom_left",
-					"anchor_from": "bottom_left",
-					"controls": [
-						{
-							"image": {
-								"anchor_to": "bottom_left",
-								"anchor_from": "bottom_left",
-								"type": "image",
-								"size": [13, 13],
-								"texture": "textures/ui/flame_full_image"
-							}
-						}
-					],
-					"bindings": [
-						{
-							"binding_name": "#hover_text",
-							"binding_name_override": "#burn",
-							"binding_type": "collection",
-							"binding_collection_name": "container_items"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(#burn - 'cosmos:§burn' - '§o' - '§f' )",
-							"target_property_name": "#amount"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(not(#burn - 'cosmos:§burn' = #burn))",
-							"target_property_name": "#visible"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "#amount",
-							"target_property_name": "#size_binding_y"
-						}
-					]
-				}
-			}
-		]
-	},
-	"hammering": {
-		"type": "image",
-		"texture": "textures/ui/cosmos/compressor_on",
-		"size": [15, 13],
-		"bindings": [
-			{
-				"binding_name": "#hover_text",
-				"binding_name_override": "#progress",
-				"binding_type": "collection",
-				"binding_collection_name": "container_items"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(#progress - 'cosmos:§prog' - '§o' - '§f' )",
-				"target_property_name": "#amount"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(#amount > 26)",
-				"target_property_name": "#visible"
-			}
-		]
-	},
-
-    "interface@machines.interface": {
-        "$screen": "compressor.main",
-		"$size": ["100%", "120%"]
-    },
-    "main@machines.tall_screen": {
-        "$machine": "compressor",
-        "controls": [
-            //{"test@machines.pixel_counter": {}},
-			{ "label@machines.text": {
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 192],
+		"$machine": "compressor",
+        "$content": [
+			{ "title": {
+				"type": "label",
 				"text": "Compressor",
-				"offset": [ 10, 10 ],
+				"color": "$title_text_color",
 				"anchor_from": "top_left",
-				"anchor_to": "top_left"
+				"anchor_to": "top_left",
+				"offset": [ 10, 5 ]
 			}},
-			{
-				"input_grid@machines.item_grid": {
-                    "offset": [ -45, -5 ],
-					"size": [ 54, 54 ],
-					"grid_dimensions": [ 3, 3 ]
-				}
-			},
-            {
-                "fuel_slot@machines.clipper": {
-                    "offset": [ -27, 38 ],
-                    "$grid_size": [ 1, 10 ],
-                    "$grid_pixels": [ 18, 180 ]
-                }
-            },
-            {
-                "output_slot@machines.clipper": {
-                    "offset": [ 63, -2 ],
-                    "$grid_size": [ 1, 11 ],
-                    "$grid_pixels": [ 18, 198 ]
-                }
-            },
-            {
-                "progress": {
-					"type":"image",
-					"texture": "textures/ui/cosmos/compressor_bar",
-                    "offset": [ 18, -5 ],
-                    "size": [ 52, 25 ],
-					"controls": [
-						{
-							"progress@machines.item_data": {
-								"$name": "progress",
-								"anchor_from": "top_left",
-								"anchor_to": "top_left"
-							}
-						},
-						{
-							"burning@machines.item_data": {
-								"$name": "burning",
-								"anchor_from": "top_left",
-								"anchor_to": "top_left",
-								"offset": [4, -8]
-							}
-						},
-						{
-							"hammer@machines.item_data": {
-								"$name": "hammering",
-								"anchor_from": "top_left",
-								"anchor_to": "top_left",
-								"offset": [24, 1]
-							}
-						}
-					]
-                }
-            },
+			{ "input_grid@machines.item_grid": {
+				"size": [ 54, 54 ],
+				"grid_dimensions": [ 3, 3 ],
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 18, 17 ]
+			}},
+            { "fuel_slot@machines.item_slot": {
+				"$index": 9,
+				"$overlay_texture": "textures/items/coal",
+				"$overlay_alpha": 0.25,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 54, 74 ]
+			}},
 			{ "fuel_text@machines.text": {
-                    "text": "Fuel:",
-                    "offset": [ -50, 39 ]
-                }
-            },
+				"type": "label",
+				"text": "Fuel:",
+				"color": "$title_text_color",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 27, 79 ]
+			}},
+            { "output_slot@machines.item_slot": {
+				"$index": 10,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 137, 37 ]
+            }},
+			{ "progress@compressor.progress_bar": {
+				"$index": 12,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 77, 28 ]
+			}},
+			{ "burn_time@compressor.burn_time": {
+				"$index": 11,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [81, 28]
+			}},
             {
-                "status@machines.item_data": {
-                    "$name": "status",
-                    "offset": [ 20, 30 ],
-                    "size": [ 18, 18 ],
-					"layer": 4
+                "status@machines.item_text": {
+					"$index": 13,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+                    "offset": [ 97, 70 ]
                 }
             }
-        ]
-    }
+		]
+	},
+
+	"progress_bar": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/compressor_bar",
+		"size": [ 52, 25 ],
+		"controls": [
+			{ "progress@machines.specific_slot": {
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"controls": [
+					{ "progress_bar": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "top_left",
+						"anchor_to": "top_left",
+						"size": [1, 0],
+						"controls": [
+							{ "hammering": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/compressor_on",
+								"size": [15, 13],
+								"anchor_from": "top_left",
+								"anchor_to": "top_left",
+								"offset": [24, 1],
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(#data > 26 and not (#data = 1000))"
+							}},
+							{ "progress_fill": {
+								"type": "panel",
+								"clips_children": true,
+								"size": [1, 17],
+								"anchor_to": "top_left",
+								"anchor_from": "top_left",
+								"offset": [0, 9],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_x",
+								"$visible_if": "(not (#data = 1000))",
+								"controls": [
+									{
+										"image": {
+											"anchor_to": "top_left",
+											"anchor_from": "top_left",
+											"type": "image",
+											"size": [52, 17],
+											"texture": "textures/ui/cosmos/compressor_bar_fill"
+										}
+									}
+								]
+							}}
+						]
+					}}
+				]
+			}}
+		]
+	},
+	"burn_time": {
+		"type": "panel",
+		"size": [13, 13],
+		"controls": [
+			{ "progress@machines.specific_slot": {
+				"size": ["100%", "100%"],
+				"controls": [
+					{ "unit_size": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "bottom_left",
+						"anchor_to": "bottom_left",
+						"size": [0, 1],
+						"controls": [
+							{ "clipper": {
+								"type": "panel",
+								"clips_children": true,
+								"size": [13, 1],
+								"anchor_from": "bottom_left",
+								"anchor_to": "bottom_left",
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_y",
+								"$visible_if": "(not (#data = 1000))",
+								"controls": [
+									{
+										"image": {
+											"anchor_to": "bottom_left",
+											"anchor_from": "bottom_left",
+											"type": "image",
+											"size": [13, 13],
+											"texture": "textures/ui/flame_full_image"
+										}
+									}
+								]
+							}}
+						]
+					}}
+				]
+			}}
+		]
+	}
 }

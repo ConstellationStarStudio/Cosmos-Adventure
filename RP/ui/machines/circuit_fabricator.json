@@ -101,9 +101,10 @@
     "main@machines.tall_screen": {
         "$machine": "circuit_fabricator",
         "controls": [
-            // {"test@machines.pixel_counter": {}},
-			{ "label@machines.text": {
+			{ "label": {
+				"type": "label",
 				"text": "Circuit Fabricator",
+				"color": "$title_text_color",
 				"offset": [ 10, 5 ],
 				"anchor_from": "top_left",
 				"anchor_to": "top_left"

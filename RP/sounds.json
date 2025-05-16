@@ -82,6 +82,12 @@
             },
             "volume": 0
          },
+         "cosmos:water_electrolyzer": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
          "cosmos:fuel_loader": {
             "events": {
                "death": "none"

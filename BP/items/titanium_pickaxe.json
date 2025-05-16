@@ -217,10 +217,6 @@
                   "speed": 24
                },
                {
-                  "block": "minecraft:stonebrick",
-                  "speed": 24
-               },
-               {
                   "block": "minecraft:end_bricks",
                   "speed": 24
                },
@@ -265,10 +261,6 @@
                   "speed": 24
                },
                {
-                  "block": "minecraft:concrete",
-                  "speed": 24
-               },
-               {
                   "block": "minecraft:honeycomb_block",
                   "speed": 24
                },
@@ -305,10 +297,6 @@
                   "speed": 24
                },
                {
-                  "block": "minecraft:shulker_box",
-                  "speed": 24
-               },
-               {
                   "block": "minecraft:undyed_shulker_box",
                   "speed": 24
                },
@@ -326,34 +314,6 @@
                },
                {
                   "block": "minecraft:warped_nylium",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral_block",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral_fan",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral_fan_dead",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral_fan_hang",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral_fan_hang2",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:coral_fan_hang3",
                   "speed": 24
                },
                {
@@ -418,10 +378,6 @@
                },
                {
                   "block": "minecraft:black_glazed_terracotta",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:terracotta",
                   "speed": 24
                },
                {
@@ -525,10 +481,6 @@
                   "speed": 24
                },
                {
-                  "block": "minecraft:stone_slab24",
-                  "speed": 24
-               },
-               {
                   "block": "minecraft:double_stone_slab",
                   "speed": 24
                },
@@ -538,10 +490,6 @@
                },
                {
                   "block": "minecraft:double_stone_slab2",
-                  "speed": 24
-               },
-               {
-                  "block": "minecraft:double_stone_slab24",
                   "speed": 24
                },
                {

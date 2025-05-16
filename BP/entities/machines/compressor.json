@@ -63,7 +63,7 @@
             },
             "minecraft:inventory": {
                 "container_type": "container",
-                "inventory_size": 15
+                "inventory_size": 14
             },
             "minecraft:pushable": {
                 "is_pushable": false,

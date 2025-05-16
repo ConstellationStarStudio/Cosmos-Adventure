@@ -29,13 +29,9 @@ export default class {
 	}
     onPlace(){
 		const container = this.entity.getComponent('minecraft:inventory').container
-		const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `cosmos:§burn${Math.round((0 / 1) * 13)}`
-		container.setItem(11, counter)
-		counter.nameTag = `cosmos:§prog${Math.ceil((0 / 200) * 52)}`
-		container.setItem(12, counter)
-		counter.nameTag = `cosmos:  Status:\n${!0 ? '    §6Idle' : '§aCompressing'}`
-		container.setItem(13, counter)
+		container.add_ui_display(11)
+		container.add_ui_display(12)
+		container.add_ui_display(13, `§r   Status:\n    §6Idle`)
 	}
 	generateHeat() {
 		const container = this.entity.getComponent('minecraft:inventory').container;
@@ -62,7 +58,7 @@ export default class {
 		let first_burnDuration = burnDuration;
 		let first_progress = progress;
 
-		if (fuelTypes.has(fuelItem?.typeId) && burnTime == 0 && output) {
+		if (fuelTypes.has(fuelItem?.typeId) && burnTime == 0 && output && has_space) {
 			container.setItem(9, fuelItem.decrementStack())
 			burnTime = isCoalBlock ? 16010 : 1610
 			burnDuration = isCoalBlock ? 16010 : 1610
@@ -87,20 +83,16 @@ export default class {
 			} else container.setItem(10, new ItemStack(output))
 		}
 
-		const counter = new ItemStack('cosmos:ui')
 		if(burnTime !== first_burnTime || burnDuration !== first_burnDuration){
-			counter.nameTag = `cosmos:§burn${Math.round((burnTime / burnDuration) * 13)}`
-			container.setItem(11, counter)
+			container.add_ui_display(11, '', Math.round((burnTime / burnDuration) * 13))
 		}
 
 		if(burnTime !== first_burnTime) this.entity.setDynamicProperty("cosmos_burnTime", burnTime);
 		if(burnDuration != first_burnDuration || progress !== first_progress){
 			this.entity.setDynamicProperty("cosmos_progress", progress);
 			this.entity.setDynamicProperty("cosmos_burnDuration", burnDuration);
-			counter.nameTag = `cosmos:§prog${Math.ceil((progress / 200) * 52)}`
-			container.setItem(12, counter)
-			counter.nameTag = `cosmos:  Status:\n${!progress ? '    §6Idle' : '§aCompressing'}`
-			container.setItem(13, counter)
+			container.add_ui_display(12, '', Math.ceil((progress / 200) * 52))
+			container.add_ui_display(13, `§r   Status:\n${!progress ? '    §6Idle' : '§2Compressing'}`)
 		}
 
 	}

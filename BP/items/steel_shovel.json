@@ -23,10 +23,6 @@
                   "speed": 2
                },
                {
-                  "block": "minecraft:concretePowder",
-                  "speed": 2
-               },
-               {
                   "block": "minecraft:mycelium",
                   "speed": 2
                },

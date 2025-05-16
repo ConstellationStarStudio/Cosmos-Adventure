@@ -1,26 +1,41 @@
 {
     "namespace": "machines",
 
-	//up-to-date elements
+//up-to-date elements
+
 	"specific_slot": {
 		"type": "collection_panel",
 		"collection_name": "container_items",
-		"size": ["100%c", "100%c"],
-		"controls": [{"slot@chest.chest_grid_item": {
-			"collection_index": "$index"
-		}}]
+		"size": ["100%c", "100%c"]
 	},
-	
+	"overlay_image": {
+		"type":"image",
+		"texture": "$overlay_texture",
+		"alpha": "$overlay_alpha",
+		"size": [16, 16]
+	},
+
+
+	"item_slot@machines.specific_slot": {
+		"$overlay_texture": "textures/empty",
+		"$overlay_alpha": 1,
+		"controls": [
+			{ "slot@chest.chest_grid_item": {
+				"$cell_overlay_ref": "machines.overlay_image",
+				"collection_index": "$index"
+			}}
+		]
+	},
 	"specific_screen@machines.specific_slot": {
 		"controls": [ { "condition": {
 			"type": "panel",
 			"size": ["100%c", "100%c"],
 			"collection_index": "$screen_index",
 			"controls": "$screen_content",
-			"bindings": "$conditional_durability"
+			"bindings": "$use_durability",
+			"$source": "#null", "$target": "#null"
 		}}]
 	},
-
 	"item_hover@machines.specific_slot": {
 		"size": ["100%", "100%"],
 		"controls": [
@@ -39,28 +54,177 @@
 			}}
 		]
 	},
-	
-	"stack_factory": {
-		"type": "stack_panel",
-		"collection_name": "container_items",
-		"factory":{
-			"name": "slots",
-			"control_name": "$refrence"
-		},
-		"bindings": [
-			{
-				"binding_name": "(#zero + 100)",
-				"binding_name_override": "#collection_length"
-			}
+	"item_text@machines.specific_slot": {
+		"controls": [
+			{ "text": {
+				"type": "label",
+				"text": "#hover_text",
+				"collection_index": "$index",
+				"color": "$title_text_color",
+				"bindings": "$fetch_item_hover"
+			}}
+		]
+	},
+	"fluid_tank": {
+		"type":"panel",
+		"size": [ 18, 40 ],
+		"controls": [
+			{ "tank_back": {
+				"type":"image",
+				"texture": "textures/ui/cosmos/tank_back",
+				"layer": 1
+			}},
+			{ "fluid@machines.specific_slot": {
+				"anchor_from": "bottom_left",
+				"anchor_to": "bottom_left",
+				"offset": [0, -1],
+				"layer": 2,
+				"controls": [
+					{ "unit": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "bottom_left",
+						"anchor_to": "bottom_left",
+						"size": [0, 1],
+						"controls": [
+							{ "image": {
+								"type": "image",
+								"tiled": true,
+								"texture": "('textures/ui/liquids/' + $liquid)",
+								"anchor_from": "bottom_left",
+								"anchor_to": "bottom_left",
+								"size": [18, 1],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_y",
+								"$visible_if": "(not (#data = 1000))"
+							}}
+						]
+					}}
+				]
+			}},
+			{ "tank_front": {
+				"type": "image",
+				"texture": "textures/ui/cosmos/tank_front",
+				"layer": 3
+			}},
+			{ "tank_hover@machines.item_hover": {} }
+		]
+	},
+	"energy_bar": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/progress_bar",
+		"size": [ 55, 9 ],
+		"controls": [
+			{ "energy@machines.specific_slot": {
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"controls": [
+					{ "gray_icon": {
+						"type": "image",
+						"texture": "textures/ui/extra_slots/power",
+						"size": [16, 16],
+						"offset": [1, -3],
+						"anchor_from": "top_left",
+						"anchor_to": "top_right",
+						"color": [0.9, 0.9, 0.9]
+					}},
+					{ "energy_bar": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "top_left",
+						"anchor_to": "top_left",
+						"size": [1, 0],
+						"controls": [
+							{ "active_icon": {
+								"type": "image",
+								"texture": "textures/ui/extra_slots/power_active",
+								"size": [16, 16],
+								"offset": [1, -3],
+								"anchor_from": "top_left",
+								"anchor_to": "top_right",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(not (#data = 1000))"
+							}},
+							{ "image": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/progress_bar_fill",
+								"color": [0.75, 0.66, 0.14],
+								"anchor_from": "top_left",
+								"anchor_to": "top_left",
+								"size": [1, 9],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_x",
+								"$visible_if": "(not (#data = 1000))"
+							}}
+						]
+					}}
+				]
+			}},
+			{ "energy_hover@machines.item_hover": {} }
+		]
+	},
+	"machine_button@machines.specific_slot": {
+		"controls": [
+			{ "button": {
+				"type": "button",
+				"collection_index": "$index",
+				"size": [75, 18],
+				"default_control": "default",
+				"hover_control": "hover",
+				"pressed_control": "pressed",
+				"sound_name": "random.click",
+				"bindings": "$fetch_container_slot",
+				"$tag": "",
+				"button_mappings": [
+					{
+						"from_button_id": "button.menu_select",
+						"to_button_id": "button.container_auto_place",
+						"mapping_type": "pressed"
+					},
+					{
+						"from_button_id": "button.menu_ok",
+						"to_button_id": "button.container_auto_place",
+						"mapping_type": "pressed"
+					}
+				],
+				"controls": [
+					{ "default": { "type": "image", "texture": "textures/ui/cosmos/old_button" } },
+					{ "hover": { "type": "image", "texture": "textures/ui/cosmos/old_button_hover" } },
+					{ "pressed": { "type": "image", "texture": "textures/ui/cosmos/old_button_pressed" } },
+					{
+						"button_text": {
+							"type": "label",
+							"layer": 1,
+							"text": "#hover_text",
+							"shadow": true,
+							"bindings": "$fetch_item_hover"
+						}
+					}
+				]
+			}}
 		]
 	},
 
+
+	"item_grid": { // 1(18) 2(36) 3(54) 4(72) 5(90) 6(108) 7(126) 8(144) 9(162) 10(180) 11(198) 12(216) 13(234) 14(252) 15(270) 16(288) 17(306) 18(324) 19(342) 20(360) 
+		"type": "grid",
+		"size": [ 18, 18 ],
+		"$template": "chest.chest_grid_item",
+		"grid_item_template": "$template",
+        "collection_name": "container_items",
+		"layer": 5
+	},
+
+//---------------------------------------------------------
+// depricated elements
 	"text": {
 		"type": "label",
 		"color": "$title_text_color",
 		"layer": 2
 	},
-
 	"old_button": {
 		"type": "button",
 		"size": [75, 18],
@@ -142,14 +306,6 @@
 		}}]
 	},
 
-	"item_grid": { // 1(18) 2(36) 3(54) 4(72) 5(90) 6(108) 7(126) 8(144) 9(162) 10(180) 11(198) 12(216) 13(234) 14(252) 15(270) 16(288) 17(306) 18(324) 19(342) 20(360) 
-		"type": "grid",
-		"size": [ 18, 18 ],
-		"$template": "chest.chest_grid_item",
-		"grid_item_template": "$template",
-        "collection_name": "container_items",
-		"layer": 5
-	},
 
 	"ui_button@machines.new_item_data": {
 		"$button_tag": "§button",
@@ -280,72 +436,6 @@
 			}
 		]
 	},
-	"fluid_tank": {
-		"type":"image",
-		"texture": "textures/ui/cosmos/tank_back",
-		"layer": 2,
-		"size": [ 18, 40 ],
-		"controls": [
-			{
-				"fluid@machines.specific_slot": {
-					"anchor_from": "bottom_left",
-					"anchor_to": "bottom_left",
-					"offset": [0, -1],
-					"controls": [
-						{"unit": {
-							"type": "panel",
-							"collection_index": "$index",
-							"anchor_from": "bottom_left",
-							"anchor_to": "bottom_left",
-							"size": [0, 1],
-							"controls": [
-								{
-									"image": {
-										"type": "image",
-										"tiled": true,
-										"texture": "('textures/ui/liquids/' + $liquid)",
-										"anchor_from": "bottom_left",
-										"anchor_to": "bottom_left",
-										"size": [18, 1],
-										"bindings": [
-											{
-												"binding_type": "collection",
-												"binding_collection_name": "container_items",
-												"binding_name": "#item_durability_current_amount"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
-												"target_property_name": "#data"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "#data",
-												"target_property_name": "#size_binding_y"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "(not (#data = 1000))",
-												"target_property_name": "#visible"
-											}
-										]
-									}
-								}
-							]
-						}}
-					]
-				}
-			},
-			{
-				"tank_front": {
-					"type": "image",
-					"layer": 4,
-					"texture": "textures/ui/cosmos/tank_front"
-				}
-			},
-			{ "tank_hover@machines.item_hover": {} }
-		]
-	},
 	"liquid_tank": { //this is deprecated; use fluid_tank instead
 		"type":"image",
 		"texture": "textures/ui/cosmos/tank_back",
@@ -425,102 +515,7 @@
 		]
 	},
 
-	"energy_bar": {
-		"type":"image",
-		"texture": "textures/ui/cosmos/progress_bar",
-		"layer": 2,
-		"size": [ 55, 9 ],
-		"controls": [
-			{
-				"energy@machines.specific_slot": {
-					"anchor_from": "top_left",
-					"anchor_to": "top_left",
-					"controls": [
-						{
-							"gray_icon": {
-								"type": "image",
-								"texture": "textures/ui/extra_slots/power",
-								"size": [16, 16],
-								"anchor_from": "top_left",
-								"anchor_to": "top_right",
-								"color": [0.9, 0.9, 0.9]
-							}
-						},
-						{ "energy_bar": {
-							"type": "panel",
-							"collection_index": "$index",
-							"anchor_from": "top_left",
-							"anchor_to": "top_left",
-							"size": [1, 0],
-							"controls": [
-								{
-									"active_icon": {
-										"type": "image",
-										"texture": "textures/ui/extra_slots/power_active",
-										"size": [9, 9],
-										"uv_size": [16, 16],
-										"offset":  [-2, 0],
-										"anchor_from": "top_left",
-										"anchor_to": "top_right",
-										"bindings": [
-											{
-												"binding_type": "collection",
-												"binding_collection_name": "container_items",
-												"binding_name": "#item_durability_current_amount"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
-												"target_property_name": "#data"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "(not (#data = 1000))",
-												"target_property_name": "#visible"
-											}
-										]
-									}
-								},
-								{
-									"image": {
-										"type": "image",
-										"texture": "textures/ui/cosmos/progress_bar_fill",
-										"color": [0.75, 0.66, 0.14],
-										"anchor_from": "top_left",
-										"anchor_to": "top_left",
-										"size": [1, 9],
-										"bindings": [
-											{
-												"binding_type": "collection",
-												"binding_collection_name": "container_items",
-												"binding_name": "#item_durability_current_amount"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
-												"target_property_name": "#data"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "#data",
-												"target_property_name": "#size_binding_x"
-											},
-											{
-												"binding_type": "view",
-												"source_property_name": "(not (#data = 1000))",
-												"target_property_name": "#visible"
-											}
-										]
-									}
-								}
-							]
-						}}
-					]
-				}
-			},
-			{ "energy_hover@machines.item_hover": {} }
-		]
-	},
+
 
 	"old_energy_bar": { //deprecated; use energy bar instead
 		"type":"image",

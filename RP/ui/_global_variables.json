@@ -39,7 +39,28 @@
 			"target_property_name": "#visible"
 		}
 	],
-	
+	"$use_durability": [
+		{
+			"binding_type": "collection",
+			"binding_collection_name": "container_items",
+			"binding_name": "#item_durability_current_amount"
+		},
+		{
+			"binding_type": "view",
+			"source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
+			"target_property_name": "#data"
+		},
+		{
+			"binding_type": "view",
+			"source_property_name": "$source",
+			"target_property_name": "$target"
+		},
+		{
+			"binding_type": "view",
+			"source_property_name": "$visible_if",
+			"target_property_name": "#visible"
+		}
+	],
 	"$visibility": [
     	{
 			"binding_type": "view",
@@ -138,23 +159,6 @@
 			"binding_name_override": "#text",
 			"binding_type": "collection",
 			"binding_collection_name": "container_items"
-		},
-		{
-			"binding_type": "view",
-			"source_property_name": "$condition",
-			"target_property_name": "#visible"
-		}
-	],
-	"$conditional_durability": [
-		{
-			"binding_name": "#item_durability_current_amount",
-			"binding_type": "collection",
-			"binding_collection_name": "container_items"
-		},
-		{
-		  "binding_type": "view",
-		  "source_property_name": "(#data + (#data < #item_durability_current_amount) - (#data > #item_durability_current_amount))",
-		  "target_property_name": "#data"
 		},
 		{
 			"binding_type": "view",

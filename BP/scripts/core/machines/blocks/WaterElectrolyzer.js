@@ -16,7 +16,8 @@ export default class {
         const data = get_data(this.entity)
         const container = this.entity.getComponent('minecraft:inventory').container
         const variables = load_dynamic_object(this.entity, 'machine_data')
-        
+        const active = this.entity.getDynamicProperty('active')
+
         let energy = variables.energy || 0
         let water = variables.water || 0
         let o2 = variables.o2 || 0
@@ -27,9 +28,10 @@ export default class {
         energy = charge_from_battery(this.entity, energy, 1)
         
         water = insert_water(this.entity, water, data.water_capacity, 0)
-        
-        if (water && energy && o2 + 2 <= data.o2_capacity && h2 + 4 <= data.h2_capacity) {
+        let status = '§6Idle'
+        if (active && water && energy && o2 + 2 <= data.o2_capacity && h2 + 4 <= data.h2_capacity) {
             if (energy >= 375) {
+                status = '§2Running'
                 water --
                 o2 += 2
                 h2 += 4
@@ -43,6 +45,12 @@ export default class {
         container.add_ui_display(5, `Gas Storage\n(Oxygen Gas)\n§e${o2} / ${data.o2_capacity}`, Math.ceil((o2 / data.o2_capacity) * 38))
         container.add_ui_display(6, `Gas Storage\n(Hydrogen Gas)\n§e${h2} / ${data.h2_capacity}`, Math.ceil((h2 / data.h2_capacity) * 38))
         container.add_ui_display(7, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`, Math.ceil((energy / data.capacity) * 55))
+        container.add_ui_display(8, `§rStatus:\n  ${energy < 375 ? '§cLow energy' : !water ? '§cNo Water!' : status}`)
+        if (!container.getItem(9)) {
+            this.entity.runCommand('clear @a cosmos:ui_button')
+            this.entity.setDynamicProperty('active', active == undefined ? false : !active)
+            container.add_ui_button(9, active || active == undefined ? "Process" : "Stop")
+        }
     }
 }
 
