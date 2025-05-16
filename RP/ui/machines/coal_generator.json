@@ -26,9 +26,9 @@
 			}},
             { "heat_and_power@machines.item_text": {
 				"$index": 1,
-				"anchor_from": "top_middle",
+				"anchor_from": "top_left",
 				"anchor_to": "top_left",
-				"offset": [ 25, 33 ]
+				"offset": [ 85, 33 ]
 			}}
 		]
     }

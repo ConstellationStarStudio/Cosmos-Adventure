@@ -1,6 +1,64 @@
 {
     "namespace": "electric_compressor",
 
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 199],
+        "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Electric Compressor",
+				"color": "$title_text_color",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 10, 5 ]
+			}},
+			{ "input_grid@machines.item_grid": {
+				"size": [ 54, 54 ],
+				"grid_dimensions": [ 3, 3 ],
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 18, 17 ]
+			}},
+            { "output1@machines.item_slot": {
+				"$index": 9,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 137, 28 ]
+            }},
+            { "output2@machines.item_slot": {
+				"$index": 10,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 137, 46 ]
+            }},
+            { "battery_slot@machines.item_slot": {
+				"$index": 11,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 54, 74 ]
+			}},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 12,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 17, 95 ]
+            }},
+			{ "progress@compressor.progress_bar": {
+				"$index": 13,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 77, 28 ]
+			}},
+            { "status@machines.item_text": {
+				"$index": 14,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 78, 75 ]
+			}}
+		]
+	},
+
 	"status@machines.text": {
 		"text": "#text",
 		"bindings": [
@@ -100,10 +158,6 @@
 		]
 	},
 
-    "interface@machines.interface": {
-		"$screen": "electric_compressor.main",
-		"$size": ["100%", "120%"]
-    },
     "main@machines.tall_screen": {
         "$machine": "electric_compressor",
         "controls": [

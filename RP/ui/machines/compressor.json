@@ -3,7 +3,6 @@
 
     "interface@machines.dynamic_interface": {
         "$size": ["100%", 192],
-		"$machine": "compressor",
         "$content": [
 			{ "title": {
 				"type": "label",
@@ -54,14 +53,12 @@
 				"anchor_to": "top_left",
 				"offset": [81, 28]
 			}},
-            {
-                "status@machines.item_text": {
-					"$index": 13,
-					"anchor_from": "top_left",
-					"anchor_to": "top_left",
-                    "offset": [ 97, 70 ]
-                }
-            }
+            { "status@machines.item_text": {
+				"$index": 13,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 97, 70 ]
+			}}
 		]
 	},
 
@@ -104,15 +101,13 @@
 								"$target": "#size_binding_x",
 								"$visible_if": "(not (#data = 1000))",
 								"controls": [
-									{
-										"image": {
-											"anchor_to": "top_left",
-											"anchor_from": "top_left",
-											"type": "image",
-											"size": [52, 17],
-											"texture": "textures/ui/cosmos/compressor_bar_fill"
-										}
-									}
+									{ "image": {
+										"anchor_to": "top_left",
+										"anchor_from": "top_left",
+										"type": "image",
+										"size": [52, 17],
+										"texture": "textures/ui/cosmos/compressor_bar_fill"
+									}}
 								]
 							}}
 						]
@@ -122,7 +117,8 @@
 		]
 	},
 	"burn_time": {
-		"type": "panel",
+		"type": "image",
+		"texture": "textures/ui/flame_empty_image",
 		"size": [13, 13],
 		"controls": [
 			{ "progress@machines.specific_slot": {
@@ -146,15 +142,13 @@
 								"$target": "#size_binding_y",
 								"$visible_if": "(not (#data = 1000))",
 								"controls": [
-									{
-										"image": {
-											"anchor_to": "bottom_left",
-											"anchor_from": "bottom_left",
-											"type": "image",
-											"size": [13, 13],
-											"texture": "textures/ui/flame_full_image"
-										}
-									}
+									{ "image": {
+										"type": "image",
+										"texture": "textures/ui/flame_full_image",
+										"size": [13, 13],
+										"anchor_to": "bottom_left",
+										"anchor_from": "bottom_left"
+									}}
 								]
 							}}
 						]

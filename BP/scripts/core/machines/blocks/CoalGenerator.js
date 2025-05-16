@@ -54,7 +54,7 @@ export default class {
     if (burnTime === 0 && system.currentTick % 3 === 0 && power > 0) power--;
     
     // Update UI
-    container.add_ui_display(1,  `§r${power == 0 ? 'Not Generating' : 'Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `  §r${power} gJ/t`}`)
+    container.add_ui_display(1,  `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`)
 
     if (heat !== first_heat) this.entity.setDynamicProperty("cosmos_heat", heat);
     if (burnTime !== first_burnTime) this.entity.setDynamicProperty("cosmos_burnTime", burnTime);
