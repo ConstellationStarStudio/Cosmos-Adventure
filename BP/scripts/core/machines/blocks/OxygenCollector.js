@@ -17,26 +17,6 @@ export default class {
     }
 
     onPlace() {
-        const data = get_data(this.entity);
-        const container = this.entity.getComponent('minecraft:inventory').container
-        const counter = new ItemStack('cosmos:ui');
-
-        counter.nameTag = `cosmos:§energy${Math.round((0 / data.capacity) * 55)}`
-        container.setItem(1, counter);
-        counter.nameTag = `Energy Storage\n§aEnergy: ${0} gJ\n§cMax Energy: ${data.capacity} gJ`
-        container.setItem(2, counter);
-
-        counter.nameTag = `cosmos:§oxygen${Math.round((0 / data.o2_capacity) * 55)}`
-        container.setItem(3, counter)
-        counter.nameTag = `Oxygen Storage\n§aOxygen: ${0}/${data.o2_capacity}`
-        container.setItem(4, counter)
-
-        counter.nameTag = `cosmos:  Status: ${0}\n Collecting: ${0}/s`
-        container.setItem(5, counter)
-
-        counter.nameTag = 'isntactive';
-        container.setItem(6, counter);
-
         if(this.block.dimension.id == "minecraft:the_end"){
             let {x, y, z} = this.block.location;
             let block_number = 0;
@@ -56,7 +36,9 @@ export default class {
         let energy = this.entity.getDynamicProperty("cosmos_energy") || 0;
         let oxygen = this.entity.getDynamicProperty("cosmos_oxygen") || 0;
         let oxygen_source_bloks = this.entity.getDynamicProperty("cosmos_oxygen_source") || 0;
-        
+        oxygen_source_bloks = (dimension == "minecraft:overworld" && energy > 0)? 93:
+        (energy > 0)? oxygen_source_bloks:
+        0;
         const first_energy = energy;
         const first_oxygen = oxygen;
 
@@ -74,36 +56,24 @@ export default class {
         energy = charge_from_battery(this.entity, energy, 0);
         energy = Math.max(0, energy - 10);
 
-        const status =
-		energy == 0 ? "§4No Power" :
-        oxygen_source_bloks < 2 ? "Not Enough Leaf Blocks":
-		"Active";
+        const status = energy == 0 ? "§4Not Enough Power" :
+        (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
+		"§2Active";
 
-        const counter = new ItemStack('cosmos:ui');
-        if(energy !== first_energy){
-            this.entity.setDynamicProperty("cosmos_energy", energy)
-            counter.nameTag = `cosmos:§energy${Math.round((energy / data.capacity) * 55)}`
-			container.setItem(1, counter)
-			counter.nameTag = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`
-			container.setItem(2, counter)
-            if(energy > 0){
-                counter.nameTag = 'is_powered';
-			    container.setItem(6, counter);
-            }else{
-                counter.nameTag = 'isntactive';
-			    container.setItem(6, counter);
-            }
-        }
-        if(oxygen !== first_oxygen){
-            counter.nameTag = `cosmos:§oxygen${Math.round((oxygen / data.o2_capacity) * 55)}`
-			container.setItem(3, counter)
-			counter.nameTag = `Oxygen Storage\n§aOxygen: ${oxygen}/${data.o2_capacity}`
-			container.setItem(4, counter)
-            this.entity.setDynamicProperty("cosmos_oxygen", oxygen)
-        }
-        counter.nameTag = `cosmos:  Status: ${status}\n Collecting: ${oxygen_source_bloks}/s`
-        //\n Collecting: ${oxygen_source_bloks}/s
-        container.setItem(5, counter)
+        let tabs = energy == 0 ? "          " :
+        (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld") ? "           ":
+		"          ";
+        
+        this.entity.setDynamicProperty("cosmos_energy", energy);
+        this.entity.setDynamicProperty("cosmos_oxygen", oxygen)
+
+        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.capacity} gJ`;
+        const oxygen_hover = `Oxygen Storage\n§aOxygen: ${oxygen}/${data.o2_capacity}`; 
+        
+		container.add_ui_display(1, energy_hover, Math.round((energy / data.capacity) * 55))
+        container.add_ui_display(2, oxygen_hover, Math.round((oxygen / data.o2_capacity) * 55))
+        container.add_ui_display(3, tabs + '§rStatus: ' + status)
+        container.add_ui_display(4, `§rCollecting: §r${oxygen_source_bloks}/s`)
     }
 }
 

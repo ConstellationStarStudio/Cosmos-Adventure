@@ -166,6 +166,60 @@
 			{ "energy_hover@machines.item_hover": {} }
 		]
 	},
+	"oxygen_bar": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/progress_bar",
+		"size": [ 55, 9 ],
+		"controls": [
+			{ "oxygen@machines.specific_slot": {
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"controls": [
+					{ "gray_icon": {
+						"type": "image",
+						"anchor_from": "left_middle",
+						"anchor_to": "right_middle",
+						"texture": "textures/ui/extra_slots/oxygen_icon",
+						"size": [16, 16],
+						"offset": [1, -3.5]
+					}},
+					{ "oxygen_bar": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "top_left",
+						"anchor_to": "top_left",
+						"size": [1, 0],
+						"controls": [
+							{ "active_icon": {
+								"type": "image",
+								"texture": "textures/ui/extra_slots/oxygen_icon_active",
+								"size": [16, 16],
+								"offset": [1, -3.5],
+								"anchor_from": "top_left",
+								"anchor_to": "top_right",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(not (#data = 1000))"
+							}},
+							{ "image": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/progress_bar_fill",
+								"color": [0.29, 0.63, 0.89],
+								"anchor_from": "top_left",
+								"anchor_to": "top_left",
+								"size": [1, 9],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_x",
+								"$visible_if": "(not (#data = 1000))"
+							}}
+						]
+					}}
+				]
+			}},
+			{ "oxygen_hover@machines.item_hover": {} }
+		]
+	},
 	"machine_button@machines.specific_slot": {
 		"controls": [
 			{ "button": {
@@ -655,7 +709,7 @@
 		]
 	},
 
-	"oxygen_bar": {
+	"old_oxygen_bar": {
 		"type":"image",
 		"texture": "textures/ui/cosmos/progress_bar",
 		"layer": 2,

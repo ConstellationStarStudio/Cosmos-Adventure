@@ -1,73 +1,66 @@
 {
     "namespace": "oxygen_collector",
 
-    "status@machines.text": {
-        "text": "#text",
-        "bindings": [
-            {
-                "binding_name": "#hover_text",
-                "binding_name_override": "#status",
-                "binding_type": "collection",
-                "binding_collection_name": "container_items"
-            },
-            {
-                "binding_type": "view",
-                "source_property_name": "(#status - 'cosmos:' - '§o' - '§f' )",
-                "target_property_name": "#text"
-            },
-            {
-                "binding_type": "view",
-                "source_property_name": "(not(#status - 'Status:' = #status))",
-                "target_property_name": "#visible"
-            }
-       ]
-    },
-
-    "interface@machines.interface": {
-        "$screen": "oxygen_collector.main",
-        "$size": ["100%", "110%"]
-    },
-
-    "main@machines.tall_screen": {
-        "$machine": "oxygen_collector",
-        "controls": [
-            {
-                "label@machines.text": {
-                    "text": "Oxygen Collector",
-                    "offset": [10, 21],
-                    "anchor_from": "top_left",
-                    "anchor_to": "top_left"
-                }
-            },
-			{
-                "battery@machines.clipper": {
-                    "offset": [30, 39],
-                    "anchor_from": "top_left",
-                    "anchor_to": "top_left",
-                    "$grid_size": [ 1, 1 ],
-                    "$grid_pixels": [18, 18],
-                	"$overlay": "textures/ui/extra_slots/power"
-                }
-            },
-            {
-                "capacity@machines.old_energy_bar": {
-                    "offset": [ 53, -4]
-                }
-            },
-            {
-                "oxygen@machines.oxygen_bar": {
-                    "offset": [ 53, -17]
-                }
-            },
-            {
-                "status@machines.item_data": {
-                    "$name": "status",
-                    "anchor_from": "top_middle",
-                    "anchor_to": "top_middle",
-                    "offset": [-20, 80],
-                    "size": [18, 60]
-                }
-            }
-        ]
-    }
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 180],
+        "$content": [
+			{ "title": {
+                "type": "label",
+                 "text": "Oxygen Collector",
+                 "color": "$title_text_color",
+                 "offset": [10, 4],
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_left"
+			}},
+            { "line": {
+                "type": "image",
+                "texture": "textures/ui/extra_slots/oxygen_collector_line",
+                "size": [1, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [80, 20]
+			}},
+            {"out":{
+                "type": "label",
+                "text": "Out:",
+                "color": "$title_text_color",
+                "offset": [3.5, -64]
+            }},
+            {"in":{
+                "type": "label",
+                "text": "In:",
+                "color": "$title_text_color",
+                "offset": [6, -51]
+            }},
+            { "battery_slot@machines.item_slot": {
+				"$index": 0,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+                "offset": [32, 23.2],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left"
+			}},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 1,
+                "offset": [ 53, -51 ]
+            }},
+            { "oxygen_bar@machines.oxygen_bar": {
+                "$index": 2,
+                "offset": [ 53, -64 ]
+            }},
+            { "status@machines.item_text": {
+				"$index": 3,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [-20, 21],
+                "size": [18, 60]
+			}},
+            { "collecting@machines.item_text": {
+				"$index": 4,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [0, 30],
+                "size": [18, 60]
+			}}
+		]
+	}
 }
