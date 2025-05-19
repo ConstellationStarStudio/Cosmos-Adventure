@@ -89,7 +89,7 @@ export function output_fluid(fluid_type, entity, block, fluid) {
     if (target_block.typeId == "cosmos:fluid_pipe") {
         return fluid
     } else {
-        const target_entity = get_entity(entity.dimension, target_location, "has_fuel_input")
+        const target_entity = get_entity(entity.dimension, target_location, `has_${fluid_type}_input`)
         if (!target_entity) return fluid
         
         const target_capacity = get_data(target_entity)[fluid_type].capacity
@@ -113,7 +113,7 @@ export function input_fluid(fluid_type, entity, block, fluid) {
     if (source_block.typeId == "cosmos:fluid_pipe") {
         return fluid
     } else {
-        const source_entity = get_entity(entity.dimension, source_location, "has_fuel_output")
+        const source_entity = get_entity(entity.dimension, source_location, `has_${fluid_type}_output`)
         if (!source_entity) return fluid
         
         const source_fluid = load_dynamic_object(source_entity, 'machine_data')?.[fluid_type] ?? 0
