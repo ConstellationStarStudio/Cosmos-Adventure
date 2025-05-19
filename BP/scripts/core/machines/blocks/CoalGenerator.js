@@ -1,4 +1,5 @@
 import * as mc from "@minecraft/server";
+import { compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils";
 
 const { system } = mc;
 
@@ -34,9 +35,12 @@ export default class {
     const container = e.getComponent('minecraft:inventory').container;
     const fuelItem = container.getItem(0);
     const isCoalBlock = fuelItem?.typeId === 'minecraft:coal_block';
-    let burnTime = e.getDynamicProperty("cosmos_burnTime") ?? 0;
-    let heat = e.getDynamicProperty("cosmos_heat") ?? 0;
-    let power = e.getDynamicProperty("cosmos_power") ?? 0;
+    
+    
+    const variables = load_dynamic_object(this.entity, 'machine_data')
+    let burnTime = variables.burnTime || 0
+    let heat = variables.heat || 0
+    let power = variables.power || 0
 
     const first_burnTime = burnTime;
     const first_heat = heat;
@@ -53,11 +57,11 @@ export default class {
     if (burnTime > 0 && heat === 100 && burnTime % 3 === 0 && power < 120) power++;
     if (burnTime === 0 && system.currentTick % 3 === 0 && power > 0) power--;
     
-    // Update UI
-    container.add_ui_display(1,  `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`)
-
-    if (heat !== first_heat) this.entity.setDynamicProperty("cosmos_heat", heat);
-    if (burnTime !== first_burnTime) this.entity.setDynamicProperty("cosmos_burnTime", burnTime);
-    if (power !== first_power) this.entity.setDynamicProperty("cosmos_power", power);
+    // Save and Update UI
+    if (!compare_lists([heat, burnTime, power], [first_heat, first_burnTime, first_power])){
+      save_dynamic_object(this.entity, 'machine_data', {burnTime, heat, power})
+      const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
+      container.add_ui_display(1, display_text)
+    }
   }
 }

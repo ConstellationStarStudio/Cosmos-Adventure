@@ -16,9 +16,9 @@ export default class {
         //loading data
         const data = get_data(this.entity)
         const container = this.entity.getComponent('minecraft:inventory').container
-        const variables = load_dynamic_object(this.entity, 'machine_data')
         const active = this.entity.getDynamicProperty('active')
-
+        
+        const variables = load_dynamic_object(this.entity, 'machine_data')
         let energy = variables.energy || 0
         let water = variables.water || 0
         let o2 = variables.o2 || 0

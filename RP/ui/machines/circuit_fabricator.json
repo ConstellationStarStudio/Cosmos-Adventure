@@ -77,12 +77,12 @@
                 "anchor_to": "top_left",
                 "offset": [ 17, 88 ]
             }},
-			// { "progress@circuit_fabricator.progress_bar": {
-			// 	"$index": 8,
-			// 	"anchor_from": "top_left",
-			// 	"anchor_to": "top_left",
-			// 	"offset": [ 17, 88 ]
-			// }},
+			{ "progress@circuit_fabricator.progress_bar": {
+				"$index": 8,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 87, 19 ]
+			}},
             { "status@machines.item_text": {
                 "$index": 9,
                 "anchor_from": "top_left",
@@ -91,125 +91,49 @@
             }}
 		]
     },
-
-	"progress_hover@cosmos.button": {
-		"$action": "",
-		"size": [53, 12],
-		"anchor_from": "top_left",
-		"anchor_to": "top_left",
-		"controls": [
-			{
-				"hover": {
-					"type": "custom",
-					"renderer": "hover_text_renderer",
-					"layer": 50,
-					"bindings": [
-						{
-							"binding_name": "#hover_text",
-							"binding_type": "collection",
-							"binding_collection_name": "container_items"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(#hover_text - '§o')",
-							"target_property_name": "#hover_text"
-						}
-					]
-				}
-			}
-		],
-		"bindings": [
-			{
-				"binding_name": "#hover_text",
-				"binding_type": "collection",
-				"binding_collection_name": "container_items"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(not(#hover_text - 'Progress' = #hover_text))",
-				"target_property_name": "#visible"
-			}
-		]
-	},
 	
 	"progress_bar": {
-		"type": "panel",
-		"size": [1, 0],
-		"anchor_to": "top_left",
-		"anchor_from": "top_left",
+		"type":"image",
+		"texture": "textures/ui/cosmos/progress_bar",
+		"size": [ 53, 12 ],
 		"controls": [
-			{
-				"clipper": {
-					"type": "panel",
-					"clips_children": true,
-					"offset": [1, 1],
-					"size": [1, 10],
-					"anchor_to": "top_left",
-					"anchor_from": "top_left",
-					"controls": [
-						{
-							"image": {
+			{ "progress@machines.specific_slot": {
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"controls": [
+					{ "progress_bar": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "top_left",
+						"anchor_to": "top_left",
+						"size": [1, 0],
+						"controls": [
+							{ "progress_fill": {
+								"type": "panel",
+								"clips_children": true,
+								"size": [1, 10],
+								"offset": [1, 1],
 								"anchor_to": "top_left",
 								"anchor_from": "top_left",
-								"type": "image",
-								"size": [51, 30],
-								"texture": "textures/ui/cosmos/fabricating"
-							}
-						}
-					],
-					"bindings": [
-						{
-							"binding_name": "#hover_text",
-							"binding_name_override": "#progress",
-							"binding_type": "collection",
-							"binding_collection_name": "container_items"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(#progress - 'cosmos:§prog' - '§o' - '§f' )",
-							"target_property_name": "#amount"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "(not(#progress - 'cosmos:§prog' = #progress))",
-							"target_property_name": "#visible"
-						},
-						{
-							"binding_type": "view",
-							"source_property_name": "#amount",
-							"target_property_name": "#size_binding_x"
-						}
-					]
-				}
-			}
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_x",
+								"$visible_if": "(not (#data = 1000))",
+								"controls": [
+									{ "image": {
+										"anchor_to": "top_left",
+										"anchor_from": "top_left",
+										"type": "image",
+										"size": [51, 30],
+										"texture": "textures/ui/cosmos/fabricating"
+									}}
+								]
+							}}
+						]
+					}}
+				]
+			}},
+			{ "hover_text@machines.item_hover": {}}
 		]
-	},
-    "main@machines.tall_screen": {
-        "$machine": "circuit_fabricator",
-        "controls": [
-            {
-                "progress": {
-					"type":"image",
-					"texture": "textures/ui/cosmos/progress_bar",
-                    "offset": [ 22, -29 ],
-                    "size": [ 53, 12 ],
-					"controls": [
-						{
-							"progress@machines.item_data": {
-								"$name": "progress",
-								"anchor_from": "top_left",
-								"anchor_to": "top_left",
-								"layer": 4
-							}
-						},
-						{
-							"progress_text@machines.item_data": {
-								"$name": "progress_hover"
-							}
-						}
-					]
-                }
-            }
-        ]
-    }
+	}
 }

@@ -1,7 +1,7 @@
 import { system, ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import recipes from "../../../recipes/circuit_fabricator.js"
-import { get_vars, compare_lists } from "../../../api/utils.js";
+import { get_vars, compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
 import { get_data } from "../Machine.js";
 
 export default class {
@@ -23,14 +23,16 @@ export default class {
 			"cosmos:raw_silicon",
 			"minecraft:redstone"
 		])
-		let energy = this.entity.getDynamicProperty("cosmos_energy") ?? 0
-		let progress = this.entity.getDynamicProperty("cosmos_progress") ?? 0
+
+		const variables = load_dynamic_object(this.entity, 'machine_data')
+		let energy = variables.energy || 0
+		let progress = variables.progress || 0
 		
 	    energy = charge_from_machine(this.entity, this.block, energy)
 		
 		energy = charge_from_battery(this.entity, energy, 5)
 		
-		if (is_loaded && result && has_space && energy > 0 && progress < 300) {
+		if (is_loaded && result && has_space && energy > 0 && progress < 150) {
 			progress++
 			energy -= Math.min(20, energy)
 		}
@@ -39,7 +41,7 @@ export default class {
 		
 		if (!is_loaded || !result) progress = 0
 		
-		if (progress == 300) {
+		if (progress == 150) {
 			progress = 0
 			container.setItem(4, raw_item.decrementStack())
 			for (let i=0; i<4; i++) {
@@ -49,16 +51,15 @@ export default class {
 				output_item.amount += result[1]
 				container.setItem(6, output_item)
 			} else container.setItem(6, new ItemStack(result[0], result[1]));
-			// world.playSound was deprecated
 			this.block.dimension.playSound("random.anvil_land", this.entity.location)
 		}
-		this.entity.setDynamicProperty("cosmos_energy", energy);
-		this.entity.setDynamicProperty("cosmos_progress", progress);
+		
+		save_dynamic_object(this.entity, 'machine_data', {energy, progress})
 
 		const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`
 		container.add_ui_display(7, energy_hover, Math.round((energy / data.capacity) * 55))
-		container.add_ui_display(8, `Progress: ${Math.round((progress / 300) * 100)}%`, Math.round((progress / 300) * 51))
-		container.add_ui_display(9, `§r  Status:\n${!energy ? '§4No Power' : progress ? '§aRunning' : '   §6Idle'}`)
+		container.add_ui_display(8, `Progress: ${Math.round((progress / 150) * 100)}%`, Math.round((progress / 150) * 51))
+		container.add_ui_display(9, `§r Status:\n${!energy ? '§4No Power' : progress ? '§2Running' : '   §6Idle'}`)
 	}
 }
 
