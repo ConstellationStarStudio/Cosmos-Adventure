@@ -37,9 +37,9 @@ export default class {
 		const container = this.entity.getComponent('minecraft:inventory').container
 		const data = get_data(this.entity);
 		const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `cosmos:§energy${Math.round((0 / data.capacity) * 55)}`
+		counter.nameTag = `cosmos:§energy${Math.round((0 / data.energy.capacity) * 55)}`
 		container.setItem(2, counter)
-		counter.nameTag = `Energy Storage\n§aEnergy: ${0} gJ\n§cMax Energy: ${data.capacity} gJ`
+		counter.nameTag = `Energy Storage\n§aEnergy: ${0} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 		container.setItem(3, counter)
 		counter.nameTag = `cosmos:§fill_level${Math.ceil((Math.ceil(0 / 1000) / (data.fuel.capacity / 1000)) * 38)}§liquid:fuel`
 		container.setItem(4, counter)
@@ -95,9 +95,9 @@ export default class {
         /*energy < 30 ? "§6Not Enough Power":*/
 		const counter = new ItemStack('cosmos:ui')
 		if(energy !== first_energy){
-			counter.nameTag = `cosmos:§energy${Math.round((energy / data.capacity) * 55)}`
+			counter.nameTag = `cosmos:§energy${Math.round((energy / data.energy.capacity) * 55)}`
 			container.setItem(2, counter)
-			counter.nameTag = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`
+			counter.nameTag = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 			container.setItem(3, counter)
 		}
 		if(fuel !== first_fuel){
@@ -118,8 +118,5 @@ export default class {
 			container.setItem(7, ui_button);
 			this.entity.setDynamicProperty('stopped', !stopped)
 		}
-		counter.nameTag = ``
-		counter.setLore([''+energy, ''+fuel])
-		container.setItem(data.lore.slot, counter)
 	}
 }

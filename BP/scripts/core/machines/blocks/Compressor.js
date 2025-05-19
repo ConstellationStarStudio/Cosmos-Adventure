@@ -1,6 +1,6 @@
-import { system, ItemStack } from "@minecraft/server";
+import { ItemStack } from "@minecraft/server";
 import recipes from "../../../recipes/compressor"
-import { compare_lists, get_vars } from "../../../api/utils";
+import { compare_lists } from "../../../api/utils";
 
 const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"])
 

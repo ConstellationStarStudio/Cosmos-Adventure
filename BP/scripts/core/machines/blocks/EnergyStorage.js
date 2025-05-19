@@ -17,21 +17,21 @@ function charge_battery(machine, energy, slot) {
 
 function charge_machine(entity, block, energy) {
 	const data = get_data(entity)
-	const output_location = location_of_side(block, data.energy_output)
+	const output_location = location_of_side(block, data.energy.output)
 	const output_entity = get_entity(entity.dimension, output_location, "has_power_input")
 	if (!output_entity || energy == 0) return energy //check if it has energy to give and if there is a machine to give energy to
 	
-	const output_capacity = get_data(output_entity).capacity
+	const output_capacity = get_data(output_entity).energy.capacity
 	const output_energy = load_dynamic_object(output_entity, 'machine_data')?.energy ?? output_entity.getDynamicProperty("cosmos_energy") ?? 0
 	if (output_energy == output_capacity) return energy //check if the output machine has room from more energy
 
 	const output_block = entity.dimension.getBlock(output_location)
 	const output_data = get_data(output_entity)
-	const oi = location_of_side(output_block, output_data.energy_input)
+	const oi = location_of_side(output_block, output_data.energy.input)
 	if (!compare_position(entity.location, oi)) return energy //check if this machine is placed at the energy input of the output machine
 
 	const max_power = data.maxPower
-	const max_input = output_data.maxInput
+	const max_input = output_data.energy.maxInput
 	const space = output_capacity - output_energy
 
 	return energy - Math.min(energy, max_power, max_input, space)
@@ -48,9 +48,9 @@ export default class {
 		const container = this.entity.getComponent('minecraft:inventory').container
 		const store_data = get_data(this.entity);
 		const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `cosmos:§. ${0} gJ\nof ${store_data.capacity} gJ`
+		counter.nameTag = `cosmos:§. ${0} gJ\nof ${store_data.energy.capacity} gJ`
 		container.setItem(2, counter)
-		counter.nameTag = `cosmos:f${Math.ceil((0/ store_data.capacity) * 75 )}`
+		counter.nameTag = `cosmos:f${Math.ceil((0/ store_data.energy.capacity) * 75 )}`
 		container.setItem(3, counter)
 	}
 	processEnergy() {
@@ -83,9 +83,6 @@ export default class {
 			container.setItem(2, counter)
 			counter.nameTag = `cosmos:f${Math.ceil((energy/ store_data.capacity) * 75 )}`
 			container.setItem(3, counter)
-			counter.nameTag = ``
-			counter.setLore([''+energy, ''+Math.min(energy, store_data.maxPower)])
-			container.setItem(4, counter)
 		}
 		
 		//change the block look

@@ -1,5 +1,5 @@
-import { system, world, ItemStack } from "@minecraft/server";
-import { compare_lists, get_vars} from "../../../api/utils";
+import { system, ItemStack } from "@minecraft/server";
+import { compare_lists} from "../../../api/utils";
 import recipes from "../../../recipes/compressor"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import { get_data } from "../Machine.js";

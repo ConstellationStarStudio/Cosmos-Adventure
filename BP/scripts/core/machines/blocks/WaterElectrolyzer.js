@@ -28,9 +28,9 @@ export default class {
         energy = charge_from_machine(this.entity, this.block, energy);
         energy = charge_from_battery(this.entity, energy, 1)
         
-        water = insert_water(this.entity, water, data.water_capacity, 0)
+        water = insert_water(this.entity, water, data.water.capacity, 0)
         let status = '§6Idle'
-        if (active && water && energy && o2 + 2 <= data.o2_capacity && h2 + 4 <= data.h2_capacity) {
+        if (active && water && energy && o2 + 2 <= data.o2.capacity && h2 + 4 <= data.h2.capacity) {
             if (energy >= 375) {
                 status = '§2Running'
                 water --
@@ -42,10 +42,10 @@ export default class {
         save_dynamic_object(this.entity, 'machine_data', {energy, water, o2, h2})
         
         //ui display
-        container.add_ui_display(4, `Water Tank\n§e${water} / ${data.water_capacity}`, Math.ceil((water / data.water_capacity) * 38))
-        container.add_ui_display(5, `Gas Storage\n(Oxygen Gas)\n§e${o2} / ${data.o2_capacity}`, Math.ceil((o2 / data.o2_capacity) * 38))
-        container.add_ui_display(6, `Gas Storage\n(Hydrogen Gas)\n§e${h2} / ${data.h2_capacity}`, Math.ceil((h2 / data.h2_capacity) * 38))
-        container.add_ui_display(7, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`, Math.ceil((energy / data.capacity) * 55))
+        container.add_ui_display(4, `Water Tank\n§e${water} / ${data.water.capacity}`, Math.ceil((water / data.water.capacity) * 38))
+        container.add_ui_display(5, `Gas Storage\n(Oxygen Gas)\n§e${o2} / ${data.o2.capacity}`, Math.ceil((o2 / data.o2.capacity) * 38))
+        container.add_ui_display(6, `Gas Storage\n(Hydrogen Gas)\n§e${h2} / ${data.h2.capacity}`, Math.ceil((h2 / data.h2.capacity) * 38))
+        container.add_ui_display(7, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((energy / data.energy.capacity) * 55))
         container.add_ui_display(8, `§rStatus:\n  ${energy < 375 ? '§cLow energy' : !water ? '§cNo Water!' : status}`)
         if (!container.getItem(9)) {
             this.entity.runCommand('clear @a cosmos:ui_button')

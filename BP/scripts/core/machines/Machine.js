@@ -155,7 +155,11 @@ function block_entity_access() {
   const players = world.getAllPlayers();
   for (const player of players) {
     if (!player) continue;
-    const targetEntity = player.getEntitiesFromViewDirection({ maxDistance: 6, families: ["cosmos"] })[0]?.entity;
+    const targetEntity = player.getEntitiesFromViewDirection({
+      maxDistance: 6,
+      families: ["cosmos"],
+      ignoreBlockCollision: true
+    })[0]?.entity;
     if (player.isSneaking) {
       if (targetEntity) targetEntity.triggerEvent("cosmos:shrink");
       continue;

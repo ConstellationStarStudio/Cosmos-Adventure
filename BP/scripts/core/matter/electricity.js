@@ -23,8 +23,7 @@ export function charge_from_machine(entity, block, energy) {
 		for (let input_entity_id of connectedMachines) {
 			if (world.getEntity(input_entity_id[0]) && input_entity_id[0] != entity.id && input_entity_id[1] == "output") {
 				let input_entity = world.getEntity(input_entity_id[0])
-				const lore = input_entity.getDynamicProperty("cosmos_power")
-				let power = lore ? + lore : 0
+				let power = +input_entity.getDynamicProperty("cosmos_power") ?? 0
 				let inputs = connectedMachines.filter((input) =>
 					input[1] == "input"
 				)
@@ -32,8 +31,8 @@ export function charge_from_machine(entity, block, energy) {
 					power;
 				const space = data.capacity - energy
 				if (power > 0) {
-					energy += Math.min(data.maxInput, power, space)
-					if(Math.min(data.maxInput, power, space) && input_entity.typeId.includes('energy_storage')){
+					energy += Math.min(data.energy.maxInput, power, space)
+					if(Math.min(data.energy.maxInput, power, space) && input_entity.typeId.includes('energy_storage')){
 						let final_input_energy = input_entity.getDynamicProperty("cosmos_energy") - power;
 						final_input_energy = Math.max(0, final_input_energy)
 						input_entity.setDynamicProperty("cosmos_energy", final_input_energy)
@@ -43,17 +42,16 @@ export function charge_from_machine(entity, block, energy) {
 			}
 		}
 	} else {
-		const input_location = location_of_side(block, data.energy_input)
+		const input_location = location_of_side(block, data.energy.input)
 		const input_entity = get_entity(entity.dimension, input_location, "has_power_output")
 		if (input_entity && energy < data.capacity) {
 			const input_block = entity.dimension.getBlock(input_location)
 			const input_data = get_data(input_entity)
-			const lore = input_entity.getDynamicProperty("cosmos_power")
-			const power = lore ? + lore : 0
+			const power = + input_entity.getDynamicProperty("cosmos_power") ?? 0
 			const space = data.capacity - energy
-			const io = location_of_side(input_block, input_data.energy_output)
+			const io = location_of_side(input_block, input_data.energy.output)
 			if (compare_position(entity.location, io) && power > 0) {
-				energy += Math.min(data.maxInput, power, space)
+				energy += Math.min(data.energy.maxInput, power, space)
 			}
 		}
 	} return energy
@@ -66,8 +64,8 @@ export function charge_from_battery(machine, energy, slot) {
 	if (battery && energy < data.capacity && (battery.getDynamicProperty('energy') ?? 0) > 0) {
 		let charge = battery.getDynamicProperty('energy') ?? 0
 		const space = data.capacity - energy
-		energy += Math.min(data.maxInput, 200, charge, space)
-		charge -= Math.min(data.maxInput, 200, charge, space)
+		energy += Math.min(data.energy.maxInput, 200, charge, space)
+		charge -= Math.min(data.energy.maxInput, 200, charge, space)
 		container.setItem(slot, update_battery(battery, charge))
 	} return energy
 }

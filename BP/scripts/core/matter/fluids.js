@@ -95,7 +95,7 @@ export function output_fluid(fluid_type, entity, block, fluid) {
         const target_capacity = get_data(target_entity)[fluid_type].capacity
         const target_fluid = load_dynamic_object(target_entity, 'machine_data')?.[fluid_type] ?? 0
         if (target_fluid == target_capacity) return fluid
-
+        
         const oi = location_of_side(target_block, get_data(target_entity)[fluid_type].input)
         if (!compare_position(entity.location, oi)) return fluid
 

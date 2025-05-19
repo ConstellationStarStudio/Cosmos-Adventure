@@ -1,7 +1,7 @@
-import { system, ItemStack } from "@minecraft/server";
+import { ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import recipes from "../../../recipes/circuit_fabricator.js"
-import { get_vars, compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
+import { compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
 import { get_data } from "../Machine.js";
 
 export default class {

@@ -45,6 +45,8 @@ export default class {
         const first_energy = energy;
         const first_oxygen = o2;
 
+        o2 = output_fluid("o2", this.entity, this.block, o2);
+
         if(!(system.currentTick % 10) && energy > 200){
             let number_of_leaves = (dimension == "minecraft:the_end")? 
             this.entity.getDynamicProperty("cosmos_oxygen_source"):
@@ -58,8 +60,6 @@ export default class {
         energy = charge_from_machine(this.entity, this.block, energy);
         energy = charge_from_battery(this.entity, energy, 0);
         energy = Math.max(0, energy - 10);
-
-        o2 = output_fluid("o2", this.entity, this.block, o2);
 
         const status = energy == 0 ? "§4Not Enough Power" :
         (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
