@@ -43,21 +43,12 @@
 				"$index": 1,
                 "offset": [ 53, -14]
 			}},
-            { "canister_slot_overlay": {
-                "type": "image",
-                "texture": "textures/ui/extra_slots/o2_icon",
-                "offset": [23.4, 28],
-                "size": [8, 8],
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "layer": 8
-			}},
             { "canister_slot@machines.item_slot": {
 				"$index": 2,
                 "offset": [18.2, 23.2],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "layer": 1
+                "$overlay_texture": "textures/ui/extra_slots/o2_icon"
 			}},
             { "energy_bar@machines.energy_bar": {
                 "$index": 3,
