@@ -16,17 +16,17 @@
     },
     "components": {
 	  // "minecraft:display_name": "%tile.machine.1.name\n§7%tile.energy_storage_module_tier1.description",
-	  "tag:machine": {},
-	  "minecraft:custom_components": ["cosmos:machine"],
-	  "minecraft:geometry": "minecraft:geometry.full_block",
-	  "minecraft:destructible_by_explosion": false,
-      "minecraft:destructible_by_mining": {
-		  "seconds_to_destroy": 0.5
-	  },
-	  "minecraft:tick": {
-		 "looping": true,
-		 "interval_range": [1, 1]
-	  }
+		"tag:machine": {},
+		"minecraft:custom_components": ["cosmos:machine"],
+		"minecraft:geometry": "minecraft:geometry.full_block",
+		"minecraft:destructible_by_explosion": false,
+		"minecraft:destructible_by_mining": {
+			"seconds_to_destroy": 0.5
+		},
+		"minecraft:tick": {
+			"looping": true,
+			"interval_range": [1, 1]
+		}
 	},
 	"permutations": [
 		{

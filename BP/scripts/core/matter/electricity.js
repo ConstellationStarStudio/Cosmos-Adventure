@@ -19,7 +19,7 @@ export class MachinesInNetwork {
 export function charge_from_machine(entity, block, energy) {
 	const data = get_data(entity)
 	let connectedMachines = new MachinesInNetwork(entity).getInputMachines();
-	if (connectedMachines && connectedMachines.length > 0 && energy < data.capacity) {
+	if (connectedMachines && connectedMachines.length > 0 && energy < data.energy.capacity) {
 		for (let input_entity_id of connectedMachines) {
 			if (world.getEntity(input_entity_id[0]) && input_entity_id[0] != entity.id && input_entity_id[1] == "output") {
 				let input_entity = world.getEntity(input_entity_id[0])
@@ -29,7 +29,7 @@ export function charge_from_machine(entity, block, energy) {
 				)
 				power = (inputs.length > 0) ? Math.floor(power / (inputs.length + 1)) :
 					power;
-				const space = data.capacity - energy
+				const space = data.energy.capacity - energy
 				if (power > 0) {
 					energy += Math.min(data.energy.maxInput, power, space)
 					if(Math.min(data.energy.maxInput, power, space) && input_entity.typeId.includes('energy_storage')){
@@ -44,11 +44,11 @@ export function charge_from_machine(entity, block, energy) {
 	} else {
 		const input_location = location_of_side(block, data.energy.input)
 		const input_entity = get_entity(entity.dimension, input_location, "has_power_output")
-		if (input_entity && energy < data.capacity) {
+		if (input_entity && energy < data.energy.capacity) {
 			const input_block = entity.dimension.getBlock(input_location)
 			const input_data = get_data(input_entity)
 			const power = + input_entity.getDynamicProperty("cosmos_power") ?? 0
-			const space = data.capacity - energy
+			const space = data.energy.capacity - energy
 			const io = location_of_side(input_block, input_data.energy.output)
 			if (compare_position(entity.location, io) && power > 0) {
 				energy += Math.min(data.energy.maxInput, power, space)
@@ -61,9 +61,9 @@ export function charge_from_battery(machine, energy, slot) {
 	const data = get_data(machine)
 	const container = machine.getComponent('minecraft:inventory').container
 	const battery = container.getItem(slot)
-	if (battery && energy < data.capacity && (battery.getDynamicProperty('energy') ?? 0) > 0) {
+	if (battery && energy < data.energy.capacity && (battery.getDynamicProperty('energy') ?? 0) > 0) {
 		let charge = battery.getDynamicProperty('energy') ?? 0
-		const space = data.capacity - energy
+		const space = data.energy.capacity - energy
 		energy += Math.min(data.energy.maxInput, 200, charge, space)
 		charge -= Math.min(data.energy.maxInput, 200, charge, space)
 		container.setItem(slot, update_battery(battery, charge))

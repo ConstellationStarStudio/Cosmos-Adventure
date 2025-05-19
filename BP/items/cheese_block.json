@@ -7,7 +7,7 @@
         "components": {
             "minecraft:icon": "cheese_block",
             "minecraft:block_placer": {
-                // "replace_block_item": true,
+                "replace_block_item": true,
                 "block": "cosmos:cheese_block"
             }
         }

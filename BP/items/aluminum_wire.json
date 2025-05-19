@@ -7,7 +7,7 @@
     "components": {
       "minecraft:icon": "aluminum_wire",
       "minecraft:block_placer": {
-        // "replace_block_item": true,
+        "replace_block_item": true,
         "block": "cosmos:aluminum_wire"
       }
     }

@@ -290,10 +290,12 @@
       "sound": "stone"
    },
    "energy_storage_module": {
-      "sound": "stone"
+      "sound": "stone",
+      "textures": "energy_storage_module_01"
    },
    "energy_storage_cluster": {
-      "sound": "stone"
+      "sound": "stone",
+      "textures": "energy_storage_cluster_01"
    },
    "advanced_compressor": {
       "sound": "stone"
@@ -362,7 +364,7 @@
    "aluminum_wire": {
       "sound": "cloth"
    },
-   "dishbase": {
+   "communications_dish": {
       "sound": "stone",
       "texture": "dishbase"
    },

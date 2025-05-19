@@ -7,8 +7,8 @@
         "components": {
             "minecraft:icon": "communications_dish",
             "minecraft:block_placer": {
-                // "replace_block_item": true,
-                "block": "cosmos:dishbase"
+                "replace_block_item": true,
+                "block": "cosmos:communications_dish"
             }
         }
     }

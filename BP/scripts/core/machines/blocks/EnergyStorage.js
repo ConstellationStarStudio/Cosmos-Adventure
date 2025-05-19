@@ -30,7 +30,7 @@ function charge_machine(entity, block, energy) {
 	const oi = location_of_side(output_block, output_data.energy.input)
 	if (!compare_position(entity.location, oi)) return energy //check if this machine is placed at the energy input of the output machine
 
-	const max_power = data.maxPower
+	const max_power = data.energy.maxPower
 	const max_input = output_data.energy.maxInput
 	const space = output_capacity - output_energy
 
@@ -76,18 +76,18 @@ export default class {
 
 		if(energy !== first_energy || should_updates){
 			this.entity.setDynamicProperty("cosmos_energy", energy);
-			this.entity.setDynamicProperty("cosmos_power", Math.min(energy, store_data.maxPower));
+			this.entity.setDynamicProperty("cosmos_power", Math.min(energy, store_data.energy.maxPower));
 			this.entity.setDynamicProperty("cosmos_should_updates");
 			const counter = new ItemStack('cosmos:ui')
-			counter.nameTag = `cosmos:§. ${energy} gJ\nof ${store_data.capacity} gJ`
+			counter.nameTag = `cosmos:§. ${energy} gJ\nof ${store_data.energy.capacity} gJ`
 			container.setItem(2, counter)
-			counter.nameTag = `cosmos:f${Math.ceil((energy/ store_data.capacity) * 75 )}`
+			counter.nameTag = `cosmos:f${Math.ceil((energy/ store_data.energy.capacity) * 75 )}`
 			container.setItem(3, counter)
 		}
 		
 		//change the block look
 		 try { if (this.block?.typeId != "minecraft:air") {
-			const fill_level = Math.round((energy/ store_data.capacity) * 16 )
+			const fill_level = Math.round((energy/ store_data.energy.capacity) * 16 )
 			if (fill_level == 16) {
 				this.block.setPermutation(this.block.permutation
 					.withState("cosmos:fill_level", 0)

@@ -2,7 +2,7 @@
   "format_version": "1.21.50",
   "minecraft:block": {
 	"description": {
-	  "identifier": "cosmos:dishbase"
+	  "identifier": "cosmos:communications_dish"
 	},
 	"components": {
 	  "minecraft:custom_components":["cosmos:dishbase"],

@@ -42,8 +42,8 @@ function show_connections(block) {
     const machine_type = block.typeId.split(':').pop()
     if (!Object.keys(machines).includes(machine_type)) return
     const machine = machines[machine_type]
-    make_paricle(block.dimension, location_of_side(block, machine.energy_output), {r:1})
-    make_paricle(block.dimension, location_of_side(block, machine.energy_input), {g:1})
+    make_paricle(block.dimension, location_of_side(block, machine.energy.output), {r:1})
+    make_paricle(block.dimension, location_of_side(block, machine.energy.input), {g:1})
 }
 
 function make_paricle(dimension, location, color) {
