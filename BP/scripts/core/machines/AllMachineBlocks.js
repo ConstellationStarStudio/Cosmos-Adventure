@@ -62,12 +62,21 @@ export default {
 		lore: { slot: 3, energy: 0, o2: 1 },
 		
 		energy_input: "right",
-		oxygen_output: "left",
 
 		capacity: 16000,
-		o2_capacity: 6000,
+		o2: {output: "left", capacity: 6000},
 		maxInput: 25,
 		maxOutput: 40
+	},
+	"oxygen_compressor": {
+		ui: "§o§x§y§g§e§n§_§c§o§m§p§r§e§s§s§o§r",
+		class: OxygenCompressor,
+		lore: { slot: 3, energy: 0, o2: 1 },
+		
+		energy_input: "right",
+		o2: {output: "left", capacity: 1200},
+		capacity: 16000,
+		maxInput: 10
 	},
 	"circuit_fabricator": {
 		ui: "§c§i§r§c§u§i§t§_§f§a§b§r§i§c§a§t§o§r",

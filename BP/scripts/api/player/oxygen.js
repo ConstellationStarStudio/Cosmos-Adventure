@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server";
 
-let tanks = {
+export let tanks = {
     "cosmos:oxygen_tank_light_full": 900,
     "cosmos:oxygen_tank_med_full": 1800,
     "cosmos:oxygen_tank_heavy_full": 2700

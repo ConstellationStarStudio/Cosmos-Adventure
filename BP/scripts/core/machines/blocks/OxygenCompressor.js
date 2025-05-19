@@ -1,6 +1,9 @@
-import { system, ItemStack } from "@minecraft/server";
-import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
+import { system, world, ItemStack } from "@minecraft/server";
 import { get_data } from "../Machine";
+import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
+import { input_fluid } from "../../matter/fluids";
+import { update_tank, tanks } from "../../../api/player/oxygen";
 
 export default class {
     constructor(entity, block) {
@@ -9,45 +12,51 @@ export default class {
         if (entity.isValid()) this.compress_oxygen()
     }
 
-    onPlace(){
-        const container = this.entity.getComponent('minecraft:inventory').container
-        const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `Speed ${0}`
-		container.setItem(1, counter)
-		counter.nameTag = `Space ${0}`
-		container.setItem(2, counter)
-	}
+    onPlace(){}
     compress_oxygen() {
-        const in_overworld = this.entity.dimension.id == "minecraft:overworld"
         const container = this.entity.getComponent('minecraft:inventory').container;
-        const lore = container.getItem(3)
-		const data = get_data(this.entity)
-        let energy = this.entity.getDynamicProperty("cosmos_energy");
-		energy = energy ? + energy : 0
-        let o2 = this.entity.getDynamicProperty("cosmos_o2");
-        o2 = o2 ? + o2 : 0
+		const data = get_data(this.entity);
+        let tank = container.getItem(1);
+        const durability = tank?.getComponent("minecraft:durability");
 
-        let first_energy = energy;
-        let first_o2 = o2;
-        const space = data.o2_capacity - o2
-        const speed = in_overworld && energy ? Math.min(186, space) : 0
-		
-		energy = charge_from_machine(this.entity, this.block, energy)
-		
-		energy = charge_from_battery(this.entity, energy, 0)
-
-        if (space && energy) {
-            energy -= Math.min(10, energy)
-            if (system.currentTick % 20 == 0) o2 += speed
-        }
+        const variables = load_dynamic_object(this.entity, 'machine_data');
+        let energy = variables.energy || 0;
+        let o2 = variables.o2 || 0;
+        o2 = input_fluid("o2", this.entity, this.block, o2);
+        // Energy management
+        energy = charge_from_machine(this.entity, this.block, energy);
+        energy = charge_from_battery(this.entity, energy, 0);
         
-		const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `Speed ${speed}`
-		container.setItem(1, counter)
-		counter.nameTag = `Space ${space}`
-		container.setItem(2, counter)
-        if(o2 !== first_o2) this.entity.setDynamicProperty("cosmos_o2", o2);
-        if(energy !== first_energy) this.entity.setDynamicProperty("cosmos_energy", energy);
+        if(!(system.currentTick % 20)){
+            energy = Math.max(energy - 5, 0);
+            if(energy >= 300 && tank && Object.keys(tanks).includes(tank.typeId) && durability.damage){
+                let saved_durability = durability ? durability.maxDurability - durability.damage:
+                0;
+                tank = update_tank(tank, Math.min(saved_durability + Math.min(o2, 40), durability.maxDurability));
+                if(container.getItem(1)) container.setItem(1, tank);
+                o2 = Math.max(o2, o2 - 40)
+                energy = Math.max(0, energy - 300);
+            }
+        }
+        save_dynamic_object(this.entity, 'machine_data', {energy, o2});
+        
+        let status = (energy < 300)? "§4Not Enough Power":
+        (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
+        (!durability)? "§4Oxygen Tank Full":
+        (o2 == 0)? "§4Not Enough Oxygen":
+        "§2Active";
+
+        let tabs = (energy < 300)? "          ":
+        (!tank || !Object.keys(tanks).includes(tank.typeId))? "           ":
+        (!durability)? "          " :
+        (o2 == 0)? "          ":
+        "          ";
+        
+        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.capacity} gJ`;
+        const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
+
+        container.add_ui_display(3, energy_hover, Math.round((energy / data.capacity) * 55))
+        container.add_ui_display(4, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
+        container.add_ui_display(5, tabs + '§rStatus: ' + status)
     }
 }
-

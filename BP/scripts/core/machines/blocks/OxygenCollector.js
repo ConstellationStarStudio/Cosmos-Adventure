@@ -1,6 +1,8 @@
 import { system, world, BlockVolume, ItemStack} from "@minecraft/server";
 import { get_data } from "../Machine";
+import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
+import { output_fluid } from "../../matter/fluids";
 
 let valid_oxygen_blocks = ["minecraft:oak_leaves",
     "minecraft:spruce_leaves",
@@ -32,15 +34,16 @@ export default class {
         let dimension = this.entity.dimension.id;
         const data = get_data(this.entity);
         const container = this.entity.getComponent('minecraft:inventory').container;
+        const variables = load_dynamic_object(this.entity, 'machine_data');
 
-        let energy = this.entity.getDynamicProperty("cosmos_energy") || 0;
-        let oxygen = this.entity.getDynamicProperty("cosmos_oxygen") || 0;
+        let energy = variables.energy || 0;
+        let o2 = variables.o2 || 0;
         let oxygen_source_bloks = this.entity.getDynamicProperty("cosmos_oxygen_source") || 0;
         oxygen_source_bloks = (dimension == "minecraft:overworld" && energy > 0)? 93:
         (energy > 0)? oxygen_source_bloks:
         0;
         const first_energy = energy;
-        const first_oxygen = oxygen;
+        const first_oxygen = o2;
 
         if(!(system.currentTick % 10) && energy > 200){
             let number_of_leaves = (dimension == "minecraft:the_end")? 
@@ -48,13 +51,15 @@ export default class {
             93; 
             number_of_leaves = (number_of_leaves)? number_of_leaves:
             0;
-            oxygen += Math.floor((0.75 * number_of_leaves));
-            oxygen = Math.min(oxygen, 6000)
+            o2 += Math.floor((0.75 * number_of_leaves));
+            o2 = Math.min(o2, 6000)
         }
         // Energy management
         energy = charge_from_machine(this.entity, this.block, energy);
         energy = charge_from_battery(this.entity, energy, 0);
         energy = Math.max(0, energy - 10);
+
+        o2 = output_fluid("o2", this.entity, this.block, o2);
 
         const status = energy == 0 ? "§4Not Enough Power" :
         (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
@@ -64,14 +69,13 @@ export default class {
         (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld") ? "           ":
 		"          ";
         
-        this.entity.setDynamicProperty("cosmos_energy", energy);
-        this.entity.setDynamicProperty("cosmos_oxygen", oxygen)
+        save_dynamic_object(this.entity, 'machine_data', {energy, o2});
 
         const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.capacity} gJ`;
-        const oxygen_hover = `Oxygen Storage\n§aOxygen: ${oxygen}/${data.o2_capacity}`; 
+        const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`;
         
 		container.add_ui_display(1, energy_hover, Math.round((energy / data.capacity) * 55))
-        container.add_ui_display(2, oxygen_hover, Math.round((oxygen / data.o2_capacity) * 55))
+        container.add_ui_display(2, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
         container.add_ui_display(3, tabs + '§rStatus: ' + status)
         container.add_ui_display(4, `§rCollecting: §r${oxygen_source_bloks}/s`)
     }

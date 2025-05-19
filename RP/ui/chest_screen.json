@@ -82,6 +82,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§o§x§y§g§e§n§_§c§o§m§p§r§e§s§s§o§r') = $ct))",
+                "$screen_content": "oxygen_compressor.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "(not (($ct - '§w§a§t§e§r§_§e§l§e§c§t§r§o§l§y§z§e§r') = $ct))",
                 "$screen_content": "water_electrolyzer.interface",
                 "$screen_bg_content": "common.screen_background",
