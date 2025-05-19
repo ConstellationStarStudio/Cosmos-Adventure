@@ -1,5 +1,5 @@
 import { system, world, BlockVolume, ItemStack} from "@minecraft/server";
-import { get_data } from "../../../api/utils";
+import { get_data } from "../Machine";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
 
 let valid_oxygen_blocks = ["minecraft:oak_leaves",
