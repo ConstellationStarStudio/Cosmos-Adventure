@@ -13,7 +13,7 @@ import "./core/matter/blocks.js"
 import "./core/matter/items.js"
 import "./core/matter/electricity.js"
 import "./core/matter/solids.js"
-import "./core/matter/liquids.js"
+import "./core/matter/fluids.js"
 
 import "./core/entities/alien_villager.js"
 

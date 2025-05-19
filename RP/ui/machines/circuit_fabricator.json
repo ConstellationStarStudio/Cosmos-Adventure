@@ -1,6 +1,97 @@
 {
     "namespace": "circuit_fabricator",
 	
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 192],
+        "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Circuit Fabricator",
+				"color": "$title_text_color",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 10, 5 ]
+			}},
+			{ "background": {
+				"type":"image",
+				"texture": "textures/ui/cosmos/circuit_fabricator_background",
+				"size": [155, 87],
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [14, 16]
+			}},
+			{ "diamond_input@machines.item_slot": {
+				"$index": 0,
+				"$overlay_texture": "textures/items/diamond",
+				"$overlay_alpha": 0.25,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 14, 16 ]
+			}},
+			{ "silicon_input1@machines.item_slot": {
+				"$index": 1,
+				"$overlay_texture": "textures/items/raw_silicon",
+				"$overlay_alpha": 0.25,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 73, 45 ]
+			}},
+			{ "silicon_input2@machines.item_slot": {
+				"$index": 2,
+				"$overlay_texture": "textures/items/raw_silicon",
+				"$overlay_alpha": 0.25,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 73, 63 ]
+			}},
+			{ "redstone_input@machines.item_slot": {
+				"$index": 3,
+				"$overlay_texture": "textures/items/redstone_dust",
+				"$overlay_alpha": 0.25,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 121, 45 ]
+			}},
+			{ "input_slot@machines.item_slot": {
+				"$index": 4,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 144, 19 ]
+			}},
+			{ "battery_slot@machines.item_slot": {
+				"$index": 5,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 5, 68 ]
+			}},
+			{ "output_slot@machines.item_slot": {
+				"$index": 6,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 151, 85 ]
+			}},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 7,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 17, 88 ]
+            }},
+			// { "progress@circuit_fabricator.progress_bar": {
+			// 	"$index": 8,
+			// 	"anchor_from": "top_left",
+			// 	"anchor_to": "top_left",
+			// 	"offset": [ 17, 88 ]
+			// }},
+            { "status@machines.item_text": {
+                "$index": 9,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 92, 80 ]
+            }}
+		]
+    },
+
 	"progress_hover@cosmos.button": {
 		"$action": "",
 		"size": [53, 12],
@@ -41,7 +132,7 @@
 		]
 	},
 	
-	"progress": {
+	"progress_bar": {
 		"type": "panel",
 		"size": [1, 0],
 		"anchor_to": "top_left",
@@ -93,110 +184,9 @@
 			}
 		]
 	},
-
-    "interface@machines.interface": {
-		"$screen": "circuit_fabricator.main",
-		"$size": ["100%", "120%"]
-    },
     "main@machines.tall_screen": {
         "$machine": "circuit_fabricator",
         "controls": [
-			{ "label": {
-				"type": "label",
-				"text": "Circuit Fabricator",
-				"color": "$title_text_color",
-				"offset": [ 10, 5 ],
-				"anchor_from": "top_left",
-				"anchor_to": "top_left"
-			}},
-			{
-				"background": {
-					"type":"image",
-					"size": [155, 87],
-					"offset": [0, 5],
-					"texture": "textures/ui/cosmos/circuit_fabricator_background"
-				}
-			},
-            {
-                "diamond@machines.item_grid": {
-					"anchor_from": "top_left",
-					"anchor_to": "top_left",
-                    "offset": [ 10, 20 ],
-					"grid_dimensions": [ 1, 1 ]
-                }
-            },
-			{
-				"diamond_overlay@machines.item_image": {
-					"anchor_from": "top_left",
-					"anchor_to": "top_left",
-                    "offset": [ 11, 21 ],
-					"texture": "textures/items/diamond",
-					"alpha": 0.25
-				}
-			},
-            {
-                "silicon@machines.clipper": {
-                    "offset": [ -8, 8 ],
-					"size": [ 20, 36 ],
-                    "$grid_size": [ 1, 3 ],
-                    "$grid_pixels": [18, 54]
-                }
-            },
-			{
-				"silicon1_overlay@machines.item_image": {
-                    "offset": [ -7.5, -1 ],
-					"texture": "textures/items/raw_silicon",
-					"uv_size": [32, 32],
-					"alpha": 0.25
-				}
-			},
-			{
-				"silicon2_overlay@machines.item_image": {
-                    "offset": [ -7.5, 17 ],
-					"texture": "textures/items/raw_silicon",
-					"uv_size": [32, 32],
-					"layer": 21,
-					"alpha": 0.25
-				}
-			},
-            {
-                "redstone@machines.clipper": {
-                    "offset": [ 39, -1 ],
-                    "$grid_size": [ 1, 4 ],
-                    "$grid_pixels": [18, 72]
-                }
-            },
-			{
-				"redstone_overlay@machines.item_image": {
-                    "offset": [ 40, -1 ],
-					"texture": "textures/items/redstone_dust",
-					"alpha": 0.25
-				}
-			},
-            {
-                "input@machines.clipper": {
-                    "offset": [ 63, -26 ],
-                    "$grid_size": [ 1, 5 ],
-                    "$grid_pixels": [18, 90]
-                }
-            },
-            {
-                "battery@machines.clipper": {
-					"anchor_from": "top_left",
-					"anchor_to": "top_left",
-                    "offset": [ 5, 70 ],
-                    "$grid_size": [ 1, 6 ],
-                    "$grid_pixels": [18, 108],
-                	"$overlay": "textures/ui/extra_slots/power"
-                }
-            },
-            {
-                "output@machines.clipper": {
-                    "offset": [ 70, 39 ],
-                    "$grid_size": [ 1, 7 ],
-                    "$grid_pixels": [18, 126]
-                }
-            },
             {
                 "progress": {
 					"type":"image",
@@ -218,11 +208,6 @@
 							}
 						}
 					]
-                }
-            },
-            {
-                "capacity@machines.old_energy_bar": {
-                    "offset": [ -43, 40 ]
                 }
             }
         ]

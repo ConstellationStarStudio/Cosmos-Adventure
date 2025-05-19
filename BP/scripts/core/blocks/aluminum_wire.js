@@ -1,6 +1,7 @@
 import { world, system, BlockPermutation } from "@minecraft/server"
-import { get_entity, get_data, location_of_side} from "../matter/electricity.js"
 import machines from "../machines/AllMachineBlocks.js"
+import { get_entity, location_of_side } from "../../api/utils.js"
+import { get_data } from "../machines/Machine.js"
 
 function str_pos(location) {
 	if (!location) return

@@ -1,6 +1,6 @@
-import { system, world, ItemStack } from "@minecraft/server";
-import { get_data } from "../../../api/utils";
+import { system, ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
+import { get_data } from "../Machine";
 
 export default class {
     constructor(entity, block) {

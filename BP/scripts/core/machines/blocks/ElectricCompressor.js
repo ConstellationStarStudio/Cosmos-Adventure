@@ -1,7 +1,8 @@
 import { system, world, ItemStack } from "@minecraft/server";
-import { compare_lists, get_vars, get_data} from "../../../api/utils";
+import { compare_lists, get_vars} from "../../../api/utils";
 import recipes from "../../../recipes/compressor"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
+import { get_data } from "../Machine.js";
 
 function get_ingredients(container) {
 	const ingredients = []

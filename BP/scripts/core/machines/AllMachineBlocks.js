@@ -84,12 +84,11 @@ export default {
 		lore: { slot: 12, energy: 0, oil: 1, fuel: 2},
 
 		energy_input: "above",
-		oil_input: "right",
-		fuel_output: "left",
 		capacity: 16000,
-		oil_capacity: 24000,
-		fuel_capacity: 24000,
-		maxInput: 120
+		maxInput: 120,
+
+		oil: {input: "right", capacity: 24000},
+		fuel: {output: "left", capacity: 24000},
 	},
 	"fuel_loader": {
 		ui: "§f§u§e§l§_§l§o§a§d§e§r",
@@ -97,10 +96,10 @@ export default {
 		lore: { slot: 8, energy: 0, fuel: 1},
 
 		energy_input: "right",
-		oil_input: "left",
 		capacity: 16000,
-		fuel_capacity: 12000,
-		maxInput: 120
+		maxInput: 120,
+		
+		fuel: {input: "left", capacity: 12000},
 	},
 	"water_electrolyzer": {
 		ui: "§w§a§t§e§r§_§e§l§e§c§t§r§o§l§y§z§e§r",

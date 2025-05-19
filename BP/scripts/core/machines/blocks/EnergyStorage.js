@@ -1,7 +1,7 @@
-import { system, ItemStack } from "@minecraft/server";
-import { get_entity, location_of_side, charge_from_machine, charge_from_battery, update_battery, } from "../../matter/electricity.js";
-import { get_data, floor_position, compare_position } from "../../../api/utils.js";
-
+import { ItemStack } from "@minecraft/server";
+import { charge_from_machine, charge_from_battery, update_battery, } from "../../matter/electricity.js";
+import { get_data } from "../Machine.js";
+import { compare_position, get_entity, load_dynamic_object, location_of_side } from "../../../api/utils.js";
 
 function charge_battery(machine, energy, slot) {
 	const container = machine.getComponent('minecraft:inventory').container
@@ -13,6 +13,28 @@ function charge_battery(machine, energy, slot) {
 		energy -= Math.min(200, energy, space)
 		container.setItem(slot, update_battery(battery, charge))
 	} return energy
+}
+
+function charge_machine(entity, block, energy) {
+	const data = get_data(entity)
+	const output_location = location_of_side(block, data.energy_output)
+	const output_entity = get_entity(entity.dimension, output_location, "has_power_input")
+	if (!output_entity || energy == 0) return energy //check if it has energy to give and if there is a machine to give energy to
+	
+	const output_capacity = get_data(output_entity).capacity
+	const output_energy = load_dynamic_object(output_entity, 'machine_data')?.energy ?? output_entity.getDynamicProperty("cosmos_energy") ?? 0
+	if (output_energy == output_capacity) return energy //check if the output machine has room from more energy
+
+	const output_block = entity.dimension.getBlock(output_location)
+	const output_data = get_data(output_entity)
+	const oi = location_of_side(output_block, output_data.energy_input)
+	if (!compare_position(entity.location, oi)) return energy //check if this machine is placed at the energy input of the output machine
+
+	const max_power = data.maxPower
+	const max_input = output_data.maxInput
+	const space = output_capacity - output_energy
+
+	return energy - Math.min(energy, max_power, max_input, space)
 }
 
 export default class {
@@ -41,6 +63,8 @@ export default class {
 		energy = energy ? + energy : 0
 
 		let first_energy = energy;
+		
+		energy = charge_machine(store, this.block, energy)
 		
 		energy = charge_from_machine(store, this.block, energy)
 		
@@ -77,6 +101,6 @@ export default class {
 				.withState("cosmos:fill_level", fill_level)
 				.withState("cosmos:full", false)
 			)
-		}} catch(_) {null}
+		}} catch {null}
 	}
 }

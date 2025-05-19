@@ -1,7 +1,7 @@
 import { BlockStates, world, MolangVariableMap } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
 import machines from "../../core/machines/AllMachineBlocks";
-import { location_of_side } from "../matter/electricity";
+import { location_of_side } from "../../api/utils";
 
 function swap(player, block, [state, value]) {
     block.setPermutation(block.permutation.withState(state, !value))

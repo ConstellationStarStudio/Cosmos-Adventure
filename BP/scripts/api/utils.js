@@ -1,10 +1,4 @@
 import * as mc from "@minecraft/server";
-import machines from "../core/machines/AllMachineBlocks";
-
-
-export function get_data(machine) {
-	return machines[machine.typeId.replace('cosmos:', '')]
-}
 
 export function load_dynamic_object(storage, name) {
 	return JSON.parse(storage.getDynamicProperty(name) ?? "{}")
@@ -22,6 +16,45 @@ export const destroyBlocksJOB = function* (locations, dim) {
 		dim.runCommand(`setblock ${loc.x} ${loc.y} ${loc.z} air [] destroy`);
 		yield;
 	}
+}
+
+// this function takes a Block and a Side (above, below, left, right, back, or front) and returns a location {x, y, z}
+export function location_of_side(block, side) {
+	const TURN_BY = {
+		front: 0,
+		left: Math.PI / 2,
+		back: Math.PI,
+		right: -Math.PI / 2,
+	}
+	const ROTATE_BY = {
+		west: 0,
+		north: Math.PI / 2,
+		east: Math.PI,
+		south: -Math.PI / 2,
+	}
+	if (!block || !block.isValid() || !side) return
+	const { location, permutation } = block
+	if (side == "above") return location.y += 1, location
+	if (side == "below") return location.y -= 1, location
+	const facing = permutation.getState("minecraft:cardinal_direction")
+	if (!facing) return
+	const direction = ROTATE_BY[facing]
+	location.x += Math.round(Math.cos(direction + TURN_BY[side]))
+	location.z += Math.round(Math.sin(direction + TURN_BY[side]))
+	return location
+}
+
+export function get_entity(dimension, location, family) {
+	if (!location) return
+	return dimension.getEntities({
+		families: [family],
+		location: {
+			x: Math.floor(location.x) + 0.5,
+			y: Math.floor(location.y) + 0.5,
+			z: Math.floor(location.z) + 0.5,
+		},
+		maxDistance: 0.5,
+	})[0]
 }
 
 export const getHand = (() => {
@@ -80,7 +113,8 @@ export function isUnderground(player) {
 
 export function compare_position(a, b) {
 	if (!a || !b) return false;
-	return a.x == b.x && a.y == b.y && a.z == b.z;
+	const f = (x) => Math.floor(x)
+	return f(a.x) == f(b.x) && f(a.y) == f(b.y) && f(a.z) == f(b.z)
 }
 export function floor_position({ x, y, z }) {
 	return { x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) };

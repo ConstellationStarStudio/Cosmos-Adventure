@@ -8,6 +8,9 @@ import { pickaxes } from "../../api/utils";
 
 export let machine_entities = new Map();
 
+export function get_data(entity) {
+  return machines[entity.typeId.replace('cosmos:', '')]
+}
 
 function sanitizeKey(key) {
   return key.replace(/[^a-z0-9_]/gi, '_').toLowerCase();

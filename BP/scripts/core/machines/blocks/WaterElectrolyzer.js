@@ -1,6 +1,7 @@
-import { system, world, ItemStack } from "@minecraft/server"
+import { system, ItemStack } from "@minecraft/server"
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
-import { charge_from_machine, charge_from_battery, get_data } from "../../matter/electricity"
+import { charge_from_machine, charge_from_battery } from "../../matter/electricity"
+import { get_data } from "../Machine";
 
 export default class {
     constructor(entity, block) {
