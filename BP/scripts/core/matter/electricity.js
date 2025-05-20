@@ -1,5 +1,5 @@
 import { world } from "@minecraft/server";
-import { compare_position, get_entity, location_of_side } from "../../api/utils";
+import { compare_position, get_entity, load_dynamic_object, location_of_side } from "../../api/utils";
 import { get_data } from "../machines/Machine";
 
 export class MachinesInNetwork {
@@ -23,12 +23,11 @@ export function charge_from_machine(entity, block, energy) {
 		for (let input_entity_id of connectedMachines) {
 			if (world.getEntity(input_entity_id[0]) && input_entity_id[0] != entity.id && input_entity_id[1] == "output") {
 				let input_entity = world.getEntity(input_entity_id[0])
-				let power = +input_entity.getDynamicProperty("cosmos_power") ?? 0
+				let power = input_entity.getDynamicProperty("cosmos_power") ?? load_dynamic_object(input_entity, 'machine_data').power ?? 0
 				let inputs = connectedMachines.filter((input) =>
 					input[1] == "input"
 				)
-				power = (inputs.length > 0) ? Math.floor(power / (inputs.length + 1)) :
-					power;
+				power = (inputs.length > 0) ? Math.floor(power / (inputs.length + 1)) : power;
 				const space = data.energy.capacity - energy
 				if (power > 0) {
 					energy += Math.min(data.energy.maxInput, power, space)
@@ -47,7 +46,7 @@ export function charge_from_machine(entity, block, energy) {
 		if (input_entity && energy < data.energy.capacity) {
 			const input_block = entity.dimension.getBlock(input_location)
 			const input_data = get_data(input_entity)
-			const power = + input_entity.getDynamicProperty("cosmos_power") ?? 0
+			const power = input_entity.getDynamicProperty("cosmos_power") ?? load_dynamic_object(input_entity, 'machine_data').power ?? 0
 			const space = data.energy.capacity - energy
 			const io = location_of_side(input_block, input_data.energy.output)
 			if (compare_position(entity.location, io) && power > 0) {

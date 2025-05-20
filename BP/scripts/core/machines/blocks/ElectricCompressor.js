@@ -99,8 +99,8 @@ export default class {
 		this.entity.setDynamicProperty("cosmos_energy", energy)
 		this.entity.setDynamicProperty("cosmos_progress", progress)
 		
-		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.capacity} gJ`
-		container.add_ui_display(12, energy_hover, Math.round((energy / data.capacity) * 55))
+		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+		container.add_ui_display(12, energy_hover, Math.round((energy / data.energy.capacity) * 55))
 		container.add_ui_display(13, '', Math.ceil((progress / 200) * 52))
 		container.add_ui_display(14, '§rStatus: ' + (!energy ? '§4No Power' : progress ? '§2Running' : '§6Idle'))
     }

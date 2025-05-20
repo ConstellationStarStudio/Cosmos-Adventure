@@ -71,10 +71,10 @@ export default class {
         
         save_dynamic_object(this.entity, 'machine_data', {energy, o2});
 
-        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.capacity} gJ`;
+        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`;
         const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`;
         
-		container.add_ui_display(1, energy_hover, Math.round((energy / data.capacity) * 55))
+		container.add_ui_display(1, energy_hover, Math.round((energy / data.energy.capacity) * 55))
         container.add_ui_display(2, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
         container.add_ui_display(3, tabs + '§rStatus: ' + status)
         container.add_ui_display(4, `§rCollecting: §r${oxygen_source_bloks}/s`)

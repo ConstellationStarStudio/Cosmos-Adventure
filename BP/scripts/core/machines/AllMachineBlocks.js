@@ -73,7 +73,7 @@ export default {
 	"fuel_loader": {
 		ui: "§f§u§e§l§_§l§o§a§d§e§r",
 		class: FuelLoader,
-		energy: {input: "above", capacity: 16000, maxInput: 120},
+		energy: {input: "right", capacity: 16000, maxInput: 120},
 		fuel: {input: "left", capacity: 12000},
 	},
 	"water_electrolyzer": {

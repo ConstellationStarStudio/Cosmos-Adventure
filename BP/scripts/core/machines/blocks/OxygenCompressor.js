@@ -52,10 +52,10 @@ export default class {
         (o2 == 0)? "          ":
         "          ";
         
-        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.capacity} gJ`;
+        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`;
         const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
 
-        container.add_ui_display(3, energy_hover, Math.round((energy / data.capacity) * 55))
+        container.add_ui_display(3, energy_hover, Math.round((energy / data.energy.capacity) * 55))
         container.add_ui_display(4, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
         container.add_ui_display(5, tabs + '§rStatus: ' + status)
     }

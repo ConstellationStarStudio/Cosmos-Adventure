@@ -1,98 +1,54 @@
 {
     "namespace": "fuel_loader",
-
-    "status@machines.text": {
-      "text": "#text",
-      "bindings": [
-        {
-          "binding_name": "#hover_text",
-          "binding_name_override": "#status",
-          "binding_type": "collection",
-          "binding_collection_name": "container_items"
-        },
-        {
-          "binding_type": "view",
-          "source_property_name": "(#status - 'cosmos:' - '§o' - '§f' )",
-          "target_property_name": "#text"
-        },
-        {
-          "binding_type": "view",
-          "source_property_name": "(not(#status - 'Status:' = #status))",
-          "target_property_name": "#visible"
-        }
-      ]
-    },
-
-    "interface@machines.interface": {
-        "$screen": "fuel_loader.main",
-		"$show_close_button": false
-    },
-    "main": {
-		"type": "image",
-		"layer": 1,
-		"texture": "textures/ui/cosmos/refinery",
-		"anchor_from": "bottom_left",
-		"anchor_to": "bottom_left",
-		"size": ["100%", 168],
-        "$machine": "fuel_loader",
-        "controls": [
-            {
-              "close@common.close_button": {
-                "offset": [-2, 2]
-              }
-            },
-			      {
-                "title@machines.text": {
-				     "text": "Fuel Loader",
-                  "anchor_from": "top_middle",  
-                  "offset": [ 0, 10 ]
-                }
-            },
-            {
-              "input@machines.clipper": {
+	
+	"interface@machines.dynamic_interface": {
+		"$size": ["100%", 168],
+		"$content": [
+			{ "title": {
+				"type": "label",
+				"color": "$title_text_color",
+				"text": "Fuel Loader",
+				"anchor_from": "top_middle",  
+				"offset": [ 0, 10 ]
+            }},
+            { "input@machines.item_slot": {
+				"$index": 0 ,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [6, 6]
+			}},
+			{ "battery@machines.item_slot": {
+				"$index": 1,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [50, 49]
+			}},
+			{ "energy_bar@machines.energy_bar": {
+				"$index": 2,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 112, 60 ]
+			}},
+            { "fuel_tank@machines.fluid_tank": {
+                "$liquid": "fuel",
+                "$index": 3,
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "$grid_size": [ 1, 1 ],
-                "$grid_pixels": [18, 18],
-                "offset": [6, 6]
-              }
-            },
-            {
-              "battery@machines.clipper": {
-                "$grid_size": [ 1, 2 ],
-                "$grid_pixels": [18, 36],
-                "offset": [-30, -25],
-                "$overlay": "textures/ui/extra_slots/power"
-              }
-            },
-			      {
-                "capacity@machines.old_energy_bar": {
-                  "anchor_from": "top_right",  
-                  "offset": [ -36, 64]
-                }
-            },
-			      {
-                "refine_button@machines.ui_button": {
-                  "size": [0, 0],
-                  "anchor_from": "top_right",  
-                  "offset": [ -48, 47]
-                }
-            },
-            {
-                "status@machines.item_data": {
-                    "$name": "status",
-                    "anchor_from": "top_middle",
-                    "offset": [ 32, 28],
-					          "layer": 4
-                }
-            },
-              {
-                "fuel_tank@machines.liquid_tank": {
-                  "$liquid": "fuel",
-                  "$tank_name": "Fuel Storage",
-                  "offset": [ -71, -37 ]
-                }
-            }
-		    ]
-    }
+                "offset": [ 6, 27 ]
+            }},
+            { "status@machines.item_text": {
+                "$index": 4,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 28, 17 ]
+            }},
+            { "start_button@machines.machine_button": {
+                "$index": 5,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 90, 36 ]
+            }}
+		]
+	}
 }

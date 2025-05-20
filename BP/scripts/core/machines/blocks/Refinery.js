@@ -28,7 +28,7 @@ export default class {
 		const data = get_data(this.entity)
         const container = this.entity.getComponent('minecraft:inventory').container
 		const input = container.getItem(0)
-		const output = container.getItem(1)
+		const output = container.getItem(2)
 		const dimension = this.entity.dimension
 		const active = this.entity.getDynamicProperty("active")
 		
@@ -39,7 +39,7 @@ export default class {
 		
 		//charge the machine
 	    energy = charge_from_machine(this.entity, this.block, energy)
-		energy = charge_from_battery(this.entity, energy, 2)
+		energy = charge_from_battery(this.entity, energy, 1)
 
 		//energy loss
 		if (system.currentTick % 30 == 0) energy -= Math.min(10, energy)
@@ -63,7 +63,7 @@ export default class {
 
 		//unload fuel to a bucket
 		if (fuel >= 1000 && output?.typeId == "minecraft:bucket" && output.amount == 1) {
-			container.setItem(1, new ItemStack('cosmos:fuel_bucket'))
+			container.setItem(2, new ItemStack('cosmos:fuel_bucket'))
 			fuel -= 1000
 		}
 
@@ -90,21 +90,14 @@ export default class {
 		save_dynamic_object(this.entity, 'machine_data', {energy, oil, fuel})
 		
 		// setup UI display
-		container.add_ui_display(3, `cosmos:§energy${Math.round((energy / data.capacity) * 55)}`)
-		container.add_ui_display(4, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.capacity} gJ`)
-
-        container.add_ui_display(5, `cosmos:§fill_level${Math.ceil((Math.ceil(oil / 1000) / (data.oil.capacity / 1000)) * 38)}§liquid:oil`)
-		container.add_ui_display(6, `Oil Storage\n§eOil: ${oil} / ${data.oil.capacity} mB`)
-		
-		container.add_ui_display(7, `cosmos:§fill_level${Math.ceil((Math.ceil(fuel / 1000) / (data.fuel.capacity / 1000)) * 38)}§liquid:fuel`)
-		container.add_ui_display(8, `Fuel Storage\n§eFuel: ${fuel} / ${data.fuel.capacity} mB`)
-
-		container.add_ui_display(9, `Status:\n${status}`)
-
-        if (!container.getItem(10)) {
+		container.add_ui_display(3, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.round((energy / data.energy.capacity) * 55))
+		container.add_ui_display(4, `Oil Storage\n§eOil: ${oil} / ${data.oil.capacity} mB`, Math.ceil((Math.ceil(oil / 1000) / (data.oil.capacity / 1000)) * 38))
+        container.add_ui_display(5, `Fuel Storage\n§eFuel: ${fuel} / ${data.fuel.capacity} mB`, Math.ceil((Math.ceil(fuel / 1000) / (data.fuel.capacity / 1000)) * 38))
+		container.add_ui_display(6, `§rStatus:\n${status}`)
+        if (!container.getItem(7)) {
             this.entity.runCommand('clear @a cosmos:ui_button')
             this.entity.setDynamicProperty('active', !active)
-            container.add_ui_button(10, `§button${active ? 'Stop Refining' : 'Refine'}`)
+            container.add_ui_button(7, active ? 'Stop Refining' : 'Refine')
         }
 	}
 }

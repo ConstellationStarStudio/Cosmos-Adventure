@@ -40,7 +40,7 @@
         "components": {
             "minecraft:inventory": {
                 "container_type": "container",
-                "inventory_size": 13
+                "inventory_size": 8
             },
             "minecraft:type_family": {
                 "family": [

@@ -1,113 +1,71 @@
 {
-    "namespace": "refinery",
+	"namespace": "refinery",
 
-    "status@machines.text": {
-      "text": "#text",
-      "bindings": [
-        {
-          "binding_name": "#hover_text",
-          "binding_name_override": "#status",
-          "binding_type": "collection",
-          "binding_collection_name": "container_items"
-        },
-        {
-          "binding_type": "view",
-          "source_property_name": "(#status - 'cosmos:' - '§o' - '§f' )",
-          "target_property_name": "#text"
-        },
-        {
-          "binding_type": "view",
-          "source_property_name": "(not(#status - 'Status:' = #status))",
-          "target_property_name": "#visible"
-        }
-      ]
-    },
-
-    "interface@machines.interface": {
-        "$screen": "refinery.main",
-		"$show_close_button": false
-    },
-    "main": {
-		"type": "image",
-		"layer": 1,
-		"texture": "textures/ui/cosmos/refinery",
-		"anchor_from": "bottom_left",
-		"anchor_to": "bottom_left",
-		"size": ["100%", 168],
-        "$machine": "refinery",
-        "controls": [
-            {
-              "close@common.close_button": {
-                "offset": [-22, 2]
-              }
-            },
-			      {
-                "title@machines.text": {
-				          "text": "Refinery",
-                  "anchor_from": "top_middle",  
-                  "offset": [ 0, 10 ]
-                }
-            },
-            {
-              "input@machines.clipper": {
+	"interface@machines.dynamic_interface": {
+		"$size": ["100%", 168],
+		"$show_close_button": false,
+		"$content": [
+			{ "close@common.close_button": {
+				"offset": [-22, 2]
+			}},
+			{ "title": {
+				"type": "label",
+				"text": "Refinery",
+				"color": "$title_text_color",
+				"anchor_from": "top_middle",  
+				"offset": [ 0, 10 ]
+            }},
+            { "input@machines.item_slot": {
+				"$index": 0 ,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [6, 6]
+			}},
+			{ "battery@machines.item_slot": {
+				"$index": 1,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [37, 50]
+			}},
+			{ "output@machines.item_slot": {
+				"$index": 2,
+				"anchor_from": "top_right",
+				"anchor_to": "top_right",
+				"offset": [-6, 6]
+			}},
+			{ "energy_bar@machines.energy_bar": {
+				"$index": 3,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 62, 16 ]
+			}},
+            { "oil_tank@machines.fluid_tank": {
+                "$liquid": "oil",
+                "$index": 4,
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "$grid_size": [ 1, 1 ],
-                "$grid_pixels": [18, 18],
-                "offset": [4, 6]
-              }
-            },
-            {
-              "output@machines.clipper": {
-              "anchor_from": "top_right",
-              "anchor_to": "top_right",
-              "$grid_size": [ 1, 2 ],
-              "$grid_pixels": [18, 36],
-                "offset": [-6, 6]
-              }
-            },
-            {
-              "battery@machines.clipper": {
-                "$grid_size": [ 1, 3 ],
-                "$grid_pixels": [18, 54],
-                "offset": [-41, -25],
-                "$overlay": "textures/ui/extra_slots/power"
-              }
-            },
-			      {
-                "capacity@machines.old_energy_bar": {
-                  "anchor_from": "top_middle",  
-                  "offset": [ 0, 20 ]
-                }
-            },
-			      {
-                "refine_button@machines.ui_button": {
-                  "size": [0, 0],
-                  "anchor_from": "top_middle",  
-                  "offset": [ 0, 36 ]
-                }
-            },
-            {
-                "status@machines.item_data": {
-                    "$name": "status",
-                    "offset": [ 60, -25 ],
-					          "layer": 4
-                }
-            },
-			      {
-                "oil_tank@machines.liquid_tank": {
-                  "$liquid": "oil",
-                  "$tank_name": "Oil Storage",
-                  "offset": [ -73, -37 ]
-                }
-              },
-              {
-                "fuel_tank@machines.liquid_tank": {
-                  "$liquid": "fuel",
-                  "$tank_name": "Fuel Storage",
-                  "offset": [ 73, -37 ]
-                }
-            }
-		    ]
-    }
+                "offset": [ 6, 27 ]
+            }},
+            { "fuel_tank@machines.fluid_tank": {
+                "$liquid": "fuel",
+                "$index": 5,
+				"anchor_from": "top_right",
+				"anchor_to": "top_right",
+                "offset": [ -6, 27 ]
+            }},
+            { "status@machines.item_text": {
+                "$index": 6,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 60, 50 ]
+            }},
+            { "start_button@machines.machine_button": {
+                "$index": 7,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 49, 28 ]
+            }}
+		]
+	}
 }

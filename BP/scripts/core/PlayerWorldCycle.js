@@ -20,7 +20,7 @@ system.runInterval(() => {
     //manage dungeon finder
     dungeon_finder_loop(world.getAllPlayers())
     //manage coordinates
-    if(world.gameRules.showCoordinates) coords_loop(players_in_space)
+    if(world.gameRules.showCoordinates) coords_loop(world.getAllPlayers())
 });
 
 //space player tags removing 

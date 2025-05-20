@@ -1,6 +1,6 @@
 import { system, ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine} from "../../matter/electricity.js";
-import { load_dynamic_object, location_of_side, save_dynamic_object } from "../../../api/utils.js";
+import { compare_lists, load_dynamic_object, location_of_side, save_dynamic_object } from "../../../api/utils.js";
 import { get_data } from "../Machine.js";
 import { input_fluid } from "../../matter/fluids.js";
 
@@ -32,20 +32,6 @@ export default class {
 		this.block = block;
         if (entity.isValid()) this.load_fuel()
     }
-
-	onPlace(){
-		const container = this.entity.getComponent('minecraft:inventory').container
-		const data = get_data(this.entity);
-		const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `cosmos:§energy${Math.round((0 / data.energy.capacity) * 55)}`
-		container.setItem(2, counter)
-		counter.nameTag = `Energy Storage\n§aEnergy: ${0} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
-		container.setItem(3, counter)
-		counter.nameTag = `cosmos:§fill_level${Math.ceil((Math.ceil(0 / 1000) / (data.fuel.capacity / 1000)) * 38)}§liquid:fuel`
-		container.setItem(4, counter)
-		counter.nameTag = `Fuel Storage\n§eFuel: ${0} / ${data.fuel.capacity} mB`
-		container.setItem(5, counter)
-	}
     load_fuel(){
         const stopped = this.entity.getDynamicProperty('stopped')
         const container = this.entity.getComponent('minecraft:inventory').container
@@ -86,37 +72,23 @@ export default class {
 		        
 		    }
 		}
-		const status =
-		energy == 0 ? "§4No Power" : 
-		fuel == 0 ? "§cNo Fuel" :
-		stopped ? "§6Ready" :
-		"§2Load Fuel"
-        
-        /*energy < 30 ? "§6Not Enough Power":*/
-		const counter = new ItemStack('cosmos:ui')
-		if(energy !== first_energy){
-			counter.nameTag = `cosmos:§energy${Math.round((energy / data.energy.capacity) * 55)}`
-			container.setItem(2, counter)
-			counter.nameTag = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
-			container.setItem(3, counter)
-		}
-		if(fuel !== first_fuel){
-			counter.nameTag = `cosmos:§fill_level${Math.ceil((Math.ceil(fuel / 1000) / (data.fuel.capacity / 1000)) * 38)}§liquid:fuel`
-			container.setItem(4, counter)
-			counter.nameTag = `Fuel Storage\n§eFuel: ${fuel} / ${data.fuel.capacity} mB`
-			container.setItem(5, counter)
-		}
-		
 		save_dynamic_object(this.entity, 'machine_data', {energy, fuel})
-
-		counter.nameTag = `Status:\n${status}`
-		container.setItem(6, counter)
-		const ui_button = new ItemStack('cosmos:ui_button')
-		ui_button.nameTag = `§button${stopped ? 'Stop Loading' : 'Loading'}`
-		if (!container.getItem(7)) {
-			this.entity.runCommand('clear @a cosmos:ui_button')
-			container.setItem(7, ui_button);
-			this.entity.setDynamicProperty('stopped', !stopped)
-		}
+		
+		const status =
+			energy == 0 ? "§4No Power" : 
+			fuel == 0 ? "§4No Fuel to Load" :
+			stopped ? "§6Ready" :
+			energy < 30 ? "§6Not Enough Power" :
+			"§2Load Fuel"
+        
+		container.add_ui_display(2, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.round((energy / data.energy.capacity) * 55))
+		container.add_ui_display(3, `Fuel Storage\n§eFuel: ${fuel} / ${data.fuel.capacity} mB`, Math.ceil((Math.ceil(fuel / 1000) / (data.fuel.capacity / 1000)) * 38))
+		container.add_ui_display(4, `§rStatus: ${status}`)
+        if (!container.getItem(5)) {
+            this.entity.runCommand('clear @a cosmos:ui_button')
+            this.entity.setDynamicProperty('stopped', !stopped)
+            container.add_ui_button(5, stopped ? 'Stop Loading' : 'Loading')
+        }
+		
 	}
 }

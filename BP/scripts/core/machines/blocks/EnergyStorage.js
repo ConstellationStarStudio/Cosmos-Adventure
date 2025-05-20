@@ -44,15 +44,6 @@ export default class {
         if (entity.isValid()) this.processEnergy()
     }
 
-	onPlace(){
-		const container = this.entity.getComponent('minecraft:inventory').container
-		const store_data = get_data(this.entity);
-		const counter = new ItemStack('cosmos:ui')
-		counter.nameTag = `cosmos:§. ${0} gJ\nof ${store_data.energy.capacity} gJ`
-		container.setItem(2, counter)
-		counter.nameTag = `cosmos:f${Math.ceil((0/ store_data.energy.capacity) * 75 )}`
-		container.setItem(3, counter)
-	}
 	processEnergy() {
 		//retrieve data
 		const store = this.entity
@@ -74,16 +65,12 @@ export default class {
 		
 		//store and display data
 
-		if(energy !== first_energy || should_updates){
-			this.entity.setDynamicProperty("cosmos_energy", energy);
-			this.entity.setDynamicProperty("cosmos_power", Math.min(energy, store_data.energy.maxPower));
-			this.entity.setDynamicProperty("cosmos_should_updates");
-			const counter = new ItemStack('cosmos:ui')
-			counter.nameTag = `cosmos:§. ${energy} gJ\nof ${store_data.energy.capacity} gJ`
-			container.setItem(2, counter)
-			counter.nameTag = `cosmos:f${Math.ceil((energy/ store_data.energy.capacity) * 75 )}`
-			container.setItem(3, counter)
-		}
+		this.entity.setDynamicProperty("cosmos_energy", energy);
+		this.entity.setDynamicProperty("cosmos_power", Math.min(energy, store_data.energy.maxPower));
+		this.entity.setDynamicProperty("cosmos_should_updates");
+
+		container.add_ui_display(2, `§r ${energy} gJ\nof ${store_data.energy.capacity} gJ`)
+		container.add_ui_display(3, '', Math.ceil((energy/ store_data.energy.capacity) * 75 ))
 		
 		//change the block look
 		 try { if (this.block?.typeId != "minecraft:air") {

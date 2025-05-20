@@ -17,18 +17,7 @@ export default class {
       this.generateHeat();
     }
   }
-  
-  onPlace() {
-    const container = this.entity.getComponent('minecraft:inventory').container;
-    // Initialize UI elements
-    container.updateUI(
-      [
-        { slot: 1, text: data => data.power === 0 ? 'Not Generating' : 'Generating' },
-        { slot: 2, text: data => data.power === 0 ? (' Hull Heat: ' + data.heat + '%%') : ('  §r' + data.power + ' gJ/t') }
-      ],
-      { heat: 0, power: 0 }
-    );
-  }
+
   
   generateHeat() {
     const e = this.entity;
@@ -42,9 +31,6 @@ export default class {
     let heat = variables.heat || 0
     let power = variables.power || 0
 
-    const first_burnTime = burnTime;
-    const first_heat = heat;
-    const first_power = power;
     if (fuelTypes.has(fuelItem?.typeId) && burnTime === 0) {
       container.setItem(0, fuelItem.decrementStack());
       burnTime = isCoalBlock ? 3200 : 320;
@@ -58,10 +44,8 @@ export default class {
     if (burnTime === 0 && system.currentTick % 3 === 0 && power > 0) power--;
     
     // Save and Update UI
-    if (!compare_lists([heat, burnTime, power], [first_heat, first_burnTime, first_power])){
-      save_dynamic_object(this.entity, 'machine_data', {burnTime, heat, power})
-      const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
-      container.add_ui_display(1, display_text)
-    }
+    save_dynamic_object(this.entity, 'machine_data', {burnTime, heat, power})
+    const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
+    container.add_ui_display(1, display_text)
   }
 }
