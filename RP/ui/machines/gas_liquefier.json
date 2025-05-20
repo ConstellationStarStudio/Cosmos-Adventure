@@ -1,0 +1,68 @@
+{
+    "namespace": "gas_liquefier",
+
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 168],
+        "$content": [
+            { "title": {
+                "type": "label",
+                "text": "Gas Liquefier",
+                "color": "$title_text_color",
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 40, 5 ]
+            }},
+            { "gas_input@machines.item_slot": {
+                "$index": 0,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 6, 6 ]
+            }},
+            { "gas_tank@machines.fluid_tank": {
+                "$liquid": "gas",
+                "$index": 4,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 6, 27 ]
+            }},
+            { "battery_slot@machines.item_slot": {
+                "$index": 1,
+                "$overlay_texture": "textures/ui/extra_slots/power",
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 33, 49 ]
+            }},
+            { "liquid_output@machines.item_slot": {
+                "$index": 2,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 131, 6 ]
+            }},
+            { "liquid_tank@machines.fluid_tank": {
+                "$liquid": "liquid",
+                "$index": 5,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 131, 27 ]
+            }},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 3,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 41, 16 ]
+            }},
+            { "status@machines.item_text": {
+                "$index": 6,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 117, 108 ]
+            }},
+            { "start_button@machines.machine_button": {
+                "$index": 7,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 39, 28 ]
+            }}
+        ]
+    }
+}

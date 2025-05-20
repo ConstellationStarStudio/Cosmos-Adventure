@@ -100,6 +100,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§g§a§s§_§l§i§q§u§e§f§i§e§r') = $ct))",
+                "$screen_content": "gas_liquefier.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "$debug",
                 "$screen_content": "machines.debugging_interface",
                 "$screen_bg_content": "common.screen_background",

@@ -9,6 +9,7 @@ import OxygenCompressor from './blocks/OxygenCompressor'
 import OxygenDecompressor from './blocks/OxygenDecompressor'
 import FuelLoader from './blocks/FuelLoader'
 import WaterElectrolyzer from './blocks/WaterElectrolyzer'
+import GasLiquefier from './blocks/GasLiquefier'
 
 export default {
 	"coal_generator": {
@@ -90,5 +91,12 @@ export default {
 		water: {input: "left", capacity: 4000},
 		o2: {output: "back", capacity: 4000},
 		h2: {output: "right", capacity: 4000},
+	},
+	"gas_liquefier": {
+		ui: "§g§a§s§_§l§i§q§u§e§f§i§e§r",
+		class: GasLiquefier,
+		energy: {input: "below", capacity: 16000, maxInput: 900},
+		gas: {input: "left", capacity: 4000},
+		liquid: {output: "right", capacity: 2000},
 	}
 }

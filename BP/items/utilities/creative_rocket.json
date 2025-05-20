@@ -1,0 +1,17 @@
+{
+   "format_version": "1.20.80",
+   "minecraft:item": {
+       "description": {
+           "identifier": "cosmos:creative_canister",
+           "menu_category": {
+             "category": "items"
+           }
+       },
+       "components": {
+           "minecraft:display_name": { "value": "Creative Canister" },
+           "minecraft:icon": "empty_canister",
+           "minecraft:glint": true,
+           "minecraft:max_stack_size": { "value": 1 }
+       }
+   }
+}
