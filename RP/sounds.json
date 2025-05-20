@@ -100,7 +100,13 @@
             },
             "volume": 0
          },
-         "cosmos:water_electrolyzer": {
+         "cosmos:oxygen_compressor": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:oxygen_decompressor": {
             "events": {
                "death": "none"
             },

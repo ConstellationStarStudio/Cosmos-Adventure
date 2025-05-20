@@ -18,7 +18,7 @@ export default class {
     }
   }
 
-  
+  onPlace(){}
   generateHeat() {
     const e = this.entity;
     const container = e.getComponent('minecraft:inventory').container;

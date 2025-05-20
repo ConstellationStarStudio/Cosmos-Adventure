@@ -6,6 +6,7 @@ import CircuitFabricator from './blocks/CircuitFabricator'
 import Refinery from './blocks/Refinery'
 import ElectricCompressor from './blocks/ElectricCompressor'
 import OxygenCompressor from './blocks/OxygenCompressor'
+import OxygenDecompressor from './blocks/OxygenDecompressor'
 import FuelLoader from './blocks/FuelLoader'
 import WaterElectrolyzer from './blocks/WaterElectrolyzer'
 
@@ -49,14 +50,20 @@ export default {
 	"oxygen_collector": {
 		ui: "§o§x§y§g§e§n§_§c§o§l§l§e§c§t§o§r",
 		class: OxygenCollector,
-		energy: {input: "right", output: "left", capacity: 16000, maxInput: 25},
+		energy: {input: "right", capacity: 16000, maxInput: 25},
 		o2: {output: "left", capacity: 6000},
 	},
 	"oxygen_compressor": {
 		ui: "§o§x§y§g§e§n§_§c§o§m§p§r§e§s§s§o§r",
 		class: OxygenCompressor,
-		energy: {input: "right", output: "left", capacity: 16000, maxInput: 10},
+		energy: {input: "right", capacity: 16000, maxInput: 15},
 		o2: {input: "left", capacity: 1200},
+	},
+	"oxygen_decompressor": {
+		ui: "§o§x§y§g§e§n§_§d§e§c§o§m§p§r§e§s§s§o§r",
+		class: OxygenDecompressor,
+		energy: {input: "right", capacity: 16000, maxInput: 10},
+		o2: {output: "left", capacity: 1200},
 	},
 	"circuit_fabricator": {
 		ui: "§c§i§r§c§u§i§t§_§f§a§b§r§i§c§a§t§o§r",

@@ -1,0 +1,71 @@
+{
+    "namespace": "oxygen_decompressor",
+
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 180],
+        "$content": [
+			{ "title": {
+                "type": "label",
+                 "text": "Oxygen Decompressor",
+                 "color": "$title_text_color",
+                 "offset": [10, 4],
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_left"
+			}},
+            { "line": {
+                "type": "image",
+                "texture": "textures/ui/extra_slots/oxygen_collector_line",
+                "size": [1, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [80, 20]
+			}},
+            {"in_2":{
+                "type": "label",
+                "text": "In:",
+                "color": "$title_text_color",
+                "offset": [6, -64]
+            }},
+            {"in":{
+                "type": "label",
+                "text": "In:",
+                "color": "$title_text_color",
+                "offset": [6, -51]
+            }},
+            { "battery_slot@machines.item_slot": {
+				"$index": 0,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+                "offset": [32, 23.2],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left"
+			}},
+            { "tank_slot@machines.item_slot": {
+				"$index": 1,
+                "offset": [ 53, -14]
+			}},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 2,
+                "offset": [ 53, -51 ]
+            }},
+            { "oxygen_bar@machines.oxygen_bar": {
+                "$index": 3,
+                "offset": [ 53, -64 ]
+            }},
+            { "status@machines.item_text": {
+				"$index": 4,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [-20, 21],
+                "size": [18, 60]
+			}},
+            { "oxygen_using": {
+                "type": "label",
+                "text": "Max Output: 2000/s",
+                "color": "$title_text_color",
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [0, 56]
+			}}
+		]
+	}
+}
