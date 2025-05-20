@@ -2,6 +2,7 @@ import { BlockStates, world, MolangVariableMap } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
 import machines from "../../core/machines/AllMachineBlocks";
 import { location_of_side } from "../../api/utils";
+import { select_solar_system } from "../../api/player/celestial_selector";
 
 function swap(player, block, [state, value]) {
     block.setPermutation(block.permutation.withState(state, !value))
@@ -65,6 +66,38 @@ world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
             else if (mode == "minecraft:redstone") {
                 show_connections(block)
             } else change_state(player, block, perm)
+        }
+    })
+    itemComponentRegistry.registerCustomComponent("cosmos:debug_canister", {
+        onUse({source:player, itemStack}) {
+            const fluids = {
+                water: "Water",
+                oil: "Oil",
+                fuel: "Fuel",
+                o2: "Oxygen Gas",
+                h2: "Hydrogen Gas",
+                n2: "Nitrogen Gas",
+                co2: "Carbon Dioxide",
+                methane: "Methane Gas",
+                liquid_o2: "Liquid Oxygen",
+                liquid_n2: "Liquid Nitrogen",
+                argon: "Argon Gas",
+                helium: "Helium Gas",
+                liquid_argon: "Liquid Argon",
+            }
+            const form = new ActionFormData()
+            .title("Choose a Fluid")
+            Object.values(fluids).forEach(fluid => form.button(fluid))
+            form.show(player).then(({selection, canceled}) => {
+                if (canceled) return
+                itemStack.setLore([`§r§7Fluid:§3 ${Object.keys(fluids)[selection]}`])
+                player.getComponent('equippable').setEquipment('Mainhand', itemStack)
+            })
+        }
+    })
+    itemComponentRegistry.registerCustomComponent("cosmos:debug_rocket", {
+        onUse({source:player}) {
+            select_solar_system(player, 3)
         }
     })
 })

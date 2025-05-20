@@ -18,7 +18,6 @@ export default class {
     //methane into fuel
     //liquid nitrogen from overworld air
     //mars Co2 into liquid argon
-
     // venus has Co2(for MS) and Nitrogen(for GL)
   }
 }

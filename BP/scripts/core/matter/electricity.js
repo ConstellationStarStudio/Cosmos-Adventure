@@ -56,16 +56,26 @@ export function charge_from_machine(entity, block, energy) {
 	} return energy
 }
 
-export function charge_from_battery(machine, energy, slot) {
-	const data = get_data(machine)
-	const container = machine.getComponent('minecraft:inventory').container
+export function charge_from_battery(entity, energy, slot) {
+	const data = get_data(entity)
+	const container = entity.getComponent('minecraft:inventory').container
 	const battery = container.getItem(slot)
-	if (battery && energy < data.energy.capacity && (battery.getDynamicProperty('energy') ?? 0) > 0) {
-		let charge = battery.getDynamicProperty('energy') ?? 0
-		const space = data.energy.capacity - energy
-		energy += Math.min(data.energy.maxInput, 200, charge, space)
-		charge -= Math.min(data.energy.maxInput, 200, charge, space)
-		container.setItem(slot, update_battery(battery, charge))
+	if (battery && energy < data.energy.capacity) {
+		if ((battery.getDynamicProperty('energy') ?? 0) > 0) {
+			let charge = battery.getDynamicProperty('energy') ?? 0
+			const space = data.energy.capacity - energy
+			energy += Math.min(data.energy.maxInput, 200, charge, space)
+			charge -= Math.min(data.energy.maxInput, 200, charge, space)
+			container.setItem(slot, update_battery(battery, charge))
+		}
+		else if (battery.typeId == "cosmos:atomic_battery") {
+			const space = data.energy.capacity - energy
+			energy += Math.min(data.energy.maxInput, 7, space)
+		}
+		else if (battery.typeId == "cosmos:creative_battery") {
+			const space = data.energy.capacity - energy
+			energy += Math.min(data.energy.maxInput, 200, space)
+		}
 	} return energy
 }
 

@@ -26,7 +26,7 @@ function read_inventory(player) {
 	}
 }
 
-function select_solar_system(player, tier = 1) {
+export function select_solar_system(player, tier = 1) {
 	const space_stations = JSON.parse(world.getDynamicProperty("all_space_stations") ?? '{}')
 	const has_station = player.nameTag in space_stations
 	let form = new ActionFormData()
@@ -110,9 +110,3 @@ export function start_celestial_selector(player) {
 	}, 20)
 	select_solar_system(player)
 }
-
-world.afterEvents.itemUse.subscribe(({ itemStack, source }) => {
-	if (!debug) return
-	if (itemStack?.typeId != 'minecraft:compass') return
-	select_solar_system(source, 3)
-})

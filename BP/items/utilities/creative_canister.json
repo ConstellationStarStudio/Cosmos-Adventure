@@ -8,6 +8,7 @@
            }
        },
        "components": {
+           "minecraft:custom_components": ["cosmos:debug_canister"],
            "minecraft:display_name": { "value": "Creative Canister" },
            "minecraft:icon": "empty_canister",
            "minecraft:glint": true,
