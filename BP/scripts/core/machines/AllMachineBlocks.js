@@ -10,6 +10,7 @@ import OxygenDecompressor from './blocks/OxygenDecompressor'
 import FuelLoader from './blocks/FuelLoader'
 import WaterElectrolyzer from './blocks/WaterElectrolyzer'
 import GasLiquefier from './blocks/GasLiquefier'
+import ElectricFurnace from './blocks/ElectricFurnace'
 
 export default {
 	"coal_generator": {
@@ -47,6 +48,11 @@ export default {
 		ui: "§e§l§e§c§t§r§i§c§_§c§o§m§p§r§e§s§s§o§r",
 		class: ElectricCompressor,
 		energy: {input: "right", capacity: 16000, maxInput: 1500},
+	},
+	"electric_furnace":{
+		ui: "§e§l§e§c§t§r§i§c§_§f§u§r§n§a§c§e",
+		class: ElectricFurnace,
+		energy: {input: "right", capacity: 16000, maxInput: 45},
 	},
 	"oxygen_collector": {
 		ui: "§o§x§y§g§e§n§_§c§o§l§l§e§c§t§o§r",

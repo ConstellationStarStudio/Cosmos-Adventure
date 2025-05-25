@@ -106,6 +106,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§e§l§e§c§t§r§i§c§_§f§u§r§n§a§c§e') = $ct))",
+                "$screen_content": "electric_furnace.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "$debug",
                 "$screen_content": "machines.debugging_interface",
                 "$screen_bg_content": "common.screen_background",

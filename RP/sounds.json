@@ -118,6 +118,12 @@
             },
             "volume": 0
          },
+         "cosmos:electric_furnace": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
          "cosmos:treasure_chest": {
             "events": {
                "death": "none"

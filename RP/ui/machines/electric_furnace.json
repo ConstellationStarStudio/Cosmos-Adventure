@@ -1,0 +1,98 @@
+{
+    "namespace": "electric_furnace",
+
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 157],
+        "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Electric Furnace",
+				"color": "$title_text_color",
+				"anchor_from": "top_middle",
+				"anchor_to": "top_middle",
+				"offset": [ 0, 4]
+			}},
+            { "output@machines.item_slot": {
+				"$index": 2,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 108, 23 ]
+            }},
+			{ "input@machines.item_slot": {
+				"$index": 1,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 54, 23 ]
+            }},
+            { "battery_slot@machines.item_slot": {
+				"$index": 0,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 7, 46 ]
+			}},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 3,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 39, 49]
+            }},
+			{ "progress@electric_furnace.electric_furnace_bar": {
+				"$index": 4,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 77, 23 ]
+			}},
+            { "status@machines.item_text": {
+				"$index": 5,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 98, 49 ]
+			}}
+		]
+	},
+	
+	"electric_furnace_bar": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/electric_furnace_bar",
+		"size": [ 22, 15 ],
+		"controls": [
+			{ "progress@machines.specific_slot": {
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"controls": [
+					{ "progress_bar": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "top_left",
+						"anchor_to": "top_left",
+						"size": [1, 0],
+						"controls": [
+							{ "progress_fill": {
+								"type": "panel",
+								"clips_children": true,
+								"size": [22, 15],
+								"anchor_to": "top_left",
+								"anchor_from": "top_left",
+								"offset": [0, 0],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_x",
+								"$visible_if": "(not (#data = 1000))",
+								"controls": [
+									{ "image": {
+										"anchor_to": "top_left",
+										"anchor_from": "top_left",
+										"type": "image",
+										"size": [22, 15],
+										"texture": "textures/ui/cosmos/electric_furnace_bar_fill"
+									}}
+								]
+							}}
+						]
+					}}
+				]
+			}}
+		]
+	}
+}
