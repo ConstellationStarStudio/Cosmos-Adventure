@@ -38,6 +38,8 @@ export default class {
 			}else{
 				progress = Math.max(progress - 1, 0);
 			}
+		}else{
+			progress = Math.max(progress - 1, 0);
 		}
 
 		
