@@ -127,5 +127,15 @@ export default{
    "minecraft:stripped_oak_log": "minecraft:charcoal",
    "minecraft:crimson_hyphae": "minecraft:charcoal",
    "minecraft:stripped_spruce_log": "minecraft:charcoal",
-   "minecraft:warped_hyphae": "minecraft:charcoal"
+   "minecraft:warped_hyphae": "minecraft:charcoal",
+   "cosmos:ground_beef": "cosmos:beef_patty",
+   "cosmos:asteroids_iron_ore": "minecraft:iron_ingot",
+   "cosmos:iron_shard": "minecraft:iron_ingot",
+   "cosmos:moon_sapphire_ore": "cosmos:lunar_sapphire",
+   "cosmos:mars_iron_ore": "minecraft:iron_ingot",
+   "cosmos:aluminum_ore": "cosmos:aluminum_ingot",
+   "cosmos:raw_aluminum": "cosmos:aluminum_ingot",
+   "cosmos:silicon_ore": "cosmos:raw_silicon",
+   "cosmos:tin_ore": "cosmos:tin_ingot",
+   "cosmos:raw_tin": "cosmos:tin_ingot"
 }
