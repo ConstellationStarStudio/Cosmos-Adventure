@@ -140,17 +140,6 @@ function reinsertion(object) {
   }
 }
 
-
-function clean_machine_entities(machinesMap) {
-  for (const [entityId, machineData] of machinesMap.entries()) {
-    const entity = world.getEntity(entityId);
-    if (!entity) continue;
-    const block = entity.dimension.getBlock(machineData.location);
-    if (!block) continue;
-    new machines[machineData.type].class(entity, block);
-  }
-}
-
 function block_entity_access() {
   const players = world.getAllPlayers();
   for (const player of players) {
@@ -175,13 +164,19 @@ function block_entity_access() {
 
 system.runInterval(() => {
   if (machine_entities.size === 0) return;
-  if (system.currentTick % 2 === 0) block_entity_access();
-  clean_machine_entities(machine_entities);
+  if (!(system.currentTick % 2)) block_entity_access();
   machine_entities.forEach((machineData, entityId) => {
     const machineEntity = world.getEntity(entityId);
-    if (machineEntity) {
-      moveItemsFromHoppers(machineEntity, undefined);
-      reinsertion(machineEntity);
+    let isValid = machineEntity?.isValid();
+    let using_block = machines[machineData.type].using_block;
+    const block = (isValid && using_block)? machineEntity.dimension.getBlock(machineData.location):
+    true;
+    if(isValid && block){
+      new machines[machineData.type].class(machineEntity, using_block? block: undefined);
+      if(using_block){
+        moveItemsFromHoppers(machineEntity, undefined);
+        reinsertion(machineEntity);
+      }
     }
   });
 }, 1);
@@ -226,8 +221,8 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
           container.setItem(i);
         }
       }
-      machineEntity.runCommand('kill @s');
-      machineEntity.remove();
+      machineEntity?.kill();
+      machineEntity?.remove();
     },
   });
 });
@@ -236,17 +231,19 @@ world.afterEvents.entityLoad.subscribe(({ entity }) => {
   const machine_name = entity.typeId.replace('cosmos:', '');
   if (!Object.keys(machines).includes(machine_name)) return;
   if (machine_entities.has(entity.id)) return;
-  const block = entity.dimension.getBlock(entity.location);
-  if (block.typeId != entity.typeId) {
+  const block = (machines[machine_name].using_block)? 
+  entity.dimension.getBlock(entity.location):
+  undefined;
+  if (machines[machine_name].using_block && block.typeId != entity.typeId) {
     machine_entities.delete(entity.id);
     entity.remove();
     return;
   }
   new machines[machine_name].class(entity, block);
-  machine_entities.set(entity.id, { type: machine_name, location: block.location });
+  machine_entities.set(entity.id, { type: machine_name, location: block?.location });
 });
 
-world.afterEvents.worldInitialize.subscribe(() => {
+/*world.afterEvents.worldInitialize.subscribe(() => {
   world.getDims(dimension => dimension.getEntities()).forEach(entity => {
     const machine_name = entity.typeId.replace('cosmos:', '');
     if (!Object.keys(machines).includes(machine_name)) return;
@@ -260,6 +257,8 @@ world.afterEvents.worldInitialize.subscribe(() => {
     machine_entities.set(entity.id, { type: machine_name, location: block.location });
   });
 });
+//doesn't make sense
+*/
 
 
 
@@ -321,4 +320,10 @@ world.beforeEvents.playerInteractWithEntity.subscribe((e) => {
       }
     }
   }
+});
+
+world.afterEvents.entitySpawn.subscribe((data) => {
+    if(data.entity.typeId == "minecraft:item" && data.entity.getComponent("minecraft:item")?.itemStack.typeId == "cosmos:ui"){
+      data.entity.remove();
+    }
 });

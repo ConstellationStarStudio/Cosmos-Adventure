@@ -15,8 +15,9 @@ export default class {
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const data = get_data(this.entity);
 		const variables = load_dynamic_object(this.entity, 'machine_data');
-		let energy = variables.energy ?? 0
-		let progress = variables.progress ?? 0
+		let energy = variables.energy || 0
+		let progress = variables.progress || 0
+		let first_values = [energy, progress]
 		energy = charge_from_machine(this.entity, this.block, energy)
 		energy = charge_from_battery(this.entity, energy, 0);
         if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
@@ -42,12 +43,12 @@ export default class {
 			progress = Math.max(progress - 1, 0);
 		}
 
-		
-		save_dynamic_object(this.entity, 'machine_data', {energy, progress});
-		
-		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
-		container.add_ui_display(3, energy_hover, Math.round((energy / data.energy.capacity) * 55))
-		container.add_ui_display(4, '', Math.ceil((progress / 200) * 24))
-		container.add_ui_display(5, '§rStatus: ' + (!energy ? '\n§4No Power' : progress ? '\n§2Running' : '\n§6Idle'))
+		if(!compare_lists(first_values, [energy, progress]) || !container.getItem(3)){
+			save_dynamic_object(this.entity, 'machine_data', {energy, progress});
+			const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+			container.add_ui_display(3, energy_hover, Math.round((energy / data.energy.capacity) * 55))
+			container.add_ui_display(4, '', Math.ceil((progress / 200) * 24))
+			container.add_ui_display(5, '§rStatus: ' + (!energy ? '\n§4No Power' : progress ? '\n§2Running' : '\n§6Idle'))
+		}
     }
 }

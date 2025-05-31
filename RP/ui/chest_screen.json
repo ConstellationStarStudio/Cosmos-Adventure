@@ -112,6 +112,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§r§o§c§k§e§t§_§z§e§r§o') = $ct))",
+                "$screen_content": "rocket_0.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "$debug",
                 "$screen_content": "machines.debugging_interface",
                 "$screen_bg_content": "common.screen_background",

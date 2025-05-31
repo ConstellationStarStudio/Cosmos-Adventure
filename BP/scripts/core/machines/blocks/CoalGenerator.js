@@ -31,7 +31,9 @@ export default class {
     let heat = variables.heat || 0
     let power = variables.power || 0
 
-    if (fuelTypes.has(fuelItem?.typeId) && burnTime === 0) {
+    let first_values = [burnTime, heat, power]
+
+    if (burnTime === 0 && fuelTypes.has(fuelItem?.typeId)) {
       container.setItem(0, fuelItem.decrementStack());
       burnTime = isCoalBlock ? 3200 : 320;
     }
@@ -43,9 +45,11 @@ export default class {
     if (burnTime > 0 && heat === 100 && burnTime % 3 === 0 && power < 120) power++;
     if (burnTime === 0 && system.currentTick % 3 === 0 && power > 0) power--;
     
-    // Save and Update UI
-    save_dynamic_object(this.entity, 'machine_data', {burnTime, heat, power})
-    const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
-    container.add_ui_display(1, display_text)
+    // Save and Update UI 
+    if(!compare_lists(first_values, [burnTime, heat, power]) || !container.getItem(1)){
+      save_dynamic_object(this.entity, 'machine_data', {burnTime, heat, power})
+      const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
+      container.add_ui_display(1, display_text)
+    }
   }
 }

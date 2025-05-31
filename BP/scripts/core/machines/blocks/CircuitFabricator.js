@@ -27,6 +27,8 @@ export default class {
 		const variables = load_dynamic_object(this.entity, 'machine_data')
 		let energy = variables.energy || 0
 		let progress = variables.progress || 0
+
+		let first_values = [energy, progress]
 		
 	    energy = charge_from_machine(this.entity, this.block, energy)
 		
@@ -53,13 +55,14 @@ export default class {
 			} else container.setItem(6, new ItemStack(result[0], result[1]));
 			this.block.dimension.playSound("random.anvil_land", this.entity.location)
 		}
-		
-		save_dynamic_object(this.entity, 'machine_data', {energy, progress})
 
-		const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
-		container.add_ui_display(7, energy_hover, Math.round((energy / data.energy.capacity) * 55))
-		container.add_ui_display(8, `Progress: ${Math.round((progress / 150) * 100)}%`, Math.round((progress / 150) * 51))
-		container.add_ui_display(9, `§r Status:\n${!energy ? '§4No Power' : progress ? '§2Running' : '   §6Idle'}`)
+		save_dynamic_object(this.entity, 'machine_data', {energy, progress})
+		if(!compare_lists(first_values, [energy, progress]) || !container.getItem(7)){
+			const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+			container.add_ui_display(7, energy_hover, Math.round((energy / data.energy.capacity) * 55))
+			container.add_ui_display(8, `Progress: ${Math.round((progress / 150) * 100)}%`, Math.round((progress / 150) * 51))
+			container.add_ui_display(9, `§r Status:\n${!energy ? '§4No Power' : progress ? '§2Running' : '   §6Idle'}`)
+		}
 	}
 }
 

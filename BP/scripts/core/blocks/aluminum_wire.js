@@ -99,7 +99,7 @@ const opposite_side = {
 // this function takes a Block (A Machine Block)
 export function attach_to_wires(block) {
 	const machine_type = block.typeId.split(':').pop()
-	if (!Object.keys(machines).includes(machine_type)) return
+	if (!Object.keys(machines).includes(machine_type) || !machines[machine_type].energy) return
 	const machine = machines[machine_type]
 	const connections = [
 		location_of_side(block, machine.energy.input),

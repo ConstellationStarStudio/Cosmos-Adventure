@@ -1,7 +1,7 @@
 import { ItemStack } from "@minecraft/server";
 import { charge_from_machine, charge_from_battery, update_battery, } from "../../matter/electricity.js";
 import { get_data } from "../Machine.js";
-import { compare_position, get_entity, load_dynamic_object, location_of_side } from "../../../api/utils.js";
+import { compare_position, get_entity, load_dynamic_object, save_dynamic_object, compare_lists, location_of_side } from "../../../api/utils.js";
 
 function charge_battery(machine, energy, slot) {
 	const container = machine.getComponent('minecraft:inventory').container
@@ -49,11 +49,13 @@ export default class {
 		const store = this.entity
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const store_data = get_data(store)
-		let energy = this.entity.getDynamicProperty("cosmos_energy");
-		let should_updates = this.entity.getDynamicProperty("cosmos_should_updates");
-		energy = energy ? + energy : 0
+		const variables = load_dynamic_object(this.entity, 'machine_data');
+		let energy = variables.energy || 0;
+		let power = variables.power || 0;
 
-		let first_energy = energy;
+		let first_values = [energy, power]
+
+		energy = energy ? + energy : 0
 		
 		energy = charge_machine(store, this.block, energy)
 		
@@ -63,14 +65,14 @@ export default class {
 		
 		energy = charge_from_battery(store, energy, 1)
 		
+		power = Math.min(energy, store_data.energy.maxPower);
 		//store and display data
 
-		this.entity.setDynamicProperty("cosmos_energy", energy);
-		this.entity.setDynamicProperty("cosmos_power", Math.min(energy, store_data.energy.maxPower));
-		this.entity.setDynamicProperty("cosmos_should_updates");
-
-		container.add_ui_display(2, `§r ${energy} gJ\nof ${store_data.energy.capacity} gJ`)
-		container.add_ui_display(3, '', Math.ceil((energy/ store_data.energy.capacity) * 75 ))
+		if(!compare_lists([energy, power], first_values) || !container.getItem(2)){
+			save_dynamic_object(this.entity, 'machine_data', {energy, power});
+			container.add_ui_display(2, `§r ${energy} gJ\nof ${store_data.energy.capacity} gJ`)
+			container.add_ui_display(3, '', Math.ceil((energy/ store_data.energy.capacity) * 75 ))
+		}
 		
 		//change the block look
 		 try { if (this.block?.typeId != "minecraft:air") {

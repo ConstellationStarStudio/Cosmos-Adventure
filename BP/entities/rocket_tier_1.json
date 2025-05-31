@@ -14,13 +14,7 @@
             }
       },
       "component_groups": {},
-      "components": {
-         "minecraft:timer": {
-				"time": 1,
-				"time_down_event": {
-					"event": "cosmos:tick"
-				}
-         },         
+      "components": {       
          "minecraft:collision_box": {
             "height": 4,
             "width": 1
@@ -46,6 +40,10 @@
          "minecraft:physics": {
             "has_gravity": true,
             "has_collision": true
+         },
+         "minecraft:inventory": {
+            "container_type": "chest_boat",
+            "inventory_size": 2
          },
          "minecraft:rideable": {
             "crouching_skip_interact": true,

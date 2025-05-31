@@ -20,6 +20,6 @@
     "ui/machines/oxygen_compressor.json",
     "ui/machines/oxygen_decompressor.json",
     "ui/machines/electric_furnace.json",
-    "ui/rockets/rocket_tier_1.json"
+    "ui/rockets/rocket_0.json"
   ]
 }

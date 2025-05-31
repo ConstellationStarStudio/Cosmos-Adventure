@@ -1,5 +1,5 @@
 import { system, ItemStack } from "@minecraft/server";
-import { compare_lists} from "../../../api/utils";
+import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
 import recipes from "../../../recipes/compressor"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import { get_data } from "../Machine.js";
@@ -30,8 +30,11 @@ export default class {
     compress(){
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const data = get_data(this.entity);
-		let energy = this.entity.getDynamicProperty("cosmos_energy") ?? 0
-		let progress = this.entity.getDynamicProperty("cosmos_progress") ?? 0
+		const variables = load_dynamic_object(this.entity, 'machine_data');
+		let energy = variables.energy || 0;
+		let progress = variables.progress || 0;
+		let first_values = [energy, progress]
+
 		energy = charge_from_machine(this.entity, this.block, energy)
 		energy = charge_from_battery(this.entity, energy, 11);
         if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
@@ -96,12 +99,13 @@ export default class {
 				}
 			}
 		}
-		this.entity.setDynamicProperty("cosmos_energy", energy)
-		this.entity.setDynamicProperty("cosmos_progress", progress)
-		
-		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
-		container.add_ui_display(12, energy_hover, Math.round((energy / data.energy.capacity) * 55))
-		container.add_ui_display(13, '', Math.ceil((progress / 200) * 52))
-		container.add_ui_display(14, '§rStatus: ' + (!energy ? '§4No Power' : progress ? '§2Running' : '§6Idle'))
+		if(!compare_lists(first_values, [energy, progress]) || !container.getItem(12)){
+			save_dynamic_object(this.entity, 'machine_data', {progress, energy})
+			
+		    const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+		    container.add_ui_display(12, energy_hover, Math.round((energy / data.energy.capacity) * 55))
+		    container.add_ui_display(13, '', Math.ceil((progress / 200) * 52))
+		    container.add_ui_display(14, '§rStatus: ' + (!energy ? '§4No Power' : progress ? '§2Running' : '§6Idle'))
+		}
     }
 }
