@@ -8,7 +8,7 @@ export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid()) this.fabricate()
+        if (entity.isValid) this.fabricate()
     }
     fabricate() {
         const container = this.entity.getComponent('minecraft:inventory').container

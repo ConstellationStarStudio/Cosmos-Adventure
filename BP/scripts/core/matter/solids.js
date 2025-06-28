@@ -32,7 +32,7 @@ world.beforeEvents.playerBreakBlock.subscribe((event) => {
 	const {block, dimension, player, itemStack} = event
 	const item = itemStack?.typeId
 	
-	if (!(player.getGameMode() == "creative") && wrong_tool(block, item)) {
+	if (!(player.getGameMode() == "Creative") && wrong_tool(block, item)) {
 		event.cancel = true
 		system.run(()=>{
 			dimension.playSound("dig.stone", block.location)
@@ -59,7 +59,7 @@ world.afterEvents.playerBreakBlock.subscribe(({brokenBlockPermutation:block, ite
 })
 
 // to remove the item model
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:placed", {
         beforeOnPlayerPlace(e){
 			system.run(() => {
@@ -71,7 +71,8 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 
 
 //determines how fast the block will take to mine
-system.runInterval(()=> {
+world.afterEvents.worldLoad.subscribe(() => {
+	system.runInterval(()=> {
 	world.getAllPlayers().forEach(player => {
 		const item = player.getComponent("minecraft:equippable").getEquipment("Mainhand")?.typeId
 		const block = player.getBlockFromViewDirection({
@@ -89,5 +90,6 @@ system.runInterval(()=> {
 			block.setPermutation(permutation.withState("cosmos:mining_speed", "fast"))
 		else if (["minecraft:diamond_pickaxe", "minecraft:netherite_pickaxe"].includes(item))
 			block.setPermutation(permutation.withState("cosmos:mining_speed", "rapid"))
-	})
-}, 2)
+		})
+    }, 2);
+});

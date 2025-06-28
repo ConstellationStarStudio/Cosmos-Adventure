@@ -24,7 +24,7 @@ export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid()) this.compress()
+        if (entity.isValid) this.compress()
     }
 
     compress(){

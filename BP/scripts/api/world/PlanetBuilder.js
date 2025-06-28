@@ -1,6 +1,4 @@
-import { world, BlockVolume } from "@minecraft/server"
-
-const the_end = world.getDimension('the_end')
+import { world, BlockVolume, system } from "@minecraft/server"
 
 function chunk_corner({x, z}) {
     return {
@@ -10,9 +8,10 @@ function chunk_corner({x, z}) {
 }
 
 //this removes the small end islands, shulkers, gateways and chorus plants
-world.beforeEvents.worldInitialize.subscribe(({blockComponentRegistry}) => {
+system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
     blockComponentRegistry.registerCustomComponent('cosmos:end_cleaner', {
         onTick({block}) {
+            const the_end = world.getDimension('the_end');
             const {x, z} = chunk_corner(block.location)
             const first_corner = {x, y: 10, z}
             const other_corner = {x: x + 15, y: 120, z: z + 15} 

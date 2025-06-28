@@ -66,7 +66,7 @@ const faces = {
     South: 'south',
 }
 
-world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
+system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
     itemComponentRegistry.registerCustomComponent("cosmos:bucket", {
         onUseOn({source:player, itemStack:item, blockFace, block}) {
             const against = block[faces[blockFace]]()
@@ -74,7 +74,7 @@ world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
             const liquid = liquids.find(liquid => liquid.bucket == item.typeId)
             if (!liquid) return
             against.setType(liquid.block)
-            if (player.getGameMode() == 'creative') return
+            if (player.getGameMode() == 'Creative') return
             player.getComponent('equippable').setEquipment('Mainhand', new ItemStack('bucket'))
         }
     })

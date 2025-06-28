@@ -43,7 +43,7 @@ function set_corners(direction, [north, east, south, west]) {
 	return [north_east, north_west, south_east, south_west]
 }
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:stairs', {
 		beforeOnPlayerPlace(event) {
 			system.run(() => {

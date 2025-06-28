@@ -43,7 +43,7 @@ function oxygen_hunger(player){
     player.addTag("oxygen_hunger");
     system.runTimeout(() => {
         let cycle = system.runInterval(() => {
-            if(!player  || !player.isValid() || !player.hasTag("oxygen_hunger")){
+            if(!player  || !player.isValid || !player.hasTag("oxygen_hunger")){
                 system.clearRun(cycle);
                 return;
             }

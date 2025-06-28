@@ -185,12 +185,9 @@ export class CavernousVine {
     }
 }
 
-world.beforeEvents.worldInitialize.subscribe(ev => {
+system.beforeEvents.startup.subscribe(ev => {
 
     const CV = CavernousVine;
-    const vineVariants = mc.BlockStates.get("cosmos:variant")?.validValues.map(v =>
-        BlockPermutation.resolve(typeId).withState("cosmos:variant", v)
-    ) ?? [];
 
     ev.blockComponentRegistry.registerCustomComponent(typeId, {
 
@@ -208,6 +205,9 @@ world.beforeEvents.worldInitialize.subscribe(ev => {
 
         beforeOnPlayerPlace: async data => {
             mc.system.run(() => {
+                const vineVariants = mc.BlockStates.get("cosmos:variant")?.validValues.map(v =>
+                    BlockPermutation.resolve(typeId).withState("cosmos:variant", v)
+                ) ?? [];
                 if (data.cancel || !data.player || data.face !== "Down") return;
                 const abovePerm = data.block.above().permutation;
                 if (abovePerm.type.id === typeId) {

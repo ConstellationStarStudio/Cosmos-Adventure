@@ -109,7 +109,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 	system.run(() => {
 		let entity;
 		let secondInventory = system.runInterval(() => {
-			if (!player.getDynamicProperty('secondInventoryEntity') || !world.getEntity(player.getDynamicProperty('secondInventoryEntity')) || !entity || !entity.isValid()) {
+			if (!player.getDynamicProperty('secondInventoryEntity') || !world.getEntity(player.getDynamicProperty('secondInventoryEntity')) || !entity || !entity.isValid) {
 				entity = spawn(player)
 			}
 			// LET ENTITY FOLLOW THE PLAYER
@@ -133,7 +133,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 
 				}
 			} update(player, container)
-			if ((!player.isSneaking && !entity.getDynamicProperty('view')) || !player.isValid()) {
+			if ((!player.isSneaking && !entity.getDynamicProperty('view')) || !player.isValid) {
 				player.setDynamicProperty('secondInventoryEntity', undefined)
 				despawn(entity)
 				system.clearRun(secondInventory)
@@ -188,7 +188,7 @@ world.afterEvents.entityDie.subscribe(({ deadEntity: player }) => {
 )*/
 
 //EQUIP ITEMS
-world.beforeEvents.worldInitialize.subscribe(({ itemComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ itemComponentRegistry }) => {
 	itemComponentRegistry.registerCustomComponent("cosmos:space_gear", {
 		onUse({ source: player, itemStack: item }) {
 			const space_gear = JSON.parse(player.getDynamicProperty("space_gear") ?? '{}'); let sound = false

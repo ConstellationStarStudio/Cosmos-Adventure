@@ -1,6 +1,6 @@
 import { world, system} from "@minecraft/server";
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:wall', {
 		beforeOnPlayerPlace(event) {
 			system.run(() => {

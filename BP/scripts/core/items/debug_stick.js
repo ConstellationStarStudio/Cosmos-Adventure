@@ -1,4 +1,4 @@
-import { BlockStates, world, MolangVariableMap } from "@minecraft/server";
+import { BlockStates, world, MolangVariableMap, system } from "@minecraft/server";
 import { ActionFormData } from "@minecraft/server-ui";
 import machines from "../../core/machines/AllMachineBlocks";
 import { location_of_side } from "../../api/utils";
@@ -56,7 +56,7 @@ function make_paricle(dimension, location, color) {
     dimension.spawnParticle('cosmos:dust', {x: x + 0.5, y: y + 0.5, z: z + 0.5}, paricle_color)
 }
 
-world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
+system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
     itemComponentRegistry.registerCustomComponent("cosmos:debug_stick", {
         onUseOn({block, source:player, usedOnBlockPermutation:perm}) {
             const mode = player.getComponent('inventory').container.getItem(8)?.typeId

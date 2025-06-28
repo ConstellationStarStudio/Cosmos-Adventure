@@ -1,6 +1,6 @@
-import { world, ItemStack } from "@minecraft/server"
+import { world, ItemStack, system } from "@minecraft/server"
 
-world.beforeEvents.worldInitialize.subscribe(({ itemComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ itemComponentRegistry }) => {
     itemComponentRegistry.registerCustomComponent('cosmos:desh_pickaxe', {
         onMineBlock({ itemStack, source:player, minedBlockPermutation }) {
             const equipment = player.getComponent('equippable')

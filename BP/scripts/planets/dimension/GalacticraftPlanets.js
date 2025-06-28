@@ -1,8 +1,6 @@
 import { Player, Entity, world, ScreenDisplay, system } from "@minecraft/server";
 export { Planet };
 
-const the_end = world.getDimension('the_end');
-
 
 let ALL_PLANETS = {}
 /**
@@ -87,6 +85,7 @@ class Planet {
      * @returns {Entity[]} All entities matching the query
      */
     getEntities(entityQueryOptions = {}) {
+        const the_end = world.getDimension('the_end');
         return the_end.getEntities(entityQueryOptions).filter(entity => 
             this.isOnPlanet(entity.location)
         );
@@ -98,6 +97,7 @@ class Planet {
      * @returns {Player[]} All players matching the query
      */
     getPlayers(entityQueryOptions = {}) {
+        const the_end = world.getDimension('the_end');
         return the_end.getPlayers(entityQueryOptions).filter(entity => 
             this.isOnPlanet(entity.location)
         );
@@ -153,6 +153,7 @@ class Planet {
 
 // Returns the coordinates that should be displayed on the screen
 function planet_coords(entity) {
+    const the_end = world.getDimension('the_end');
   if (entity.dimension.id != 'minecraft:the_end') return entity.location;
   let planet = Planet.getAll().find(pl => pl.isOnPlanet(entity.location))
   return planet?.offset(entity.location) || entity.location

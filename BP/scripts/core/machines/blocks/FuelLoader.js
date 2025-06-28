@@ -30,7 +30,7 @@ export default class {
     constructor(entity, block) {
         this.entity = entity;
 		this.block = block;
-        if (entity.isValid()) this.load_fuel()
+        if (entity.isValid) this.load_fuel()
     }
     load_fuel(){
         const stopped = this.entity.getDynamicProperty('stopped')

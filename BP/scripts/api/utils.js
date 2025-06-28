@@ -32,7 +32,7 @@ export function location_of_side(block, side) {
 		east: Math.PI,
 		south: -Math.PI / 2,
 	}
-	if (!block || !block.isValid() || !side) return
+	if (!block || !block.isValid || !side) return
 	const { location, permutation } = block
 	if (side == "above") return location.y += 1, location
 	if (side == "below") return location.y -= 1, location

@@ -8,7 +8,7 @@ system.afterEvents.scriptEventReceive.subscribe(({id, sourceEntity:dishbase, mes
     }
 })
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:dishbase", {
         beforeOnPlayerPlace(event){
             system.run(() => {
@@ -27,7 +27,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
                 entity.nameTag = "§d§i§s§h§b§a§s§e"
             });
         },
-        onPlayerDestroy({block, dimension}){
+        onPlayerBreak({block, dimension}){
             const entities = dimension.getEntities({
                 type: "cosmos:dishbase",
                 location: block.above().center(),

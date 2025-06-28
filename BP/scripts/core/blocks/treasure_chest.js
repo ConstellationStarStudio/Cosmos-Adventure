@@ -21,7 +21,7 @@ function hint(player, tier) {
     cooldown = system.runTimeout(() => {cooldown = undefined}, 100)
 }
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
     blockComponentRegistry.registerCustomComponent('cosmos:treasure_chest', {
         onPlayerInteract({block, player, dimension}) {
             const chest = block.permutation
@@ -42,7 +42,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
                 loot.setItem(slot, new ItemStack(reward))
             })
             block.setPermutation(chest.withState('cosmos:chest_state', 'unlocked'))
-            if (player.getGameMode() != 'creative') player.runCommand(`clear @s ${item.typeId} 0 1`)
+            if (player.getGameMode() != 'Creative') player.runCommand(`clear @s ${item.typeId} 0 1`)
         }
     })
 })
@@ -60,7 +60,7 @@ world.afterEvents.playerInteractWithEntity.subscribe(({target:entity})=> {
 world.afterEvents.entityHitEntity.subscribe(({damagingEntity:player, hitEntity:entity})=> {
     if (player.typeId != "minecraft:player") return
     if (entity.typeId != "cosmos:treasure_chest") return
-    if (player.getGameMode() != 'creative') return
+    if (player.getGameMode() != 'Creative') return
     entity.runCommand(`setblock ~~~ air destroy`)
     entity.kill(); entity.remove()
 })

@@ -15,7 +15,7 @@ export default class {
     constructor(entity, block) {
         this.entity = entity;
         this.block = block;
-        if (entity.isValid()) this.collect_oxygen();
+        if (entity.isValid) this.collect_oxygen();
     }
 
     onPlace() {

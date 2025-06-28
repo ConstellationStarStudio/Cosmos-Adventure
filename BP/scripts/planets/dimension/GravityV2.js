@@ -506,7 +506,7 @@ async function applyGravityEffects(entity, vector, currentFall, gravityValue, gr
 
   try {
     await delay(1, entity);
-    if (entity.isValid() && typeof entity.addEffect === "function") {
+    if (entity.isValid && typeof entity.addEffect === "function") {
       entity.addEffect("slow_falling", slowFallingDuration, {
         amplifier: slowFallingAmplifier,
         showParticles: false
@@ -620,7 +620,7 @@ world.beforeEvents.entityRemove.subscribe((eventData) => gravityEntities.delete(
 
 system.runInterval(() => {
   for (const entity of gravityEntities) {
-    if (entity.isValid() && entity.dimension.id === "minecraft:the_end") {
+    if (entity.isValid && entity.dimension.id === "minecraft:the_end") {
       gravityFuncMain(entity);
     }
   }

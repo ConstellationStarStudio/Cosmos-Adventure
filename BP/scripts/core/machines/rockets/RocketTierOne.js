@@ -6,7 +6,7 @@ export default class{
     constructor(entity, block) {
         this.entity = entity;
         this.block = block;
-        if (entity.isValid()) this.rocket();
+        if (entity.isValid) this.rocket();
     }
     rocket(){
         if(system.currentTick % 10) return;
@@ -46,7 +46,7 @@ export default class{
         //ignite the engine when the player jumps
         if (!active && rider.inputInfo.getButtonState("Jump") == "Pressed") {
             const space_gear = JSON.parse(rider.getDynamicProperty("space_gear") ?? '{}')
-            const need_fuel = fuel <= 0 && rider.getGameMode() != "creative"
+            const need_fuel = fuel <= 0 && rider.getGameMode() != "Creative"
             if (!need_fuel && (space_gear.parachute || rocket.getDynamicProperty('ready'))) {
                 start_countdown(rocket, rider)
             } else if(need_fuel){
@@ -66,7 +66,7 @@ export default class{
         }
         //fix the camera and remove the countdown if the player leaves 
         system.runTimeout(() => {
-            if (!rocket || !rocket.isValid()) return
+            if (!rocket || !rocket.isValid) return
             const ride_id = rider.getComponent('minecraft:riding')?.entityRidingOn?.id
             if (ride_id != rocket.id) {
                 rocket.setDynamicProperty('ready')

@@ -25,7 +25,7 @@ export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid()) this.generateHeat()
+        if (entity.isValid) this.generateHeat()
 	}
     onPlace(){}
 	generateHeat() {

@@ -8,7 +8,7 @@ function HydraulicPlatformMotion(player, loc, entity, effect){
         player.teleport(playerSeat.location);
         playerSeat.getComponent('minecraft:rideable').addRider(player);
         let motion = system.runInterval(() => {
-            if(!entity.isValid() || !playerSeat.isValid() || (effect == 'slow_falling')?((Math.abs(location.y-entity.location.y))) <= 0.2: (Math.abs(entity.location.y - location.y)) <= 0.2){
+            if(!entity.isValid || !playerSeat.isValid || (effect == 'slow_falling')?((Math.abs(location.y-entity.location.y))) <= 0.2: (Math.abs(entity.location.y - location.y)) <= 0.2){
                  let blockMotionStart = JSON.parse(entity.getDynamicProperty("blocksStart"));
                  let blockMotionEnd = JSON.parse(entity.getDynamicProperty("blocksEnd"));
                  blockMotionStart.forEach((element) => entity.dimension.getBlock(element).setPermutation(entity.dimension.getBlock(element).permutation.withState("cosmos:is_open", false)))
@@ -20,7 +20,7 @@ function HydraulicPlatformMotion(player, loc, entity, effect){
                  system.clearRun(motion)
                  return;
             }
-            if(playerSeat.isValid() && !playerSeat.getComponent('minecraft:rideable').getRiders()[0]) playerSeat.getComponent('minecraft:rideable').addRider(player);
+            if(playerSeat.isValid && !playerSeat.getComponent('minecraft:rideable').getRiders()[0]) playerSeat.getComponent('minecraft:rideable').addRider(player);
             playerSeat.clearVelocity();
             playerSeat.applyImpulse({x:0, y: entity.getVelocity().y, z:0})
             
@@ -58,7 +58,7 @@ function getPlatformBlocks(rot, block){
     else if(rot === 2) return [block.west(), block.north(), block.offset({x: -1, y: 0, z: -1})]
     else if(rot === 3) return [block.north(), block.east(), block.offset({x: 1, y: 0, z: -1})]
 }
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:hydraulic_platform", {
         beforeOnPlayerPlace(event){
             system.run(() => {
@@ -69,9 +69,9 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
                 else if(getBl === 3) event.permutationToPlace = BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:is_main': true, 'cosmos:rotation': 0, 'cosmos:is_full': true})
             });
         },
-        onPlayerDestroy(event){
-            if(event.destroyedBlockPermutation.getState('cosmos:is_full')){
-                let blockDestroyed = getPlatformBlocks(event.destroyedBlockPermutation.getState('cosmos:rotation'), event.block)
+        onPlayerBreak(event){
+            if(event.brokenBlockPermutation.getState('cosmos:is_full')){
+                let blockDestroyed = getPlatformBlocks(event.brokenBlockPermutation.getState('cosmos:rotation'), event.block)
                 blockDestroyed.forEach((element) => element.setPermutation(BlockPermutation.resolve("cosmos:hydraulic_platform", {'cosmos:rotation': 0, 'cosmos:is_full': false, 'cosmos:is_main': false})))
             }
         },

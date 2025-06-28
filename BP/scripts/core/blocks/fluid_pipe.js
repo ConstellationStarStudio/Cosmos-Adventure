@@ -29,7 +29,7 @@ export function attach_pipes(block, attach = true) {
 	}
 }
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:fluid_pipe', {
 		beforeOnPlayerPlace(event) {
 			system.run(() => {
@@ -47,7 +47,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 				} event.permutationToPlace = BlockPermutation.resolve("cosmos:fluid_pipe", connections)
 			});
 		},
-		onPlayerDestroy({block}) {
+		onPlayerBreak({block}) {
 			const neighbors = block.getNeighbors(6)
 			for (const [i, pipe] of neighbors.entries()) {
 				if ('cosmos:fluid_pipe' == pipe.typeId) 

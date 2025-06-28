@@ -43,7 +43,7 @@ function remove(block) {
 
 }
 
-world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
+system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
     itemComponentRegistry.registerCustomComponent("cosmos:wrench", {
         onUseOn({block, source:player, usedOnBlockPermutation:perm}){
           if (!block.hasTag("machine")) return

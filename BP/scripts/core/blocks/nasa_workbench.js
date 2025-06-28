@@ -173,7 +173,7 @@ system.afterEvents.scriptEventReceive.subscribe(({id, sourceEntity:workbench, me
     }
 })
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:nasa_workbench", {
         beforeOnPlayerPlace(event){
             system.run(() => {
@@ -198,7 +198,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
                 inventory.add_ui_display(SCHEMAS + 5, 'Tier 1 Rocket', 1)
             });
         },
-        onPlayerDestroy({block, dimension}){
+        onPlayerBreak({block, dimension}){
             const entities = dimension.getEntities({
                 type: "cosmos:nasa_workbench",
                 location: block.above().center(),

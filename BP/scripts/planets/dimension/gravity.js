@@ -206,7 +206,7 @@ export function player_gravity(players){
   }
 
   GravityEntities.forEach((entity, index) => {
-    if (!entity.isValid() || entity.dimension.id != 'minecraft:the_end') return GravityEntities.splice(index, 1);
+    if (!entity.isValid || entity.dimension.id != 'minecraft:the_end') return GravityEntities.splice(index, 1);
     setGravity(entity)
 
     if (entity.isInWater) entity.fallingVelocity = 0;

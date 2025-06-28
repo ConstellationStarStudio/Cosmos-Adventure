@@ -142,14 +142,14 @@ function connect_wires(wire) {
 	system.run(() => {machinesSearch(wiresDFS(wire))});
 }
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:aluminum_wire', {
 		onPlace({block}) {
 			connect_wires(block)
 		},
-		onPlayerDestroy(event){
+		onPlayerBreak(event){
 			detach_wires(event.block)
-			machinesSearch(wiresDFS(event.block, event.destroyedBlockPermutation))
+			machinesSearch(wiresDFS(event.block, event.brokenBlockPermutation))
 		}
 	})
 })

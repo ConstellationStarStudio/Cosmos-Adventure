@@ -7,7 +7,7 @@ export default class {
     constructor(entity, block) {
         this.entity = entity;
         this.block = block;
-        if (entity.isValid()) this.electrolyze_water();
+        if (entity.isValid) this.electrolyze_water();
     }
 
     electrolyze_water() {

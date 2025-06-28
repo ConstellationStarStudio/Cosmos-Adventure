@@ -119,7 +119,7 @@ const easyTrigger = (data) => BlockUpdate.trigger(data.block);
 world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
   if (!data.isFirstEvent) return;
   system.run(() => {
-    if (!data.block.isValid() || data.cancel) return;
+    if (!data.block.isValid || data.cancel) return;
     BlockUpdate.trigger(data.block);
   });
 });

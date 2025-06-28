@@ -42,11 +42,11 @@ export function moon_lander(player, load = true){
             if(new_camera.x != camera.x || new_camera.y != camera.y) is_load = false
             return;
         }
-        if(!player || !player.isValid()){
+        if(!player || !player.isValid){
             system.clearRun(lander_flight);
             return;
         }
-        if(!lander || !lander.isValid()){
+        if(!lander || !lander.isValid){
             dismount(player);
             system.clearRun(lander_flight);
             return;
@@ -92,10 +92,10 @@ export function moon_lander(player, load = true){
                 system.clearRun(lander_flight);
             }else{
                 lander.setProperty("cosmos:rotation_x", 0)
-    
                 player.inputPermissions.setPermissionCategory(2, true);
                 player.addTag("ableToOxygen");
                 player.addTag("in_space");
+                dismount(player);
                 lander.triggerEvent("cosmos:lander_gravity_enable")
                 system.clearRun(lander_flight);
             }
@@ -113,9 +113,9 @@ world.afterEvents.playerDimensionChange.subscribe((data) => {
 export function start_countdown(rocket, player) {
     rocket.setDynamicProperty('active', true)
     player.inputPermissions.setPermissionCategory(2, false)
-    let countdown = player.getGameMode() == 'creative' ? 5 : 20
+    let countdown = player.getGameMode() == 'Creative' ? 5 : 20
     const counter = system.runInterval(()=> {
-        if (!rocket || !rocket.isValid()) {
+        if (!rocket || !rocket.isValid) {
             system.clearRun(counter)
         }
         if (countdown - 1) {
@@ -131,7 +131,7 @@ export function start_countdown(rocket, player) {
 }
 
 export function break_pad(rocket) {
-    if (!rocket || !rocket.isValid()) return
+    if (!rocket || !rocket.isValid) return
     const {location:{x,y,z}, dimension} = rocket
     world.gameRules.doTileDrops = false
     dimension.runCommand(`fill ${x-1} ${y} ${z-1} ${x+1} ${y} ${z+1} air destroy`)
@@ -175,12 +175,12 @@ export function rocket_rotation(player, rocket){
 }
 
 export function rocket_flight(rocket) {
-    if (!rocket || !rocket.isValid()) return
+    if (!rocket || !rocket.isValid) return
     rocket.addEffect('levitation', 2000, {showParticles: false})
     let t = 0; let v
     const a = 30; const b = 10
     let flight = system.runInterval(() => {
-        if(!rocket || !rocket.isValid() || rocket.getComponent("minecraft:rideable").getRiders().length === 0){
+        if(!rocket || !rocket.isValid || rocket.getComponent("minecraft:rideable").getRiders().length === 0){
             system.clearRun(flight);
             return;
         }
@@ -188,14 +188,14 @@ export function rocket_flight(rocket) {
         if(player.getDynamicProperty("in_celestial_selector")) return;
         t++;
         if (t == 40) world.sendMessage('§7Do not save & quit or disconnect while flying the rocket or in the celestial selector.')
-        if (!rocket || !rocket.isValid()) return
+        if (!rocket || !rocket.isValid) return
         if (v >= 10) rocket.setDynamicProperty('rocket_launched', true)
         v = Math.floor((a) * (1 - Math.pow(Math.E, (-t/(20 * b)))))
         rocket.addEffect('levitation', 2000, {showParticles: false, amplifier: v})
         let rotation = rocket_rotation(player, rocket)
         let fuel = rocket.getDynamicProperty('fuel_level')  || 0;
         fuel = Math.max(0, fuel - 1);
-        if(!fuel && player.getGameMode() != "creative"){
+        if(!fuel && player.getGameMode() != "Creative"){
             rocket.removeEffect("levitation");
             system.clearRun(flight);
             return;

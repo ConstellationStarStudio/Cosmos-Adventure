@@ -1,4 +1,4 @@
-import { world, ItemStack, BlockPermutation } from "@minecraft/server"
+import { world, ItemStack, BlockPermutation, system } from "@minecraft/server"
 import { attach_pipes } from "./fluid_pipe"
 
 const buckets = new Map([
@@ -32,7 +32,7 @@ const empty_sounds = new Map([
 	["cosmos:fuel_bucket", "bucket.empty_water"],
 ])
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:fluid_tank', {
 		onPlayerInteract({block, player, dimension}) {
 			const tank = block.permutation
@@ -72,7 +72,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 				equipment.setEquipment("Mainhand", new ItemStack("bucket"))
 			}
 		},
-		onPlayerDestroy({block, destroyedBlockPermutation:tank}) {
+		onPlayerBreak({block, brokenBlockPermutation:tank}) {
 			attach_pipes(block, false)
 			if (!tank.getState("cosmos:fill_level")) return
 			const liquid = liquids.get(tank.getState("cosmos:fluid"))

@@ -1,5 +1,4 @@
 import { QuickItemDatabase  } from "api/libraries/QuickItemDatabaseV3";
-const itemDatabase = new QuickItemDatabase("lostitems", 1, false);
 
 import { world, system, BlockPermutation } from "@minecraft/server";
 import machines from "./AllMachineBlocks";
@@ -104,7 +103,7 @@ function moveItemsFromHoppers(object, itemFilter) {
  * tries to add them to its inventory, and updates or deletes the stored entry accordingly.
  * @param {Block | Entity} object - Harder daddy <3 Make me pr-
  */
-function reinsertion(object) {
+function reinsertion(object, itemDatabase) {
   const inv = object.getComponent("inventory")?.container;
   if (!inv) return;
   // Get all keys from the database for lost items for this machine.
@@ -162,28 +161,31 @@ function block_entity_access() {
   }
 }
 
-system.runInterval(() => {
-  if (machine_entities.size === 0) return;
-  if (!(system.currentTick % 2)) block_entity_access();
-  machine_entities.forEach((machineData, entityId) => {
-    const machineEntity = world.getEntity(entityId);
-    let isValid = machineEntity?.isValid();
-    let using_block = machines[machineData.type].using_block;
-    const block = (isValid && using_block)? machineEntity.dimension.getBlock(machineData.location):
-    true;
-    if(isValid && block){
-      new machines[machineData.type].class(machineEntity, using_block? block: undefined);
-      if(using_block){
-        moveItemsFromHoppers(machineEntity, undefined);
-        reinsertion(machineEntity);
+world.afterEvents.worldLoad.subscribe(() => {
+  const itemDatabase = new QuickItemDatabase("lostitems", 1, false);
+  system.runInterval(() => {
+    if (machine_entities.size === 0) return;
+    if (!(system.currentTick % 2)) block_entity_access();
+    machine_entities.forEach((machineData, entityId) => {
+      const machineEntity = world.getEntity(entityId);
+      let isValid = machineEntity?.isValid;
+      let using_block = machines[machineData.type].using_block;
+      const block = (isValid && using_block)? machineEntity.dimension.getBlock(machineData.location):
+      true;
+      if(isValid && block){
+        new machines[machineData.type].class(machineEntity, using_block? block: undefined);
+        if(using_block){
+          moveItemsFromHoppers(machineEntity, undefined);
+          reinsertion(machineEntity, itemDatabase);
+        }
       }
-    }
+    });
   });
-}, 1);
+});
 
 
 
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
   blockComponentRegistry.registerCustomComponent('cosmos:machine', {
     beforeOnPlayerPlace(event) {
       system.run(() => {
@@ -200,7 +202,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
         system.run(() => attach_to_wires(block));
       });
     },
-    onPlayerDestroy({ block, dimension, destroyedBlockPermutation: perm }) {
+    onPlayerBreak({ block, dimension, brokenBlockPermutation: perm }) {
       detach_wires(block);
       const machineEntity = dimension.getEntities({
         type: perm.type.id,
@@ -211,7 +213,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
         },
         maxDistance: 0.5,
       })[0];
-      if (!machineEntity) return;
+      if(!machineEntity) return
       machine_entities.delete(machineEntity.id);
       const container = machineEntity.getComponent('minecraft:inventory')?.container;
       if (container) {
@@ -308,7 +310,7 @@ world.beforeEvents.playerInteractWithEntity.subscribe((e) => {
         
         system.run(() => {
           hopperBlock.setPermutation(hopperPermutation);
-          if (player.getGameMode() !== "creative") {
+          if (player.getGameMode() !== "Creative") {
             if (selectedItem.amount === 1) {
               equipment.setEquipment("Mainhand", undefined);
             } else {

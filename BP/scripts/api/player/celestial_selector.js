@@ -5,7 +5,7 @@ import { moon_lander } from "./liftoff";
 const debug = true
 
 function read_inventory(player) {
-	if (player.getGameMode() == "creative") return { aluminum: true, wafer: true, tin: true, iron: true }
+	if (player.getGameMode() == "Creative") return { aluminum: true, wafer: true, tin: true, iron: true }
 	let aluminum = 0, wafer = 0, tin = 0, iron = 0;
 	const inventory = player.getComponent("inventory").container
 	for (let slot = 0; slot < inventory.size; slot++) {

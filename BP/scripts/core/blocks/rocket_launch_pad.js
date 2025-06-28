@@ -1,4 +1,4 @@
-import { ItemStack, world } from "@minecraft/server";
+import { ItemStack, world, system } from "@minecraft/server";
 
 function assemble(block) {
 	for (let x of [-1, 0, 1]) {
@@ -26,7 +26,7 @@ function destroy(block) {
 		}
 	}
 }
-world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:rocket_launch_pad', {
 		onPlace({block}) {
 			for (let x of [-1, 0, 1]) {
@@ -36,7 +36,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 				}
 			}
 		},
-		onPlayerDestroy({block, player, destroyedBlockPermutation: pad}) {
+		onPlayerBreak({block, player, brokenBlockPermutation: pad}) {
 			if (pad.getState("cosmos:center")) {
 				destroy(block); return
 			}
@@ -45,7 +45,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 					const target = block.offset({x: x, y: 0, z: z})
 					if (target.typeId != "cosmos:rocket_launch_pad") continue
 					if (target.permutation.getState("cosmos:center")) {
-						if (player.getGameMode() == 'creative') world.gameRules.doTileDrops = false
+						if (player.getGameMode() == 'Creative') world.gameRules.doTileDrops = false
 						destroy(target)
 						world.gameRules.doTileDrops = true; return
 					}
@@ -55,7 +55,7 @@ world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 	})
 })
 
-world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
+system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
     itemComponentRegistry.registerCustomComponent("cosmos:rocket", {
         onUseOn({block, source:player, usedOnBlockPermutation:pad, itemStack:item}) {
 			if (block.typeId != "cosmos:rocket_launch_pad") return
@@ -68,7 +68,7 @@ world.beforeEvents.worldInitialize.subscribe(({itemComponentRegistry}) => {
 			const equipment = player.getComponent("minecraft:equippable")
 			
 			player.runCommand(`summon cosmos:rocket_tier_1 ${x} ${y - 0.3} ${z} ${rotation}`)
-			if (player.getGameMode() != "creative") equipment.setEquipment("Mainhand", item.decrementStack())
+			if (player.getGameMode() != "Creative") equipment.setEquipment("Mainhand", item.decrementStack())
         }
     })
 })
