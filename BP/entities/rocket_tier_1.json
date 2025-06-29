@@ -13,7 +13,26 @@
                 }
             }
       },
-      "component_groups": {},
+        "component_groups": {
+			"inv18": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 20
+            }
+			},
+			"inv36": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 38
+            }
+			},
+			"inv54": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 56
+            }
+			}
+		},
       "components": {       
          "minecraft:collision_box": {
             "height": 4,
