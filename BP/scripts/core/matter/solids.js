@@ -6,17 +6,25 @@ const stone_tier = new Set([
 	"minecraft:iron_pickaxe",
 	"minecraft:diamond_pickaxe",
 	"minecraft:netherite_pickaxe",
+	"cosmos:titanium_pickaxe",
+	"cosmos:steel_pickaxe",
+	"cosmos:desh_pickaxe"
 ])
 
 const iron_tier = new Set([
 	"minecraft:iron_pickaxe",
 	"minecraft:diamond_pickaxe",
 	"minecraft:netherite_pickaxe",
+	"cosmos:titanium_pickaxe",
+	"cosmos:steel_pickaxe",
+	"cosmos:desh_pickaxe"
 ])
 
 const diamond_tier = new Set([
 	"minecraft:diamond_pickaxe",
 	"minecraft:netherite_pickaxe",
+	"cosmos:titanium_pickaxe",
+	"cosmos:desh_pickaxe"
 ])
 
 function wrong_tool(block, item) {
@@ -86,9 +94,9 @@ world.afterEvents.worldLoad.subscribe(() => {
 			block.setPermutation(permutation.withState("cosmos:mining_speed", "decreased"))
 		else if (["minecraft:golden_pickaxe", "minecraft:stone_pickaxe"].includes(item))
 			block.setPermutation(permutation.withState("cosmos:mining_speed", "normal"))
-		else if (item == "minecraft:iron_pickaxe")
+		else if (item == "minecraft:iron_pickaxe", "cosmos:steel_pickaxe")
 			block.setPermutation(permutation.withState("cosmos:mining_speed", "fast"))
-		else if (["minecraft:diamond_pickaxe", "minecraft:netherite_pickaxe"].includes(item))
+		else if (["minecraft:diamond_pickaxe", "minecraft:netherite_pickaxe", "cosmos:titanium_pickaxe", "cosmos:desh_pickaxe"].includes(item))
 			block.setPermutation(permutation.withState("cosmos:mining_speed", "rapid"))
 		})
     }, 2);
