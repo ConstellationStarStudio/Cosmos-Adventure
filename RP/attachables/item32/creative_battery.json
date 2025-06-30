@@ -1,0 +1,30 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:attachable": {
+    "description": {
+      "identifier": "cosmos:creative_battery",
+      "materials": {
+        "default": "entity_alphatest_glint",
+        "enchanted": "entity_alphatest_glint"
+      },
+      "textures": {
+        "default": "textures/items/battery",
+        "enchanted": "textures/misc/enchanted_item_glint"
+      },
+      "geometry": {
+        "default": "geometry.item32"
+      },
+      "animations": {
+        "hold": "animation.item32.hold"
+      },
+      "scripts": {
+        "animate": [
+          "hold"
+        ]
+      },
+      "render_controllers": [
+        "controller.render.item32"
+      ]
+    }
+  }
+}
