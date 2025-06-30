@@ -227,9 +227,6 @@
          "minecraft:display_name": {
             "value": "Desh Axe"
          },
-         "minecraft:use_animation": {
-            "value": "block"
-         },
          "minecraft:tags": {
             "tags": [
                "minecraft:is_axe"

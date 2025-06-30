@@ -13,6 +13,9 @@
             "value": 15,
             "slot": "sword"
          },
+         "minecraft:durability": {
+            "max_durability": 768
+         },
          "minecraft:can_destroy_in_creative": false,
          "minecraft:tags": {
             "tags": [

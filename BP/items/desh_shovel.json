@@ -43,9 +43,6 @@
          "minecraft:display_name": {
             "value": "Desh Shovel"
          },
-         "minecraft:use_animation": {
-            "value": "block"
-         },
          "minecraft:tags": {
             "tags": [
                "minecraft:is_shovel"

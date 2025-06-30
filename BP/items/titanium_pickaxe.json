@@ -16,6 +16,98 @@
          "minecraft:digger": {
             "use_efficiency": true,
             "destroy_speeds": [
+                              {
+                  "block": "cosmos:mars_stone",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:moon_rock",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:venus_tin_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:venus_silicon_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:venus_quartz_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:venus_copper_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:venus_aluminum_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:tin_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:solar_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:silicon_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:moon_tin_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:moon_sapphire_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:moon_copper_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:mars_tin_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:mars_iron_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:mars_copper_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:ilmenite_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:galena_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:desh_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:cheese_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:asteroids_iron_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:asteroids_aluminum_ore",
+                  "speed": 24
+               },
+               {
+                  "block": "cosmos:aluminum_ore",
+                  "speed": 24
+               },
                {
                   "block": "minecraft:stone",
                   "speed": 24

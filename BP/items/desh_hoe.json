@@ -31,9 +31,6 @@
          "minecraft:display_name": {
             "value": "Desh Hoe"
          },
-         "minecraft:use_animation": {
-            "value": "block"
-         },
          "minecraft:tags": {
             "tags": [
                "minecraft:is_hoe"

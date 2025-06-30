@@ -13,6 +13,9 @@
             "value": 2,
             "slot": "axe"
          },
+         "minecraft:durability": {
+            "max_durability": 768
+         },
          "minecraft:digger": {
             "use_efficiency": true,
             "destroy_speeds": [
