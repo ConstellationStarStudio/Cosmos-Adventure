@@ -31,12 +31,6 @@ export function charge_from_machine(entity, block, energy) {
 				const space = data.energy.capacity - energy
 				if (power > 0) {
 					energy += Math.min(data.energy.maxInput, power, space)
-					if(Math.min(data.energy.maxInput, power, space) && input_entity.typeId.includes('energy_storage')){
-						let final_input_energy = input_entity.getDynamicProperty("cosmos_energy") - power;
-						final_input_energy = Math.max(0, final_input_energy)
-						input_entity.setDynamicProperty("cosmos_energy", final_input_energy)
-						input_entity.setDynamicProperty("cosmos_should_updates", true)
-					}
 				}
 			}
 		}
