@@ -19,7 +19,7 @@
           "max": "hard"
         },
         "minecraft:weight": {
-          "default": 100
+          "default": 50
         },
         "minecraft:spawns_on_block_filter": [
           "cosmos:moon_dirt",
