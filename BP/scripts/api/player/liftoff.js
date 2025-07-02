@@ -211,10 +211,3 @@ world.afterEvents.entityRemove.subscribe(({removedEntityId}) => {
     world.getPlayers().filter(player => player.getDynamicProperty('in_the_rocket') == removedEntityId)
     .forEach(player => dismount(player))
 })
-world.afterEvents.entitySpawn.subscribe((data) => {
-    if(data.entity.typeId == "cosmos:rocket_tier_1"){
-        const machine_name = data.entity.typeId.replace('cosmos:', '');
-        machine_entities.set(data.entity.id, { type: machine_name, location: undefined});
-        data.entity.nameTag = '§r§o§c§k§e§t§_§z§e§r§o';
-    }
-});

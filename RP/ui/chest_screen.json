@@ -112,8 +112,26 @@
                 "$screen_background_alpha": 0.4
             },
             {
-                "requires": "(not (($ct - '§r§o§c§k§e§t§_§z§e§r§o') = $ct))",
-                "$screen_content": "rocket_0.interface",
+                "requires": "(not (($ct - '§f§u§e§l§0') = $ct))",
+                "$screen_content": "fuel_0.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§f§u§e§l§1') = $ct))",
+                "$screen_content": "fuel_18.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§f§u§e§l§2') = $ct))",
+                "$screen_content": "fuel_36.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§f§u§e§l§3') = $ct))",
+                "$screen_content": "fuel_54.interface",
                 "$screen_bg_content": "common.screen_background",
                 "$screen_background_alpha": 0.4
             },

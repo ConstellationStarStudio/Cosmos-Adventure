@@ -87,7 +87,10 @@ function tick(workbench) {
                 const storage_space = parseInt(item.nameTag.replace('§craft_button:size', ''))
                 const rocket_type = item.nameTag.replace('§craft_button:size' + storage_space, '')
                 const rocket = new ItemStack(rocket_type)
-                if (storage_space > 0) rocket.setLore([`§r§7Storage Space: ${storage_space}`])
+                if (storage_space > 0){
+                    rocket.setLore([`§r§7Storage Space: ${storage_space}`])
+                    rocket.setDynamicProperty("inventory_size", storage_space)
+                }
                 inventory.container.setItem(i, rocket)
             } 
         })

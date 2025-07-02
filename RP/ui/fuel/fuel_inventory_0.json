@@ -1,5 +1,5 @@
 {
-    "namespace": "rocket_0",
+    "namespace": "fuel_0",
     
     "interface@machines.dynamic_interface": {
       "$size": ["100%", 130],
@@ -12,7 +12,7 @@
 				"anchor_to": "top_left",
 				"offset": [ 8, 6]
 			}},
-      { "rocket_fuel_tank@rocket_0.rocket_fuel_tank": {
+      { "fuel_0@fuel_0.fuel_tank": {
           "$index": 0,
           "anchor_from": "top_middle",
           "anchor_to": "top_middle",
@@ -27,7 +27,7 @@
 		]
 	},
 
-	"rocket_fuel_tank": {
+	"fuel_tank": {
 		"type":"panel",
 		"size": [ 36, 40 ],
 		"controls": [

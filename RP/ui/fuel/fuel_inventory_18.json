@@ -1,0 +1,37 @@
+{
+    "namespace": "fuel_18",
+    
+    "interface@machines.dynamic_interface": {
+      "$size": ["100%", 179],
+      "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Fuel",
+				"color": "$title_text_color",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 8, 6]
+			}},
+      { "fuel_0@fuel_0.fuel_tank": {
+          "$index": 18,
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [ 0, 6 ]
+      }},
+      { "stored_fuel@machines.item_text": {
+          "$index": 19,
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [ 55, 29 ]
+      }},
+	  { "input_grid@machines.item_grid": {
+		"size": [ 162, 36 ],
+		"grid_dimensions": [ 9, 2],
+		"anchor_from": "bottom_middle",
+		"anchor_to": "bottom_middle",
+		"offset": [ 0, -94 ]
+		}}
+		]
+	}
+}
+
