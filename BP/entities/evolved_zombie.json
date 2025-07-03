@@ -119,6 +119,22 @@
         "breathes_air": true,
         "breathes_water": true
       },
+      "minecraft:behavior.avoid_block": {
+        "priority": 0,
+        "tick_interval": 5,
+        "search_range": 15,
+        "search_height": 6,
+        "sprint_speed_modifier": 1.1,
+        "target_selection_method": "nearest",
+        "target_blocks": [
+        "cosmos:arc_lamp"
+        ],
+        "avoid_block_sound": "retreat",
+        "sound_interval": {
+        "range_min": 2,
+        "range_max": 5
+        }
+      },
       "minecraft:attack": {
         "damage": 3
       },
