@@ -137,5 +137,6 @@ export default{
    "cosmos:raw_aluminum": "cosmos:aluminum_ingot",
    "cosmos:silicon_ore": "cosmos:raw_silicon",
    "cosmos:tin_ore": "cosmos:tin_ingot",
-   "cosmos:raw_tin": "cosmos:tin_ingot"
+   "cosmos:raw_tin": "cosmos:tin_ingot",
+   "cosmos:meteoric_raw_iron": "cosmos:meteoric_iron_ingot"
 }
