@@ -2,17 +2,16 @@
     "format_version": "1.21.20",
     "minecraft:jigsaw": {
         "description": {
-            "identifier": "cosmos:moon_village"
+            "identifier": "cosmos:moon_dungeon"
         },
-        "step": "surface_structures",
-        "heightmap_projection": "world_surface",
+        "step": "underground_structures",
         "start_height": {
         "type": "constant",
-        "value": { "absolute": 70 }
+        "value": { "absolute": 55 }
         },
-        "max_depth": 20,
-        "terrain_adaptation": "beard_box",
-        "start_pool": "cosmos:moon_village_start_pool",
+        "max_depth": 11,
+        "terrain_adaptation": "bury",
+        "start_pool": "cosmos:moon_dungeon_chest_room",
         "biome_filters": [ 
           { 
         "test": "has_biome_tag", 

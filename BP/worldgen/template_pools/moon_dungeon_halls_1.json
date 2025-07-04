@@ -1,0 +1,73 @@
+{
+	"format_version": "1.21.20",
+	"minecraft:template_pool": {
+		"description": {
+			"identifier": "cosmos:moon_dungeon_halls_1"
+		},
+		"elements": [
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/hall_chest_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+				"projection": "rigid",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/hall_empty_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/hall_spawner_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/moon_d_chest_rotation_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 7
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/moon_d_empty_rotation_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 7
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/moon_d_spawn_rotation_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 7
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/hole/moon_dungeon_start",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 10
+			}
+		]
+	}
+}

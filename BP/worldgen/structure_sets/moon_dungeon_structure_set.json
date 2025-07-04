@@ -1,0 +1,21 @@
+{
+	"format_version": "1.21.20",
+	"minecraft:structure_set": {
+		"description": {
+			"identifier": "cosmos:moon_dungeon"
+		},
+		"placement": {
+			"type": "minecraft:random_spread",
+			"salt": 37887833,
+			"separation": 12,
+			"spacing": 40,
+			"spread_type": "linear"
+		},
+		"structures": [
+			{
+				"structure": "cosmos:moon_dungeon",
+				"weight": 20
+			}
+		]
+	}
+}

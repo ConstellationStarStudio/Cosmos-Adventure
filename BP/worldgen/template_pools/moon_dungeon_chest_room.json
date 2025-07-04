@@ -1,0 +1,19 @@
+{
+	"format_version": "1.21.20",
+	"minecraft:template_pool": {
+		"description": {
+			"identifier": "cosmos:moon_dungeon_chest_room"
+		},
+		"elements": [
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/start/chest_room",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+				"projection": "rigid",
+				"weight": 99
+			}
+		]
+	}
+}
