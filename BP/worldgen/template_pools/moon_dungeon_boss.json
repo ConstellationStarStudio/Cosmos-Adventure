@@ -12,7 +12,16 @@
                     "processors": "cosmos:moon_dungeon_processor"
                 },
                 "projection": "rigid",
-                "weight": 99
+                "weight": 7
+            },
+                        {
+                "element": {
+                    "element_type": "minecraft:single_pool_element",
+                    "location": "moon_dungeon/boss/boss2",
+                    "processors": "cosmos:moon_dungeon_processor"
+                },
+                "projection": "rigid",
+                "weight": 8
             }
         ]
     }

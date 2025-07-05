@@ -9,7 +9,7 @@
         "type": "constant",
         "value": { "absolute": 55 }
         },
-        "max_depth": 11,
+        "max_depth": 18,
         "terrain_adaptation": "bury",
         "start_pool": "cosmos:moon_dungeon_chest_room",
         "biome_filters": [ 

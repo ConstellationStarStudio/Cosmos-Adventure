@@ -12,7 +12,16 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 9
+				"weight": 11
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/hole/moon_dungeon_start_2",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 11
 			},
 			{
 				"element": {
@@ -39,7 +48,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 8
+				"weight": 7
 			},
 			{
 				"element": {
@@ -48,7 +57,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 8
+				"weight": 6
 			},
 			{
 				"element": {
@@ -57,7 +66,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 8
+				"weight": 7
 			}
 		]
 	}

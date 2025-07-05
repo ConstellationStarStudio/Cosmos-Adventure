@@ -12,7 +12,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
 				"projection": "rigid",
-				"weight": 9
+				"weight": 13
 			},
 			{
 				"element": {
@@ -30,7 +30,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 9
+				"weight": 13
 			},
 			{
 				"element": {
@@ -39,7 +39,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 7
+				"weight": 9
 			},
 			{
 				"element": {
@@ -57,7 +57,7 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 7
+				"weight": 8
 			},
 			{
 				"element": {
