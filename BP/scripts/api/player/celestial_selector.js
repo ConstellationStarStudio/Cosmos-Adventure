@@ -1,6 +1,6 @@
 import { ActionFormData } from "@minecraft/server-ui";
 import { world, system, Player } from "@minecraft/server";
-import { moon_lander } from "./liftoff";
+import { moon_lander, saved_rocket_items } from "./liftoff";
 
 const debug = true
 
@@ -66,12 +66,21 @@ function launch(player, planet) {
 	player.setDynamicProperty("in_celestial_selector")
 	if (planet == 'Moon' && player.getComponent("minecraft:riding")) {
 		let rocket = player.getComponent("minecraft:riding").entityRidingOn;
+		let container = rocket.getComponent("minecraft:inventory").container;
+		let size = rocket.getComponent("minecraft:inventory").inventorySize;
 		let fuel = rocket.getDynamicProperty("fuel_level");
+		let items = [];
+		for(let i = 0; i <= (size - 3); i++){
+			items.push(container.getItem(i))
+		}
+		let id = rocket.id;
+		let typeId = rocket.typeId;
 		rocket.remove();
 		let moon = world.getDimension("the_end");
 		let dimension = player.dimension;
 		let loc = { x: 75000 + (Math.random() * 20), y: 1000, z: 75000 + (Math.random() * 20) };
-		player.setDynamicProperty('dimension', JSON.stringify([planet, fuel, loc]))
+		saved_rocket_items.set(id, items)
+		player.setDynamicProperty('dimension', JSON.stringify([planet, fuel, loc, size, id, typeId]))
 		player.teleport(loc, { dimension: moon });
 		if (dimension.id == "minecraft:the_end"){
 			system.runTimeout(() => {moon_lander(player, false);}, 5);

@@ -1,6 +1,8 @@
-import { world, system } from "@minecraft/server"
-import { start_celestial_selector } from "./celestial_selector"
+import { world, system, ItemStack } from "@minecraft/server"
 import { machine_entities } from "../../core/machines/Machine";
+
+const rocket_nametags = {0: 0, 18: 1, 36: 2, 54: 3}
+export let saved_rocket_items = new Map();
 
 function lander_rotation(player, lander){
     let final_rotation_x = lander.getProperty("cosmos:rotation_x");
@@ -23,6 +25,11 @@ export function moon_lander(player, load = true){
     player.setProperty("cosmos:rotation_x", 90);
     
     let data = JSON.parse(player.getDynamicProperty('dimension'))
+    let items_to_set = saved_rocket_items.get(data[4]);
+    saved_rocket_items.delete(data[4])
+    let typeId = data[5]
+    let size = data[3] - 2;
+    let group = 'cosmos:inv' + size;
     let lander = player.dimension.spawnEntity("cosmos:lander", {x: data[2].x, y: 250, z: data[2].z});
     lander.triggerEvent("cosmos:lander_gravity_disable");
     lander.teleport(data[2]);
@@ -32,14 +39,14 @@ export function moon_lander(player, load = true){
     player.setDynamicProperty("dimension", undefined);
     player.removeTag("ableToOxygen")
 
-    
-    //lander.triggerEvent("cosmos:lander_gravity_enable");
     let is_load = load;
     let camera = player.getRotation();
     let lander_flight = system.runInterval(() => {
         if(is_load){
             let new_camera = player.getRotation();
             if(new_camera.x != camera.x || new_camera.y != camera.y) is_load = false
+            lander.triggerEvent(group);
+            lander.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[size]
             return;
         }
         if(!player || !player.isValid){
@@ -96,12 +103,31 @@ export function moon_lander(player, load = true){
                 player.addTag("ableToOxygen");
                 player.addTag("in_space");
                 dismount(player);
+                lander.getComponent("minecraft:rideable").ejectRider(player)
+                lander.triggerEvent("cosmos:rideable_false")
+
+                set_items_to_lander(lander, size, items_to_set, typeId)
+
                 lander.triggerEvent("cosmos:lander_gravity_enable")
                 system.clearRun(lander_flight);
             }
         }
     });
 }
+function set_items_to_lander(lander, size, items_to_set, typeId){
+    let container = lander.getComponent("minecraft:inventory").container;
+    let inventorySize = lander.getComponent("minecraft:inventory").inventorySize;
+    for(let i = 0; i <= (inventorySize - 5); i++){
+         container.setItem(i, items_to_set[i])
+    }
+    container.setItem(inventorySize - 2, new ItemStack("cosmos:rocket_launch_pad", 9))
+    
+    let rocket_item = new ItemStack(typeId + "_item")
+    rocket_item.setLore([`§r§7Storage Space: ${size}`])
+    rocket_item.setDynamicProperty("inventory_size", size)
+    container.setItem(inventorySize - 1, rocket_item)
+}
+
 world.afterEvents.playerDimensionChange.subscribe((data) => {
     if(!data.player.getDynamicProperty('dimension')) return;
     if(data.fromDimension.id != "minecraft:overworld") return;
@@ -194,7 +220,10 @@ export function rocket_flight(rocket) {
         rocket.addEffect('levitation', 2000, {showParticles: false, amplifier: v})
         let rotation = rocket_rotation(player, rocket)
         let fuel = rocket.getDynamicProperty('fuel_level')  || 0;
-        fuel = Math.max(0, fuel - 1);
+        if(!(system.currentTick % 2)){
+            fuel = Math.max(0, fuel - 1)
+            rocket.setDynamicProperty("fuel_level", fuel);
+        };
         if(!fuel && player.getGameMode() != "Creative"){
             rocket.removeEffect("levitation");
             system.clearRun(flight);
@@ -203,7 +232,6 @@ export function rocket_flight(rocket) {
         rocket.setRotation({x: rocket.getRotation().x, y: rotation[1]});
         rocket.setProperty("cosmos:rotation_x", rotation[0]);
         player.setProperty("cosmos:rotation_x", rotation[0]);
-        rocket.setDynamicProperty("fuel_level", fuel);
     })
 }
 
@@ -211,3 +239,17 @@ world.afterEvents.entityRemove.subscribe(({removedEntityId}) => {
     world.getPlayers().filter(player => player.getDynamicProperty('in_the_rocket') == removedEntityId)
     .forEach(player => dismount(player))
 })
+
+world.afterEvents.entitySpawn.subscribe((data) => {
+    if(data.entity.typeId == "cosmos:rocket_tier_1"){
+        const machine_name = data.entity.typeId.replace('cosmos:', '');
+        machine_entities.set(data.entity.id, { type: machine_name, location: undefined});
+        let inventory_size = data.entity.getComponent("minecraft:inventory").inventorySize - 2;
+        data.entity.nameTag = '§f§u§e§l§' + rocket_nametags[inventory_size];
+    }else if(data.entity.typeId == "cosmos:lander"){
+        const machine_name = data.entity.typeId.replace('cosmos:', '');
+        machine_entities.set(data.entity.id, { type: machine_name, location: undefined});
+        let inventory_size = data.entity.getComponent("minecraft:inventory").inventorySize - 4;
+        data.entity.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[inventory_size];
+    }
+});

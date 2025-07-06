@@ -1,9 +1,7 @@
 import { system, world} from "@minecraft/server"
 import { start_countdown, dismount} from "../../../api/player/liftoff";
 import { start_celestial_selector } from "../../../api/player/celestial_selector";
-import { machine_entities } from "../Machine";
 
-const rocket_nametags = {0: 0, 18: 1, 36: 2, 54: 3}
 export default class{
     constructor(entity, block) {
         this.entity = entity;
@@ -34,8 +32,8 @@ export default class{
         let inventory = rocket.getComponent('minecraft:inventory');
         let container = inventory.container;
         if(!rider){
-            container.setItem(0, undefined);
-            container.setItem(1, undefined);
+            container.setItem(inventory.inventorySize - 2, undefined);
+            container.setItem(inventory.inventorySize - 1, undefined);
             return
         };
         let fuel = rocket.getDynamicProperty("fuel_level") || 0;
@@ -78,12 +76,3 @@ export default class{
         }, 20)
     }
 }
-
-world.afterEvents.entitySpawn.subscribe((data) => {
-    if(data.entity.typeId == "cosmos:rocket_tier_1"){
-        const machine_name = data.entity.typeId.replace('cosmos:', '');
-        machine_entities.set(data.entity.id, { type: machine_name, location: undefined});
-        let inventory_size = data.entity.getComponent("minecraft:inventory").inventorySize - 2;
-        data.entity.nameTag = '§f§u§e§l§' + rocket_nametags[inventory_size];
-    }
-});

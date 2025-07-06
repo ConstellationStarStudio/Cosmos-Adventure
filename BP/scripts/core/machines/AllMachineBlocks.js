@@ -12,6 +12,7 @@ import WaterElectrolyzer from './blocks/WaterElectrolyzer'
 import GasLiquefier from './blocks/GasLiquefier'
 import ElectricFurnace from './blocks/ElectricFurnace'
 import RocketTierOne from './rockets/RocketTierOne'
+import MoonLander from './rockets/MoonLander'
 
 export default {
 	"coal_generator": {
@@ -123,6 +124,11 @@ export default {
 	"rocket_tier_1": {
 		ui: '§r§o§c§k§e§t§_§z§e§r§o',
 		class: RocketTierOne,
+		using_block: false,
+	},
+	"lander": {
+		ui: '',
+		class: MoonLander,
 		using_block: false,
 	}
 }

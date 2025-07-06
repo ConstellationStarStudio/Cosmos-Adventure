@@ -29,6 +29,7 @@ world.afterEvents.worldLoad.subscribe(() => {
 world.afterEvents.playerSpawn.subscribe((data) => {
     if(data.player.dimension.id !== "minecraft:the_end") space_tags_removing(data.player)
     data.player.removeTag("oxygen_hunger");
+    data.player.setDynamicProperty("in_celestial_selector")
 });
 
 world.afterEvents.playerDimensionChange.subscribe((data) => {

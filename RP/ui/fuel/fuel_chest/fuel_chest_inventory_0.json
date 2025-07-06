@@ -1,0 +1,103 @@
+{
+    "namespace": "fuel_chest_0",
+    
+    "interface@machines.dynamic_interface": {
+      "$size": ["100%", 140],
+      "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Space Lander",
+				"color": "$title_text_color",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 8, 6]
+			}},
+      { "fuel_chest_0@fuel_chest_0.fuel_tank": {
+          "$index": 0,
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [ -55, 18]
+      }},
+	  { "fuel_input@machines.item_slot": {
+		   "$index": 1,
+		    "anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+			"offset": [ -8, 24]
+	  }},
+	  { "green": {
+		    "type": "image",
+			"texture": "textures/ui/cosmos/fuel_chest_green", 
+		    "size": [ 38, 20 ], 
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ 50, 23]
+	  }},
+	  { "arrow": {
+		    "type": "image",
+			"texture": "textures/ui/cosmos/arrow",
+		    "size": [ 19, 9 ], 
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ -27, 29]
+	  }},
+	  { "rocket_grid_0@machines.item_slot": {
+		    "$index": 2,
+		    "anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ 41, 24]
+	  }},
+	  { "rocket_grid_1@machines.item_slot": {
+			"$index": 3,
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+			"offset": [ 59, 24]
+	    }}
+		]
+	},
+
+	"fuel_tank": {
+		"type":"panel",
+		"size": [ 36, 30 ],
+		"controls": [
+			{ "tank_back": {
+				"type":"image",
+				"texture": "textures/ui/cosmos/fuel_chest_tank_back",
+				"layer": 1
+			}},
+			{ "rocket_fluid@machines.specific_slot": {
+				"anchor_from": "bottom_left",
+				"anchor_to": "bottom_left",
+				"offset": [0, -1],
+				"layer": 2,
+				"controls": [
+					{ "unit": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "bottom_left",
+						"anchor_to": "bottom_left",
+						"size": [0, 1],
+						"controls": [
+							{ "image": {
+								"type": "image",
+								"tiled": true,
+								"texture": "textures/ui/liquids/fuel",
+								"anchor_from": "bottom_left",
+								"anchor_to": "bottom_left",
+								"size": [35, 28],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_y",
+								"$visible_if": "(not (#data = 1000))"
+							}}
+						]
+					}}
+				]
+			}},
+			{ "tank_front": {
+				"type": "image",
+				"texture": "textures/ui/cosmos/fuel_chest_tank_front",
+				"layer": 3
+			}}
+		]
+	}
+}

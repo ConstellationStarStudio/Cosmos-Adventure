@@ -25,7 +25,40 @@
                     "has_collision": true,
                     "has_gravity": true
                 }
-            }
+            },
+            "cosmos:lander_rideable_false": {
+                "minecraft:rideable": {
+                    "crouching_skip_interact": true,
+                    "interact_text": "Ride",
+                    "priority": 0,
+                    "pull_in_entities": false,
+                    "seat_count": 0
+                }
+            },
+            "inv0": {
+                "minecraft:inventory": {
+                    "container_type": "container",
+                    "inventory_size": 4
+                }
+            },
+			"inv18": {
+                "minecraft:inventory": {
+                    "container_type": "container",
+                    "inventory_size": 22
+                }
+			},
+			"inv36": {
+                "minecraft:inventory": {
+                    "container_type": "container",
+                    "inventory_size": 40
+                }
+			},
+			"inv54": {
+                "minecraft:inventory": {
+                    "container_type": "container",
+                    "inventory_size": 58
+                }
+			}
         },
         "events":{
             "cosmos:lander_gravity_disable": {
@@ -38,19 +71,37 @@
                     "component_groups": ["lander_gravity"]
                 }
             },
-            "cosmos:tick": {
-                "queue_command": {
-                     "command": "scriptevent cosmos:lander tick"
+            "cosmos:inv0": {
+                "add":{
+                    "component_groups": ["inv0"]
+                }
+            },
+            "cosmos:inv18": {
+                "add":{
+                    "component_groups": ["inv18"]
+                }
+            },
+            "cosmos:inv36": {
+                "add":{
+                    "component_groups": ["inv36"]
+                }
+            },
+            "cosmos:inv54": {
+                "add":{
+                    "component_groups": ["inv54"]
+                }
+            },
+            "cosmos:rideable_false": {
+                "add":{
+                    "component_groups": ["cosmos:lander_rideable_false"]
                 }
             }
         },
         "components": {
-            "minecraft:timer": {
-				"time": 1,
-				"time_down_event": {
-					"event": "cosmos:tick"
-				}
-            }, 
+            "minecraft:inventory": {
+                "container_type": "container",
+                "inventory_size": 4
+            },
             "minecraft:collision_box": {
                 "height": 4,
                 "width": 2

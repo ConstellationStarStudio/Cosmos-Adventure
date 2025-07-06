@@ -1,0 +1,64 @@
+{
+    "namespace": "fuel_chest_18",
+
+    "interface@machines.dynamic_interface": {
+      "$size": ["100%", 180],
+      "$content": [
+			{ "title": {
+				"type": "label",
+				"text": "Space Lander",
+				"color": "$title_text_color",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 8, 6]
+			}},
+      { "fuel_chest_0@fuel_chest_0.fuel_tank": {
+          "$index": 18,
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [ -55, 58]
+      }},
+	  { "fuel_input@machines.item_slot": {
+		   "$index": 19,
+		    "anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+			"offset": [ -8, 64]
+	  }},
+	  { "green": {
+		    "type": "image",
+			"texture": "textures/ui/cosmos/fuel_chest_green", 
+		    "size": [ 38, 20 ], 
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ 50, 63]
+	  }},
+	  { "arrow": {
+		    "type": "image",
+			"texture": "textures/ui/cosmos/arrow",
+		    "size": [ 19, 9 ], 
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ -27, 69]
+	  }},
+	  { "rocket_grid_0@machines.item_slot": {
+		    "$index": 20,
+		    "anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ 41, 64]
+	  }},
+	  { "rocket_grid_1@machines.item_slot": {
+			"$index": 21,
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+			"offset": [ 59, 64]
+	   }},
+	   { "input_grid@machines.item_grid": {
+		    "size": [ 162, 36 ],
+		    "grid_dimensions": [ 9, 2],
+			"anchor_from": "top_middle",
+			"anchor_to": "top_middle",
+		    "offset": [ 0, 20 ]
+		}}
+		]
+	}
+}
