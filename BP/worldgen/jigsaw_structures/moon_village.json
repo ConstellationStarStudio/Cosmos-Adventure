@@ -8,9 +8,9 @@
         "heightmap_projection": "world_surface",
         "start_height": {
         "type": "constant",
-        "value": { "absolute": 70 }
+        "value": { "absolute": 20 }
         },
-        "max_depth": 20,
+        "max_depth": 6,
         "terrain_adaptation": "beard_box",
         "start_pool": "cosmos:moon_village_start_pool",
         "biome_filters": [ 

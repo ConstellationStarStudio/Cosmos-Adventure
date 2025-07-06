@@ -66,7 +66,34 @@
 					"processors": "cosmos:moon_dungeon_processor"
 				},
                 "projection": "rigid",
-				"weight": 10
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/moon_d_chest_2rot_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/moon_d_empty_2rot_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 9
+			},
+			{
+				"element": {
+					"element_type": "minecraft:single_pool_element",
+					"location": "moon_dungeon/halls_1/moon_d_spawner_2rot_1",
+					"processors": "cosmos:moon_dungeon_processor"
+				},
+                "projection": "rigid",
+				"weight": 9
 			}
 		]
 	}

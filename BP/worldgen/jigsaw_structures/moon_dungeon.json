@@ -4,12 +4,12 @@
         "description": {
             "identifier": "cosmos:moon_dungeon"
         },
-        "step": "underground_structures",
+        "step": "surface_structures",
         "start_height": {
         "type": "constant",
-        "value": { "absolute": 55 }
+        "value": { "absolute": -15 }
         },
-        "max_depth": 18,
+        "max_depth": 12,
         "terrain_adaptation": "bury",
         "start_pool": "cosmos:moon_dungeon_chest_room",
         "biome_filters": [ 
