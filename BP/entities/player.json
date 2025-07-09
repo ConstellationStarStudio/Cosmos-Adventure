@@ -267,16 +267,6 @@
             "remove": {
               "component_groups": [ "minecraft:raid_trigger" ]
             }
-          },
-          "cosmos:set_parachute+": {
-                "set_property": {
-                    "cosmos:parachute": 16
-            }
-          },
-          "cosmos:set_parachute-": {
-                "set_property": {
-                    "cosmos:parachute": 5
-            }
           }
         }
     }
