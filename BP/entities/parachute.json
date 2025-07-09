@@ -1,0 +1,61 @@
+{
+   "format_version": "1.8.0",
+   "minecraft:entity": {
+      "description": {
+         "identifier": "cosmos:parachute",
+         "is_summonable": true,
+         "properties": {
+                  "cosmos:parachute": {
+                  "type": "int",
+                  "range": [0, 15],
+                  "default": 0,
+                  "client_sync": true
+                }
+            }
+        },
+        "component_groups": {
+      },
+      "components": {        
+         "minecraft:collision_box": {
+            "height": 0.1,
+            "width": 0.1
+         },
+         "minecraft:fall_damage": {
+            "value": 0
+         },
+         "minecraft:fire_immune": true,
+         "minecraft:health": {
+            "max": 1,
+            "value": 1
+         },
+         "minecraft:knockback_resistance": {
+            "value": 1
+         },
+         "minecraft:push_through": {
+            "value": 1
+         },
+         "minecraft:pushable": {
+            "is_pushable": false,
+            "is_pushable_by_piston": false
+         },
+         "minecraft:physics": {
+            "has_gravity": true,
+            "has_collision": true
+         },
+            "minecraft:rideable": {
+            "crouching_skip_interact": true,
+            "family_types": [
+               "player"
+            ],
+            "interact_text": "Ride",
+            "priority": 0,
+            "pull_in_entities": false,
+            "seat_count": 1,
+            "seats": {
+               "position": [0, 0.35, 0]
+            }
+         }
+      },
+      "events": {}
+   }
+}

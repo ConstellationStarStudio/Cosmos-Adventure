@@ -1,0 +1,72 @@
+{
+   "format_version": "1.8.0",
+   "minecraft:entity": {
+      "description": {
+         "identifier": "cosmos:parachute_chest_entity",
+         "is_summonable": true,
+         "properties": {
+                  "cosmos:parachute": {
+                  "type": "int",
+                  "range": [0, 15],
+                  "default": 0,
+                  "client_sync": true
+                }
+            }
+        },
+        "component_groups": {
+         "inv0": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 2
+            }
+         },
+			"inv18": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 20
+            }
+			},
+			"inv36": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 38
+            }
+			},
+			"inv54": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 56
+            }
+			}
+      },
+      "components": {        
+         "minecraft:collision_box": {
+            "height": 0.8,
+            "width": 0.8
+         },
+         "minecraft:fall_damage": {
+            "value": 0
+         },
+         "minecraft:fire_immune": true,
+         "minecraft:health": {
+            "max": 1,
+            "value": 1
+         },
+         "minecraft:knockback_resistance": {
+            "value": 1
+         },
+         "minecraft:push_through": {
+            "value": 1
+         },
+         "minecraft:pushable": {
+            "is_pushable": false,
+            "is_pushable_by_piston": false
+         },
+         "minecraft:physics": {
+            "has_gravity": true,
+            "has_collision": true
+         }
+      },
+      "events": {}
+   }
+}

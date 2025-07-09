@@ -64,6 +64,12 @@
                   "range": [0.0, 180.0],
                   "default": 90.0,
                   "client_sync": true
+                },
+                  "cosmos:parachute": {
+                  "type": "int",
+                  "range": [0, 32],
+                  "default": 0,
+                  "client_sync": true
                 }
             }
         },
@@ -260,6 +266,16 @@
           "minecraft:remove_raid_trigger": {
             "remove": {
               "component_groups": [ "minecraft:raid_trigger" ]
+            }
+          },
+          "cosmos:set_parachute+": {
+                "set_property": {
+                    "cosmos:parachute": 16
+            }
+          },
+          "cosmos:set_parachute-": {
+                "set_property": {
+                    "cosmos:parachute": 5
             }
           }
         }
