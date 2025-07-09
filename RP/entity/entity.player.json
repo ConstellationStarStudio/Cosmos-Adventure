@@ -48,6 +48,7 @@
         "riding.arms": "animation.player.riding.arms",
         "riding.legs": "animation.player.riding.legs",
         "cosmos_player_hold": "animation.player.cosmos_player_hold",
+        "parachute_hold": "animation.player.parachute_hold",
         "frequency": "animation.frequency.radar",
         "root": "controller.animation.player.root",
         "shield_block_main_hand": "animation.player.shield_block_main_hand",
