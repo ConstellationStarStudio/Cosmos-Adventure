@@ -1,0 +1,206 @@
+{
+    "animations": {
+        "animation.player.move.arms": {
+            "bones": {
+                "leftarm": {
+                    "rotation": [
+                        "!variable.cosmos_player_hold * variable.tcos0",
+                        0,
+                        0
+                    ]
+                },
+                "rightarm": {
+                    "rotation": [
+                        "!variable.cosmos_player_hold * -variable.tcos0",
+                        0,
+                        0
+                    ]
+                }
+            },
+            "loop": true
+        },
+        "animation.player.cosmos_player_hold": {
+            "bones": {
+                "body": {
+                    "position": [
+                        0,
+                        "q.is_on_ground * -2 + q.is_sneaking * !q.is_on_ground * -2",
+                        0
+                    ]
+                },
+                "head": {
+                    "position": [
+                        0,
+                        -1,
+                        0
+                    ]
+                },
+                "leftarm": {
+                    "position": [
+                        0,
+                        0,
+                        -1
+                    ],
+                    "rotation": [
+                        "-158 + q.is_on_ground * -28 + q.is_sneaking * !q.is_on_ground * -28",
+                        -1.5,
+                        22
+                    ]
+                },
+                "leftleg": {
+                    "rotation": [
+                        "q.is_on_ground * -28 + q.is_sneaking * !q.is_on_ground * -28",
+                        "q.is_on_ground * -0.1 + q.is_sneaking * !q.is_on_ground * -0.1",
+                        "q.is_on_ground * -0.1 + q.is_sneaking * !q.is_on_ground * -0.1"
+                    ]
+                },
+                "rightarm": {
+                    "position": [
+                        0,
+                        0,
+                        -1
+                    ],
+                    "rotation": [
+                        "-140 + q.is_on_ground * -28 + q.is_sneaking * !q.is_on_ground * -28",
+                        1.5,
+                        -22
+                    ]
+                },
+                "rightleg": {
+                    "rotation": [
+                        "q.is_on_ground * -28 + q.is_sneaking * !q.is_on_ground * -28",
+                        "q.is_on_ground * 0.1 + q.is_sneaking * !q.is_on_ground * 0.1",
+                        "q.is_on_ground * 0.1 + q.is_sneaking * !q.is_on_ground * 0.1"
+                    ]
+                },
+                "root": {
+                    "position": [
+                        0,
+                        "q.is_on_ground * 1.25 + q.is_sneaking * !q.is_on_ground * 1.25",
+                        "q.is_on_ground * 9 + q.is_sneaking * !q.is_on_ground * 9"
+                    ],
+                    "rotation": [
+                        "q.is_on_ground * 28.0 - this + q.is_sneaking * !q.is_on_ground * 28.0",
+                        0,
+                        0
+                    ]
+                }
+            },
+            "loop": true
+        },
+        "animation.player.parachute_hold": {
+            "bones": {
+                "leftarm": {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        "!v.rocket_player_hold * -180",
+                        0,
+                        "!v.rocket_player_hold * 12.5"
+                    ]
+                },
+                "rightarm": {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        "!v.rocket_player_hold * -180",
+                        0,
+                        "!v.rocket_player_hold * -12.5"
+                    ]
+                }
+            },
+            "loop": true
+        },
+	"animation.player.riding.arms" : {
+		"loop" : true,
+		"bones" : {
+			"leftarm" : {
+				"rotation" : [ "(query.property('cosmos:is_sitting') == 0)? -36.0: 0", 0.0, 0.0 ]
+			},
+			"rightarm" : {
+					"rotation" : [ "(query.property('cosmos:is_sitting') == 0)? -36.0: 0", 0.0, 0.0 ]
+			}
+		}
+	},
+	"animation.player.riding.legs" : {
+		"loop" : true,
+		"bones" : {
+			"leftleg" : {
+				"rotation" : [ "(query.property('cosmos:is_sitting') == 0)? -72.0 - this: 0", "(query.property('cosmos:is_sitting') == 0)? -18.0 - this: 0", "(query.property('cosmos:is_sitting') == 0)? -this: 0" ]
+			},
+			"rightleg" : {
+				"rotation" : [ "(query.property('cosmos:is_sitting') == 0)? -72.0 - this: 0", "(query.property('cosmos:is_sitting') == 0)? 18.0 - this: 0", "(query.property('cosmos:is_sitting') == 0)? -this: 0" ]
+			},
+            "root" : {
+				"rotation" : [ "(query.property('cosmos:is_sitting') == 1)? 90 - query.property('cosmos:rotation_x'): 0", 0, 0 ]
+			}
+		}
+	},
+        "animation.player.sneaking": {
+            "bones": {
+                "body": {
+                    "position": [
+                        0,
+                        "!variable.cosmos_player_hold * -2",
+                        0
+                    ]
+                },
+                "head": {
+                    "position": [
+                        0,
+                        "!variable.cosmos_player_hold *-1",
+                        0
+                    ]
+                },
+                "leftarm": {
+                    "rotation": [
+                        "!variable.cosmos_player_hold * -5.7",
+                        0,
+                        0
+                    ]
+                },
+                "leftleg": {
+                    "rotation": [
+                        "!variable.cosmos_player_hold * -28",
+                        "!variable.cosmos_player_hold -0.1",
+                        "!variable.cosmos_player_hold -0.1"
+                    ]
+                },
+                "rightarm": {
+                    "rotation": [
+                        "!variable.cosmos_player_hold * -5.7",
+                        0,
+                        0
+                    ]
+                },
+                "rightleg": {
+                    "rotation": [
+                        "!variable.cosmos_player_hold * -28",
+                        "!variable.cosmos_player_hold * 0.1",
+                        "!variable.cosmos_player_hold * 0.1"
+                    ]
+                },
+                "root": {
+                    "position": [
+                        0,
+                        "!variable.cosmos_player_hold * 1.25",
+                        "!variable.cosmos_player_hold * 9"
+                    ],
+                    "rotation": [
+                        "!variable.cosmos_player_hold * 28.0 - this",
+                        0,
+                        0
+                    ]
+                }
+            },
+            "loop": true
+        }
+    },
+    "format_version": "1.8.0"
+}
