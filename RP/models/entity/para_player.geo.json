@@ -1,0 +1,175 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.para_player",
+				"texture_width": 512,
+				"texture_height": 256,
+				"visible_bounds_width": 5,
+				"visible_bounds_height": 5.5,
+				"visible_bounds_offset": [0, 2.25, 0]
+			},
+			"bones": [
+				{
+					"name": "root",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "waist",
+					"parent": "root",
+					"pivot": [0, 12, 0]
+				},
+				{
+					"name": "body2",
+					"parent": "waist",
+					"pivot": [0, 24, 0]
+				},
+				{
+					"name": "para",
+					"parent": "body2",
+					"pivot": [0, 7, 2]
+				},
+				{
+					"name": "parachute3",
+					"parent": "para",
+					"pivot": [11, 34, 2],
+					"rotation": [0, 0, -30],
+					"cubes": [
+						{
+							"origin": [-9, 77, -18],
+							"size": [10, 2, 40],
+							"uv": {
+								"north": {"uv": [40, 40], "uv_size": [10, 2]},
+								"east": {"uv": [0, 40], "uv_size": [40, 2]},
+								"south": {"uv": [90, 40], "uv_size": [10, 2]},
+								"west": {"uv": [50, 40], "uv_size": [40, 2]},
+								"up": {"uv": [40, 0], "uv_size": [10, 40]},
+								"down": {"uv": [50, 40], "uv_size": [10, -40]}
+							}
+						}
+					]
+				},
+				{
+					"name": "parachuteStrings1",
+					"parent": "para",
+					"pivot": [8, 31, 2],
+					"rotation": [24.92777, -1.90972, -155.38337],
+					"cubes": [
+						{
+							"origin": [7.5, -9, 1.5],
+							"size": [1, 40, 1],
+							"uv": {
+								"north": {"uv": [101, 1], "uv_size": [1, 40]},
+								"east": {"uv": [100, 1], "uv_size": [1, 40]},
+								"south": {"uv": [103, 1], "uv_size": [1, 40]},
+								"west": {"uv": [102, 1], "uv_size": [1, 40]},
+								"up": {"uv": [101, 0], "uv_size": [1, 1]},
+								"down": {"uv": [102, 1], "uv_size": [1, -1]}
+							}
+						}
+					]
+				},
+				{
+					"name": "parachuteStrings2",
+					"parent": "para",
+					"pivot": [-8, 31, 2],
+					"rotation": [24.92777, 1.90972, 155.38337],
+					"cubes": [
+						{
+							"origin": [-8.5, -9, 1.5],
+							"size": [1, 40, 1],
+							"uv": {
+								"north": {"uv": [102, 1], "uv_size": [-1, 40]},
+								"east": {"uv": [103, 1], "uv_size": [-1, 40]},
+								"south": {"uv": [104, 1], "uv_size": [-1, 40]},
+								"west": {"uv": [101, 1], "uv_size": [-1, 40]},
+								"up": {"uv": [102, 0], "uv_size": [-1, 1]},
+								"down": {"uv": [103, 1], "uv_size": [-1, -1]}
+							}
+						}
+					]
+				},
+				{
+					"name": "parachuteStrings3",
+					"parent": "para",
+					"pivot": [-8, 31, 2],
+					"rotation": [-24.92777, -1.90972, 155.38337],
+					"cubes": [
+						{
+							"origin": [-8.5, -9, 1.5],
+							"size": [1, 40, 1],
+							"uv": {
+								"north": {"uv": [103, 1], "uv_size": [1, 40]},
+								"east": {"uv": [102, 1], "uv_size": [1, 40]},
+								"south": {"uv": [101, 1], "uv_size": [1, 40]},
+								"west": {"uv": [100, 1], "uv_size": [1, 40]},
+								"up": {"uv": [102, 1], "uv_size": [-1, -1]},
+								"down": {"uv": [103, 0], "uv_size": [-1, 1]}
+							}
+						}
+					]
+				},
+				{
+					"name": "parachuteStrings4",
+					"parent": "para",
+					"pivot": [8, 31, 2],
+					"rotation": [-24.92777, 1.90972, -155.38337],
+					"cubes": [
+						{
+							"origin": [7.5, -9, 1.5],
+							"size": [1, 40, 1],
+							"uv": {
+								"north": {"uv": [104, 1], "uv_size": [-1, 40]},
+								"east": {"uv": [101, 1], "uv_size": [-1, 40]},
+								"south": {"uv": [102, 1], "uv_size": [-1, 40]},
+								"west": {"uv": [103, 1], "uv_size": [-1, 40]},
+								"up": {"uv": [101, 1], "uv_size": [1, -1]},
+								"down": {"uv": [102, 0], "uv_size": [1, 1]}
+							}
+						}
+					]
+				},
+				{
+					"name": "parachute1",
+					"parent": "para",
+					"pivot": [15, 19, 2],
+					"rotation": [0, 0, 30],
+					"cubes": [
+						{
+							"origin": [-5, 62, -18],
+							"size": [10, 2, 40],
+							"uv": {
+								"north": {"uv": [40, 40], "uv_size": [10, 2]},
+								"east": {"uv": [0, 40], "uv_size": [40, 2]},
+								"south": {"uv": [90, 40], "uv_size": [10, 2]},
+								"west": {"uv": [50, 40], "uv_size": [40, 2]},
+								"up": {"uv": [40, 0], "uv_size": [10, 40]},
+								"down": {"uv": [50, 40], "uv_size": [10, -40]}
+							}
+						}
+					]
+				},
+				{
+					"name": "parachute2",
+					"parent": "para",
+					"pivot": [0, 23, 2],
+					"cubes": [
+						{
+							"origin": [-20, 66, -18],
+							"size": [40, 2, 40],
+							"uv": {
+								"north": {"uv": [40, 82], "uv_size": [40, 2]},
+								"east": {"uv": [0, 82], "uv_size": [40, 2]},
+								"south": {"uv": [120, 82], "uv_size": [40, 2]},
+								"west": {"uv": [80, 82], "uv_size": [40, 2]},
+								"up": {"uv": [40, 42], "uv_size": [40, 40]},
+								"down": {"uv": [80, 82], "uv_size": [40, -40]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
