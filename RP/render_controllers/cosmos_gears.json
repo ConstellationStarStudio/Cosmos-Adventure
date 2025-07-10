@@ -10,34 +10,34 @@
       ],
       "part_visibility": [
         {
-          "gear": "query.property('cosmos:oxygen_gear')"
+          "gear": "!variable.is_paperdoll && query.property('cosmos:oxygen_gear')"
         },
         {
-          "mask": "query.property('cosmos:oxygen_mask')"
+          "mask": "!variable.is_paperdoll && query.property('cosmos:oxygen_mask')"
         },
         {
-          "tank_11": "query.property('cosmos:tank1') == 'light'"
+          "tank_11": "!variable.is_paperdoll && query.property('cosmos:tank1') == 'light'"
         },
         {
-          "tank_12": "query.property('cosmos:tank1') == 'medium'"
+          "tank_12": "!variable.is_paperdoll && query.property('cosmos:tank1') == 'medium'"
         },
         {
-          "tank_13": "query.property('cosmos:tank1') == 'heavy'"
+          "tank_13": "!variable.is_paperdoll && query.property('cosmos:tank1') == 'heavy'"
         },
         {
-          "tank_21": "query.property('cosmos:tank2') == 'light'"
+          "tank_21": "!variable.is_paperdoll && query.property('cosmos:tank2') == 'light'"
         },
         {
-          "tank_22": "query.property('cosmos:tank2') == 'medium'"
+          "tank_22": "!variable.is_paperdoll && query.property('cosmos:tank2') == 'medium'"
         },
         {
-          "tank_23": "query.property('cosmos:tank2') == 'heavy'"
+          "tank_23": "!variable.is_paperdoll && query.property('cosmos:tank2') == 'heavy'"
         },
         {
-          "frequency": "query.property('cosmos:frequency_module')"
+          "frequency": "!variable.is_paperdoll && query.property('cosmos:frequency_module')"
         },
         {
-          "frequency_radar": "query.property('cosmos:frequency_module')"
+          "frequency_radar": "!variable.is_paperdoll && query.property('cosmos:frequency_module')"
         }
       ],
       "textures": [
