@@ -25,10 +25,10 @@
 				"default": "skeleton"
 			},
 			"geometry": {
-				"default": "geometry.para_chest_entity"
+				"parachute": "geometry.para_chest_entity"
 			},
 			"render_controllers": [
-				"controller.render.parachute"
+				"controller.render.parachute_chest_entity"
 			]
 		}
 	}
