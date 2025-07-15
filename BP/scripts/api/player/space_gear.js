@@ -86,8 +86,6 @@ function update(player, container) {
 				player.setProperty("cosmos:tank1", tanks[item?.typeId] ?? 'no_tank')
 			break; case 'tank2':
 				player.setProperty("cosmos:tank2", tanks[item?.typeId] ?? 'no_tank')
-			break; case 'parachute':
-				player.setProperty("cosmos:parachute", slots.parachute.indexOf(item?.typeId))
 		}
 		if (item) {
 			let durability = item.getComponent("minecraft:durability")
@@ -208,7 +206,6 @@ system.beforeEvents.startup.subscribe(({ itemComponentRegistry }) => {
 			if (!space_gear.parachute && slots.parachute.includes(item.typeId)) {
 				player.runCommand(`clear @s ${item.typeId} 0 1`)
 				space_gear.parachute = item.typeId; sound = true
-				player.setProperty("cosmos:parachute", slots.parachute.indexOf(item.typeId))
 			}
 			if (Object.keys(tanks).includes(item.typeId)) {
 				let tank = undefined
