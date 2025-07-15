@@ -97,6 +97,9 @@
     "oil": {
       "textures": "textures/blocks/fluids/oil"
     },
+    "tank_water": {
+      "textures": "textures/blocks/fluids/tank_water"
+    },
 
     //machines
     "advanced_energy_input": {

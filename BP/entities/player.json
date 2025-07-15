@@ -68,7 +68,7 @@
                 "cosmos:parachute": {
                   "type": "int",
                   "range": [0, 16],
-                  "default": 16,
+                  "default": 16,  //16 means no parachute, 0 to 15 are colors from black to yellow
                   "client_sync": true
                 }
             }

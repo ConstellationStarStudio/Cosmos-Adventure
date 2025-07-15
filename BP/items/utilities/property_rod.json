@@ -1,0 +1,18 @@
+{
+   "format_version": "1.20.80",
+   "minecraft:item": {
+       "description": {
+           "identifier": "cosmos:property_rod",
+           "menu_category": {
+             "category": "items"
+           }
+       },
+       "components": {
+           "minecraft:custom_components": ["cosmos:property_rod"],
+           "minecraft:display_name": { "value": "Property Rod" },
+           "minecraft:icon": "blaze_rod",
+           "minecraft:glint": true,
+           "minecraft:max_stack_size": { "value": 1 }
+       }
+   }
+}

@@ -104,7 +104,7 @@ function clean_folder(folder, reference) {
     fs.readdirSync(folder).forEach(item => {
         if (!fs.existsSync(reference + item)) {
             fs.rmSync(folder + item, { recursive: true, force: true })
-            console.log('\u001B[31m' + "Removed " + item + '\u001B[37m')
+            console.log('\u001B[31m' + "Removed " + folder + item + '\u001B[37m')
         }
         else if (fs.lstatSync(reference + item).isDirectory()) clean_folder(folder + item + '/', reference + item + '/')
     })

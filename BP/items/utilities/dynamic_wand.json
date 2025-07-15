@@ -1,0 +1,18 @@
+{
+   "format_version": "1.20.80",
+   "minecraft:item": {
+       "description": {
+           "identifier": "cosmos:dynamic_wand",
+           "menu_category": {
+             "category": "items"
+           }
+       },
+       "components": {
+           "minecraft:custom_components": ["cosmos:dynamic_wand"],
+           "minecraft:display_name": { "value": "Dynamic Wand" },
+           "minecraft:icon": "breeze_rod",
+           "minecraft:glint": true,
+           "minecraft:max_stack_size": { "value": 1 }
+       }
+   }
+}

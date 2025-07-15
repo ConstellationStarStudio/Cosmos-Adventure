@@ -1,5 +1,5 @@
 import { BlockStates, world, MolangVariableMap, system } from "@minecraft/server";
-import { ActionFormData } from "@minecraft/server-ui";
+import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
 import machines from "../../core/machines/AllMachineBlocks";
 import { location_of_side } from "../../api/utils";
 import { select_solar_system } from "../../api/player/celestial_selector";
@@ -66,6 +66,97 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
             else if (mode == "minecraft:redstone") {
                 show_connections(block)
             } else change_state(player, block, perm)
+        }
+    })
+    itemComponentRegistry.registerCustomComponent("cosmos:property_rod", {
+        onUse({source:player}) {
+            if (player.isSneaking) {
+                function take_property(player) {
+                    new ModalFormData().title("Choose a Property").submitButton("Change")
+                    .textField('property id:', "")
+                    .show(player).then(({formValues, canceled}) => {
+                        if (canceled) return
+                        const property = formValues[0]
+                        const value = player.getProperty(property)
+                        if (value == undefined) {take_property(player); return}
+                        take_value(player, property)
+                    })
+                }
+                function take_value(player, property) {
+                    const form = new ModalFormData().title("Change a Property").submitButton("Save")
+                    const value = player.getProperty(property)
+                    if (typeof value == "boolean") form.toggle("Bool Value:", {defaultValue: value})
+                    if (typeof value == "number") form.textField("Number Value:", ""+value)
+                    if (typeof value == "string") form.textField("String Value:", value)
+                    form.show(player).then(({formValues, canceled}) => {
+                        if (canceled) return
+                        try {
+                            if (typeof value == "boolean") player.setProperty(property, formValues[0])
+                            if (typeof value == "number") player.setProperty(property, +formValues[0])
+                            if (typeof value == "string") player.setProperty(property, formValues[0])
+                        } catch {take_value(player, property)}
+                    })
+                }
+                player.sendMessage('§cThis is not Implemented yet')
+                return
+                take_property(player)
+            }
+        }
+    })
+    itemComponentRegistry.registerCustomComponent("cosmos:dynamic_wand", {
+        onUse({source:player}) {
+            if (player.isSneaking) {
+                const form = new ActionFormData().title("Choose a Dynamic Property")
+                const properties = player.getDynamicPropertyIds()
+                properties.forEach(id => {
+                    form.button(id)
+                })
+                form.button("Add a Dynamic Property")
+                form.show(player).then(({canceled, selection}) => {
+                    if (canceled) return
+                    if (selection == properties.length) {
+                        player.sendMessage('§cThis is not Implemented yet')
+                        return
+                        new ModalFormData().title("Add a Dynamic Property").submitButton("Add")
+                        .dropdown("Choose a Type", ["String", "Number", "Boolean", "Vector3"])
+                        .textField("Enter the ID: ", "")
+                        .textField("Enter the Value: ", "")
+                        .show(player).then(({formValues, canceled}) => {
+                            if (canceled) return
+                            const value =
+                            formValues[0] == "String" ? formValues[2] :
+                            formValues[0] == "Number" ? + formValues[2] :
+                            formValues[0] == "Boolean" ? ["1", "true"].includes(formValues[2]) :
+                            formValues[0] == "Vector3" ? {x: formValues[2].split(' ')[0], y: formValues[2].split(' ')[1], z: formValues[2].split(' ')[2]} : undefined
+                            player.setDynamicProperty(formValues[1], value)
+                        })
+                    }
+                    else {
+                        const id = properties[selection]
+                        const value = player.getDynamicProperty(id)
+                        new ModalFormData().title("Fill one").submitButton("Apply")
+                        .label('§cstring is not Implemented yet')
+                        .label('§cnumber is not Implemented yet')
+                        .label('§cboolean is not Implemented yet')
+                        .label('§cvector3 is not Implemented yet')
+                        // .textField("Chnage to a string", "", typeof value == "string" ? {defaultValue: value} : undefined)
+                        // .textField("Change to a number", "", typeof value == "number" ? {defaultValue: +value} : undefined)
+                        // .textField("Chnage to a bool", "", typeof value == "boolean" ? {defaultValue: value ? "1" : "0"} : undefined)
+                        // .textField("Chnage to a vector3", "", typeof value == "object" ? {defaultValue: `${value.x} ${value.y} ${value.z}`} : undefined)
+                        .toggle("Delete")
+                        .show(player).then(({formValues, canceled}) => {
+                            if (canceled) return
+                            player.setDynamicProperty(id,
+                                formValues[4] ? undefined : value
+                                // formValues[0] ? formValues[1] : 
+                                // formValues[1] ? + formValues[0] : 
+                                // formValues[2] ? ["1", "true"].includes(formValues[2]) :
+                                // formValues[3] ? {x: formValues[3].split(' ')[0], y: formValues[3].split(' ')[1], z: formValues[3].split(' ')[2]} : value
+                            )
+                        })
+                    }
+                })
+            }
         }
     })
     itemComponentRegistry.registerCustomComponent("cosmos:debug_canister", {

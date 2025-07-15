@@ -18,7 +18,7 @@ const slots = {
 	tank2: Object.keys(tanks),
 	frequency_module: "cosmos:frequency_module",
 	mask: "cosmos:oxygen_mask",
-	parachute: ["cosmos:parachute_black", "cosmos:parachute_blue", "cosmos:parachute_brown", "cosmos:parachute_darkblue", "cosmos:parachute_darkgray", "cosmos:parachute_darkgreen", "cosmos:parachute_gray", "cosmos:parachute_lime", "cosmos:parachute_magenta", "cosmos:parachute_orange", "cosmos:parachute_pink", "cosmos:parachute_plain", "cosmos:parachute_purple", "cosmos:parachute_red", "cosmos:parachute_teal", "cosmos:parachute_yellow"],
+	parachute: ["cosmos:parachute_black", "cosmos:parachute_blue", "cosmos:parachute_brown", "cosmos:parachute_darkblue", "cosmos:parachute_darkgray", "cosmos:parachute_darkgreen", "cosmos:parachute_gray", "cosmos:parachute_lime", "cosmos:parachute_magenta", "cosmos:parachute_orange", "cosmos:parachute_pink", "cosmos:parachute_plain", "cosmos:parachute_purple", "cosmos:parachute_red", "cosmos:parachute_teal", "cosmos:parachute_yellow", undefined],
 	thermal: ["cosmos:shield_controller"],
 	gear: "cosmos:oxygen_gear"
 };
@@ -78,18 +78,16 @@ function update(player, container) {
 		switch (slot) {
 			case 'frequency_module':
 				player.setProperty("cosmos:frequency_module", item?.typeId == "cosmos:frequency_module")
-				break;
-			case 'gear':
+			break; case 'gear':
 				player.setProperty("cosmos:oxygen_gear", item?.typeId == "cosmos:oxygen_gear")
-				break;
-			case 'mask':
+			break; case 'mask':
 				player.setProperty("cosmos:oxygen_mask", item?.typeId == "cosmos:oxygen_mask")
-				break;
-			case 'tank1':
+			break; case 'tank1':
 				player.setProperty("cosmos:tank1", tanks[item?.typeId] ?? 'no_tank')
-				break;
-			case 'tank2':
+			break; case 'tank2':
 				player.setProperty("cosmos:tank2", tanks[item?.typeId] ?? 'no_tank')
+			break; case 'parachute':
+				player.setProperty("cosmos:parachute", slots.parachute.indexOf(item?.typeId))
 		}
 		if (item) {
 			let durability = item.getComponent("minecraft:durability")
@@ -210,6 +208,7 @@ system.beforeEvents.startup.subscribe(({ itemComponentRegistry }) => {
 			if (!space_gear.parachute && slots.parachute.includes(item.typeId)) {
 				player.runCommand(`clear @s ${item.typeId} 0 1`)
 				space_gear.parachute = item.typeId; sound = true
+				player.setProperty("cosmos:parachute", slots.parachute.indexOf(item.typeId))
 			}
 			if (Object.keys(tanks).includes(item.typeId)) {
 				let tank = undefined
