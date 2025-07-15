@@ -1,0 +1,41 @@
+{
+    "format_version": "1.20.80",
+    "render_controllers": {
+        "controller.render.parachute_chest_entity": {
+            "arrays": {
+                "textures": {
+                    "array.parachute": [
+                        "texture.parachute_black",
+                        "texture.parachute_blue",
+                        "texture.parachute_brown",
+                        "texture.parachute_darkblue",
+                        "texture.parachute_darkgray",
+                        "texture.parachute_darkgreen",
+                        "texture.parachute_gray",
+                        "texture.parachute_lime",
+                        "texture.parachute_magenta",
+                        "texture.parachute_orange",
+                        "texture.parachute_pink",
+                        "texture.parachute_plain",
+                        "texture.parachute_purple",
+                        "texture.parachute_red",
+                        "texture.parachute_teal",
+                        "texture.parachute_yellow"
+                    ]
+                }
+            },
+            "geometry": "geometry.parachute",
+            "materials": [
+                {
+                    "*": "material.default"
+                }
+            ],
+            "part_visibility": [
+                {
+                    "root": "query.property('cosmos:parachute') != 16"
+                }
+            ],
+            "textures": ["array.parachute[q.property('cosmos:parachute')]"]
+        }
+    }
+}
