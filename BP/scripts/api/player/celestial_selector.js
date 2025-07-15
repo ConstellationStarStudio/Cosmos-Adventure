@@ -1,6 +1,7 @@
 import { ActionFormData } from "@minecraft/server-ui";
 import { world, system, Player } from "@minecraft/server";
-import { moon_lander, saved_rocket_items } from "./liftoff";
+import { saved_rocket_items, return_to_earth} from "./liftoff";
+import { moon_lander } from "../../core/machines/rockets/MoonLander";
 
 const debug = true
 
@@ -64,20 +65,23 @@ export function select_solar_system(player, tier = 1) {
 /**@param {Player} player  */
 function launch(player, planet) {
 	player.setDynamicProperty("in_celestial_selector")
-	if (planet == 'Moon' && player.getComponent("minecraft:riding")) {
-		let rocket = player.getComponent("minecraft:riding").entityRidingOn;
-		let container = rocket.getComponent("minecraft:inventory").container;
-		let size = rocket.getComponent("minecraft:inventory").inventorySize;
-		let fuel = rocket.getDynamicProperty("fuel_level");
-		let items = [];
-		for(let i = 0; i <= (size - 3); i++){
-			items.push(container.getItem(i))
-		}
-		let id = rocket.id;
-		let typeId = rocket.typeId;
-		rocket.remove();
+
+	let riding = player.getComponent("minecraft:riding");
+	if(!riding) return; 
+	let rocket = riding.entityRidingOn;
+    let container = rocket.getComponent("minecraft:inventory").container;
+	let size = rocket.getComponent("minecraft:inventory").inventorySize;
+	let fuel = rocket.getDynamicProperty("fuel_level");
+	let items = [];
+	let id = rocket.id;
+	let typeId = rocket.typeId;
+	for(let i = 0; i <= (size - 3); i++){
+		items.push(container.getItem(i))
+	}
+	rocket.remove();
+	let dimension = player.dimension;
+	if (planet == 'Moon'){
 		let moon = world.getDimension("the_end");
-		let dimension = player.dimension;
 		let loc = { x: 75000 + (Math.random() * 20), y: 1000, z: 75000 + (Math.random() * 20) };
 		saved_rocket_items.set(id, items)
 		player.setDynamicProperty('dimension', JSON.stringify([planet, fuel, loc, size, id, typeId]))
@@ -85,7 +89,17 @@ function launch(player, planet) {
 		if (dimension.id == "minecraft:the_end"){
 			system.runTimeout(() => {moon_lander(player, false);}, 5);
 		}
+	}else if(planet == 'Overworld'){
+		let overworld = world.getDimension("overworld")
+		let loc = { x: 0 + (Math.random() * 20), y: 255, z: 0 + (Math.random() * 20) };
+		saved_rocket_items.set(id, items)
+		player.setDynamicProperty('dimension', JSON.stringify([planet, fuel, loc, size, id, typeId]))
+		player.teleport(loc, { dimension: overworld });
+		if (dimension.id == "minecraft:overworld"){
+			system.runTimeout(() => {return_to_earth(player);}, 5);
+		}
 	}
+
 	if (debug) player.sendMessage(`Launch ${player.nameTag} to ${planet}`)
 }
 

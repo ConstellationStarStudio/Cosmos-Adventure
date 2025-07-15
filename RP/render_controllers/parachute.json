@@ -24,10 +24,15 @@
                     ]
                 }
             },
-            "geometry": "geometry.default",
+            "geometry": "geometry.parachute",
             "materials": [
                 {
                     "*": "material.default"
+                }
+            ],
+            "part_visibility": [
+                {
+                    "root": "query.property('cosmos:parachute') != 16"
                 }
             ],
             "textures": ["array.parachute[q.property('cosmos:parachute')]"]

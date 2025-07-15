@@ -70,7 +70,8 @@
       "geometry": {
         "cape": "geometry.cape",
         "default": "geometry.humanoid.custom",
-        "cosmos_gears": "geometry.cosmos_gears"
+        "cosmos_gears": "geometry.cosmos_gears",
+        "parachute": "geometry.para_player"
       },
       "identifier": "minecraft:player",
       "min_engine_version": "1.12.2",
@@ -82,7 +83,10 @@
       },
       "render_controllers": [
         {
-          "controller.render.cosmos_gears": "!variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+          "controller.render.cosmos_gears": "!variable.is_paperdoll && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator"
+        },
+        {
+          "controller.render.parachute": "!variable.is_paperdoll && !variable.is_first_person && !variable.map_face_icon && !query.is_spectator && query.property('cosmos:parachute') != 16"
         },
         {
           "controller.render.player.first_person_spectator": "variable.is_first_person && query.is_spectator"
@@ -106,6 +110,7 @@
           {
             "cosmos_player_hold": "variable.cosmos_player_hold"
           },
+         "parachute_hold",
           "frequency"
         ],
         "initialize": [
@@ -133,7 +138,24 @@
       "textures": {
         "cape": "textures/entity/cape_invisible",
         "default": "textures/entity/steve",
-        "cosmos_gears": "textures/entity/cosmos_gears"
+        "cosmos_gears": "textures/entity/cosmos_gears", 
+
+        "parachute_black": "textures/parachute/black",
+				"parachute_blue": "textures/parachute/blue",
+				"parachute_brown": "textures/parachute/brown",
+				"parachute_darkblue": "textures/parachute/darkblue",
+				"parachute_darkgray": "textures/parachute/darkgray",
+				"parachute_darkgreen": "textures/parachute/darkgreen",
+				"parachute_gray": "textures/parachute/gray",
+				"parachute_lime": "textures/parachute/lime",
+				"parachute_magenta": "textures/parachute/magenta",
+				"parachute_orange": "textures/parachute/orange",
+				"parachute_pink": "textures/parachute/pink",
+				"parachute_plain": "textures/parachute/plain",
+				"parachute_purple": "textures/parachute/purple",
+				"parachute_red": "textures/parachute/red",
+				"parachute_teal": "textures/parachute/teal",
+				"parachute_yellow": "textures/parachute/yellow"
       }
     }
   }

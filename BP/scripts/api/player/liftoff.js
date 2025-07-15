@@ -1,120 +1,53 @@
 import { world, system, ItemStack } from "@minecraft/server"
 import { machine_entities } from "../../core/machines/Machine";
+import { moon_lander } from "../../core/machines/rockets/MoonLander";
 
-const rocket_nametags = {0: 0, 18: 1, 36: 2, 54: 3}
+const parachutes = {"cosmos:parachute_black": 0, 
+    "cosmos:parachute_blue": 1,
+    "cosmos:parachute_brown": 2,
+    "cosmos:parachute_darkblue": 3, 
+    "cosmos:parachute_darkgray": 4,
+    "cosmos:parachute_darkgreen": 5,
+    "cosmos:parachute_gray": 6,
+    "cosmos:parachute_lime": 7,
+    "cosmos:parachute_magenta": 8,
+    "cosmos:parachute_orange": 9,
+    "cosmos:parachute_pink": 10,
+    "cosmos:parachute_plain": 11,
+    "cosmos:parachute_purple": 12,
+    "cosmos:parachute_red": 13,
+    "cosmos:parachute_teal": 14,
+    "cosmos:parachute_yellow": 15
+}
+export const rocket_nametags = {0: 0, 18: 1, 36: 2, 54: 3}
 export let saved_rocket_items = new Map();
 
-function lander_rotation(player, lander){
-    let final_rotation_x = lander.getProperty("cosmos:rotation_x");
-    let final_rotation_y = lander.getProperty("cosmos:rotation_y");
+
+export function return_to_earth(player){
+    player.inputPermissions.setPermissionCategory(2, true)
+    player.inputPermissions.setPermissionCategory(6, true)
+    player.setDynamicProperty('in_the_rocket')
     
-    let input = player.inputInfo.getMovementVector();
-    input = {x: Math.round(input.x), y: Math.round(input.y)}
-    final_rotation_x = Math.min(Math.max(final_rotation_x + (input.y * 2), -45), 45);
-    final_rotation_y = final_rotation_y + (input.x * 2);
-
-    final_rotation_y = (final_rotation_y > 360)? 2:
-    (final_rotation_y < 0)? 358:
-    final_rotation_y;
-    return [final_rotation_x, final_rotation_y]
-}
-export function moon_lander(player, load = true){
-    let speed = 0;
-    player.inputPermissions.setPermissionCategory(2, false);
-    player.inputPermissions.setPermissionCategory(6, false);
-    player.setProperty("cosmos:rotation_x", 90);
-    
-    let data = JSON.parse(player.getDynamicProperty('dimension'))
-    let items_to_set = saved_rocket_items.get(data[4]);
-    saved_rocket_items.delete(data[4])
-    let typeId = data[5]
-    let size = data[3] - 2;
-    let group = 'cosmos:inv' + size;
-    let lander = player.dimension.spawnEntity("cosmos:lander", {x: data[2].x, y: 250, z: data[2].z});
-    lander.triggerEvent("cosmos:lander_gravity_disable");
-    lander.teleport(data[2]);
-    lander.setDynamicProperty("fuel_level", data[1]);
-    lander.getComponent("minecraft:rideable").addRider(player);
-    player.camera.setCamera("minecraft:follow_orbit", { radius: 20 });
-    player.setDynamicProperty("dimension", undefined);
-    player.removeTag("ableToOxygen")
-
-    let is_load = load;
-    let camera = player.getRotation();
-    let lander_flight = system.runInterval(() => {
-        if(is_load){
-            let new_camera = player.getRotation();
-            if(new_camera.x != camera.x || new_camera.y != camera.y) is_load = false
-            lander.triggerEvent(group);
-            lander.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[size]
-            return;
-        }
-        if(!player || !player.isValid){
-            system.clearRun(lander_flight);
-            return;
-        }
-        if(!lander || !lander.isValid){
-            dismount(player);
-            system.clearRun(lander_flight);
-            return;
-        }
-        if(player.inputInfo.getButtonState("Jump") == "Pressed"){
-            speed = Math.min(speed + 0.03, lander.location.y < 115 ? -0.15 : -1.0);
-        }else{
-            speed = Math.min(speed - 0.022, -1.0);
-        }
-        speed -= 0.008;
-
-        let translatedSpeed = {"rawtext": [
-            {"translate": "gui.lander.velocity"},
-            {"text": ": "},
-            {"text": `${(Math.round(speed * 1000)/100)}`},
-            {"text": " "},
-            {"translate": "gui.lander.velocityu"}
-        ]}
-        player.onScreenDisplay.setTitle(" ", {fadeInDuration: 0, fadeOutDuration: 0, stayDuration: 2, subtitle: translatedSpeed})
-
-        let rotation = lander_rotation(player, lander)
-        lander.setProperty("cosmos:rotation_x", rotation[0])
-        lander.setProperty("cosmos:rotation_y", rotation[1])
-
-        let motY = Math.sin(rotation[0]/57.2957795147);
-        let motX = Math.cos(rotation[1]/57.2957795147) * motY;
-        let motZ = Math.sin(rotation[1]/57.2957795147) * motY;
-        let speedX = motX / 2.0;
-        let speedZ = motZ / 2.0;
-
-        lander.clearVelocity();
-        lander.applyImpulse({x: speedX, y: speed, z: speedZ})
-        if(lander.location.y < 500 && lander.getVelocity().y === 0){
-            if(Math.abs(speed) > 2){
-                player.addTag("ableToOxygen");
-                player.addTag("in_space");
-                dismount(player);
-
-                lander.setProperty("cosmos:rotation_x", 0)
-
-                lander.dimension.createExplosion(lander.location, 10, {causesFire: false, breaksBlocks: true});
-                lander.remove();
-                system.clearRun(lander_flight);
-            }else{
-                lander.setProperty("cosmos:rotation_x", 0)
-                player.inputPermissions.setPermissionCategory(2, true);
-                player.addTag("ableToOxygen");
-                player.addTag("in_space");
-                dismount(player);
-                lander.getComponent("minecraft:rideable").ejectRider(player)
-                lander.triggerEvent("cosmos:rideable_false")
-
-                set_items_to_lander(lander, size, items_to_set, typeId)
-
-                lander.triggerEvent("cosmos:lander_gravity_enable")
-                system.clearRun(lander_flight);
-            }
+    const space_gear = JSON.parse(player.getDynamicProperty("space_gear") ?? '{}')
+    if(space_gear.parachute){
+        const [item_id, fill_level] = space_gear.parachute.split(' ');
+        player.setProperty("cosmos:parachute", parachutes[item_id]);
+        player.addEffect("slow_falling", 9999, {showParticles: false})
+    }
+    if(player.getDynamicProperty('dimension')){
+        let player_data = JSON.parse(player.getDynamicProperty('dimension'));
+        player.teleport(player_data[2], { dimension: world.getDimension("overworld")});
+        player.setDynamicProperty('dimension')
+    }
+    let player_falling = system.runInterval(() => {
+        if(system.currentTick > 5 && player.getVelocity().y >= 0 && player.location.y < 250){
+            player.removeEffect("slow_falling");
+            player.setProperty("cosmos:parachute", 16);
+            system.clearRun(player_falling)
         }
     });
 }
-function set_items_to_lander(lander, size, items_to_set, typeId){
+export function set_items_to_lander(lander, size, items_to_set, typeId){
     let container = lander.getComponent("minecraft:inventory").container;
     let inventorySize = lander.getComponent("minecraft:inventory").inventorySize;
     for(let i = 0; i <= (inventorySize - 5); i++){
@@ -130,9 +63,14 @@ function set_items_to_lander(lander, size, items_to_set, typeId){
 
 world.afterEvents.playerDimensionChange.subscribe((data) => {
     if(!data.player.getDynamicProperty('dimension')) return;
-    if(data.fromDimension.id != "minecraft:overworld") return;
-    if(JSON.parse(data.player.getDynamicProperty('dimension'))[0] == 'Moon'){
-        system.run(() => {moon_lander(data.player);})
+    let player_data = JSON.parse(data.player.getDynamicProperty('dimension'));
+    switch(player_data[0]){
+        case 'Moon':
+            system.run(() => {moon_lander(data.player);});
+            break;
+        case 'Overworld':
+            system.run(() => {return_to_earth(data.player);});
+            break;
     }
 });
 

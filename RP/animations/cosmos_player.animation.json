@@ -97,9 +97,9 @@
                         0
                     ],
                     "rotation": [
-                        "!v.rocket_player_hold * -180",
+                        "(!variable.is_paperdoll && query.property('cosmos:parachute') != 16)? -180: 0",
                         0,
-                        "!v.rocket_player_hold * 12.5"
+                        "(!variable.is_paperdoll && query.property('cosmos:parachute') != 16)? 12.5: 0"
                     ]
                 },
                 "rightarm": {
@@ -109,9 +109,9 @@
                         0
                     ],
                     "rotation": [
-                        "!v.rocket_player_hold * -180",
+                        "(!variable.is_paperdoll && query.property('cosmos:parachute') != 16)? -180: 0",
                         0,
-                        "!v.rocket_player_hold * -12.5"
+                        "(!variable.is_paperdoll && query.property('cosmos:parachute') != 16)? -12.5: 0"
                     ]
                 }
             },
