@@ -1,4 +1,5 @@
 import { world, system } from "@minecraft/server";
+import { space_gear_entities } from "./space_gear";
 
 export let tanks = {
     "cosmos:oxygen_tank_light_full": 900,
@@ -11,6 +12,7 @@ export function oxygen_spending(players){
         let space_gear = JSON.parse(player.getDynamicProperty("space_gear") ?? '{}');
         let tank1 = space_gear["tank1"]?.split(' ')
         let tank2 = space_gear["tank2"]?.split(' ')
+        let space_gear_id = space_gear_entities.get(player.nameTag)
         
         //if (no tank1 or tank1 is empty and no tank2) or tank2 is empty or no mask or no gear
         if(((!tank1 || tank1[1] == "0") && (!tank2 || tank2[1] == "0")) || (!space_gear["mask"] || !space_gear["gear"])){
@@ -21,16 +23,16 @@ export function oxygen_spending(players){
         if(tank1 && tank1[1] !== "0"){
             space_gear["tank1"] = tank1[0] + ' ' + Math.max(0, tank1[1] - 1);
             player.setDynamicProperty("space_gear", JSON.stringify(space_gear));
-            if(player.getDynamicProperty("secondInventoryEntity")){
-                let space_gear_entity = world.getEntity(player.getDynamicProperty("secondInventoryEntity")).getComponent("inventory").container;
-                let new_tank = space_gear_entity.getItem(4);
-                space_gear_entity.setItem(4, update_tank(new_tank, Math.max(0, tank1[1] - 1)))
+            if(space_gear_id){
+                let space_gear_entity = world.getEntity(space_gear_id)?.getComponent("inventory").container;
+                let new_tank = space_gear_entity?.getItem(4);
+                space_gear_entity?.setItem(4, update_tank(new_tank, Math.max(0, tank1[1] - 1)))
             }
         }else if(tank2 && tank2[1] !== "0"){
             space_gear["tank2"] = tank2[0] + ' ' + Math.max(0, tank2[1] - 1);
             player.setDynamicProperty("space_gear", JSON.stringify(space_gear));
-            if(player.getDynamicProperty("secondInventoryEntity")){
-                let space_gear_entity = world.getEntity(player.getDynamicProperty("secondInventoryEntity")).getComponent("inventory").container;
+            if(space_gear_id){
+                let space_gear_entity = world.getEntity(space_gear_id)?.getComponent("inventory").container;
                 let new_tank = space_gear_entity.getItem(5);
                 space_gear_entity.setItem(5, update_tank(new_tank, Math.max(0, tank2[1] - 1)))
             }

@@ -23,6 +23,8 @@ const slots = {
 	gear: "cosmos:oxygen_gear"
 };
 
+export let space_gear_entities = new Map();
+
 /* unused
 const maskTag = "mask(-)cosmos:oxygen_mask";
 const gearTag = "gear(-)cosmos:oxygen_gear";
@@ -36,7 +38,7 @@ function spawn(player) {
 	const entity = player.dimension.spawnEntity("cosmos:inv_ent", in_bounds_location);
 	entity.nameTag = "space_gear(-)"; // needed for condition in UI
 	entity.setDynamicProperty('owner', player.nameTag)
-	player.setDynamicProperty('secondInventoryEntity', entity.id)
+	space_gear_entities.set(player.nameTag, entity.id)
 	setItems(player, entity)
 	return entity
 }
@@ -101,12 +103,14 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 	if (!data.isFirstEvent || !data.player.isSneaking || data.itemStack) return;
 	let player = data.player;
 	data.cancel = true;
-	if (player.getDynamicProperty('secondInventoryEntity')) return;
+	if(space_gear_entities.get(player.nameTag)) return;
 	system.run(() => {
-		let entity;
+		let entity = spawn(player)
 		let secondInventory = system.runInterval(() => {
-			if (!player.getDynamicProperty('secondInventoryEntity') || !world.getEntity(player.getDynamicProperty('secondInventoryEntity')) || !entity || !entity.isValid) {
-				entity = spawn(player)
+			if(!entity.isValid){
+				space_gear_entities.delete(player.nameTag)
+				system.clearRun(secondInventory)
+				return;
 			}
 			// LET ENTITY FOLLOW THE PLAYER
 			const location = player.location;
@@ -130,7 +134,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 				}
 			} update(player, container)
 			if ((!player.isSneaking && !entity.getDynamicProperty('view')) || !player.isValid) {
-				player.setDynamicProperty('secondInventoryEntity', undefined)
+				space_gear_entities.delete(player.nameTag)
 				despawn(entity)
 				system.clearRun(secondInventory)
 				return;
@@ -140,7 +144,7 @@ world.beforeEvents.playerInteractWithBlock.subscribe((data) => {
 			const view = entity.getDynamicProperty('view')
 			if (view && (camera != view)){
 				despawn(entity)
-				player.setDynamicProperty('secondInventoryEntity', undefined);
+				space_gear_entities.delete(player.nameTag);
 				system.clearRun(secondInventory);
 				return;
 			}
@@ -173,7 +177,7 @@ world.afterEvents.entityDie.subscribe(({ deadEntity: player }) => {
 	const entities = player.dimension.getEntities({ type: "cosmos:inv_ent" })//.filter(entity => entity.getDynamicProperty('owner') != player.nameTag)
 	entities.length == 0 ? despawn(spawn(player), !world.gameRules.keepInventory) : entities.forEach(entity => despawn(entity, !world.gameRules.keepInventory))
 	if (!world.gameRules.keepInventory) player.setDynamicProperty("space_gear", undefined);
-	player.setDynamicProperty("secondInventoryEntity", undefined);
+	space_gear_entities.delete(player.nameTag)
 });
 
 // DELETING ENTITY ON LEAVING -- This doesn't work for some reason -- crashes the game 
