@@ -18,6 +18,7 @@
 			"never_despawn": false,
 			"distance_to_players": 2
 		},
+	    "minecraft:transient": {},
 		"minecraft:damage_sensor": {
         "triggers": {
           "cause": "all",
