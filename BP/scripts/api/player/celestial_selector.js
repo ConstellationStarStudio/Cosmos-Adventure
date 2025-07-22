@@ -33,11 +33,11 @@ export function select_solar_system(player, tier = 1) {
 	let form = new ActionFormData()
 		.title("Celestial Panel Solar System")
 		.body(`Tier ${tier} Station ${has_station || ('false ' + JSON.stringify(read_inventory(player)))}`)
-		.button(`Launch to Venus`)
 		.button(`Launch to Overworld`)
-		.button(`Launch to Mars`)
-		.button(`Launch to Asteroids`)
 		.button(`Launch to Moon`)
+		.button(`Launch to Mars`)
+		.button(`Launch to Venus`)
+		.button(`Launch to Asteroids`)
 		.button(`Create Space Station`)
 	for (let player_name of Object.keys(space_stations)) {
 		const name = space_stations[player_name].name
@@ -49,11 +49,11 @@ export function select_solar_system(player, tier = 1) {
 			if (!debug) select_solar_system(player); return
 		}
 		switch (response.selection) {
-			case 0: if (tier >= 3) launch(player, "Venus"); return
-			case 1: launch(player, "Overworld"); return
+			case 0: launch(player, "Overworld"); return
+			case 1: launch(player, "Moon"); return
 			case 2: if (tier >= 2) launch(player, "Mars"); return
-			case 3: if (tier >= 3) launch(player, "Asteroids"); return
-			case 4: launch(player, "Moon"); return
+			case 3: if (tier >= 3) launch(player, "Venus"); return
+			case 4: if (tier >= 3) launch(player, "Asteroids"); return
 			case 5: if (!Object.values(read_inventory(player)).includes(false)) create_station(player); return
 		}
 		const station_index = response.selection - 6
@@ -64,6 +64,7 @@ export function select_solar_system(player, tier = 1) {
 }
 /**@param {Player} player  */
 function launch(player, planet) {
+	player.sendMessage("Launch to "+ planet)
 	player.setDynamicProperty("in_celestial_selector")
 
 	let riding = player.getComponent("minecraft:riding");

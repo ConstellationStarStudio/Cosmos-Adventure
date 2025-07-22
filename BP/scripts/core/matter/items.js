@@ -1,5 +1,5 @@
 
-import "../items/debug_stick.js"
+import "../items/debug_items.js"
 import "../items/wrench.js"
 import "../items/grapple.js"
 import "../items/dungeon_finder"

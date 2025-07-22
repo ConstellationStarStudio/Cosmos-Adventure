@@ -1,6 +1,6 @@
 import { BlockStates, world, MolangVariableMap, system } from "@minecraft/server";
 import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
-import machines from "../../core/machines/AllMachineBlocks";
+import machines from "../machines/AllMachineBlocks";
 import { location_of_side } from "../../api/utils";
 import { select_solar_system } from "../../api/player/celestial_selector";
 
