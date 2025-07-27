@@ -49,20 +49,17 @@ export function return_to_earth(player){
 
         parachest = overworld.spawnEntity("cosmos:parachute_chest_entity", {x: Math.round(player_data.loc.x) + 5.5, y: 255, z: Math.round(player_data.loc.z) + 5.5})
         parachest.setProperty("cosmos:parachute", parachute_color ?? 6);
-        parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 255})
+        parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 3})
     }
     let player_not_on_ground = true;
     let player_falling = system.runInterval(() => {
-        if(player_not_on_ground && system.currentTick > 5 && player.getVelocity().y >= 0 && player.location.y < 250){
+        if(player_not_on_ground && player.getVelocity().y >= 0 && player.location.y < 250){
             player.removeEffect("slow_falling");
             player.setProperty("cosmos:parachute", 16);
             player_not_on_ground = false;
             if(!parachest) system.clearRun(player_falling)
         }
-        if(parachest.isValid && system.currentTick > 200){
-            parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 2})
-        }
-        if(parachest && parachest.isValid && system.currentTick > 5 && parachest.getVelocity().y >= 0 && parachest.location.y < 250){
+        if(parachest && parachest.isValid && parachest.getVelocity().y >= 0 && parachest.location.y < 250){
             system.runTimeout(() => {
                 let parachest_loc = parachest.location;
                 let dimension = parachest.dimension;
@@ -75,9 +72,6 @@ export function return_to_earth(player){
                 }, 5);
             }, 10);
             system.clearRun(player_falling);
-        }
-        if(system.currentTick > 80 && parachest && parachest.isValid){
-            parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 3})
         }
     });
 }
