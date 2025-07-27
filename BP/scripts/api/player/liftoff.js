@@ -1,6 +1,7 @@
-import { world, system, ItemStack } from "@minecraft/server"
+import { world, system, ItemStack, BlockPermutation } from "@minecraft/server"
 import { machine_entities } from "../../core/machines/Machine";
 import { moon_lander } from "../../core/machines/rockets/MoonLander";
+import { place_parachest } from "../../core/machines/blocks/Parachest";
 
 const parachutes = {"cosmos:parachute_black": 0, 
     "cosmos:parachute_blue": 1,
@@ -27,23 +28,56 @@ export function return_to_earth(player){
     player.inputPermissions.setPermissionCategory(2, true)
     player.inputPermissions.setPermissionCategory(6, true)
     player.setDynamicProperty('in_the_rocket')
+
+    let overworld = world.getDimension("overworld");
     
     const space_gear = JSON.parse(player.getDynamicProperty("space_gear") ?? '{}')
+    let player_data;
+
+    let parachute_color = undefined;
+    let parachest = undefined;
     if(space_gear.parachute){
         const [item_id, fill_level] = space_gear.parachute.split(' ');
-        player.setProperty("cosmos:parachute", parachutes[item_id]);
+        parachute_color = parachutes[item_id];
+        player.setProperty("cosmos:parachute", parachute_color);
         player.addEffect("slow_falling", 9999, {showParticles: false})
     }
     if(player.getDynamicProperty('dimension')){
-        let player_data = JSON.parse(player.getDynamicProperty('dimension'));
-        player.teleport(player_data[2], { dimension: world.getDimension("overworld")});
-        player.setDynamicProperty('dimension')
+        player_data = JSON.parse(player.getDynamicProperty('dimension'));
+        player.teleport(player_data.loc, { dimension: world.getDimension("overworld")});
+        player.setDynamicProperty('dimension') 
+
+        parachest = overworld.spawnEntity("cosmos:parachute_chest_entity", {x: Math.round(player_data.loc.x) + 5.5, y: 255, z: Math.round(player_data.loc.z) + 5.5})
+        parachest.setProperty("cosmos:parachute", parachute_color ?? 6);
+        parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 255})
     }
+    let player_not_on_ground = true;
     let player_falling = system.runInterval(() => {
-        if(system.currentTick > 5 && player.getVelocity().y >= 0 && player.location.y < 250){
+        if(player_not_on_ground && system.currentTick > 5 && player.getVelocity().y >= 0 && player.location.y < 250){
             player.removeEffect("slow_falling");
             player.setProperty("cosmos:parachute", 16);
-            system.clearRun(player_falling)
+            player_not_on_ground = false;
+            if(!parachest) system.clearRun(player_falling)
+        }
+        if(parachest.isValid && system.currentTick > 200){
+            parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 2})
+        }
+        if(parachest && parachest.isValid && system.currentTick > 5 && parachest.getVelocity().y >= 0 && parachest.location.y < 250){
+            system.runTimeout(() => {
+                let parachest_loc = parachest.location;
+                let dimension = parachest.dimension;
+                parachest.remove();
+                let parachest_block = place_parachest(player_data.fuel, dimension, parachest_loc, player_data.size - 2, parachute_color)
+
+                system.runTimeout(() => {
+                    set_items_to_lander(parachest_block, player_data.size - 2, saved_rocket_items.get(player_data.id), player_data.typeId);
+                    saved_rocket_items.delete(player_data.id);
+                }, 5);
+            }, 10);
+            system.clearRun(player_falling);
+        }
+        if(system.currentTick > 80 && parachest && parachest.isValid){
+            parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 3})
         }
     });
 }
@@ -64,7 +98,7 @@ export function set_items_to_lander(lander, size, items_to_set, typeId){
 world.afterEvents.playerDimensionChange.subscribe((data) => {
     if(!data.player.getDynamicProperty('dimension')) return;
     let player_data = JSON.parse(data.player.getDynamicProperty('dimension'));
-    switch(player_data[0]){
+    switch(player_data.planet){
         case 'Moon':
             system.run(() => {moon_lander(data.player);});
             break;

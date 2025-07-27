@@ -129,6 +129,12 @@
                "death": "none"
             },
             "volume": 0
+         },
+         "cosmos:parachest": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
          }
       }
    }

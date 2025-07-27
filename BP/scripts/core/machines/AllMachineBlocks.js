@@ -13,6 +13,7 @@ import GasLiquefier from './blocks/GasLiquefier'
 import ElectricFurnace from './blocks/ElectricFurnace'
 import RocketTierOne from './rockets/RocketTierOne'
 import MoonLander from './rockets/MoonLander'
+import Parachest from './blocks/Parachest'
 
 export default {
 	"coal_generator": {
@@ -130,5 +131,10 @@ export default {
 		ui: '',
 		class: MoonLander,
 		using_block: false,
+	}, 
+	"parachest":{
+		ui: '',
+		class: Parachest,
+		using_block: true,
 	}
 }

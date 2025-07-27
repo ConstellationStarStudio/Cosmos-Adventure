@@ -444,7 +444,56 @@
     "lighting_panel_square": {
       "textures": "textures/blocks/machines/lighting_panel/square"
     },
-
+    //parachutes
+    "parachute_black": {
+      "textures": "textures/parachute/black"
+    },
+		"parachute_blue": {
+      "textures": "textures/parachute/blue"
+    },
+		"parachute_brown":{
+      "textures": "textures/parachute/brown"
+    },
+		"parachute_darkblue": {
+      "textures": "textures/parachute/darkblue"
+    },
+		"parachute_darkgray": {
+      "textures": "textures/parachute/darkgray"
+    },
+		"parachute_darkgreen": {
+      "textures": "textures/parachute/darkgreen"
+    },
+		"parachute_gray": {
+      "textures": "textures/parachute/gray"
+    },
+		"parachute_lime": {
+      "textures": "textures/parachute/lime"
+    },
+		"parachute_magenta": {
+      "textures": "textures/parachute/magenta"
+    },
+		"parachute_orange": {
+      "textures": "textures/parachute/orange"
+    },
+		"parachute_pink": {
+      "textures": "textures/parachute/pink"
+    },
+		"parachute_plain": {
+      "textures": "textures/parachute/plain"
+    },
+		"parachute_purple": {
+      "textures": "textures/parachute/purple"
+    },
+		"parachute_red": {
+      "textures": "textures/parachute/red"
+    },
+		"parachute_teal": {
+      "textures": "textures/parachute/teal"
+    },
+		"parachute_yellow": {
+      "textures": "textures/parachute/yellow"
+    },
+    
     //terrain
     "aluminum_block": {
       "textures": "textures/blocks/terrain/aluminum_block"

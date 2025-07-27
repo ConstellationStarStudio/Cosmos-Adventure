@@ -85,7 +85,7 @@ function launch(player, planet) {
 		let moon = world.getDimension("the_end");
 		let loc = { x: 75000 + (Math.random() * 20), y: 1000, z: 75000 + (Math.random() * 20) };
 		saved_rocket_items.set(id, items)
-		player.setDynamicProperty('dimension', JSON.stringify([planet, fuel, loc, size, id, typeId]))
+		player.setDynamicProperty('dimension', JSON.stringify({planet, fuel, loc, size, id, typeId}))
 		player.teleport(loc, { dimension: moon });
 		if (dimension.id == "minecraft:the_end"){
 			system.runTimeout(() => {moon_lander(player, false);}, 5);
@@ -94,7 +94,7 @@ function launch(player, planet) {
 		let overworld = world.getDimension("overworld")
 		let loc = { x: 0 + (Math.random() * 20), y: 255, z: 0 + (Math.random() * 20) };
 		saved_rocket_items.set(id, items)
-		player.setDynamicProperty('dimension', JSON.stringify([planet, fuel, loc, size, id, typeId]))
+		player.setDynamicProperty('dimension', JSON.stringify({planet, fuel, loc, size, id, typeId}))
 		player.teleport(loc, { dimension: overworld });
 		if (dimension.id == "minecraft:overworld"){
 			system.runTimeout(() => {return_to_earth(player);}, 5);

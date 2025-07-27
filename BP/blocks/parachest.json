@@ -1,0 +1,160 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:block": {
+	"description": {
+	  "identifier": "cosmos:parachest",
+	  "states": {
+		"cosmos:parachute": [13, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 0, 14, 15]
+	}
+	},
+	"components": {
+        "minecraft:display_name": "%tile.parachest.name\n§7%tile.parachest.description",
+      "tag:machine": {},
+	  "minecraft:custom_components": ["cosmos:machine"],
+	  "minecraft:destructible_by_explosion": false,
+	  "minecraft:destructible_by_mining": {
+		  "seconds_to_destroy": 0.5
+	  },
+    "minecraft:transformation":{
+		"rotation":[0, 180, 0]
+    },
+    "minecraft:geometry": "geometry.parachute_chest",
+	  "minecraft:material_instances": {
+      "*": {
+        "texture": "parachute_plain",
+        "render_method": "alpha_test"
+      }
+	  }
+	},
+	"permutations": [
+		{
+            "condition": "query.block_state('cosmos:parachute') == 0",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_black", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 1",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_blue", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 2",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_brown", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 3",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_darkblue", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 4",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_darkgray", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 5",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_darkgreen", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 6",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_gray", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 7",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_lime", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 8",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_magenta", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 9",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_orange", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 10",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_pink", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 11",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_plain", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 12",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_purple", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 13",
+            "components": {
+                "minecraft:material_instances": {
+                    "*": { "texture": "parachute_red", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 14",
+            "components": {
+                "minecraft:material_instances": {
+                     "*": { "texture": "parachute_teal", "render_method": "alpha_test" }
+                }
+            }
+        },
+        {
+            "condition": "query.block_state('cosmos:parachute') == 15",
+            "components": {
+                "minecraft:material_instances": {
+                     "*": { "texture": "parachute_yellow", "render_method": "alpha_test" }
+                }
+            }
+        }
+	]
+  }
+}

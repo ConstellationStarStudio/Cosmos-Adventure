@@ -38,15 +38,15 @@ export function moon_lander(player, load = true){
     player.setProperty("cosmos:rotation_x", 90);
     
     let data = JSON.parse(player.getDynamicProperty('dimension'))
-    let items_to_set = saved_rocket_items.get(data[4]);
-    saved_rocket_items.delete(data[4])
-    let typeId = data[5]
-    let size = data[3] - 2;
+    let items_to_set = saved_rocket_items.get(data.id);
+    saved_rocket_items.delete(data.id)
+    let typeId = data.typeId;
+    let size = data.size - 2;
     let group = 'cosmos:inv' + size;
-    let lander = player.dimension.spawnEntity("cosmos:lander", {x: data[2].x, y: 250, z: data[2].z});
+    let lander = player.dimension.spawnEntity("cosmos:lander", {x: data.loc.x, y: 250, z: data.loc.z});
     lander.triggerEvent("cosmos:lander_gravity_disable");
-    lander.teleport(data[2]);
-    lander.setDynamicProperty("fuel_level", data[1]);
+    lander.teleport(data.loc);
+    lander.setDynamicProperty("fuel_level", data.fuel);
     lander.getComponent("minecraft:rideable").addRider(player);
     player.camera.setCamera("minecraft:follow_orbit", { radius: 20 });
     player.setDynamicProperty("dimension", undefined);

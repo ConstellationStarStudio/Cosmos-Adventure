@@ -1,0 +1,137 @@
+{
+   "format_version": "1.8.0",
+   "minecraft:entity": {
+      "description": {
+         "identifier": "cosmos:parachest",
+         "is_summonable": true
+        },
+        "component_groups": {
+			"shrink": {
+				"minecraft:collision_box": {
+					"width": 0.7,
+					"height": 0.7
+				},
+				"minecraft:timer": {
+					"time": 0.1,
+					"time_down_event": {
+						"event":"cosmos:expand"
+					}
+				}
+			},
+			"expand": {
+				"minecraft:collision_box": {
+					"width": 1,
+					"height": 1
+				}
+			},
+			"despawn": {
+				"minecraft:instant_despawn": {}
+			},
+         "inv0": {
+            "minecraft:inventory": {
+               "container_type": "container",
+               "inventory_size": 4
+            }
+         },
+			"inv18": {
+            "minecraft:inventory": {
+               "container_type": "container",
+               "inventory_size": 22
+            }
+			},
+			"inv36": {
+            "minecraft:inventory": {
+               "container_type": "container",
+               "inventory_size": 40
+            }
+			},
+			"inv54": {
+            "minecraft:inventory": {
+               "container_type": "container",
+               "inventory_size": 58
+            }
+			}
+      },
+      "components": {    
+         "minecraft:inventory": {
+            "container_type": "container",
+            "inventory_size": 4
+         },
+         "minecraft:damage_sensor": {
+            "triggers": {
+                  "deals_damage": false
+            }
+         },    
+         "minecraft:collision_box": {
+            "height": 1,
+            "width": 1
+         },
+         "minecraft:knockback_resistance": {
+            "value": 100,
+            "max": 100
+         },
+         "minecraft:type_family": {
+            "family": ["cosmos"]
+            },
+         "minecraft:fall_damage": {
+            "value": 0
+         },
+         "minecraft:fire_immune": true,
+         "minecraft:health": {
+            "max": 1,
+            "value": 1
+         },
+         "minecraft:push_through": {
+            "value": 1
+         },
+         "minecraft:pushable": {
+            "is_pushable": false,
+            "is_pushable_by_piston": false
+         },
+         "minecraft:physics": {
+            "has_gravity": false,
+            "has_collision": false
+         }
+      },
+      "events": {
+         "cosmos:inv0": {
+               "add":{
+                  "component_groups": ["inv0"]
+               }
+         },
+         "cosmos:inv18": {
+               "add":{
+                  "component_groups": ["inv18"]
+               }
+         },
+         "cosmos:inv36": {
+               "add":{
+                  "component_groups": ["inv36"]
+               }
+         },
+         "cosmos:inv54": {
+               "add":{
+                  "component_groups": ["inv54"]
+               }
+         },
+         "cosmos:shrink": {
+				"add": {
+					"component_groups": ["shrink"]
+				}
+			},
+			"cosmos:despawn": {
+				"add": {
+					"component_groups": ["despawn"]
+				}
+			},
+			"cosmos:expand": {
+				"remove": {
+					"component_groups": ["shrink"]
+				},
+				"add": {
+					"component_groups": ["expand"]
+				}
+			}
+      }
+   }
+}
