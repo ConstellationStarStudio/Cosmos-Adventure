@@ -84,9 +84,14 @@ export function return_to_earth(player){
 export function set_items_to_lander(lander, size, items_to_set, typeId){
     let container = lander.getComponent("minecraft:inventory").container;
     let inventorySize = lander.getComponent("minecraft:inventory").inventorySize;
-    for(let i = 0; i <= (inventorySize - 5); i++){
-         container.setItem(i, items_to_set[i])
+    
+    //checks items_to_set array existence
+    if(items_to_set){
+        for(let i = 0; i <= (inventorySize - 5); i++){
+            container.setItem(i, items_to_set[i])
+        }
     }
+    //put rocket and launchpad into inventory
     container.setItem(inventorySize - 2, new ItemStack("cosmos:rocket_launch_pad", 9))
     
     let rocket_item = new ItemStack(typeId + "_item")

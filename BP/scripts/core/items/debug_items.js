@@ -188,7 +188,7 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
     })
     itemComponentRegistry.registerCustomComponent("cosmos:debug_rocket", {
         onUse({source:player}) {
-            select_solar_system(player, 3)
+            select_solar_system(player, 3, false)
         }
     })
 })
