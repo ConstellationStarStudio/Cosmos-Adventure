@@ -59,9 +59,10 @@ export function return_to_earth(player){
             player_not_on_ground = false;
             if(!parachest) system.clearRun(player_falling)
         }
-        if(parachest && parachest.isValid && parachest.getVelocity().y >= 0 && parachest.location.y < 250){
+        if(parachest && parachest.isValid && ((parachest.getVelocity().y >= 0 && parachest.location.y < 250) || parachest.location.y < -64)){
             system.runTimeout(() => {
                 let parachest_loc = parachest.location;
+                parachest_loc.y = Math.max(parachest_loc.y, -64)
                 let dimension = parachest.dimension;
                 parachest.remove();
                 let parachest_block = place_parachest(player_data.fuel, dimension, parachest_loc, player_data.size - 2, parachute_color)
