@@ -169,7 +169,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                 }
                 if(status.shouldShoot && !(interval_tick % 2)){
                     let attackable_player = boss.dimension.getPlayers({location: boss.location, maxDistance: 15, excludeGameModes: ["Spectator", "Creative"], closest: 1})[0];
-                    if(attackable_player) shootPlayer(boss, attackable_player)
+                    if(attackable_player && attackable_player.isValid) shootPlayer(boss, attackable_player)
                 }
                 if(!status.takenPlayer){
                     let player_to_take = boss.dimension.getPlayers({location: boss.location, maxDistance: Math.ceil(Math.random() * 5), closest: 1})[0];
