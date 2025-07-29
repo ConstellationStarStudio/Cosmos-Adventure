@@ -1,6 +1,18 @@
 {
    "entity_sounds": {
       "entities": {
+         "cosmos:evolved_skeleton_boss": {
+            "events": {
+               "ambient": "mob.evolved_skeleton_boss.ambient",
+               "death": "mob.evolved_skeleton_boss.death",
+               "hurt": "mob.evolved_skeleton_boss.hurt",
+               "haggle.yes": "mob.evolved_skeleton_boss.laugh"
+            },
+            "pitch": [
+               1.0
+            ],
+            "volume": 1
+         },
          "cosmos:alien_villager": {
             "events": {
                "ambient": "mob.villager.idle",
@@ -16,6 +28,7 @@
             ],
             "volume": 1
          },
+      
          "cosmos:evolved_zombie": {
             "events": {
                "ambient": "mob.zombie.say",
