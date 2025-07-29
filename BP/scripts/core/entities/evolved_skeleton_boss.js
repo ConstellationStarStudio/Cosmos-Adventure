@@ -135,7 +135,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 
             let boss = data.block.dimension.spawnEntity("cosmos:evolved_skeleton_boss", {x: loc.x + (area.x/2), y: loc.y + 1, z: loc.z + (area.z/2)});
             let arrow_event = world.afterEvents.projectileHitBlock.subscribe((data) => {
-                if(data.source.typeId == "cosmos:evolved_skeleton_boss") data.projectile.remove()
+                if(data.source.typeId == "cosmos:evolved_skeleton_boss") data.projectile?.remove()
             });
 
             evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, shouldShoot: true, area: area, event: arrow_event})
