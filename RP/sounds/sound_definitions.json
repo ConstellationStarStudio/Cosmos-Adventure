@@ -1,0 +1,43 @@
+{
+	"format_version": "1.14.0",
+	"sound_definitions": {
+		"mob.evolved_skeleton_boss.hurt":{
+			"category": "neutral",
+			"sounds": [
+				{
+				"name": "sounds/boss/skeleton/hurt",
+				"pitch": 1.5,
+				"volume": 1
+				}
+			]
+		},
+		"mob.evolved_skeleton_boss.laugh":{
+			"category": "neutral",
+			"sounds": [
+				{
+				"name": "sounds/boss/skeleton/laugh",
+				"pitch": 0.5,
+				"volume": 1
+				}
+			]
+		},
+		"mob.evolved_skeleton_boss.ambient":{
+			"category": "neutral",
+			"sounds": [
+				{
+				"name": "sounds/boss/skeleton/ambient",
+				"volume": 1
+				}
+			]
+		},
+		"mob.evolved_skeleton_boss.death":{
+			"category": "neutral",
+			"sounds": [
+				{
+				"name": "sounds/boss/skeleton/death",
+				"volume": 1
+				}
+			]
+		}
+	}
+}
