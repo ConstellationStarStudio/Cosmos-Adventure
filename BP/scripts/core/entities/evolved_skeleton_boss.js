@@ -75,7 +75,7 @@ function takePlayer(boss, player){
             y: 2 * Math.cos((throw_timer + post_throw_timer) * 0.05), 
             z: Math.cos(rotation/57.2957795147)}
             
-            seat_entity.teleport({x: boss.location.x + offset.x, y: boss.location.y + 3 + offset.y, z: boss.location.z + offset.z})
+            seat_entity.teleport({x: boss.location.x + offset.x, y: boss.location.y + 4 + offset.y, z: boss.location.z + offset.z})
         }
         if(post_throw_timer == 18){
             throwPlayer(boss, player);
@@ -84,10 +84,12 @@ function takePlayer(boss, player){
             let evolved_skeletons_as_array = [...evolved_skeletons.entries()];
             let boss_in_list = evolved_skeletons_as_array.find(element => element[1].boss == boss.id);
             if(boss_in_list){
+                boss_in_list[1].shouldShoot = true;
+                evolved_skeletons.set(boss_in_list[0], boss_in_list[1]) 
                 system.runTimeout(() => {
                     boss_in_list[1].takenPlayer = false;
                     evolved_skeletons.set(boss_in_list[0], boss_in_list[1]) 
-                }, 30)
+                }, 60)
             }
 
             system.clearRun(momentBeforeThrowing)
@@ -136,8 +138,11 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                 if(data.source.typeId == "cosmos:evolved_skeleton_boss") data.projectile.remove()
             });
 
-            evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, area: area, event: arrow_event})
+            evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, shouldShoot: true, area: area, event: arrow_event})
+
+            let interval_tick = 0;
             let boss_fight = system.runInterval(() => {
+                interval_tick++;
                 let status = evolved_skeletons.get(loc_as_string);
                 if(!status){
                     system.clearRun(boss_fight)
@@ -162,15 +167,17 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                     system.clearRun(boss_fight);
                     return;
                 }
+                if(status.shouldShoot && !(interval_tick % 2)){
+                    let attackable_player = boss.dimension.getPlayers({location: boss.location, maxDistance: 15, excludeGameModes: ["Spectator", "Creative"], closest: 1})[0];
+                    if(attackable_player) shootPlayer(boss, attackable_player)
+                }
                 if(!status.takenPlayer){
                     let player_to_take = boss.dimension.getPlayers({location: boss.location, maxDistance: Math.ceil(Math.random() * 5), closest: 1})[0];
                     if(player_to_take){
                         status["takenPlayer"] = true;
+                        status["shouldShoot"] = false;
                         boss.triggerEvent("cosmos:player")
                         takePlayer(boss, player_to_take)
-                    }else{
-                        let attackable_player = boss.dimension.getPlayers({location: boss.location, maxDistance: 15, excludeGameModes: ["Spectator", "Creative"], closest: 1})[0];
-                        if(attackable_player) shootPlayer(boss, attackable_player)
                     }
                 }
             },10);
