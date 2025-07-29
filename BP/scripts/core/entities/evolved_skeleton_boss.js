@@ -1,8 +1,25 @@
 import {system, world, BlockPermutation} from "@minecraft/server"
 
 let evolved_skeletons = new Map();
+const difficult_number = {"Peaseful": 0, "Easy": 1, "Normal": 2, "Hard": 3};
+
 //that's a direct port of original functions
 
+function shootPlayer(boss, player){
+    let player_loc = player.location;
+    let boss_loc = boss.location;
+    
+    let arrow = boss.dimension.spawnEntity("minecraft:arrow", {x: boss_loc.x, y: boss_loc.y + 2, z: boss_loc.z});
+    let pos_x = player_loc.x - boss_loc.x;
+    let pos_z = player_loc.z - boss_loc.z;
+    let pos_y = (player_loc.y - 0.8) + 0.6 - arrow.location.y;
+    let distance = Math.sqrt(pos_x * pos_x + pos_z * pos_z)  * 0.20000000298023224;
+
+    let projectile = arrow.getComponent("minecraft:projectile");
+    projectile.airInertia = 1.6;
+    projectile.owner = boss;
+    projectile.shoot({x: pos_x, y: pos_y + distance, z: pos_z}, {uncertainty: 14 - difficult_number[world.getDifficulty()]});
+}
 function throwPlayer(boss, player){
     let player_loc = player.location;
     let boss_loc = boss.location;
@@ -63,11 +80,14 @@ function takePlayer(boss, player){
         if(post_throw_timer == 18){
             throwPlayer(boss, player);
             boss.triggerEvent("cosmos:no_player")
+            boss.dimension.playSound("mob.evolved_skeleton_boss.laugh", boss.location)
             let evolved_skeletons_as_array = [...evolved_skeletons.entries()];
             let boss_in_list = evolved_skeletons_as_array.find(element => element[1].boss == boss.id);
             if(boss_in_list){
-                boss_in_list[1].takenPlayer = false;
-                evolved_skeletons.set(boss_in_list[0], boss_in_list[1]) 
+                system.runTimeout(() => {
+                    boss_in_list[1].takenPlayer = false;
+                    evolved_skeletons.set(boss_in_list[0], boss_in_list[1]) 
+                }, 5)
             }
 
             system.clearRun(momentBeforeThrowing)
@@ -87,6 +107,8 @@ function get_block_indicator(location, dimension){
     }
     return undefined;
 }
+
+//main loop
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
     blockComponentRegistry.registerCustomComponent("cosmos:boss_block", {
        onTick(data){
@@ -108,9 +130,13 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
         //and remove boss if player leave
         if(!block_in_a_list){
             if(!data.block.dimension.getPlayers({location: {x: loc.x, y: loc.y, z: loc.z}, volume: area}).length) return;
-            let boss = data.block.dimension.spawnEntity("cosmos:evolved_skeleton_boss", {x: loc.x + (area.x/2), y: loc.y + 1, z: loc.z + (area.z/2)});
-            evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, area: area})
 
+            let boss = data.block.dimension.spawnEntity("cosmos:evolved_skeleton_boss", {x: loc.x + (area.x/2), y: loc.y + 1, z: loc.z + (area.z/2)});
+            let arrow_event = world.afterEvents.projectileHitBlock.subscribe((data) => {
+                if(data.source.typeId == "cosmos:evolved_skeleton_boss") data.projectile.remove()
+            });
+
+            evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, area: area, event: arrow_event})
             let boss_fight = system.runInterval(() => {
                 let status = evolved_skeletons.get(loc_as_string);
                 if(!status){
@@ -129,22 +155,28 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                     return;
                 }
 
-                if(!boss?.isValid || data.block.dimension.getBlock(loc).typeId !== "cosmos:moon_boss_spawner"){
+                let spawner_status = data.block.dimension.getBlock(loc);
+                if(!boss?.isValid || !spawner_status || spawner_status.typeId !== "cosmos:moon_boss_spawner"){
                     if(boss.isValid) boss.remove();
+                    world.afterEvents.projectileHitBlock.unsubscribe(arrow_event)
                     system.clearRun(boss_fight);
                     return;
                 }
                 if(!status.takenPlayer){
-                    let player_to_take = boss.dimension.getPlayers({location: boss.location, maxDistance: 1.25, closest: 1})[0];
+                    let player_to_take = boss.dimension.getPlayers({location: boss.location, maxDistance: Math.ceil(Math.random() * 5), closest: 1})[0];
                     if(player_to_take){
                         status["takenPlayer"] = true;
                         boss.triggerEvent("cosmos:player")
                         takePlayer(boss, player_to_take)
+                    }else{
+                        let attackable_player = boss.dimension.getPlayers({location: boss.location, maxDistance: 15, excludeGameModes: ["Spectator", "Creative"], closest: 1})[0];
+                        if(attackable_player) shootPlayer(boss, attackable_player)
                     }
                 }
-            },20);
+            },10);
         }else{
             if(!data.block.dimension.getPlayers({location: {x: loc.x, y: loc.y, z: loc.z}, volume: area}).length){
+                world.afterEvents.projectileHitBlock.unsubscribe(block_in_a_list.event)
                 world.getEntity(block_in_a_list.boss)?.remove();
                 evolved_skeletons.delete(loc_as_string);
                 world.sendMessage({"rawtext": [{"translate": "gui.skeleton_boss.message"}]});
