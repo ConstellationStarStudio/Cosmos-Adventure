@@ -87,7 +87,7 @@ function takePlayer(boss, player){
                 system.runTimeout(() => {
                     boss_in_list[1].takenPlayer = false;
                     evolved_skeletons.set(boss_in_list[0], boss_in_list[1]) 
-                }, 5)
+                }, 30)
             }
 
             system.clearRun(momentBeforeThrowing)
