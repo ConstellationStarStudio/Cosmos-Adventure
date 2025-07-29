@@ -1,0 +1,74 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.evolved_skeleton_boss.look_at_target.default": {
+			"loop": true,
+			"bones": {
+				"head": {
+					"relative_to": {
+						"rotation": "entity"
+					},
+					"rotation": ["query.target_x_rotation", "query.target_y_rotation", 0]
+				},
+				"rightArm": {
+					"relative_to": {
+						"rotation": "entity"
+					},
+					"rotation": ["query.target_x_rotation", "query.target_y_rotation", 0]
+				},
+				"leftArm": {
+					"relative_to": {
+						"rotation": "entity"
+					},
+					"rotation": ["query.target_x_rotation", "query.target_y_rotation", 0]
+				}
+			}
+		},
+		"animation.evolved_skeleton_boss.move": {
+			"loop": true,
+			"bones": {
+				"leftLeg": {
+					"rotation": ["variable.tcos0 * -1.4", -0.1, -0.1]
+				},
+				"rightLeg": {
+					"rotation": ["variable.tcos0 * 1.4", 0.1, 0.1]
+				}
+			}
+		},
+		"animation.evolved_skeleton_boss.player_hold": {
+			"animation_length": 2.375,
+			"bones": {
+				"rightArm": {
+					"rotation": {
+						"0.0": {
+							"post": [15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.0": {
+							"post": [-70, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"leftArm": {
+					"rotation": {
+						"0.0": {
+							"post": [15, 0, 0],
+							"lerp_mode": "catmullrom"
+						},
+						"2.0": {
+							"post": [-70, 0, 0],
+							"lerp_mode": "catmullrom"
+						}
+					}
+				},
+				"bow": {
+					"scale": 0
+				},
+				"bow2": {
+					"scale": 0
+				}
+			}
+		}
+	}
+}
