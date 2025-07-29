@@ -64,6 +64,7 @@
                             "cosmos:geothermal_generator",
                             "cosmos:solar_array_module",
                             "cosmos:solar_array_controller",
+                            "cosmos:parachest",
                             "cosmos:communications_dish",
                             "cosmos:glowstone_torch",
                             "cosmos:fallen_meteor",
@@ -348,7 +349,14 @@
                         "items": [
                             "cosmos:debug_stick",
                             "cosmos:ui",
-                            "cosmos:ui_button"
+                            "cosmos:ui_button",
+                            "cosmos:dynamic_wand",
+                            "cosmos:property_rod",
+                            "cosmos:creative_battery",
+                            "cosmos:creative_canister",
+                            "cosmos:creative_rocket",
+                            "cosmos:moon_boss_indicator",
+                            "cosmos:moon_boss_spawner"
                         ]
                     }
                 ]
