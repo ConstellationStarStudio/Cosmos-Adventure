@@ -16,5 +16,6 @@ import "./core/matter/solids.js"
 import "./core/matter/fluids.js"
 
 import "./core/entities/alien_villager.js"
+import "./core/entities/evolved_skeleton_boss.js"
 
 import "./core/PlayerWorldCycle.js"

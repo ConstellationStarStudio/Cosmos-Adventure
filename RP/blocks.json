@@ -178,6 +178,14 @@
       "sound": "stone",
       "textures": "moon_dungeon_bricks"
    },
+   "moon_boss_indicator": {
+      "sound": "stone",
+      "textures": "moon_dungeon_bricks"
+   },
+   "moon_boss_spawner": {
+      "sound": "stone",
+      "textures": "moon_dungeon_bricks"
+   },
    "mars_dungeon_bricks": {
       "sound": "stone",
       "textures": "mars_dungeon_bricks"

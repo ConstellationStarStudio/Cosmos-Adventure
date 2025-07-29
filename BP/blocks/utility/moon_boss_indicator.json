@@ -1,0 +1,14 @@
+{
+  "format_version": "1.20.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:moon_boss_indicator"
+    },
+    "components": {
+      "minecraft:display_name": "indicator",
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:loot": "loot_tables/empty.json"
+    }
+  }
+}

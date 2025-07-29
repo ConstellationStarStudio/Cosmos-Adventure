@@ -35,8 +35,8 @@
         "on_death": "query.last_hit_by_player ? 5 + (query.equipment_count * Math.Random(1,3)) : 0"
       },
       "minecraft:collision_box": {
-        "width": 0.6,
-        "height": 2.5
+        "width": 0.5,
+        "height": 4
       },
       "minecraft:type_family": {
         "family": [ "evolved_skeleton_boss", "mob" ]

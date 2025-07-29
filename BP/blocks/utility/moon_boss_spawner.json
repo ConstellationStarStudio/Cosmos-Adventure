@@ -1,0 +1,16 @@
+{
+  "format_version": "1.20.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:moon_boss_spawner"
+    },
+    "components": {
+      "minecraft:display_name": "boss spawner",
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:custom_components": ["cosmos:boss_block"],
+      "minecraft:loot": "loot_tables/empty.json",
+			"minecraft:tick": { "looping": true, "interval_range": [ 0, 20 ] }
+    }
+  }
+}
