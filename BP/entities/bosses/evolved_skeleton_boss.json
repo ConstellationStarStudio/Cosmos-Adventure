@@ -18,7 +18,7 @@
       },
         "cosmos:no_player": {
           "minecraft:movement": {
-           "value": 0.40
+           "value": 0.325
           }
       },
       "cosmos:player": {
@@ -50,6 +50,11 @@
       "minecraft:scale": {
         "value": 1.20
       },
+      "minecraft:boss": {
+				"name": "Evolved Skeleton Boss",
+				"should_darken_sky": false,
+				"hud_range": 55
+			},
       "minecraft:fire_immune": true,
       "minecraft:breathable": {
         "total_supply": 15,
