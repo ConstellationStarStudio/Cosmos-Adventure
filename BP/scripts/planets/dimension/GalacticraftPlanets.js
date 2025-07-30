@@ -1,4 +1,4 @@
-import { Player, Entity, world, ScreenDisplay, system } from "@minecraft/server";
+import { Player, Entity, world, ScreenDisplay, system, BlockPermutation } from "@minecraft/server";
 export { Planet };
 
 
@@ -174,6 +174,23 @@ world.afterEvents.gameRuleChange.subscribe(({rule, value}) => {
         )
     }
 )
+
+//unlit torch
+world.afterEvents.playerPlaceBlock.subscribe((data) => {
+    let block = data.block;
+    if(block.typeId == "minecraft:torch"  && block.dimension.id == "minecraft:the_end"){
+        if(!(Planet.getAll().find(pl => pl.isOnPlanet(block.location)))) return;
+        let opposite_side = {
+            "north": "south",
+            "south": "north",
+            "east": "west", 
+            "west": "east",
+            "top": "up"
+        }
+        let state = block.permutation.getState("torch_facing_direction");
+        block.setPermutation(BlockPermutation.resolve("cosmos:unlit_torch", {"minecraft:block_face": opposite_side[state]}));
+    }
+});
 
 /**
  * @typedef {import("@minecraft/server").Vector3} Vec3

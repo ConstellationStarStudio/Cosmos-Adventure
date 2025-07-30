@@ -1254,6 +1254,7 @@ item.cosmos:emergency_kit=Emergency Kit
 item.cosmos:frequency_module=Frequency Module
 item.cosmos:fuel_bucket=Fuel Bucket
 item.cosmos:glowstone_torch=Glowstone Torch
+item.cosmos:unlit_torch=Unlit Torch
 item.cosmos:grapple=Grapple
 item.cosmos:lunar_sapphire=Lunar Sapphire
 item.cosmos:meteoric_iron_ingot=Meteoric Iron Ingot

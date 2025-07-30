@@ -104,6 +104,9 @@
     "glowstone_torch": {
       "textures": "textures/blocks/glowstone_torch"
     },
+    "unlit_torch": {
+      "textures": "textures/blocks/unlit_torch"
+    },
     "grapple": {
       "textures": "textures/items/grapple"
     },

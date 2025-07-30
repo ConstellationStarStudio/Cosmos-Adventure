@@ -1,0 +1,17 @@
+{
+  "format_version": "1.20.20",
+  "minecraft:item": {
+    "description": {
+      "identifier": "cosmos:unlit_torch"
+    },
+    "components": {
+      "minecraft:icon": {
+        "texture": "unlit_torch"
+      },
+      "minecraft:block_placer": {
+        "replace_block_item": true,
+        "block": "cosmos:unlit_torch"
+      }
+    }
+  }
+}

@@ -2,7 +2,7 @@
     "format_version": "1.20.80",
     "minecraft:block": {
         "description": {
-            "identifier": "cosmos:glowstone_torch",
+            "identifier": "cosmos:unlit_torch",
             "traits": {
                 "minecraft:placement_position": {
                     "enabled_states": [
@@ -12,8 +12,6 @@
             }
         },
         "components": {
-            "minecraft:light_dampening": 0,
-            "minecraft:light_emission": 15,
             "minecraft:collision_box": false,
             "minecraft:selection_box": {
                 "origin": [-2, 0, -2],
@@ -28,7 +26,7 @@
             },
             "minecraft:material_instances": {
                 "*": {
-                    "texture": "glowstone_torch",
+                    "texture": "unlit_torch",
                     "render_method": "blend",
                     "ambient_occlusion": false,
                     "face_dimming": false
