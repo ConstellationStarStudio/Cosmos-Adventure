@@ -14,8 +14,9 @@
         "start_pool": "cosmos:moon_dungeon_chest_room",
         "biome_filters": [ 
           { 
-        "test": "has_biome_tag", 
-        "value": "the_end" 
+            "test": "has_biome_tag",
+            "operator": "equals", 
+            "value": "empty" 
           } 
         ] 
     }
