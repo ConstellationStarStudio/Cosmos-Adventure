@@ -32,7 +32,7 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
             let offset = planet.offset(location)
             offset.x = offset.x - 8;
             offset.z = offset.z - 8;
-            if(planet.type == "moon" && (offset.x != 8 || offset.z != 8) && ((offset.x % 1024 === 0 || !offset.x) && (offset.z % 1024 === 0 || !offset.z))){
+            if(planet.type == "moon" && (offset.x !== 0 || offset.z !== 0) && ((offset.x % 1024 === 0 || !offset.x) && (offset.z % 1024 === 0 || !offset.z))){
                 let top_block = the_end.getTopmostBlock({x: location.x, z: location.z}).location.y;
                 world.structureManager.placeJigsawStructure("cosmos:moon_dungeon", the_end, {x: location.x, y: top_block - 20, z: location.z}, {ignoreStartHeight: true});
             }
