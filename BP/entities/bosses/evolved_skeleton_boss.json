@@ -91,6 +91,7 @@
       },
       "minecraft:nameable": {
       },
+      "minecraft:transient": {},
       "minecraft:despawn": {
         "despawn_from_distance": {}
       },

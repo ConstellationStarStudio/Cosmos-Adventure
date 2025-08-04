@@ -20,34 +20,49 @@ function shootPlayer(boss, player){
     projectile.owner = boss;
     projectile.shoot({x: pos_x, y: pos_y + distance, z: pos_z}, {uncertainty: 14 - difficult_number[world.getDifficulty()]});
 }
-function throwPlayer(boss, player){
+function throwPlayer(boss, player, corners){
     let player_loc = player.location;
     let boss_loc = boss.location;
     
-    let pos_x = boss_loc.x - player_loc.x;
-    let pos_z;
+    if(Math.random() > 0.5){
+        let pos_x = boss_loc.x - player_loc.x;
+        let pos_z;
 
-    for(pos_z = boss_loc.z - player_loc.z; pos_x * pos_x + pos_z * pos_z < 0.0001; pos_z = (Math.random() + Math.random()) * 0.01){
-        pos_x = (Math.random() + Math.random()) * 0.01;
-    }
+        for(pos_z = boss_loc.z - player_loc.z; pos_x * pos_x + pos_z * pos_z < 0.0001; pos_z = (Math.random() + Math.random()) * 0.01){
+            pos_x = (Math.random() + Math.random()) * 0.01;
+        }
 
-    let direction = Math.sqrt(pos_x * pos_x + pos_z * pos_z);
+        let direction = Math.sqrt(pos_x * pos_x + pos_z * pos_z);
 
-    let motionX = 0 - pos_x / direction * 2.4;
-    let motionY = pos_z/5;
-    let motionZ = 0 - pos_z / direction * 2.4;
+        let motionX = 0 - pos_x / direction * 2.4;
+        let motionY = pos_z/5;
+        let motionZ = 0 - pos_z / direction * 2.4;
 
-    if(motionY > 0.4000000059604645) motionY = 0.4000000059604645;
+        if(motionY > 0.4000000059604645) motionY = 0.4000000059604645;
     
-    player.applyKnockback({x: motionX, z: motionZ}, motionY);
+        player.applyKnockback({x: motionX, z: motionZ}, motionY);
+    }else{
+        let closest_corner = corners.sort((vectorA, vectorB) => {
+            let distanceA = Math.sqrt((vectorA.x - boss_loc.x) ** 2 + (vectorA.z- boss_loc.z) ** 2);
+            let distanceB = Math.sqrt((vectorB.x - boss_loc.x) ** 2 + (vectorB.z- boss_loc.z) ** 2);
+            return distanceA - distanceB;
+        })[0];
+
+        let vector_lenght = 10/Math.sqrt(closest_corner.x ** 2 + closest_corner.z ** 2)
+        closest_corner.x *= vector_lenght;
+        closest_corner.z *= vector_lenght;
+
+        player.applyKnockback({x: closest_corner.x, z: closest_corner.z}, 0.1);
+    }
 }
 
-function takePlayer(boss, player){
-    let seat_entity = boss.dimension.spawnEntity("cosmos:gengrapple", boss.location)
-    seat_entity.getComponent("minecraft:rideable").addRider(player);
+function takePlayer(boss, player, corners){
+    let seat_entity = boss.dimension.spawnEntity("cosmos:gengrapple", boss.location);
     player.inputPermissions.setPermissionCategory(6, false);
     player.inputPermissions.setPermissionCategory(7, false);
     player.inputPermissions.setPermissionCategory(8, false);
+    
+    seat_entity.getComponent("minecraft:rideable").addRider(player);
     boss.playAnimation("animation.evolved_skeleton_boss.player_hold");
     let throw_timer = 40;
     let post_throw_timer = 20;
@@ -78,7 +93,7 @@ function takePlayer(boss, player){
             seat_entity.teleport({x: boss.location.x + offset.x, y: boss.location.y + 4 + offset.y, z: boss.location.z + offset.z})
         }
         if(post_throw_timer == 18){
-            throwPlayer(boss, player);
+            throwPlayer(boss, player, corners);
             boss.triggerEvent("cosmos:no_player")
             boss.dimension.playSound("mob.evolved_skeleton_boss.laugh", boss.location)
             let evolved_skeletons_as_array = [...evolved_skeletons.entries()];
@@ -123,19 +138,19 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 
         if(area == "not_load") return;
         if(!area){
-            if(block_in_a_list?.boss) world.getEntity(block_in_a_list.boss)?.remove;
+            if(block_in_a_list?.boss) world.getEntity(block_in_a_list.boss)?.remove();
 
             data.block.setPermutation(BlockPermutation.resolve("cosmos:moon_dungeon_bricks"));
             return; 
         }
         //so bassicaly it checks if boss fight started
         //and remove boss if player leave
+        let players_in_area = data.block.dimension.getPlayers({location: {x: loc.x, y: loc.y, z: loc.z}, volume: area}).filter((element) => element.getComponent("minecraft:health").currentValue !== 0);
         if(!block_in_a_list){
-            if(!data.block.dimension.getPlayers({location: {x: loc.x, y: loc.y, z: loc.z}, volume: area}).length) return;
-
+            if(!players_in_area.length) return;
             let boss = data.block.dimension.spawnEntity("cosmos:evolved_skeleton_boss", {x: loc.x + (area.x/2), y: loc.y + 1, z: loc.z + (area.z/2)});
             let arrow_event = world.afterEvents.projectileHitBlock.subscribe((data) => {
-                if(data.source.typeId == "cosmos:evolved_skeleton_boss") data.projectile?.remove()
+                if(data.source.typeId == "cosmos:evolved_skeleton_boss" && data.source.id == boss.id && data.projectile.isValid) data.projectile?.remove()
             });
 
             evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, shouldShoot: true, area: area, event: arrow_event})
@@ -169,20 +184,26 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
                 }
                 if(status.shouldShoot && !(interval_tick % 2)){
                     let attackable_player = boss.dimension.getPlayers({location: boss.location, maxDistance: 15, excludeGameModes: ["Spectator", "Creative"], closest: 1})[0];
-                    if(attackable_player && attackable_player.isValid) shootPlayer(boss, attackable_player)
+
+                    if(attackable_player && attackable_player.isValid && attackable_player.getComponent("minecraft:health").currentValue) shootPlayer(boss, attackable_player)
                 }
                 if(!status.takenPlayer){
-                    let player_to_take = boss.dimension.getPlayers({location: boss.location, maxDistance: Math.ceil(Math.random() * 5), closest: 1})[0];
+                    let player_to_take = boss.dimension.getPlayers({location: boss.location, maxDistance: Math.ceil(Math.random() * 5), closest: 1}).filter((element) => element.getComponent("minecraft:health").currentValue > 0)[0];
                     if(player_to_take){
                         status["takenPlayer"] = true;
                         status["shouldShoot"] = false;
                         boss.triggerEvent("cosmos:player")
-                        takePlayer(boss, player_to_take)
+                        let corners = [{x: loc.x + area.x, y: loc.y + 8, z: loc.z}, 
+                            {x: loc.x, y: loc.y + 8, z: loc.z + area.z},
+                            {x: loc.x, y: loc.y + 8, z: loc.z},
+                            {x: loc.x + area.x, y: loc.y + 8, z: loc.z + area.z}
+                        ];
+                        takePlayer(boss, player_to_take, corners)
                     }
                 }
             },10);
         }else{
-            if(!data.block.dimension.getPlayers({location: {x: loc.x, y: loc.y, z: loc.z}, volume: area}).length){
+            if(!players_in_area.length){
                 world.afterEvents.projectileHitBlock.unsubscribe(block_in_a_list.event)
                 world.getEntity(block_in_a_list.boss)?.remove();
                 evolved_skeletons.delete(loc_as_string);
