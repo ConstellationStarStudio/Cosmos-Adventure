@@ -9,27 +9,27 @@
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/boss/boss",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 7
             },
                         {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/boss/boss2",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 8
             },
                         {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/boss/boss3",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 7
             }
         ]

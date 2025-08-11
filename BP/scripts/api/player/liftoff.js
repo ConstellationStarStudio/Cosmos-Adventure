@@ -48,7 +48,7 @@ export function return_to_earth(player){
         player.setDynamicProperty('dimension') 
 
         parachest = overworld.spawnEntity("cosmos:parachute_chest_entity", {x: Math.round(player_data.loc.x) + 5.5, y: 255, z: Math.round(player_data.loc.z) + 5.5})
-        parachest.setProperty("cosmos:parachute", parachute_color ?? 6);
+        parachest.setProperty("cosmos:parachute", parachute_color ?? 11);
         parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 3})
     }
     let player_not_on_ground = true;

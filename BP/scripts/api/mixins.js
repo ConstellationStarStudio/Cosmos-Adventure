@@ -46,26 +46,6 @@ Merge(mc.Player.prototype, {
         this.runCommand(`give @s ${item} ${amount} ${data}`);
         this.runCommand("stopsound @s random.pop");
         world.gameRules.sendCommandFeedback = cmdfeedback;
-    },
-
-    setSpawnPoint(dimensionLocation) {
-        if (!dimensionLocation) return super.setSpawnPoint();
-        if (!dimensionLocation.dimension || dimensionLocation.dimension?.id.endsWith("the_end")) {
-            dimensionLocation.dimension = world.getDimension("the_end");
-            // Save the spawn point 
-            this.setDynamicProperty("customSpawnPoint", dimensionLocation);
-
-            // Force teleport the player to the location in the End.
-            this.teleport(dimensionLocation, dimensionLocation);
-        }
-        // For non-End dimensions, call the original method.
-        super.setSpawnPoint(dimensionLocation);
-    },
-
-    getSpawnPoint(dimensionId) {
-        if (!dimensionId?.includes("the_end")) return super.getSpawnPoint();
-        let dimensionLocation = this.getDynamicProperty("customSpawnPoint");
-        return dimensionLocation && { ...dimensionLocation, dimension: world.getDimension("the_end") };
     }
 });
 
@@ -180,11 +160,6 @@ Merge(mc.Dimension.prototype, {
     }
 
 });
-
-
-import "./SpawnPointMixin";
-
-
 
 
 //Feel free to take out keys from these if you need any so it wont get deleted

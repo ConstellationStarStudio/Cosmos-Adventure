@@ -9,9 +9,9 @@
 				"element": {
 					"element_type": "minecraft:single_pool_element",
 					"location": "moon_dungeon/hole/moon_dungeon_start_hole",
-					"processors": "cosmos:moon_dungeon_processor"
+					"processors": "cosmos:moon_dungeon_processor",
+					"projection": "rigid"
 				},
-				"projection": "rigid",
 				"weight": 99
 			}
 		]

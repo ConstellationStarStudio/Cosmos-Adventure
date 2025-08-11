@@ -9,36 +9,36 @@
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/spawner/spawner_creeper",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 8
             },
                         {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/spawner/spawner_zombie",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 7
             },
             {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/spawner/spawner_skeleton",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 7
             },
             {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_dungeon/spawner/spawner_spider",
-                    "processors": "cosmos:moon_dungeon_processor"
+                    "processors": "cosmos:moon_dungeon_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 8
             }
         ]

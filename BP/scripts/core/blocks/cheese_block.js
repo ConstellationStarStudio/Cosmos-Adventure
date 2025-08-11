@@ -1,14 +1,19 @@
-import {world, BlockPermutation, system} from "@minecraft/server";
+import { BlockPermutation, system} from "@minecraft/server";
 
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent("cosmos:cheese_block", {
         onPlayerInteract({player, block, dimension}) {
-            if(['Creative', 'Spectator'].includes(player.getGameMode()) || !block) return
+            let hunger = player.getComponent("minecraft:player.hunger");
+            if(hunger.currentValue == hunger.effectiveMax || ['Creative', 'Spectator'].includes(player.getGameMode()) || !block) return
 	        const cheese = block.permutation
 	        const size = cheese.getState('cosmos:cheese_part_visibility')
             const air = BlockPermutation.resolve("minecraft:air")
             block.setPermutation(size > 0 ? cheese.withState('cosmos:cheese_part_visibility', size - 1) : air)
-            player.addEffect("saturation", 1, {amplifier: 1, showParticles: false})
+            let new_hunger_value = hunger.currentValue + 2;
+            new_hunger_value = (new_hunger_value > hunger.effectiveMax)? hunger.effectiveMax:
+            new_hunger_value;
+
+            hunger.setCurrentValue(new_hunger_value);
             dimension.playSound("random.burp", player.location)
         },
         onPlayerBreak({brokenBlockPermutation:permutaion, dimension, block, player}) {

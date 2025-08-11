@@ -1,5 +1,5 @@
 {
-    "format_version": "1.21.20",
+    "format_version": "1.21.90",
     "minecraft:template_pool": {
         "description": {
             "identifier": "cosmos:moon_village_structure_placer"
@@ -9,27 +9,27 @@
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_village/structures/moon_house",
-                    "processors": "cosmos:moon_village_processor"
+                    "processors": "cosmos:moon_village_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 2
             },
             {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_village/structures/farm_t",
-                    "processors": "cosmos:moon_village_processor"
+                    "processors": "cosmos:moon_village_processor",
+                    "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 1
             },
             {
                 "element": {
                     "element_type": "minecraft:single_pool_element",
                     "location": "moon_village/structures/farm_w",
-                    "processors": "cosmos:moon_village_processor"
+                    "processors": "cosmos:moon_village_processor",
+                     "projection": "rigid"
                 },
-                "projection": "rigid",
                 "weight": 1
             }
         ]

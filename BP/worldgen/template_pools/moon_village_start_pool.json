@@ -9,9 +9,9 @@
 				"element": {
 					"element_type": "minecraft:single_pool_element",
 					"location": "moon_village/start/start1",
-					"processors": "cosmos:moon_village_processor"
+					"processors": "cosmos:moon_village_processor",
+					"projection": "rigid"
 				},
-				"projection": "rigid",
 				"weight": 99
 			}
 		]

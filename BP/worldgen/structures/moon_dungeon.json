@@ -1,0 +1,23 @@
+{
+    "format_version": "1.21.20",
+    "minecraft:jigsaw": {
+        "description": {
+            "identifier": "cosmos:moon_dungeon"
+        },
+        "step": "surface_structures",
+        "start_height": {
+        "type": "constant",
+        "value": { "absolute": -15 }
+        },
+        "max_depth": 12,
+        "terrain_adaptation": "bury",
+        "start_pool": "cosmos:moon_dungeon_chest_room",
+        "biome_filters": [ 
+          { 
+            "test": "has_biome_tag",
+            "operator": "equals", 
+            "value": "empty" 
+          } 
+        ] 
+    }
+}

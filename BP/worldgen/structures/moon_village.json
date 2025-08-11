@@ -1,0 +1,23 @@
+{
+    "format_version": "1.21.20",
+    "minecraft:jigsaw": {
+        "description": {
+            "identifier": "cosmos:moon_village"
+        },
+        "step": "surface_structures",
+        "heightmap_projection": "world_surface",
+        "start_height": {
+        "type": "constant",
+        "value": { "absolute": 20 }
+        },
+        "max_depth": 6,
+        "terrain_adaptation": "beard_box",
+        "start_pool": "cosmos:moon_village_start_pool",
+        "biome_filters": [ 
+          { 
+        "test": "has_biome_tag", 
+        "value": "the_end" 
+          } 
+        ] 
+    }
+}

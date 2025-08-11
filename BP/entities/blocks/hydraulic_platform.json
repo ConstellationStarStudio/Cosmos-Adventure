@@ -8,12 +8,11 @@
       "is_experimental": false
     },
     "components": {
-		"minecraft:damage_sensor": {
-      "triggers": {
-        "cause": "all",
-        "deals_damage": false
-      }
-    },
+      "minecraft:tick_world":{
+        "never_despawn": false,
+        "distance_to_players": 20
+      },
+      "minecraft:transient": {},
     "minecraft:fire_immune": true,
     "minecraft:health": {
       "value": 1,

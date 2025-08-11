@@ -27,22 +27,15 @@
         "seat_count": 1,
         "seats":[
           {
-						"position":[0.0, 0.4, 0.0]
+						"position":[0.0, -0.4, 0.0]
 					}
         ]
       },
-      "minecraft:damage_sensor": {
-        "triggers": {
-          "on_damage": {
-            "filters": {
-              "test": "is_family",
-              "subject": "other",
-              "value": "player"
-            }
-          },
-          "deals_damage": false
-        }
+      "minecraft:tick_world":{
+        "never_despawn": false,
+        "distance_to_players": 20
       },
+      "minecraft:transient": {},
       "minecraft:fire_immune": true,
       "minecraft:health": {
         "value": 1,

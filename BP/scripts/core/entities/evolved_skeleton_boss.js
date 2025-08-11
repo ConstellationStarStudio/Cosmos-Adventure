@@ -34,9 +34,10 @@ function throwPlayer(boss, player, corners){
 
         let direction = Math.sqrt(pos_x * pos_x + pos_z * pos_z);
 
-        let motionX = 0 - pos_x / direction * 2.4;
+        //in original value is 2.4 but i set 4.4
+        let motionX = 0 - pos_x / direction * 4.4;
         let motionY = pos_z/5;
-        let motionZ = 0 - pos_z / direction * 2.4;
+        let motionZ = 0 - pos_z / direction * 4.4;
 
         if(motionY > 0.4000000059604645) motionY = 0.4000000059604645;
     
@@ -57,11 +58,12 @@ function throwPlayer(boss, player, corners){
 }
 
 function takePlayer(boss, player, corners){
-    let seat_entity = boss.dimension.spawnEntity("cosmos:gengrapple", boss.location);
     player.inputPermissions.setPermissionCategory(6, false);
     player.inputPermissions.setPermissionCategory(7, false);
     player.inputPermissions.setPermissionCategory(8, false);
-    
+
+    let seat_entity = boss.dimension.spawnEntity("cosmos:gengrapple", boss.location);
+
     seat_entity.getComponent("minecraft:rideable").addRider(player);
     boss.playAnimation("animation.evolved_skeleton_boss.player_hold");
     let throw_timer = 40;
@@ -69,6 +71,10 @@ function takePlayer(boss, player, corners){
 
 
     let momentBeforeThrowing = system.runInterval(() => {
+        if(!boss.isValid){
+            system.clearRun(momentBeforeThrowing);
+            return;
+        }
         if(throw_timer > 0) throw_timer--;
 
         if(throw_timer == 0){

@@ -354,7 +354,6 @@
                             "cosmos:property_rod",
                             "cosmos:creative_battery",
                             "cosmos:creative_canister",
-                            "cosmos:creative_rocket",
                             "cosmos:moon_boss_indicator",
                             "cosmos:moon_boss_spawner"
                         ]
