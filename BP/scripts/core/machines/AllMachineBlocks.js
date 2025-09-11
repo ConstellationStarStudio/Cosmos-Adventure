@@ -26,6 +26,7 @@ export default {
 		ui: "§c§o§m§p§r§e§s§s§o§r",
 		class: Compressor,
 		item_inputs: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+		side_inputs: [9],
 		item_outputs: [10],
 		using_block: true,
 	},

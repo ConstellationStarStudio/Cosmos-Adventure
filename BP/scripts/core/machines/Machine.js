@@ -147,26 +147,57 @@ function move_items_to_hoppers(machine, container, hopper_slots) {
 // By Yasser444
 function hopper_intercations(block, entity, data) {
 	;(()=>{ // drain items out of the output slots
-		let hopper; try { hopper = block.below()} catch {}
-		if (hopper?.typeId != "minecraft:hopper") return
-		if (!data.item_outputs) return
+		let hopper; try { hopper = block.below()} catch {} // makes sure it doesn't try pick a block below the world bottom 
+		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
+		if (hopper.permutation.getState("toggle_bit")) return // hopper isn't locked
+		if (!data.item_outputs) return // the machine has outputs
 
+		// get the outputs of the machine
 		const machine_container = entity.getComponent("inventory").container
+		const hopper_container = hopper.getComponent("inventory").container
 		const outputs = data.item_outputs.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
 		// find the first output slot that isn't empty
 		const first_output = outputs.find(output => output.item)
 		if (!first_output) return
 		
+		// create the new item stacks for the machine and the hopper 
 		const item_to_move = new ItemStack(first_output.item.typeId, 1)
 		const moved_item = first_output.item.decrementStack()
 
-		const hopper_container = hopper.getComponent("inventory").container
+		// update the items of the machine and the hopper
 		const managed_to_move = !hopper_container.addItem(item_to_move) // container.addItem adds an item to the hopper if it has space for it or returns the item it tried to move
 		if (managed_to_move) machine_container.setItem(first_output.slot, moved_item)	
 	})()
 	;(()=>{ // send items to the top of the machine
-		null
+		let hopper; try { hopper = block.above()} catch {} // makes sure it doesn't try to get a block above the build limit
+		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
+		if (hopper.permutation.getState("toggle_bit")) return // not a locked hopper
+		if (hopper.permutation.getState("facing_direction") != 0) return // hopper is pointing down down
+		if (!data.item_inputs) return // the machine has inputs
+
+		// get the first item in the hopper
+		const hopper_container = hopper.getComponent("inventory").container
+		const hopper_slot = hopper_container.firstItem()
+		if (hopper_slot == undefined) return
+		const item_to_move = hopper_container.getItem(hopper_slot)
+		if (!item_to_move) return
+		
+		// get the inputs of the machine
+		const machine_container = entity.getComponent("inventory").container
+		const inputs = data.item_inputs.map(i => ({slot: i, item: machine_container.getItem(i)}))
+
+		// check if the machine inputs have space
+		let receiving_slot
+		if (inputs.some(input => { // check if at least one slot passes and set it as the recievng slot
+			if (!input.item) {receiving_slot = input.slot; return true} // pass if the slot is empty
+			if (!input.item.isStackableWith(item_to_move)) return false // return if the items don't stack
+			if (input.item.amount + 1 <= input.item.maxAmount) {receiving_slot = input.slot; return true} // pass if the item doesn't exceed the stack sise
+		})) {
+			// update the item of the hopper and mahcine
+			hopper_container.setItem(hopper_slot, item_to_move.decrementStack())
+			machine_container.setItem(receiving_slot, machine_container.getItem(receiving_slot)?.incrementStack() ?? new ItemStack(item_to_move.typeId))
+		}
 	})()
 	;(()=>{ // send items to the side of the machine
 		null
