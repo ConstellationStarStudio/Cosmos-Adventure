@@ -36,12 +36,12 @@ export default class {
 		let first_values = [energy, progress]
 
 		energy = charge_from_machine(this.entity, this.block, energy)
-		energy = charge_from_battery(this.entity, energy, 11);
+		energy = charge_from_battery(this.entity, energy, 9);
         if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
 		const items = get_ingredients(container)
 		const ingredients = [...items.map(i => i?.typeId)].filter(i => i).sort()
 		const output = find_recipe(ingredients)
-		const output_items = [container.getItem(9), container.getItem(10)];
+		const output_items = [container.getItem(10), container.getItem(11)];
 		const one_has_space = (oneItemMax) => (!output_items[0] || (output_items[0].typeId == output && ((oneItemMax === 64)? output_items[0].amount < oneItemMax: output_items[0].amount <= oneItemMax)))
 		const two_has_space = (twoItemMax) => (!output_items[1] || (output_items[1].typeId == output && ((twoItemMax === 64)? output_items[1].amount < twoItemMax: output_items[1].amount <= twoItemMax)))
         if (energy > 0 && progress < 200 && output && (one_has_space(64) || two_has_space(64))) {
@@ -66,13 +66,13 @@ export default class {
 			}
 		    if(one_has_space(64)){
 				if(output_items[0]?.typeId == output) {
-					container.setItem(9, output_items[0].incrementStack())
-				} else container.setItem(9, new ItemStack(output))
+					container.setItem(10, output_items[0].incrementStack())
+				} else container.setItem(10, new ItemStack(output))
 			}
 			else if(two_has_space(64) && !one_has_space(64)){
 				if(output_items[1]?.typeId == output) {
-					container.setItem(10, output_items[1].incrementStack())
-				} else container.setItem(10, new ItemStack(output))
+					container.setItem(11, output_items[1].incrementStack())
+				} else container.setItem(11, new ItemStack(output))
 			}
 			}
 			else if((min >= 2) && (one_has_space(63) || two_has_space(63))){
@@ -81,21 +81,21 @@ export default class {
 				}
 				if(one_has_space(63) && two_has_space(63)){
 					if(output_items[0]?.typeId == output) {
-						container.setItem(9, output_items[0].incrementStack())
-					} else container.setItem(9, new ItemStack(output))
-					if(output_items[1]?.typeId == output) {
-						container.setItem(10, output_items[1].incrementStack())
+						container.setItem(10, output_items[0].incrementStack())
 					} else container.setItem(10, new ItemStack(output))
+					if(output_items[1]?.typeId == output) {
+						container.setItem(11, output_items[1].incrementStack())
+					} else container.setItem(11, new ItemStack(output))
 				}
 				else if(one_has_space(63) && !two_has_space(63)){
 					if(output_items[0]?.typeId == output) {
-						container.setItem(9, output_items[0].incrementStack(63, 2))
-					} else container.setItem(9, new ItemStack(output, 2))
+						container.setItem(10, output_items[0].incrementStack(63, 2))
+					} else container.setItem(10, new ItemStack(output, 2))
 				}
 				else if(!one_has_space(63) && two_has_space(63)){
 					if(output_items[1]?.typeId == output) {
-						container.setItem(10, output_items[1].incrementStack(63, 2))
-					} else container.setItem(10, new ItemStack(output, 2))
+						container.setItem(11, output_items[1].incrementStack(63, 2))
+					} else container.setItem(11, new ItemStack(output, 2))
 				}
 			}
 		}

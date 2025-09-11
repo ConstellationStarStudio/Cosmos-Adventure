@@ -20,14 +20,20 @@ export default {
 		ui: "§c§o§a§l§_§g§e§n§e§r§a§t§o§r",
 		class: CoalGenerator,
 		energy: {output: "right", maxPower: 120},
+		items: {
+			top_input: [0],
+			side_input: [0],
+		},
 		using_block: true,
 	},
 	"compressor": {
 		ui: "§c§o§m§p§r§e§s§s§o§r",
 		class: Compressor,
-		item_inputs: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-		side_inputs: [9],
-		item_outputs: [10],
+		items: {
+			top_input: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+			side_input: [9],
+			output: [10]
+		},
 		using_block: true,
 	},
 	"energy_storage_module": {
@@ -58,12 +64,22 @@ export default {
 		ui: "§e§l§e§c§t§r§i§c§_§c§o§m§p§r§e§s§s§o§r",
 		class: ElectricCompressor,
 		energy: {input: "right", capacity: 16000, maxInput: 1500},
+		items: {
+			top_input: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+			side_input: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+			output: [10, 11]
+		},
 		using_block: true,
 	},
 	"electric_furnace":{
 		ui: "§e§l§e§c§t§r§i§c§_§f§u§r§n§a§c§e",
 		class: ElectricFurnace,
 		energy: {input: "right", capacity: 16000, maxInput: 45},
+		items: {
+			top_input: [0],
+			side_input: [0],
+			output: [2]
+		},
 		using_block: true,
 	},
 	"oxygen_collector": {
@@ -91,6 +107,11 @@ export default {
 		ui: "§c§i§r§c§u§i§t§_§f§a§b§r§i§c§a§t§o§r",
 		class: CircuitFabricator,
 		energy: {input: "right", capacity: 16000, maxInput: 50},
+		items: {
+			top_input: [4],
+			side_input: [0, 1, 2, 3],
+			output: [6]
+		},
 		using_block: true,
 	},
 	"refinery": {

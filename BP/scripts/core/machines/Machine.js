@@ -150,12 +150,12 @@ function hopper_intercations(block, entity, data) {
 		let hopper; try { hopper = block.below()} catch {} // makes sure it doesn't try pick a block below the world bottom 
 		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
 		if (hopper.permutation.getState("toggle_bit")) return // hopper isn't locked
-		if (!data.item_outputs) return // the machine has outputs
+		if (!data.items.output) return // the machine has outputs
 
 		// get the outputs of the machine
 		const machine_container = entity.getComponent("inventory").container
 		const hopper_container = hopper.getComponent("inventory").container
-		const outputs = data.item_outputs.map(i => ({slot: i, item: machine_container.getItem(i)}))
+		const outputs = data.items.output.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
 		// find the first output slot that isn't empty
 		const first_output = outputs.find(output => output.item)
@@ -174,7 +174,7 @@ function hopper_intercations(block, entity, data) {
 		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
 		if (hopper.permutation.getState("toggle_bit")) return // not a locked hopper
 		if (hopper.permutation.getState("facing_direction") != 0) return // hopper is pointing down down
-		if (!data.item_inputs) return // the machine has inputs
+		if (!data.items.top_input) return // the machine has inputs
 
 		// get the first item in the hopper
 		const hopper_container = hopper.getComponent("inventory").container
@@ -185,7 +185,7 @@ function hopper_intercations(block, entity, data) {
 		
 		// get the inputs of the machine
 		const machine_container = entity.getComponent("inventory").container
-		const inputs = data.item_inputs.map(i => ({slot: i, item: machine_container.getItem(i)}))
+		const inputs = data.items.top_input.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
 		// check if the machine inputs have space
 		let receiving_slot
@@ -199,9 +199,37 @@ function hopper_intercations(block, entity, data) {
 			machine_container.setItem(receiving_slot, machine_container.getItem(receiving_slot)?.incrementStack() ?? new ItemStack(item_to_move.typeId))
 		}
 	})()
-	;(()=>{ // send items to the side of the machine
-		null
-	})()
+	const send_to_side = (direction) => { // send items to the side of the machine
+		let hopper; try { hopper = block[direction]()} catch {} // makes sure it doesn't try to get a block from an unloaded chunk
+		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
+		if (hopper.permutation.getState("toggle_bit")) return // not a locked hopper
+		if (hopper.permutation.getState("facing_direction") != {north: 3, east: 4, south: 2, west: 5}[direction]) return // hopper is pointing down down
+		if (!data.items.side_input) return // the machine has side inputs
+		
+		// get the first item in the hopper
+		const hopper_container = hopper.getComponent("inventory").container
+		const hopper_slot = hopper_container.firstItem()
+		if (hopper_slot == undefined) return
+		const item_to_move = hopper_container.getItem(hopper_slot)
+		if (!item_to_move) return
+		
+		// get the side inputs of the machine
+		const machine_container = entity.getComponent("inventory").container
+		const inputs = data.items.side_input.map(i => ({slot: i, item: machine_container.getItem(i)}))
+
+		// check if the machine inputs have space
+		let receiving_slot
+		if (inputs.some(input => { // check if at least one slot passes and set it as the recievng slot
+			if (!input.item) {receiving_slot = input.slot; return true} // pass if the slot is empty
+			if (!input.item.isStackableWith(item_to_move)) return false // return if the items don't stack
+			if (input.item.amount + 1 <= input.item.maxAmount) {receiving_slot = input.slot; return true} // pass if the item doesn't exceed the stack sise
+		})) {
+			// update the item of the hopper and mahcine
+			hopper_container.setItem(hopper_slot, item_to_move.decrementStack())
+			machine_container.setItem(receiving_slot, machine_container.getItem(receiving_slot)?.incrementStack() ?? new ItemStack(item_to_move.typeId))
+		}
+	}
+	;["north", "east", "south", "west"].forEach(direction => send_to_side(direction))
 }
 
 

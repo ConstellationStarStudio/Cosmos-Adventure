@@ -16,7 +16,7 @@ export default{
    "minecraft:chainmail_leggings": "minecraft:iron_nugget",
    "minecraft:cherry_leaves": "minecraft:leaf_litter",
    "minecraft:chicken": "minecraft:cooked_chicken",
-   "minecraft:chorus_fruit": "minecraft:chorus_fruit_popped",
+   "minecraft:chorus_fruit": "minecraft:popped_chorus_fruit",
    "minecraft:clay": "minecraft:hardened_clay",
    "minecraft:clay_ball": "minecraft:brick",
    "minecraft:coal_ore": "minecraft:coal",

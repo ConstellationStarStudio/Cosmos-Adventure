@@ -6,7 +6,7 @@ import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../..
 const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"])
 
 function get_ingredients(container) {
-	const inputs = machines.compressor.item_inputs
+	const inputs = machines.compressor.items.top_input
 	return inputs.map(i => container.getItem(i))
 }
 

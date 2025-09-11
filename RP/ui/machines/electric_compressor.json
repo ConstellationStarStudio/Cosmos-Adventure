@@ -19,25 +19,25 @@
 				"anchor_to": "top_left",
 				"offset": [ 18, 17 ]
 			}},
-            { "output1@machines.item_slot": {
-				"$index": 9,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 137, 28 ]
-            }},
-            { "output2@machines.item_slot": {
-				"$index": 10,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 137, 46 ]
-            }},
             { "battery_slot@machines.item_slot": {
-				"$index": 11,
+				"$index": 9,
 				"$overlay_texture": "textures/ui/extra_slots/power",
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
 				"offset": [ 54, 74 ]
 			}},
+            { "output1@machines.item_slot": {
+				"$index": 10,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 137, 28 ]
+            }},
+            { "output2@machines.item_slot": {
+				"$index": 11,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 137, 46 ]
+            }},
             { "energy_bar@machines.energy_bar": {
                 "$index": 12,
                 "anchor_from": "top_left",

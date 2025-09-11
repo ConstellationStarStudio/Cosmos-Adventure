@@ -8,10 +8,10 @@ export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid) this.smelting()
+        if (entity.isValid) this.smelt()
     }
 
-    smelting(){
+    smelt(){
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const data = get_data(this.entity);
 		const variables = load_dynamic_object(this.entity, 'machine_data');
@@ -19,27 +19,27 @@ export default class {
 		let progress = variables.progress || 0
 		let first_values = [energy, progress]
 		energy = charge_from_machine(this.entity, this.block, energy)
-		energy = charge_from_battery(this.entity, energy, 0);
+		energy = charge_from_battery(this.entity, energy, 1);
         if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
 		if(energy >= 45){
-			let input = container.getItem(1);
+			let input = container.getItem(0);
 			let output = container.getItem(2);
 			let outputId = recipes[input?.typeId];
 			if(input && outputId && (!output || (output?.typeId == outputId && output?.amount < 64))){
-				if(progress < 200){
+				if (progress < 200){
 					progress += 1;
 					energy = Math.max(0, energy - 45);
-				}else{
+				} else{
 					progress = 0;
 					output = (output)? output.incrementStack():
 					new ItemStack(outputId);
-					container.setItem(1, input.decrementStack())
+					container.setItem(0, input.decrementStack())
 					container.setItem(2, output);
 				}
-			}else{
+			} else{
 				progress = Math.max(progress - 1, 0);
 			}
-		}else{
+		} else{
 			progress = Math.max(progress - 1, 0);
 		}
 
