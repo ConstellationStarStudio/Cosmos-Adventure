@@ -12,16 +12,22 @@ function space_tags_removing(player){
 //the main player cycle
 world.afterEvents.worldLoad.subscribe(() => {
     system.runInterval(() => {
-        let space = world.getDimension("the_end");
-        let players_in_space = space.getPlayers({tags: ["in_space"]});
-        //manage oxygen
-        if(!(system.currentTick % 20)) oxygen_spending(space.getPlayers({tags: ["ableToOxygen"], excludeTags: ["oxygen_hunger"], excludeGameModes: ["Creative", "Spectator"]}))
+        let players = world.getAllPlayers();
+        let currentTick = system.currentTick;
+        let coords_enabled = world.gameRules.showCoordinates;
+
+        players.forEach((player) => {
+            let tags = player.getTags();
+
+            //manage oxygen
+            if(!(currentTick % 20) && player.getGameMode() == "Survival" && tags.includes("ableToOxygen") && !tags.includes("oxygen_hunger")) oxygen_spending(player)
+            //manage dungeon finder
+            dungeon_finder_loop(player)
+            //manage coordinates
+            if(coords_enabled) coords_loop(player)
+        });
         //manage gravity
         //player_gravity(players_in_space)
-        //manage dungeon finder
-        dungeon_finder_loop(world.getAllPlayers())
-        //manage coordinates
-        if(world.gameRules.showCoordinates) coords_loop(world.getAllPlayers())
     });
 });
 

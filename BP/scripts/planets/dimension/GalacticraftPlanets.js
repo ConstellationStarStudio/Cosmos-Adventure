@@ -158,14 +158,12 @@ function planet_coords(entity) {
   let planet = Planet.getAll().find(pl => pl.isOnPlanet(entity.location))
   return planet?.offset(entity.location) || entity.location
 }
-export function coords_loop(players){
-    players.forEach(player => {
-        let {x, y, z} = planet_coords(player)
-        x = Math.floor(x)
-        y = Math.floor(y + 0.000001)
-        z = Math.floor(z)
-        player.onScreenDisplay.setActionBar(`Position: ${x}, ${y}, ${z}`)
-    })
+export function coords_loop(player){
+    let {x, y, z} = planet_coords(player)
+    x = Math.floor(x)
+    y = Math.floor(y + 0.000001)
+    z = Math.floor(z)
+    player.onScreenDisplay.setActionBar(`Position: ${x}, ${y}, ${z}`)
 }
 world.afterEvents.gameRuleChange.subscribe(({rule, value}) => {
     if (rule == "showCoordinates" && value == false)
