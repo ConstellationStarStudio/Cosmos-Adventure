@@ -1,16 +1,14 @@
 import { ItemStack } from "@minecraft/server";
 import recipes from "../../../recipes/compressor"
+import machines from "../AllMachineBlocks"
 import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
 
 const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"])
 
 function get_ingredients(container) {
-	const ingredients = []
-	for (let i = 0; i < 9; i++) {
-		ingredients.push(container.getItem(i))
-	} return ingredients
+	const inputs = machines.compressor.item_inputs
+	return inputs.map(i => container.getItem(i))
 }
-
 
 function find_recipe(ingredients) {
 	for (let [result, recipe] of recipes) {
@@ -25,10 +23,10 @@ export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid) this.generateHeat()
+        if (entity.isValid) this.compress()
 	}
-    onPlace(){}
-	generateHeat() {
+
+	compress() {
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const items = get_ingredients(container)
 		const ingredients = [...items.map(i => i?.typeId)].filter(i => i).sort()

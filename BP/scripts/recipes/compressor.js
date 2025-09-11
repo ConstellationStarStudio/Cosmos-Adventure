@@ -6,6 +6,6 @@ export default new Map ([
 	["cosmos:compressed_steel", ["cosmos:compressed_iron", "minecraft:coal", "minecraft:coal"]],
 	["cosmos:compressed_bronze", ["cosmos:compressed_copper", "cosmos:compressed_tin"]],
 	["cosmos:compressed_meteoric_iron", ["cosmos:meteoric_iron_ingot"]],
-                ["cosmos:compressed_aluminum", ["cosmos:aluminum_ingot", "cosmos:aluminum_ingot"]],
-                ["cosmos:heavy_duty_plate", ["cosmos:compressed_aluminum", "cosmos:compressed_aluminum", "cosmos:compressed_bronze", "cosmos:compressed_bronze", "cosmos:compressed_steel", "cosmos:compressed_steel"]],
+    ["cosmos:compressed_aluminum", ["cosmos:aluminum_ingot", "cosmos:aluminum_ingot"]],
+    ["cosmos:heavy_duty_plate", ["cosmos:compressed_aluminum", "cosmos:compressed_aluminum", "cosmos:compressed_bronze", "cosmos:compressed_bronze", "cosmos:compressed_steel", "cosmos:compressed_steel"]],
 ])
