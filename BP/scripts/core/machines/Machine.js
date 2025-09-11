@@ -1,4 +1,4 @@
-import { world, system, BlockPermutation } from "@minecraft/server";
+import { world, system, BlockPermutation, ItemStack } from "@minecraft/server";
 import machines from "./AllMachineBlocks";
 import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
 import { pickaxes } from "../../api/utils";
@@ -149,12 +149,21 @@ function hopper_intercations(block, entity, data) {
 	;(()=>{ // drain items out of the output slots
 		let hopper; try { hopper = block.below()} catch {}
 		if (hopper?.typeId != "minecraft:hopper") return
+		if (!data.item_outputs) return
 
 		const machine_container = entity.getComponent("inventory").container
-		const outputs = data.item_outputs?.map(i => machine_container.getItem(i))
-		if (!outputs) return
+		const outputs = data.item_outputs.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
-		console.log(outputs.map(i => i?.typeId))
+		// find the first output slot that isn't empty
+		const first_output = outputs.find(output => output.item)
+		if (!first_output) return
+		
+		const item_to_move = new ItemStack(first_output.item.typeId, 1)
+		const moved_item = first_output.item.decrementStack()
+
+		const hopper_container = hopper.getComponent("inventory").container
+		const managed_to_move = !hopper_container.addItem(item_to_move) // container.addItem adds an item to the hopper if it has space for it or returns the item it tried to move
+		if (managed_to_move) machine_container.setItem(first_output.slot, moved_item)	
 	})()
 	;(()=>{ // send items to the top of the machine
 		null
