@@ -14,6 +14,7 @@ import ElectricFurnace from './blocks/ElectricFurnace'
 import RocketTierOne from './rockets/RocketTierOne'
 import MoonLander from './rockets/MoonLander'
 import Parachest from './blocks/Parachest'
+import OxygenBubbleDistributor from './blocks/OxygenBubbleDistributor'
 
 export default {
 	"coal_generator": {
@@ -94,6 +95,13 @@ export default {
 		class: OxygenCompressor,
 		energy: {input: "right", capacity: 16000, maxInput: 15},
 		o2: {input: "left", capacity: 1200},
+		using_block: true,
+	},
+	"oxygen_bubble_distributor": {
+		ui: "",
+		class: OxygenBubbleDistributor,
+		energy: {input: "right", capacity: 16000, maxInput: 25},
+		o2: {input: "left", capacity: 6000},
 		using_block: true,
 	},
 	"oxygen_decompressor": {

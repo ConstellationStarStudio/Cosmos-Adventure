@@ -125,6 +125,12 @@
             },
             "volume": 0
          },
+         "cosmos:oxygen_bubble_distributor": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
          "cosmos:oxygen_decompressor": {
             "events": {
                "death": "none"

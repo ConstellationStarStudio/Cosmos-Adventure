@@ -54,7 +54,7 @@ function oxygen_hunger(player){
             let tank1 = space_gear["tank1"]?.split(' ')
             let tank2 = space_gear["tank2"]?.split(' ')
 
-            if(space_gear && ((tank1 && tank1[1] !== "0") || (tank2 && tank2[1] !== "0")) && (space_gear["mask"] && space_gear["gear"])){
+            if((space_gear && ((tank1 && tank1[1] !== "0") || (tank2 && tank2[1] !== "0")) && (space_gear["mask"] && space_gear["gear"])) || is_entity_in_a_bubble(player)){
                 system.clearRun(cycle)
                 player.removeTag("oxygen_hunger")
             }
@@ -74,4 +74,20 @@ function oxygen_bar(player, o2){
     let oxygen_2 = (o2[1][1])? (45/tanks[o2[1][0]]) * o2[1][1]:
     0;
     player.onScreenDisplay.setTitle(`cosmos:O1:${Math.floor(oxygen_1)},O2:${Math.floor(oxygen_2)},T:${0}`);
+}
+
+export function is_entity_in_a_bubble(entity){
+    let {x, y, z} = entity.location;
+    let bubbles = entity.dimension.getEntities({type: "cosmos:oxygen_bubble_distributor", location: {x: x, y: y, z: z}, maxDistance: 10, 
+    propertyOptions: [{exclude: false, propertyId: "cosmos:bubble_radius", 
+        value: {greaterThan: 0.5}
+    }]});
+    if(!bubbles.length) return false;
+    for(let bubble of bubbles){
+        let {x: bubble_x, y: bubble_y, z: bubble_z} = bubble.location;
+        if(Math.sqrt((bubble_x - x) ** 2 + (bubble_y - y) ** 2 + (bubble_z - z) ** 2) < bubble.getProperty("cosmos:bubble_radius")){
+            return true;
+        }
+    }
+    return false;
 }

@@ -2,7 +2,7 @@ import { world, system } from "@minecraft/server";
 import { coords_loop, Planet } from "../planets/dimension/GalacticraftPlanets.js";
 import { player_gravity } from '../planets/dimension/gravity.js';
 import { dungeon_finder_loop } from "./items/dungeon_finder.js";
-import { oxygen_spending } from "../api/player/oxygen.js";
+import { oxygen_spending, is_entity_in_a_bubble } from "../api/player/oxygen.js";
 
 function space_tags_removing(player){
     player.removeTag("oxygen_hunger")
@@ -18,9 +18,8 @@ world.afterEvents.worldLoad.subscribe(() => {
 
         players.forEach((player) => {
             let tags = player.getTags();
-
             //manage oxygen
-            if(!(currentTick % 20) && player.getGameMode() == "Survival" && tags.includes("ableToOxygen") && !tags.includes("oxygen_hunger")) oxygen_spending(player)
+            if(!(currentTick % 20) && tags.includes("ableToOxygen") && !tags.includes("oxygen_hunger") && player.getGameMode() == "Survival" && !is_entity_in_a_bubble(player)) oxygen_spending(player)
             //manage dungeon finder
             dungeon_finder_loop(player)
             //manage coordinates

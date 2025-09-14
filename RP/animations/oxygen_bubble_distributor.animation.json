@@ -1,0 +1,13 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.oxygen_bubble_distributor.idle": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"scale": ["query.property('cosmos:bubble_radius') * 52.0", "query.property('cosmos:bubble_radius') * 52.0", "query.property('cosmos:bubble_radius') * 52.0"]
+				}
+			}
+		}
+	}
+}

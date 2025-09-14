@@ -12,7 +12,7 @@
     },
     "components": {
       "tag:machine": {},
-      //"minecraft:custom_components": ["cosmos:machine"],
+      "minecraft:custom_components": ["cosmos:machine"],
       "minecraft:geometry": "minecraft:geometry.full_block",
       "minecraft:destructible_by_explosion": false,
       "minecraft:destructible_by_mining": {
