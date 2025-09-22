@@ -2,7 +2,7 @@ import { system, world, ItemStack } from "@minecraft/server";
 import { get_data } from "../Machine";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
-import { input_fluid } from "../../matter/fluids";
+import { input_fluid, load_from_canister_gradual } from "../../matter/fluids";
 import { update_tank, tanks } from "../../../api/player/oxygen";
 
 export default class {
@@ -23,6 +23,7 @@ export default class {
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
         o2 = input_fluid("o2", this.entity, this.block, o2);
+        if(!(system.currentTick % 10)) o2 = load_from_canister_gradual(o2, "o2", this.entity, 2);
         // Energy management
         energy = charge_from_machine(this.entity, this.block, energy);
         energy = charge_from_battery(this.entity, energy, 0);

@@ -1,0 +1,33 @@
+{
+   "format_version": "1.20.20",
+   "minecraft:item": {
+      "description": {
+         "identifier": "cosmos:n2_canister"
+      },
+      "components": {
+         "minecraft:icon": {
+            "texture": "n2_canister"
+         },
+         "minecraft:durability": {
+            "damage_chance": {
+               "min": 0,
+               "max": 0
+            },
+            "max_durability": 1000
+         },
+         "minecraft:repairable": {
+            "repair_items": [
+               {
+                  "items": [
+                     "cosmos:n2_canister"
+                  ],
+                  "repair_amount": 0
+               }
+            ]
+         },
+         "minecraft:max_stack_size": {
+            "value": 1
+         }
+      }
+   }
+}

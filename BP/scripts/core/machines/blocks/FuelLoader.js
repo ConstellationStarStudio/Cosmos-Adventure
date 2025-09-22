@@ -2,7 +2,7 @@ import { system, ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine} from "../../matter/electricity.js";
 import { compare_lists, load_dynamic_object, location_of_side, save_dynamic_object } from "../../../api/utils.js";
 import { get_data } from "../Machine.js";
-import { input_fluid } from "../../matter/fluids.js";
+import { input_fluid, load_from_canister_instant } from "../../matter/fluids.js";
 
 function get_rockets(block){
 	if(!block.location) return;
@@ -35,7 +35,6 @@ export default class {
     load_fuel(){
         const stopped = this.entity.getDynamicProperty('stopped')
         const container = this.entity.getComponent('minecraft:inventory').container
-		const input = container.getItem(0)
 		const data = get_data(this.entity)
 		
 		const variables = load_dynamic_object(this.entity, 'machine_data')
@@ -50,11 +49,7 @@ export default class {
 		energy = charge_from_battery(this.entity, energy, 1)
 		
 		fuel = input_fluid("fuel", this.entity, this.block, fuel)
-
-		if (fuel + 1000 <= data.fuel.capacity && input?.typeId == "cosmos:fuel_bucket") {
-			container.setItem(0, new ItemStack('bucket'))
-			fuel += 1000
-		}
+		fuel = load_from_canister_instant(fuel, "fuel", this.entity, 0).amount;
 		if(!stopped && energy > 0 && fuel >= 2 && this.block){
 		    let rockets = get_rockets(this.block)
 		    if(rockets.length > 0){

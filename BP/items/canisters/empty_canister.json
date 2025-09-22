@@ -1,0 +1,31 @@
+{
+   "format_version": "1.21.50",
+   "minecraft:item": {
+      "description": {
+         "identifier": "cosmos:empty_canister"
+      },
+      "components": {
+         "minecraft:icon": "empty_canister",
+         "minecraft:durability": {
+            "damage_chance": {
+               "min": 0,
+               "max": 0
+            },
+            "max_durability": 1000
+         },
+         "minecraft:repairable": {
+            "repair_items": [
+               {
+                  "items": [
+                     "cosmos:empty_canister"
+                  ],
+                  "repair_amount": 0
+               }
+            ]
+         },
+         "minecraft:max_stack_size": {
+            "value": 1
+         }
+      }
+   }
+}

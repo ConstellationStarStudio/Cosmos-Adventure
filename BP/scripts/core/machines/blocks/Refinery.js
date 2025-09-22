@@ -1,6 +1,6 @@
 import { system, ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
-import { output_fluid } from "../../matter/fluids.js";
+import { output_fluid, load_to_canister, load_from_canister_instant } from "../../matter/fluids.js";
 import { get_data } from "../Machine.js";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
 
@@ -27,8 +27,6 @@ export default class {
 		//load data
 		const data = get_data(this.entity)
         const container = this.entity.getComponent('minecraft:inventory').container
-		const input = container.getItem(0)
-		const output = container.getItem(2)
 		const dimension = this.entity.dimension
 		const active = this.entity.getDynamicProperty("active")
 		
@@ -44,12 +42,10 @@ export default class {
 		//energy loss
 		if (system.currentTick % 30 == 0) energy -= Math.min(10, energy)
 
-		//load oil from bucket
-		if (oil + 1000 <= data.oil.capacity && input?.typeId == "cosmos:oil_bucket") {
-			container.setItem(0, new ItemStack('bucket'))
-			oil += 1000
-		}
+		//load oil from canister or bucket
+		oil = load_from_canister_instant(oil, "oil", this.entity, 0).amount;
 
+		/*
 		//reject invalid input
 		const player_location = dimension.getPlayers({
 			location: this.entity.location,
@@ -60,14 +56,10 @@ export default class {
 			dimension.spawnItem(input, player_location)
 			container.setItem(0)
 		}
-
-		//unload fuel to a bucket
-		if (fuel >= 1000 && output?.typeId == "minecraft:bucket" && output.amount == 1) {
-			container.setItem(2, new ItemStack('cosmos:fuel_bucket'))
-			fuel -= 1000
-		}
+		*/
 
 		//move fluids
+		fuel = load_to_canister(fuel, "fuel", container, 2)
 		fuel = output_fluid("fuel", this.entity, this.block, fuel)
 
 		// refine oil

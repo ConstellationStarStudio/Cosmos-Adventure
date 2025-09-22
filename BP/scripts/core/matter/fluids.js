@@ -15,6 +15,36 @@ const liquids = [
     {block: "cosmos:oil", bucket: "cosmos:oil_bucket"},
     {block: "cosmos:fuel", bucket: "cosmos:fuel_bucket"},
 ]
+const liquid_canisters = {
+    canisters: {
+        "cosmos:o2_canister": "o2", 
+        "cosmos:n2_canister": "n2",
+        "cosmos:fuel_canister": "fuel",
+        "cosmos:oil_canister": "oil"
+    },
+    buckets: {
+        "cosmos:fuel_bucket": "fuel",
+        "cosmos:oil_bucket": "oil"
+    }
+}
+const liquid_canisters_reversed = {
+    canisters: {
+        "o2": "cosmos:o2_canister", 
+        "n2": "cosmos:n2_canister",
+        "fuel": "cosmos:fuel_canister",
+        "oil": "cosmos:oil_canister"
+    },
+    buckets: {
+        "fuel": "cosmos:fuel_bucket",
+        "oil": "cosmos:oil_bucket" 
+    }
+}
+const liquid_lores = {
+    "cosmos:o2_canister": "Oxygen: ",
+    "cosmos:n2_canister": "Nitrogen: ",
+    "cosmos:fuel_canister": "Fuel: ",
+    "cosmos:oil_canister": "Oil: "
+}
 // world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 // 	blockComponentRegistry.registerCustomComponent("cosmos:liquid", {
 //         // onTick({block, dimension}){
@@ -54,6 +84,12 @@ world.beforeEvents.playerInteractWithBlock.subscribe(({block, player, itemStack:
                 player.give(bucket)
             }
         })
+    }
+})
+world.afterEvents.playerInventoryItemChange.subscribe(({itemStack:item, slot, player}) => {
+    if(item?.typeId == "cosmos:empty_canister" && item?.getComponent("minecraft:durability").damage != 1000){
+        item.getComponent("minecraft:durability").damage = 1000;
+        player.getComponent("minecraft:inventory").container.setItem(slot, item)
     }
 })
 
@@ -124,4 +160,94 @@ export function input_fluid(fluid_type, entity, block, fluid) {
         
         return Math.min(fluid + source_fluid, data[fluid_type].capacity)
     }
+}
+
+export function load_to_canister(liquid_amount, liquid_type, container, slot){
+    if(!liquid_amount) return liquid_amount;
+	const canister = container.getItem(slot);
+
+    if(!canister) return liquid_amount;
+    if(liquid_amount >= 1000 && canister.typeId == "minecraft:bucket" && canister.amount == 1){
+        container.setItem(slot, new ItemStack(liquid_canisters_reversed.buckets[liquid_type]));
+        liquid_amount -= 1000;
+        return liquid_amount;
+    }
+    if(canister.typeId == "cosmos:empty_canister" || canister.typeId == liquid_canisters_reversed.canisters[liquid_type]){
+        let canister_durability = canister.getComponent('minecraft:durability'); 
+        let canister_capacity = canister_durability.maxDurability - canister_durability.damage;
+        canister_capacity += Math.min(liquid_amount, canister_durability.damage);
+        liquid_amount -= Math.min(liquid_amount, canister_durability.damage);
+        container.setItem(slot, update_canister(canister, canister_capacity, liquid_type));
+        return liquid_amount;
+    }
+}
+
+export function load_from_canister_instant(liquid_amount, liquid_type, entity, slot){
+    const data = get_data(entity);
+    let machine_capacity = liquid_type ? data[liquid_type].capacity: data.gas.capacity;
+
+    if(liquid_amount === machine_capacity) return {amount: liquid_amount, liquid_type};
+	const container = entity.getComponent('minecraft:inventory').container;
+	const canister = container.getItem(slot);
+    if(!canister) return {amount: liquid_amount, liquid_type};
+
+    //checks if bucket in a slot
+    if(canister.typeId == liquid_canisters_reversed.buckets[liquid_type]){
+        container.setItem(slot, new ItemStack("bucket"))
+        liquid_amount = Math.min(liquid_amount + 1000, data[liquid_type].capacity);
+        return {amount: liquid_amount, liquid_type}
+    }
+    //check if canister in a slot
+    //if a liquid type is undefined it transfer it to liquid type based on canister
+    if(!liquid_canisters.canisters[canister.typeId] || (liquid_type && canister.typeId != liquid_canisters_reversed.canisters[liquid_type])) return {amount: liquid_amount, liquid_type};
+
+    let canister_durability = canister.getComponent('minecraft:durability'); 
+    let canister_capacity = canister_durability.maxDurability - canister_durability.damage;
+
+    liquid_type = liquid_type ?? liquid_canisters.canisters[canister.typeId]; 
+
+    const space = machine_capacity - liquid_amount;
+    liquid_amount += Math.min(space, canister_capacity);
+    canister_capacity -= Math.min(space, canister_capacity);
+    container.setItem(slot, update_canister(canister, canister_capacity));
+
+    return {amount: liquid_amount, liquid_type};        
+}
+
+export function load_from_canister_gradual(liquid_amount, liquid_type, entity, slot){
+    const data = get_data(entity);
+    let machine_capacity = data[liquid_type].capacity;
+
+    if(liquid_amount === machine_capacity) return liquid_amount;
+	const container = entity.getComponent('minecraft:inventory').container;
+	const canister = container.getItem(slot);
+    if(!canister || canister.typeId != liquid_canisters_reversed.canisters[liquid_type]) return liquid_amount;
+
+    let canister_durability = canister.getComponent('minecraft:durability'); 
+    let canister_capacity = canister_durability.maxDurability - canister_durability.damage;
+
+    const space = machine_capacity - liquid_amount;
+    let liquid_draw = Math.floor(data[liquid_type].maxInput * 2.5 * 10);
+    let converted_liquid = Math.min(canister_capacity, liquid_draw * 0.0926);
+    liquid_amount += Math.min(space, Math.floor(converted_liquid/0.0926));
+    canister_capacity -= Math.min(canister_capacity, Math.floor(converted_liquid));
+    container.setItem(slot, update_canister(canister, canister_capacity));
+
+    return liquid_amount;        
+}
+
+function update_canister(canister, fill, liquid_type = undefined){
+    let durability = canister.getComponent('minecraft:durability');
+    if(!fill){
+        canister = new ItemStack("cosmos:empty_canister");
+        canister.getComponent('minecraft:durability').damage = 1000;
+        return canister;
+    }else if(canister.typeId == "cosmos:empty_canister"){
+        canister = new ItemStack(liquid_canisters_reversed.canisters[liquid_type]);
+        durability = canister.getComponent('minecraft:durability');
+    }
+    fill = Math.min(durability.maxDurability, fill);
+    durability.damage = durability.maxDurability - fill;
+    canister.setLore([`§r§7${liquid_lores[canister.typeId]}${fill}`])
+    return canister;
 }

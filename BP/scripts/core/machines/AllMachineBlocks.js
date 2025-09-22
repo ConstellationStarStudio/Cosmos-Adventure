@@ -94,7 +94,7 @@ export default {
 		ui: "§o§x§y§g§e§n§_§c§o§m§p§r§e§s§s§o§r",
 		class: OxygenCompressor,
 		energy: {input: "right", capacity: 16000, maxInput: 15},
-		o2: {input: "left", capacity: 1200},
+		o2: {input: "left", capacity: 1200, maxInput: 16},
 		using_block: true,
 	},
 	"oxygen_bubble_distributor": {
