@@ -53,11 +53,14 @@ export function charge_from_machine(entity, block, energy) {
 export function charge_from_battery(entity, energy, slot) {
 	const data = get_data(entity)
 	const container = entity.getComponent('minecraft:inventory').container
-	const battery = container.getItem(slot)
-	if (battery && energy < data.energy.capacity) {
-		if ((battery.getDynamicProperty('energy') ?? 0) > 0) {
-			let charge = battery.getDynamicProperty('energy') ?? 0
-			const space = data.energy.capacity - energy
+	const battery = container.getItem(slot);
+	if (battery && energy < data.energy.capacity){
+		let durability = battery.getComponent('minecraft:durability');
+
+		let battery_capacity = (durability)? durability.maxDurability - durability.damage: 0;
+		if (battery_capacity > 0 && battery.typeId == "cosmos:battery") {
+			let charge = battery_capacity;
+			const space = data.energy.capacity - energy;
 			energy += Math.min(data.energy.maxInput, 200, charge, space)
 			charge -= Math.min(data.energy.maxInput, 200, charge, space)
 			container.setItem(slot, update_battery(battery, charge))
@@ -79,6 +82,5 @@ export function update_battery(battery, charge) {
 			Math.floor(charge) < 5000 ? '4' : '6'
 		}${Math.floor(charge)} gJ/15,000 gJ`])
 	battery.getComponent('minecraft:durability').damage = 15000 - Math.floor(charge)
-	battery.setDynamicProperty('energy', Math.floor(charge))
 	return battery
 }

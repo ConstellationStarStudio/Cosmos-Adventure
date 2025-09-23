@@ -5,9 +5,12 @@ import { compare_position, get_entity, load_dynamic_object, save_dynamic_object,
 
 function charge_battery(machine, energy, slot) {
 	const container = machine.getComponent('minecraft:inventory').container
-	const battery = container.getItem(slot)
-	if (battery && energy > 0 && (battery.getDynamicProperty('energy') ?? 0) < 15000 ) {
-		let charge = battery.getDynamicProperty('energy') ?? 0
+	const battery = container.getItem(slot);
+	let durability = battery?.getComponent('minecraft:durability');
+	let battery_capacity = (durability)? durability.maxDurability - durability.damage: 0;
+
+	if (battery && battery.typeId == "cosmos:battery" && energy > 0 && battery_capacity < 15000) {
+		let charge = battery_capacity;
 		const space = 15000 - charge
 		charge += Math.min(200, energy, space)
 		energy -= Math.min(200, energy, space)

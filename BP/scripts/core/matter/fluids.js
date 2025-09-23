@@ -1,4 +1,5 @@
 import { world, BlockPermutation, ItemStack, system } from "@minecraft/server"
+import { update_battery } from "./electricity"
 import { compare_position, get_entity, load_dynamic_object, location_of_side } from "../../api/utils"
 import { get_data } from "../machines/Machine"
 
@@ -90,6 +91,8 @@ world.afterEvents.playerInventoryItemChange.subscribe(({itemStack:item, slot, pl
     if(item?.typeId == "cosmos:empty_canister" && item?.getComponent("minecraft:durability").damage != 1000){
         item.getComponent("minecraft:durability").damage = 1000;
         player.getComponent("minecraft:inventory").container.setItem(slot, item)
+    }else if(item?.typeId == "cosmos:battery" && !item?.getLore().length){
+        player.getComponent("minecraft:inventory").container.setItem(slot, update_battery(item, 0));
     }
 })
 

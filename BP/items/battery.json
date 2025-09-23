@@ -9,10 +9,24 @@
             "texture": "battery"
          },
          "minecraft:durability": {
+            "damage_chance": {
+               "min": 0,
+               "max": 0
+            },
             "max_durability": 15000
          },
          "minecraft:max_stack_size": {
             "value": 1
+         },
+         "minecraft:repairable": {
+            "repair_items": [
+               {
+                  "items": [
+                     "cosmos:battery"
+                  ],
+                  "repair_amount": 0
+               }
+            ]
          }
       }
    }
