@@ -107,7 +107,13 @@
             },
             {
                 "requires": "(not (($ct - '§e§l§e§c§t§r§i§c§_§f§u§r§n§a§c§e') = $ct))",
-                "$screen_content": "electric_furnace.interface",
+                "$screen_content": "electric_furnace.interface", // change to electrolyzer
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§o§x§y§g§e§n§_§d§i§s§t§r§i§b§u§t§o§r') = $ct))",
+                "$screen_content": "oxygen_distributor.interface",
                 "$screen_bg_content": "common.screen_background",
                 "$screen_background_alpha": 0.4
             },

@@ -466,7 +466,7 @@
                         ]
                     }},
                     {"crafting_button@machines.specific_screen": {
-                        "$$visible_if": "(not (#data = 7))",
+                        "$visible_if": "(not (#data = 7))",
                         "$screen_index": 36,
                         "$screen_content": [
                             {"crafting_slot": {

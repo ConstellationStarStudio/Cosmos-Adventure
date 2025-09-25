@@ -2,7 +2,7 @@
   "format_version": "1.20.10",
   "minecraft:recipe_shaped": {
     "description": {
-      "identifier": "cosmos:oxygen_bubble_distributor"
+      "identifier": "cosmos:oxygen_distributor"
     },
     "tags": [
       "crafting_table"
@@ -22,7 +22,7 @@
       "cosmos:compressed_steel"
     ],
     "result": {
-      "item": "cosmos:oxygen_bubble_distributor"
+      "item": "cosmos:oxygen_distributor"
     }
   }
 }

@@ -87,14 +87,6 @@ world.beforeEvents.playerInteractWithBlock.subscribe(({block, player, itemStack:
         })
     }
 })
-world.afterEvents.playerInventoryItemChange.subscribe(({itemStack:item, slot, player}) => {
-    if(item?.typeId == "cosmos:empty_canister" && item?.getComponent("minecraft:durability").damage != 1000){
-        item.getComponent("minecraft:durability").damage = 1000;
-        player.getComponent("minecraft:inventory").container.setItem(slot, item)
-    }else if(item?.typeId == "cosmos:battery" && !item?.getLore().length){
-        player.getComponent("minecraft:inventory").container.setItem(slot, update_battery(item, 0));
-    }
-})
 
 const faces = {
     Up: 'above',

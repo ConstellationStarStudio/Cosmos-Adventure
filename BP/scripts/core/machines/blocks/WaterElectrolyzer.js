@@ -48,7 +48,6 @@ export default class {
         container.add_ui_display(7, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((energy / data.energy.capacity) * 55))
         container.add_ui_display(8, `§rStatus:\n  ${energy < 375 ? '§cLow energy' : !water ? '§cNo Water!' : status}`)
         if (!container.getItem(9)) {
-            this.entity.runCommand('clear @a cosmos:ui_button')
             this.entity.setDynamicProperty('active', active == undefined ? false : !active)
             container.add_ui_button(9, active || active == undefined ? "Process" : "Stop")
         }

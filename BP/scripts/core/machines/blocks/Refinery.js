@@ -87,7 +87,6 @@ export default class {
         container.add_ui_display(5, `Fuel Storage\n§eFuel: ${fuel} / ${data.fuel.capacity} mB`, Math.ceil((Math.ceil(fuel / 1000) / (data.fuel.capacity / 1000)) * 38))
 		container.add_ui_display(6, `§rStatus:\n${status}`)
         if (!container.getItem(7)) {
-            this.entity.runCommand('clear @a cosmos:ui_button')
             this.entity.setDynamicProperty('active', !active)
             container.add_ui_button(7, active ? 'Stop Refining' : 'Refine')
         }

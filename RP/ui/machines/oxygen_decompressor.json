@@ -18,19 +18,19 @@
                 "size": [1, 24],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "offset": [80, 20]
+                "offset": [78, 18]
 			}},
-            {"in_2":{
+            {"in":{
                 "type": "label",
                 "text": "In:",
                 "color": "$title_text_color",
                 "offset": [6, -64]
             }},
-            {"in":{
+            {"out":{
                 "type": "label",
-                "text": "In:",
+                "text": "Out:",
                 "color": "$title_text_color",
-                "offset": [6, -51]
+                "offset": [3.5, -51]
             }},
             { "battery_slot@machines.item_slot": {
 				"$index": 0,
@@ -55,8 +55,7 @@
 				"$index": 4,
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-                "offset": [-20, 21],
-                "size": [18, 60]
+				"offset": [ 0, 45 ]
 			}},
             { "oxygen_using": {
                 "type": "label",
@@ -64,7 +63,7 @@
                 "color": "$title_text_color",
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-                "offset": [0, 56]
+                "offset": [0, 55]
 			}}
 		]
 	}

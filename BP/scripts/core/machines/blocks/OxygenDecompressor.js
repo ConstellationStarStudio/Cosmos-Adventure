@@ -44,17 +44,12 @@ export default class {
         (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
         (durability.damage == durability.maxDurability)? "§4Oxygen Tank Empty":
         "§2Active";
-
-        let tabs = (energy < 200)? "          ":
-        (!tank || !Object.keys(tanks).includes(tank.typeId))? "           ":
-        (durability.damage == durability.maxDurability)? "          " :
-        "          ";
         
         const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data["energy"].capacity} gJ`;
         const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
 
         container.add_ui_display(2, energy_hover, Math.round((energy / data["energy"].capacity) * 55))
         container.add_ui_display(3, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
-        container.add_ui_display(4, tabs + '§rStatus: ' + status)
+        container.add_ui_display(4, '§rStatus: ' + status)
     }
 }

@@ -40,9 +40,6 @@ export default class {
 		const variables = load_dynamic_object(this.entity, 'machine_data')
 		let energy = variables.energy ?? 0
 		let fuel = variables.fuel ?? 0
-
-		let first_energy = energy;
-		let first_fuel = fuel;
 		
 	    energy = charge_from_machine(this.entity, this.block, energy)
 		
@@ -80,7 +77,6 @@ export default class {
 		container.add_ui_display(3, `Fuel Storage\n§eFuel: ${fuel} / ${data.fuel.capacity} mB`, Math.ceil((Math.ceil(fuel / 1000) / (data.fuel.capacity / 1000)) * 38))
 		container.add_ui_display(4, `§rStatus: ${status}`)
         if (!container.getItem(5)) {
-            this.entity.runCommand('clear @a cosmos:ui_button')
             this.entity.setDynamicProperty('stopped', !stopped)
             container.add_ui_button(5, stopped ? 'Stop Loading' : 'Loading')
         }

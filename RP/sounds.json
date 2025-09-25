@@ -125,7 +125,7 @@
             },
             "volume": 0
          },
-         "cosmos:oxygen_bubble_distributor": {
+         "cosmos:oxygen_distributor": {
             "events": {
                "death": "none"
             },

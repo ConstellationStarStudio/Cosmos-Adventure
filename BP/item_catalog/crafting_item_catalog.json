@@ -21,7 +21,7 @@
                             "cosmos:sealed_aluminum_wire",
                             "cosmos:sealed_heavy_aluminum_wire",
                             "cosmos:sealed_fluid_pipe",
-                            "cosmos:oxygen_bubble_distributor",
+                            "cosmos:oxygen_distributor",
                             "cosmos:oxygen_collector",
                             "cosmos:oxygen_compressor",
                             "cosmos:oxygen_decompressor",
@@ -348,8 +348,6 @@
                         },
                         "items": [
                             "cosmos:debug_stick",
-                            "cosmos:ui",
-                            "cosmos:ui_button",
                             "cosmos:dynamic_wand",
                             "cosmos:property_rod",
                             "cosmos:creative_battery",

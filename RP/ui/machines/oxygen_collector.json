@@ -18,7 +18,7 @@
                 "size": [1, 24],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "offset": [80, 20]
+                "offset": [78, 18]
 			}},
             {"out":{
                 "type": "label",
@@ -51,15 +51,13 @@
 				"$index": 3,
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-                "offset": [-20, 21],
-                "size": [18, 60]
+				"offset": [ 0, 45 ]
 			}},
             { "collecting@machines.item_text": {
 				"$index": 4,
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-                "offset": [0, 30],
-                "size": [18, 60]
+                "offset": [0, 55]
 			}}
 		]
 	}

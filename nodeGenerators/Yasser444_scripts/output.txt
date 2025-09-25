@@ -71,7 +71,7 @@
   "cosmos:geothermal_generator",
   "cosmos:launch_controller",
   "cosmos:methane_synthesizer",
-  "cosmos:oxygen_bubble_distributor",
+  "cosmos:oxygen_distributor",
   "cosmos:oxygen_compressor",
   "cosmos:oxygen_decompressor",
   "cosmos:oxygen_sealer",

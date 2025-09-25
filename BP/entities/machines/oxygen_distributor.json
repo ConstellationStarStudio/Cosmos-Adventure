@@ -2,7 +2,7 @@
     "format_version": "1.20.0",
     "minecraft:entity": {
         "description": {
-            "identifier": "cosmos:oxygen_bubble_distributor",
+            "identifier": "cosmos:oxygen_distributor",
             "is_summonable": true,
 			"properties": {
 				"cosmos:bubble_radius": {

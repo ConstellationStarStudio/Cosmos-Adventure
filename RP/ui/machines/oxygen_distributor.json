@@ -1,0 +1,95 @@
+{
+    "namespace": "oxygen_distributor",
+
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 181],
+        "$content": [
+			{ "title": {
+                "type": "label",
+                 "text": "Oxygen Distributor",
+                 "color": "$title_text_color",
+                 "offset": [10, 4],
+                 "anchor_from": "top_left",
+                 "anchor_to": "top_left"
+			}},
+            { "line": {
+                "type": "image",
+                "texture": "textures/ui/extra_slots/oxygen_collector_line",
+                "size": [1, 24],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [78, 18]
+			}},
+            {"in_2":{
+                "type": "label",
+                "text": "In:",
+                "color": "$title_text_color",
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [6, 19]
+            }},
+            {"in":{
+                "type": "label",
+                "text": "In:",
+                "color": "$title_text_color",
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [6, 32]
+            }},
+			{ "oxygen_slot@machines.item_slot": {
+				"$index": 0,
+				"$overlay_texture": "textures/ui/extra_slots/o2",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 16, 21 ]
+            }},
+            { "battery_slot@machines.item_slot": {
+				"$index": 1,
+				"$overlay_texture": "textures/ui/extra_slots/power",
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 46, 21 ]
+			}},
+            { "oxygen_bar@machines.oxygen_bar": {
+                "$index": 2,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 112, 19]
+            }},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 3,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 112, 32]
+            }},
+            { "status@machines.item_text": {
+				"$index": 4,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+				"offset": [ 0, 45 ]
+			}},
+            { "oxygen_using": {
+                "type": "label",
+                "text": "Oxygen Use: 160/s",
+                "color": "$title_text_color",
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [0, 55]
+			}},
+            { "bubble_button@machines.machine_toggle": {
+                "$index": 5,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 85, 82 ]
+            }},
+            { "bubble_text":{
+                "type": "label",
+                "text": "Bubble Visible",
+                "color": "$title_text_color",
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [101, 85]
+            }}
+		]
+	}
+}

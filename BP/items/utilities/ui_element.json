@@ -8,8 +8,8 @@
          "minecraft:display_name": {
             "value": "§."
          },
-         //"minecraft:icon": "none",
-         "minecraft:icon": "clock_item", //this is just for debugging
+         "minecraft:icon": "none",
+         // "minecraft:icon": "clock_item", //this is just for debugging
          "minecraft:max_stack_size": 1,
          "minecraft:durability": {
             "max_durability": 1000

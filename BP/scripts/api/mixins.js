@@ -120,6 +120,15 @@ Merge(mc.Container.prototype, {
         super.setItem(slot, button)
     },
 
+    add_ui_toggle(slot, damage) {
+        const button = new ItemStack('cosmos:ui_button')
+        if (damage) {
+            const durability = button.getComponent('durability')
+            durability.damage = durability.maxDurability - damage
+        }
+        super.setItem(slot, button)
+    },
+
     add_ui_display(slot, text, damage) {
         const button = new ItemStack('cosmos:ui')
         if (damage) {

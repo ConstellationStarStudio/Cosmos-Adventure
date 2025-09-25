@@ -192,7 +192,7 @@ const ids = {
     "galacticraftplanets:solar_array_module": 'cosmos:solar_array_module',      
     "galacticraftplanets:solar_array_controller": 'cosmos:solar_array_controller',      
     "galacticraftcore:cargo": 'cosmos:cargo_loader',      
-    "galacticraftcore:distributor": 'cosmos:oxygen_bubble_distributor',      
+    "galacticraftcore:distributor": 'cosmos:oxygen_distributor',      
     "galacticraftcore:cargo:4": 'cosmos:cargo_unloader',      
     "galacticraftcore:cargo:4": 'cosmos:cargo_unloader',      
     "galacticraftcore:concealed_redstone": 'cosmos:incased_redstone_dust',      

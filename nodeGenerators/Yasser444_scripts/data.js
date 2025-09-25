@@ -222,7 +222,7 @@ const recipes = {
             "III"
         ]
     },
-    "cosmos:oxygen_bubble_distributor": {
+    "cosmos:oxygen_distributor": {
         key: { F: "cosmos:oxygen_fan", V: "cosmos:oxygen_vent", S: "CoS", A: "CoA"},
         shape: [
             "SFS",

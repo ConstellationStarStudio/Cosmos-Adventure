@@ -14,6 +14,7 @@ export default class {
     onPlace(){}
     distribute_oxygen() {
         let distributor = this.entity;
+        const visible_button = distributor.getDynamicProperty('visible_button')
         const container = distributor.getComponent('minecraft:inventory').container;
 		const data = get_data(distributor);
 
@@ -23,23 +24,23 @@ export default class {
         o2 = input_fluid("o2", distributor, this.block, o2);
         // Energy management
         energy = charge_from_machine(distributor, this.block, energy);
-        energy = charge_from_battery(distributor, energy, 0);
+        energy = charge_from_battery(distributor, energy, 1);
 
         let bubble_radius = distributor.getProperty("cosmos:bubble_radius");
         let active = (bubble_radius > 1 && energy > 0 && o2 > 30);
-        if(!(system.currentTick % 2)){
-            if(energy > 0 && o2 > 30){
+        if (!(system.currentTick % 2)) {
+            if (energy > 0 && o2 > 30){
                 o2 = Math.max(o2 - 3, 0);
                 energy = Math.max(energy - 3, 0);
                 bubble_radius += 0.02;
-            }else{
+            } else{
                 bubble_radius -= 0.2;
             }
         }
 
-        bubble_radius = Math.min(Math.max(bubble_radius, 0), 10);
+        bubble_radius = visible_button ? Math.min(Math.max(bubble_radius, 0), 10) : 0;
         if(system.currentTick % (active ? 20 : 4) == 0){
-            //do block thing
+            //do block thing  //yasser444: what thing?
         }
 
         if(!(system.currentTick % 20)){
@@ -58,8 +59,12 @@ export default class {
         const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`;
         const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
 
-        container.add_ui_display(2, energy_hover, Math.round((energy / data.energy.capacity) * 55))
-        container.add_ui_display(3, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
+        container.add_ui_display(2, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
+        container.add_ui_display(3, energy_hover, Math.round((energy / data.energy.capacity) * 55))
         container.add_ui_display(4, '§rStatus: ' + status)
+        if (!container.getItem(5)) {
+            this.entity.setDynamicProperty('visible_button', !visible_button)
+            container.add_ui_toggle(5, visible_button ? 1 : 0)
+        }
     }
 }

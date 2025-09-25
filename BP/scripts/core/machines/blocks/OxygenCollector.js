@@ -64,10 +64,6 @@ export default class {
         const status = energy == 0 ? "§4Not Enough Power" :
         (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
 		"§2Active";
-
-        let tabs = energy == 0 ? "          " :
-        (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld") ? "           ":
-		"          ";
         
         save_dynamic_object(this.entity, 'machine_data', {energy, o2});
 
@@ -76,7 +72,7 @@ export default class {
         
 		container.add_ui_display(1, energy_hover, Math.round((energy / data.energy.capacity) * 55))
         container.add_ui_display(2, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
-        container.add_ui_display(3, tabs + '§rStatus: ' + status)
+        container.add_ui_display(3, '§rStatus: ' + status)
         container.add_ui_display(4, `§rCollecting: §r${oxygen_source_bloks}/s`)
     }
 }

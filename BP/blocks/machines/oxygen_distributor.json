@@ -2,7 +2,7 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:oxygen_bubble_distributor",
+      "identifier": "cosmos:oxygen_distributor",
       "traits": {
         "minecraft:placement_direction": {
           "enabled_states": ["minecraft:cardinal_direction"],

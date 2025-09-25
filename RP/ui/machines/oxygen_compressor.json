@@ -18,7 +18,7 @@
                 "size": [1, 24],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "offset": [80, 20]
+                "offset": [78, 18]
 			}},
             {"in_2":{
                 "type": "label",
@@ -48,7 +48,7 @@
                 "offset": [18.2, 23.2],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
-                "$overlay_texture": "textures/ui/extra_slots/o2_icon"
+                "$overlay_texture": "textures/ui/extra_slots/o2"
 			}},
             { "energy_bar@machines.energy_bar": {
                 "$index": 3,
@@ -62,8 +62,7 @@
 				"$index": 5,
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-                "offset": [-20, 21],
-                "size": [18, 60]
+				"offset": [ 0, 45 ]
 			}},
             { "oxygen_using": {
                 "type": "label",
@@ -71,7 +70,7 @@
                 "color": "$title_text_color",
                 "anchor_from": "top_middle",
                 "anchor_to": "top_middle",
-                "offset": [0, 56]
+                "offset": [0, 55]
 			}}
 		]
 	}

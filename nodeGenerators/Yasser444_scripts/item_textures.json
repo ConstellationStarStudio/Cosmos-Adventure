@@ -293,8 +293,8 @@
   "orion_drive": {
     "textures": "textures/items/orion_drive"
   },
-  "oxygen_bubble_distributor": {
-    "textures": "textures/items/oxygen_bubble_distributor"
+  "oxygen_distributor": {
+    "textures": "textures/items/oxygen_distributor"
   },
   "oxygen_compressor": {
     "textures": "textures/items/oxygen_compressor"

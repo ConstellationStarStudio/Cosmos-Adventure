@@ -179,7 +179,7 @@
 						"type": "image",
 						"anchor_from": "left_middle",
 						"anchor_to": "right_middle",
-						"texture": "textures/ui/extra_slots/oxygen_icon",
+						"texture": "textures/ui/extra_slots/o2",
 						"size": [16, 16],
 						"offset": [1, -3.5]
 					}},
@@ -192,7 +192,7 @@
 						"controls": [
 							{ "active_icon": {
 								"type": "image",
-								"texture": "textures/ui/extra_slots/oxygen_icon_active",
+								"texture": "textures/ui/extra_slots/o2_active",
 								"size": [16, 16],
 								"offset": [1, -3.5],
 								"anchor_from": "top_left",
@@ -257,6 +257,51 @@
 							"bindings": "$fetch_item_hover"
 						}
 					}
+				]
+			}}
+		]
+	},
+	"machine_toggle@machines.specific_slot": {
+		"controls": [
+			{ "button": {
+				"type": "button",
+				"collection_index": "$index",
+				"size": [13, 13],
+				"default_control": "default",
+				"hover_control": "hover",
+				"pressed_control": "pressed",
+				"sound_name": "random.click",
+				"bindings": "$fetch_container_slot",
+				"$tag": "",
+				"button_mappings": [
+					{
+						"from_button_id": "button.menu_select",
+						"to_button_id": "button.container_auto_place",
+						"mapping_type": "pressed"
+					},
+					{
+						"from_button_id": "button.menu_ok",
+						"to_button_id": "button.container_auto_place",
+						"mapping_type": "pressed"
+					}
+				],
+				"controls": [
+					{ "on": {
+						"type": "image",
+						"texture": "textures/ui/cosmos/old_toggle",
+						"color": [0.2, 1, 0.2],
+						"bindings": "$use_durability",
+						"$source": "#null", "$target": "#null",
+						"$visible_if": "(#data = 1)"
+					}},
+					{ "off": {
+						"type": "image",
+						"texture": "textures/ui/cosmos/old_toggle",
+						"color": [1, 0.2, 0.2],
+						"bindings": "$use_durability",
+						"$source": "#null", "$target": "#null",
+						"$visible_if": "(not (#data = 1))"
+					}}
 				]
 			}}
 		]
@@ -704,36 +749,6 @@
 					"anchor_from": "top_left",
 					"bindings": "$set_bar_weight",
 					"$prefix": "cosmos:§oxygen"
-				}
-			}
-		]
-	},
-
-	"old_oxygen_bar": {
-		"type":"image",
-		"texture": "textures/ui/cosmos/progress_bar",
-		"layer": 2,
-		"size": [ 55, 9 ],
-		"controls": [
-			{
-				"overlay@machines.item_image": {
-					"anchor_from": "left_middle",
-					"anchor_to": "right_middle",
-					"texture": "textures/ui/extra_slots/oxygen_icon",
-					"size": [8, 8],
-					"offset": [ -4, 0]
-				}
-			},
-			{
-				"oxygen@machines.new_item_data": {
-					"$name": "oxygen_progress_bar",
-					"anchor_from": "top_left",
-					"anchor_to": "top_left"
-				}
-			},
-			{
-				"oxygen_text@machines.new_item_data": {
-					"$name": "oxygen_hover"
 				}
 			}
 		]
