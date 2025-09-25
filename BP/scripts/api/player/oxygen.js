@@ -78,14 +78,12 @@ function oxygen_bar(player, o2){
 
 export function is_entity_in_a_bubble(entity){
     let {x, y, z} = entity.location;
-    let bubbles = entity.dimension.getEntities({type: "cosmos:oxygen_bubble_distributor", location: {x: x, y: y, z: z}, maxDistance: 10, 
-    propertyOptions: [{exclude: false, propertyId: "cosmos:bubble_radius", 
-        value: {greaterThan: 0.5}
-    }]});
+    let bubbles = entity.dimension.getEntities({type: "cosmos:oxygen_distributor", location: {x: x, y: y, z: z}, maxDistance: 10, includeTags: ["bubble_active"]});
     if(!bubbles.length) return false;
     for(let bubble of bubbles){
         let {x: bubble_x, y: bubble_y, z: bubble_z} = bubble.location;
-        if(Math.sqrt((bubble_x - x) ** 2 + (bubble_y - y) ** 2 + (bubble_z - z) ** 2) < bubble.getProperty("cosmos:bubble_radius")){
+        let radius = bubble.getDynamicProperty("bubble_radius") ?? 0;
+        if(Math.sqrt((bubble_x - x) ** 2 + (bubble_y - y) ** 2 + (bubble_z - z) ** 2) < radius){
             return true;
         }
     }

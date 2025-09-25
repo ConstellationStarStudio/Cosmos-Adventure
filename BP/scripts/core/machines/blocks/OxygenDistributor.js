@@ -2,7 +2,7 @@ import { system} from "@minecraft/server";
 import { get_data } from "../Machine";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
-import { input_fluid } from "../../matter/fluids";
+import { input_fluid, load_from_canister_gradual } from "../../matter/fluids";
 
 export default class {
     constructor(entity, block) {
@@ -22,13 +22,18 @@ export default class {
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
         o2 = input_fluid("o2", distributor, this.block, o2);
+        if(!(system.currentTick % 10)) o2 = load_from_canister_gradual(o2, "o2", distributor, 0);
         // Energy management
         energy = charge_from_machine(distributor, this.block, energy);
         energy = charge_from_battery(distributor, energy, 1);
 
         let bubble_radius = distributor.getDynamicProperty("bubble_radius") ?? 0;
+
+        if(bubble_radius > 0.5 && !distributor.hasTag("bubble_active")) distributor.addTag("bubble_active")
+        else if(bubble_radius < 0.5){distributor.removeTag("bubble_active")};
+
         let active = (bubble_radius > 1 && energy > 0 && o2 > 30);
-        if (!(system.currentTick % 2)) {
+        if(!(system.currentTick % 2)) {
             if (energy > 0 && o2 > 30){
                 o2 = Math.max(o2 - 3, 0);
                 energy = Math.max(energy - 3, 0);

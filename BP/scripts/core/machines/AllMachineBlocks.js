@@ -101,7 +101,7 @@ export default {
 		ui: "§o§x§y§g§e§n§_§d§i§s§t§r§i§b§u§t§o§r",
 		class: OxygenDistributor,
 		energy: {input: "right", capacity: 16000, maxInput: 25},
-		o2: {input: "left", capacity: 6000},
+		o2: {input: "left", capacity: 6000, maxInput: 16},
 		using_block: true,
 	},
 	"oxygen_decompressor": {
