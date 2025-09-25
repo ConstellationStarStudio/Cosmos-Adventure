@@ -9,7 +9,7 @@
             "value": "§."
          },
          "minecraft:icon": "none",
-         "minecraft:icon": "iron_nugget", //this is just for debugging
+         // "minecraft:icon": "iron_nugget", //this is just for debugging
          "minecraft:max_stack_size": 1,
          "minecraft:durability": {
             "max_durability": 8

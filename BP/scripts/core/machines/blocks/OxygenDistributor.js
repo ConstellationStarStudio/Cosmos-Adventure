@@ -26,7 +26,7 @@ export default class {
         energy = charge_from_machine(distributor, this.block, energy);
         energy = charge_from_battery(distributor, energy, 1);
 
-        let bubble_radius = distributor.getProperty("cosmos:bubble_radius");
+        let bubble_radius = distributor.getDynamicProperty("bubble_radius") ?? 0;
         let active = (bubble_radius > 1 && energy > 0 && o2 > 30);
         if (!(system.currentTick % 2)) {
             if (energy > 0 && o2 > 30){
@@ -38,7 +38,7 @@ export default class {
             }
         }
 
-        bubble_radius = visible_button ? Math.min(Math.max(bubble_radius, 0), 10) : 0;
+        bubble_radius = Math.min(Math.max(bubble_radius, 0), 10) ;
         if(system.currentTick % (active ? 20 : 4) == 0){
             //do block thing  //yasser444: what thing?
         }
@@ -48,7 +48,8 @@ export default class {
             energy = Math.max(energy - 5, 0);
         }
 
-        distributor.setProperty("cosmos:bubble_radius", bubble_radius)
+        distributor.setProperty("cosmos:bubble_radius", visible_button ? bubble_radius : 0)
+        distributor.setDynamicProperty("bubble_radius", bubble_radius)
         save_dynamic_object(distributor, 'machine_data', {energy, o2});
 
         let status = (!energy)? "§4Not Enough Power":
@@ -64,7 +65,7 @@ export default class {
         container.add_ui_display(4, '§rStatus: ' + status)
         if (!container.getItem(5)) {
             this.entity.setDynamicProperty('visible_button', !visible_button)
-            container.add_ui_toggle(5, visible_button ? 1 : 0)
+            container.add_ui_toggle(5, visible_button ? 0 : 1)
         }
     }
 }

@@ -289,7 +289,7 @@
 					{ "on": {
 						"type": "image",
 						"texture": "textures/ui/cosmos/old_toggle",
-						"color": [0.2, 1, 0.2],
+						"color": [0.5, 1, 0.5],
 						"bindings": "$use_durability",
 						"$source": "#null", "$target": "#null",
 						"$visible_if": "(#data = 1)"
@@ -297,7 +297,7 @@
 					{ "off": {
 						"type": "image",
 						"texture": "textures/ui/cosmos/old_toggle",
-						"color": [1, 0.2, 0.2],
+						"color": [1, 0.35, 0.35],
 						"bindings": "$use_durability",
 						"$source": "#null", "$target": "#null",
 						"$visible_if": "(not (#data = 1))"

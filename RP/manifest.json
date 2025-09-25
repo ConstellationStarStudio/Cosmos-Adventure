@@ -2,7 +2,7 @@
     "format_version": 2,
     "header": {
         "name": "Cosmos Adventure",
-        "description": "§9Cosmos Adventure! §7(Galacticraft port for Bedrock Editon made by Lum Studio)§r\nCredit goes to:\n-§6Sonichec0§r\n-§dTheshadowsen§r\n-§bYasser444§r\n-§cError404.mcfunction§r\n-§aNode(CryptoKing)§r",
+        "description": "§9Cosmos Adventure! §7(Galacticraft port for Bedrock Editon made by Lum Studio)§r\nCredit goes to:\n-§6Sonichec0§r\n-§dTheshadowsen§r\n-§bYasser444§r\n-§vZaharichek§r\n-§cError404.mcfunction§r\n-§aNode(CryptoKing)§r",
         "min_engine_version": [1, 21, 0],
         "uuid": "c00f1945-b2c6-24e7-57ae-32ab091945ab",
         "version": [5, 2, 0]
