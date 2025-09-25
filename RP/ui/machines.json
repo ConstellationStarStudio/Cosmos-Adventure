@@ -286,21 +286,30 @@
 					}
 				],
 				"controls": [
-					{ "on": {
-						"type": "image",
-						"texture": "textures/ui/cosmos/old_toggle",
-						"color": [0.5, 1, 0.5],
-						"bindings": "$use_durability",
-						"$source": "#null", "$target": "#null",
-						"$visible_if": "(#data = 1)"
+					{"texture": {
+						"type": "panel",
+						"controls": [
+							{ "on": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/toggle_on",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(#data = 1)"
+							}},
+							{ "off": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/toggle_off",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(not (#data = 1))"
+							}}
+						]
 					}},
-					{ "off": {
+					{"hover": {
 						"type": "image",
-						"texture": "textures/ui/cosmos/old_toggle",
-						"color": [1, 0.35, 0.35],
-						"bindings": "$use_durability",
-						"$source": "#null", "$target": "#null",
-						"$visible_if": "(not (#data = 1))"
+						"texture": "textures/white",
+						"size": ["100% -2px", "100% -2px"],
+						"alpha": 0.2
 					}}
 				]
 			}}
