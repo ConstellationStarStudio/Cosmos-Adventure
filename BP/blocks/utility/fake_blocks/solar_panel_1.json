@@ -1,0 +1,22 @@
+{
+  "format_version": "1.20.60",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:solar_panel_1"
+    },
+    "components": {
+      "minecraft:display_name": "§4Dangerous (Don't place)",
+      "minecraft:custom_components": ["cosmos:solar_panel"],
+      "minecraft:collision_box": {
+	      "origin": [-3, 0, -3],
+	      "size": [6, 16, 6]
+      },
+      "minecraft:selection_box": {
+	      "origin": [-3, 0, -3],
+	      "size": [6, 16, 6]
+      }, 
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {"*": { "texture": "empty", "render_method": "alpha_test" }}
+    }
+  }
+}

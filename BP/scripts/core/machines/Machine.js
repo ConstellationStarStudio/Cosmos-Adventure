@@ -2,11 +2,30 @@ import { world, system, BlockPermutation, ItemStack } from "@minecraft/server";
 import machines from "./AllMachineBlocks";
 import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
 import { pickaxes } from "../../api/utils";
+import { setSolarPanelBlocks } from "./blocks/BasicSolarPanel";
 
+const multi_block_machines = {
+	"cosmos:basic_solar_panel": setSolarPanelBlocks
+}
 export let machine_entities = new Map();
 
 export function get_data(entity) {
 	return machines[entity.typeId.replace('cosmos:', '')]
+}
+function reload_machine(entity){
+	const machine_name = entity.typeId.replace('cosmos:', '');
+	if (!Object.keys(machines).includes(machine_name)) return;
+	if (machine_entities.has(entity.id)) return;
+	const block = (machines[machine_name].using_block) ?
+		entity.dimension.getBlock(entity.location) :
+		undefined;
+	if (machines[machine_name].using_block && block.typeId != entity.typeId) {
+		machine_entities.delete(entity.id);
+		entity.remove();
+		return;
+	}
+	new machines[machine_name].class(entity, block);
+	machine_entities.set(entity.id, { type: machine_name, location: block?.location });
 }
 
 function hopper_intercations(block, entity, data) {
@@ -121,6 +140,7 @@ function block_entity_access() {
 }
 
 world.afterEvents.worldLoad.subscribe(() => {
+	world.getDims(dimension => dimension.getEntities({includeFamilies: ['cosmos']})).forEach(entity => {reload_machine(entity)});
 	system.runInterval(() => {
 		if (machine_entities.size === 0) return;
 		// give block access every 2 ticks
@@ -145,10 +165,12 @@ world.afterEvents.worldLoad.subscribe(() => {
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:machine', {
 		beforeOnPlayerPlace(event) {
+			const { block, permutationToPlace: perm } = event;
+			const machine_name = perm.type.id.replace('cosmos:', '');
+			const machine_object = machines[machine_name];
+			if(machine_object.multi_block && !multi_block_machines[perm.type.id](block)){event.cancel = true; return;}
+			
 			system.run(() => {
-				const { block, permutationToPlace: perm } = event;
-				const machine_name = perm.type.id.replace('cosmos:', '');
-				const machine_object = machines[machine_name];
 				const machineEntity = block.dimension.spawnEntity(perm.type.id, block.bottomCenter());
 				machineEntity.nameTag = machine_object.ui;
 				try { new machine_object.class(machineEntity, block).onPlace() } catch { null }
@@ -156,7 +178,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 				if (perm.getState("cosmos:full")) {
 					event.permutationToPlace = perm.withState("cosmos:full", false);
 				}
-				system.run(() => attach_to_wires(block));
+				attach_to_wires(block);
 			});
 		},
 		onPlayerBreak({ block, dimension, brokenBlockPermutation: perm }) {
@@ -171,6 +193,10 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 				maxDistance: 0.5,
 			})[0];
 			if (!machineEntity) return
+
+			const machine_name = machineEntity.typeId.replace('cosmos:', '');
+			if(machines[machine_name].multi_block) multi_block_machines[machineEntity.typeId](block, true);
+
 			machine_entities.delete(machineEntity.id);
 			const container = machineEntity.getComponent('minecraft:inventory')?.container;
 			if (container) {
@@ -187,39 +213,8 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 });
 
 world.afterEvents.entityLoad.subscribe(({ entity }) => {
-	const machine_name = entity.typeId.replace('cosmos:', '');
-	if (!Object.keys(machines).includes(machine_name)) return;
-	if (machine_entities.has(entity.id)) return;
-	const block = (machines[machine_name].using_block) ?
-		entity.dimension.getBlock(entity.location) :
-		undefined;
-	if (machines[machine_name].using_block && block.typeId != entity.typeId) {
-		machine_entities.delete(entity.id);
-		entity.remove();
-		return;
-	}
-	new machines[machine_name].class(entity, block);
-	machine_entities.set(entity.id, { type: machine_name, location: block?.location });
+	reload_machine(entity);
 });
-
-/*world.afterEvents.worldInitialize.subscribe(() => {
-  world.getDims(dimension => dimension.getEntities()).forEach(entity => {
-	const machine_name = entity.typeId.replace('cosmos:', '');
-	if (!Object.keys(machines).includes(machine_name)) return;
-	const block = entity.dimension.getBlock(entity.location);
-	if (block.typeId != entity.typeId) {
-	  machine_entities.delete(entity.id);
-	  entity.remove();
-	  return;
-	}
-	new machines[machine_name].class(entity, block);
-	machine_entities.set(entity.id, { type: machine_name, location: block.location });
-  });
-});
-//doesn't make sense
-*/
-
-
 
 world.beforeEvents.playerInteractWithEntity.subscribe((e) => {
 	const { target: entity, player } = e;

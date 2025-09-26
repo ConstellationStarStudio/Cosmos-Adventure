@@ -15,6 +15,7 @@ import RocketTierOne from './rockets/RocketTierOne'
 import MoonLander from './rockets/MoonLander'
 import Parachest from './blocks/Parachest'
 import OxygenDistributor from './blocks/OxygenDistributor'
+import BasicSolarPanel from './blocks/BasicSolarPanel'
 
 export default {
 	"coal_generator": {
@@ -82,6 +83,17 @@ export default {
 			output: [2]
 		},
 		using_block: true,
+	},
+	"basic_solar_panel": {
+		ui: "",
+		class: BasicSolarPanel,
+		energy: {output: "right", maxPower: 120},
+		items: {
+			top_input: [0],
+			side_input: [0],
+		},
+		using_block: true,
+		multi_block: true,
 	},
 	"oxygen_collector": {
 		ui: "§o§x§y§g§e§n§_§c§o§l§l§e§c§t§o§r",

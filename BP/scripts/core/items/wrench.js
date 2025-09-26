@@ -14,7 +14,7 @@ function rotate(block, perm) {
   }, 1)
 }
 
-function remove(block) {
+export function remove(block) {
   detach_wires(block)
   const {dimension, location} = block
   const coords = `${location.x} ${location.y} ${location.z}`

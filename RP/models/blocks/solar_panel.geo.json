@@ -1,0 +1,43 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.solar_panel",
+				"texture_width": 256,
+				"texture_height": 128,
+				"visible_bounds_width": 4,
+				"visible_bounds_height": 4.5,
+				"visible_bounds_offset": [0, 1.75, 0]
+			},
+			"bones": [
+				{
+					"name": "bb_main",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-1.5, 16, -1.5], "size": [3, 24, 3], "uv": [94, 50]}
+					]
+				},
+				{
+					"name": "bone",
+					"pivot": [0, 40, 0]
+				},
+				{
+					"name": "bone2",
+					"parent": "bone",
+					"pivot": [0, 40, 0],
+					"cubes": [
+						{"origin": [-23, 40, -23], "size": [46, 1, 46], "uv": [0, 0]},
+						{"origin": [23, 40.611, -23], "size": [1, 1, 46], "uv": [0, 48]},
+						{"origin": [-9, 40.611, -23], "size": [1, 1, 46], "uv": [0, 48]},
+						{"origin": [8, 40.611, -23], "size": [1, 1, 46], "uv": [0, 48]},
+						{"origin": [-24, 40.611, -23], "size": [1, 1, 46], "uv": [0, 48]},
+						{"origin": [-24, 40.61, 23], "size": [48, 1, 1], "uv": [94, 48]},
+						{"origin": [-24, 40.61, -24], "size": [48, 1, 1], "uv": [94, 48]},
+						{"origin": [-24, 40.61, -0.5], "size": [48, 1, 1], "uv": [94, 48]}
+					]
+				}
+			]
+		}
+	]
+}

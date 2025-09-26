@@ -29,18 +29,12 @@ class Planet {
     #center
     #gravity
 
-    /**
-     * Gets the type of the planet
-     * @returns {String} The ID of the planet
-     */
+    //Gets the type of the planet
     get type() {
         return this.#type + '';
     }
 
-    /**
-     * Gets the range of the planet
-     * @returns {Object} The range of the planet with start and end coordinates
-     */
+    //Gets the range of the planet
     get range() {
         return {
             start: { x: this.#range.start.x, z: this.#range.start.z },
@@ -48,10 +42,7 @@ class Planet {
         };
     }
 
-    /**
-     * Gets the center coordinates of the planet
-     * @returns {{x:number,z:number}} The center coordinates of the planet
-     */
+    //Gets the center coordinates of the planet
     get center() {
         return {
             x: this.#center.x,
@@ -59,31 +50,23 @@ class Planet {
         };
     }
 
-    /**
-     * Gets the gravity of the planet
-     * @returns {Number} The gravity of the planet
-     */
+    //Gets the gravity of the planet
     get gravity() {
         return this.#gravity + 0;
-    }Z
+    }
 
-    /**
-     * Checks whether a given location is on the planet
-     * @param {Vec3} location - Location to check
-     * @returns {Boolean} Whether or not the location is on the planet
-     */
+    //Checks whether a given location is on the planet
     isOnPlanet(location) {
         return (
             this.range.start.x <= location.x && location.x <= this.range.end.x &&
             this.range.start.z <= location.z && location.z <= this.range.end.z
         );
     }
+    static getPlanetOfObject(object) {
+        return object.dimension.id == "minecraft:the_end" ? Planet.getAll().find(pl => pl.isOnPlanet(object.location)): undefined;
+    }
 
-    /**
-     * Gets all entities in the End that match the EntityQueryOptions
-     * @param {EntityQueryOptions} entityQueryOptions - Query to use for search
-     * @returns {Entity[]} All entities matching the query
-     */
+    //Gets all entities in the End that match the EntityQueryOptions
     getEntities(entityQueryOptions = {}) {
         const the_end = world.getDimension('the_end');
         return the_end.getEntities(entityQueryOptions).filter(entity => 
@@ -91,11 +74,7 @@ class Planet {
         );
     }
 
-    /**
-     * Gets all players on the planet that match the EntityQueryOptions
-     * @param {EntityQueryOptions} entityQueryOptions - Query to use for search
-     * @returns {Player[]} All players matching the query
-     */
+    //Gets all players on the planet that match the EntityQueryOptions
     getPlayers(entityQueryOptions = {}) {
         const the_end = world.getDimension('the_end');
         return the_end.getPlayers(entityQueryOptions).filter(entity => 
@@ -103,11 +82,7 @@ class Planet {
         );
     }
 
-    /**
-     * Offsets the given location relative to the planet's center
-     * @param {Vec3} location - The location to offset
-     * @returns {Vec3} The offset location relative to the planet's center
-     */
+    //Offsets the given location relative to the planet's center
     offset(location) {
         return {
             x: location.x - this.center.x,
@@ -132,19 +107,12 @@ class Planet {
         return Planet.get(id)
     }
 
-    /**
-     * Retrieves a registered planet by its ID
-     * @param {string} id - The ID of the planet to retrieve
-     * @returns {Planet|undefined} The planet if found, otherwise undefined
-     */
+    //Returns a registered planet by its ID
     static get(id) {
         return ALL_PLANETS[id];
     }
 
-    /**
-     * Retrieves all registered planets
-     * @returns {Planet[]} An array of all registered planets
-     */
+    //Returns all registered planets
     static getAll() {
         return Object.keys(ALL_PLANETS).map(id => this.get(id));
     }
@@ -177,7 +145,7 @@ world.afterEvents.gameRuleChange.subscribe(({rule, value}) => {
 world.afterEvents.playerPlaceBlock.subscribe((data) => {
     let block = data.block;
     if(block.typeId == "minecraft:torch"  && block.dimension.id == "minecraft:the_end"){
-        if(!(Planet.getAll().find(pl => pl.isOnPlanet(block.location)))) return;
+        if(!Planet.getPlanetOfObject(block)) return;
         let opposite_side = {
             "north": "south",
             "south": "north",
