@@ -65,7 +65,7 @@
 
 	"progress_bar": {
 		"type":"image",
-		"texture": "textures/ui/cosmos/compressor_bar",
+		"texture": "textures/ui/cosmos/machines/compressor_bar",
 		"size": [ 52, 25 ],
 		"controls": [
 			{ "progress@machines.specific_slot": {
@@ -81,7 +81,7 @@
 						"controls": [
 							{ "hammering": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/compressor_on",
+								"texture": "textures/ui/cosmos/machines/compressor_on",
 								"size": [15, 13],
 								"anchor_from": "top_left",
 								"anchor_to": "top_left",
@@ -107,7 +107,7 @@
 										"anchor_from": "top_left",
 										"type": "image",
 										"size": [52, 17],
-										"texture": "textures/ui/cosmos/compressor_bar_fill"
+										"texture": "textures/ui/cosmos/machines/compressor_bar_fill"
 									}}
 								]
 							}}

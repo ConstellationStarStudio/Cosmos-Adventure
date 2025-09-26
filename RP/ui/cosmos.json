@@ -58,7 +58,7 @@
 		]
 	},
 
-	"celestial_panel_content": {
+	"celestial_panel_content": { // this is deprecated, kept for now for refrencing
 		"type": "panel",
 		"controls": [
 			{

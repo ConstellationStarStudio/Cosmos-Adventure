@@ -71,7 +71,7 @@
 		"controls": [
 			{ "tank_back": {
 				"type":"image",
-				"texture": "textures/ui/cosmos/tank_back",
+				"texture": "textures/ui/cosmos/machines/tank_back",
 				"layer": 1
 			}},
 			{ "fluid@machines.specific_slot": {
@@ -105,7 +105,7 @@
 			}},
 			{ "tank_front": {
 				"type": "image",
-				"texture": "textures/ui/cosmos/tank_front",
+				"texture": "textures/ui/cosmos/machines/tank_front",
 				"layer": 3
 			}},
 			{ "tank_hover@machines.item_hover": {} }
@@ -113,7 +113,7 @@
 	},
 	"energy_bar": {
 		"type":"image",
-		"texture": "textures/ui/cosmos/progress_bar",
+		"texture": "textures/ui/cosmos/machines/progress_bar",
 		"size": [ 55, 9 ],
 		"controls": [
 			{ "energy@machines.specific_slot": {
@@ -122,7 +122,7 @@
 				"controls": [
 					{ "gray_icon": {
 						"type": "image",
-						"texture": "textures/ui/extra_slots/power",
+						"texture": "textures/ui/cosmos/slot_overlay/power",
 						"size": [16, 16],
 						"offset": [1, -3],
 						"anchor_from": "top_left",
@@ -138,7 +138,7 @@
 						"controls": [
 							{ "active_icon": {
 								"type": "image",
-								"texture": "textures/ui/extra_slots/power_active",
+								"texture": "textures/ui/cosmos/slot_overlay/power_active",
 								"size": [16, 16],
 								"offset": [1, -3],
 								"anchor_from": "top_left",
@@ -149,7 +149,7 @@
 							}},
 							{ "image": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/progress_bar_fill",
+								"texture": "textures/ui/cosmos/machines/progress_bar_fill",
 								"color": [0.75, 0.66, 0.14],
 								"anchor_from": "top_left",
 								"anchor_to": "top_left",
@@ -168,7 +168,7 @@
 	},
 	"oxygen_bar": {
 		"type":"image",
-		"texture": "textures/ui/cosmos/progress_bar",
+		"texture": "textures/ui/cosmos/machines/progress_bar",
 		"size": [ 55, 9 ],
 		"controls": [
 			{ "oxygen@machines.specific_slot": {
@@ -179,7 +179,7 @@
 						"type": "image",
 						"anchor_from": "left_middle",
 						"anchor_to": "right_middle",
-						"texture": "textures/ui/extra_slots/o2",
+						"texture": "textures/ui/cosmos/slot_overlay/o2",
 						"size": [16, 16],
 						"offset": [1, -3.5]
 					}},
@@ -192,7 +192,7 @@
 						"controls": [
 							{ "active_icon": {
 								"type": "image",
-								"texture": "textures/ui/extra_slots/o2_active",
+								"texture": "textures/ui/cosmos/slot_overlay/o2_active",
 								"size": [16, 16],
 								"offset": [1, -3.5],
 								"anchor_from": "top_left",
@@ -203,7 +203,7 @@
 							}},
 							{ "image": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/progress_bar_fill",
+								"texture": "textures/ui/cosmos/machines/progress_bar_fill",
 								"color": [0.29, 0.63, 0.89],
 								"anchor_from": "top_left",
 								"anchor_to": "top_left",
@@ -245,9 +245,9 @@
 					}
 				],
 				"controls": [
-					{ "default": { "type": "image", "texture": "textures/ui/cosmos/old_button" } },
-					{ "hover": { "type": "image", "texture": "textures/ui/cosmos/old_button_hover" } },
-					{ "pressed": { "type": "image", "texture": "textures/ui/cosmos/old_button_pressed" } },
+					{ "default": { "type": "image", "texture": "textures/ui/cosmos/machines/old_button" } },
+					{ "hover": { "type": "image", "texture": "textures/ui/cosmos/machines/old_button_hover" } },
+					{ "pressed": { "type": "image", "texture": "textures/ui/cosmos/machines/old_button_pressed" } },
 					{
 						"button_text": {
 							"type": "label",
@@ -291,14 +291,14 @@
 						"controls": [
 							{ "on": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/toggle_on",
+								"texture": "textures/ui/cosmos/machines/toggle_on",
 								"bindings": "$use_durability",
 								"$source": "#null", "$target": "#null",
 								"$visible_if": "(#data = 1)"
 							}},
 							{ "off": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/toggle_off",
+								"texture": "textures/ui/cosmos/machines/toggle_off",
 								"bindings": "$use_durability",
 								"$source": "#null", "$target": "#null",
 								"$visible_if": "(not (#data = 1))"
@@ -350,9 +350,9 @@
 			}
 		],
 		"controls": [
-			{ "default": { "type": "image", "texture": "textures/ui/cosmos/old_button" } },
-			{ "hover": { "type": "image", "texture": "textures/ui/cosmos/old_button_hover" } },
-			{ "pressed": { "type": "image", "texture": "textures/ui/cosmos/old_button_pressed" } },
+			{ "default": { "type": "image", "texture": "textures/ui/cosmos/machines/old_button" } },
+			{ "hover": { "type": "image", "texture": "textures/ui/cosmos/machines/old_button_hover" } },
+			{ "pressed": { "type": "image", "texture": "textures/ui/cosmos/machines/old_button_pressed" } },
 			{
 				"text": {
 					"type": "label",
@@ -424,19 +424,19 @@
 				{
 					"default": {
 						"type": "image",
-						"texture": "textures/ui/cosmos/old_button"
+						"texture": "textures/ui/cosmos/machines/old_button"
 					}
 				},
 				{
 					"hover": {
 						"type": "image",
-						"texture": "textures/ui/cosmos/old_button_hover"
+						"texture": "textures/ui/cosmos/machines/old_button_hover"
 					}
 				},
 				{
 					"pressed": {
 						"type": "image",
-						"texture": "textures/ui/cosmos/old_button_pressed"
+						"texture": "textures/ui/cosmos/machines/old_button_pressed"
 					}
 				},
 				{
@@ -520,7 +520,7 @@
 	},
 	"liquid_tank": { //this is deprecated; use fluid_tank instead
 		"type":"image",
-		"texture": "textures/ui/cosmos/tank_back",
+		"texture": "textures/ui/cosmos/machines/tank_back",
 		"layer": 2,
 		"size": [ 18, 40 ],
 		"controls": [
@@ -535,7 +535,7 @@
 				"tank_front": {
 					"type": "image",
 					"layer": 4,
-					"texture": "textures/ui/cosmos/tank_front"
+					"texture": "textures/ui/cosmos/machines/tank_front"
 				}
 			},
 			{
@@ -607,7 +607,7 @@
 			{
 				"image": {
 					"type": "image",
-					"texture": "textures/ui/cosmos/progress_bar_fill",
+					"texture": "textures/ui/cosmos/machines/progress_bar_fill",
 					"color": [0.75, 0.66, 0.14],
 					"size": [1, 9],
 					"anchor_to": "top_left",

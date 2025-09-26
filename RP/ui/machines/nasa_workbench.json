@@ -36,7 +36,7 @@
     "craft_button_text": {
         "type": "image",
         "layer": 6,
-        "texture": "textures/ui/cosmos/hover_background",
+        "texture": "textures/ui/purpleBorder",
         "size": ["100%c + 10px", "100%c + 8px"],
         "anchor_to":"left_middle",
         "offset": [8, 0],
@@ -165,7 +165,7 @@
                         "$screen_content": [
                             { "chest1": {
                                 "type": "image",
-                                "texture": "textures/ui/cosmos/chest_slot_border",
+                                "texture": "textures/ui/cosmos/machines/chest_slot_border",
                                 "size": [20, 20],
                                 "controls": [{
                                     "slot@machines.item_slot": {
@@ -175,7 +175,7 @@
                             }},
                             { "chest2": {
                                 "type": "image",
-                                "texture": "textures/ui/cosmos/chest_slot_border",
+                                "texture": "textures/ui/cosmos/machines/chest_slot_border",
                                 "size": [20, 20],
                                 "offset": [ 26, 0 ],
                                 "controls": [{
@@ -186,7 +186,7 @@
                             }},
                             { "chest3": {
                                 "type": "image",
-                                "texture": "textures/ui/cosmos/chest_slot_border",
+                                "texture": "textures/ui/cosmos/machines/chest_slot_border",
                                 "size": [20, 20],
                                 "offset": [ 52, 0 ],
                                 "controls": [{
@@ -449,7 +449,7 @@
                         "$screen_content": [
                             {"background": {
                                 "type": "image",
-                                "texture": "textures/ui/cosmos/schematic_slot",
+                                "texture": "textures/ui/cosmos/machines/schematic_slot",
                                 "offset": [0, -45],
                                 "size": [57, 40],
                                 "controls": [
@@ -474,13 +474,13 @@
                         "$screen_content": [
                             {"crafting_slot": {
                                 "type": "image",
-                                "texture": "textures/ui/cosmos/nasa_workbench_output",
+                                "texture": "textures/ui/cosmos/machines/nasa_workbench_output",
                                 "offset": [62, -10],
                                 "size": [34, 34],
                                 "controls": [
                                     { "crafting_arrow": {
                                         "type": "image",
-                                        "texture": "textures/ui/cosmos/diagonal_arrow",
+                                        "texture": "textures/ui/cosmos/machines/diagonal_arrow",
                                         "size": [16, 16],
                                         "anchor_from": "top_left",
                                         "anchor_to": "bottom_right"

@@ -2,7 +2,10 @@
    "format_version": "1.21.40",
    "minecraft:item": {
       "description": {
-         "identifier": "cosmos:ui_button"
+         "identifier": "cosmos:ui_button",
+           "menu_category": {
+             "category": "none"
+           }
       },
       "components": {
          "minecraft:display_name": {

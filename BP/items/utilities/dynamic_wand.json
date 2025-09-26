@@ -2,10 +2,7 @@
    "format_version": "1.20.80",
    "minecraft:item": {
        "description": {
-           "identifier": "cosmos:dynamic_wand",
-           "menu_category": {
-             "category": "items"
-           }
+           "identifier": "cosmos:dynamic_wand"
        },
        "components": {
            "minecraft:custom_components": ["cosmos:dynamic_wand"],

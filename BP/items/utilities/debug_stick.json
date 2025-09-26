@@ -2,10 +2,7 @@
    "format_version": "1.20.80",
    "minecraft:item": {
        "description": {
-           "identifier": "cosmos:debug_stick",
-           "menu_category": {
-             "category": "items"
-           }
+           "identifier": "cosmos:debug_stick"
        },
        "components": {
            "minecraft:custom_components": ["cosmos:debug_stick"],

@@ -35,10 +35,7 @@ const template = {
     "format_version": "1.20.80",
     "minecraft:block": {
       "description": {
-        "identifier": "",
-        "menu_category": {
-          "category": "items"
-        }
+        "identifier": ""
       },
       "components": {}
     }

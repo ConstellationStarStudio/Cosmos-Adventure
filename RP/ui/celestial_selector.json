@@ -20,7 +20,7 @@
             {
               "screen_background": {
                 "type": "image",
-				        "texture": "textures/ui/cosmos/space",
+				        "texture": "textures/ui/cosmos/celestial_selector/space",
                 "layer": -1
               }
             },
@@ -37,7 +37,7 @@
 
   "launch_panel": {
     "type": "image",
-    "texture": "textures/ui/cosmos/launch_button_holder",
+    "texture": "textures/ui/cosmos/celestial_selector/launch_button_holder",
     "color": [0, 0.5, 1],
     "size": [95, 137],
     "anchor_from": "top_right",
@@ -206,7 +206,7 @@
       // {
       //   "create_station": {
       //     "type": "image",
-      //     "texture": "textures/ui/cosmos/station_panel",
+      //     "texture": "textures/ui/cosmos/celestial_selector/station_panel",
       //     "color": [0, 0.5, 1],
       //     "size": [93, 64],
       //     "anchor_from": "bottom_left",
@@ -499,7 +499,7 @@
 
   "red_launch_button": {
     "type": "image",
-    "texture": "textures/ui/cosmos/launch",
+    "texture": "textures/ui/cosmos/celestial_selector/launch",
     "color": [1, 0, 0],
     "size": [74, 11],
     "anchor_from": "top_right",
@@ -519,7 +519,7 @@
 
   "catalog": {
     "type": "image",
-    "texture": "textures/ui/cosmos/catalog",
+    "texture": "textures/ui/cosmos/celestial_selector/catalog",
     "color": [0, 0.5, 1],
     "size": [87, 12],
     "anchor_from": "top_left",
@@ -538,7 +538,7 @@
       {
         "center": {
           "type": "image",
-          "texture": "textures/ui/cosmos/catalog_center",
+          "texture": "textures/ui/cosmos/celestial_selector/catalog_center",
           "color": [0, 0.5, 1],
           "size": [95, 43],
           "anchor_from": "top_left",
@@ -555,7 +555,7 @@
             {
               "back_button": {
                 "type": "image",
-                "texture": "textures/ui/cosmos/back_button",
+                "texture": "textures/ui/cosmos/celestial_selector/back_button",
                 "color": [1, 1, 0],
                 "size": [93, 17],
                 "anchor_from": "top_left",
@@ -578,7 +578,7 @@
                         {
                           "hover": {
                             "type": "image",
-                            "texture": "textures/ui/cosmos/fade2",
+                            "texture": "textures/ui/cosmos/celestial_selector/fade2",
                             "color": [1, 1, 0],
                             "size": [89, 10],
                             "layer": 1
@@ -823,7 +823,7 @@
 
   "catalog_toggle_visuals": {
     "type": "image",
-    "texture": "textures/ui/cosmos/planet_box",
+    "texture": "textures/ui/cosmos/celestial_selector/planet_box",
     "propagate_alpha": true,
     "color": [0, 0.5, 1],
     "size": [93, 14],
@@ -832,7 +832,7 @@
       {
         "green_fade": {
           "type": "image",
-          "texture": "textures/ui/cosmos/fade1",
+          "texture": "textures/ui/cosmos/celestial_selector/fade1",
           "color": [0, 1, 0],
           "size": [98, 10],
           "layer": 3,
@@ -853,7 +853,7 @@
       {
         "red_fade": {
           "type": "image",
-          "texture": "textures/ui/cosmos/fade1",
+          "texture": "textures/ui/cosmos/celestial_selector/fade1",
           "color": [1, 0, 0],
           "size": [98, 10],
           "layer": 3,
@@ -1006,7 +1006,7 @@
 
   "solar_system": {
     "type": "image",
-    "texture": "textures/ui/cosmos/solar_system_orbits",
+    "texture": "textures/ui/cosmos/celestial_selector/solar_system_orbits",
     "bindings": "$visibile_if",
     "$condition": "(#title_text - 'Celestial Panel ' = 'Solar System')",
     "anims": [{
@@ -1026,7 +1026,7 @@
             {
               "sol": {
                 "type": "image",
-                "texture": "textures/ui/cosmos/sol",
+                "texture": "textures/ui/cosmos/celestial_selector/sol",
                 "size": [16, 16],
                 "controls": [
                   { "orbital_toggle_sol@selector.selection_box": {
@@ -1038,7 +1038,7 @@
             {
               "Mercury@selector.solar_system_planet": {
                 "$control_name": "mercury",
-                "$texture": "textures/ui/cosmos/mercury",
+                "$texture": "textures/ui/cosmos/celestial_selector/mercury",
                 "$size": [8, 8],
                 "$offset": [-19, 26]
               }
@@ -1047,7 +1047,7 @@
               "Venus@selector.solar_system_planet": {
                 "$control_name": "venus",
                 "collection_index": 3,
-                "$texture": "textures/ui/cosmos/venus",
+                "$texture": "textures/ui/cosmos/celestial_selector/venus",
                 "$size": [8, 8],
                 "$offset": [-78, -1]
               }
@@ -1056,7 +1056,7 @@
               "Overworld@selector.solar_system_planet": {
                 "$control_name": "overworld",
                 "collection_index": 0,
-                "$texture": "textures/ui/cosmos/earth",
+                "$texture": "textures/ui/cosmos/celestial_selector/earth",
                 "$size": [8, 8],
                 "$offset": [-17, -48]
               }
@@ -1065,7 +1065,7 @@
               "Mars@selector.solar_system_planet": {
                 "$control_name": "mars",
                 "collection_index": 2,
-                "$texture": "textures/ui/cosmos/mars",
+                "$texture": "textures/ui/cosmos/celestial_selector/mars",
                 "$size": [8, 8],
                 "$offset": [117, 0]
               }
@@ -1074,7 +1074,7 @@
               "Asteroids": {
                 "collection_index": 4,
                 "type": "image",
-                "texture": "textures/ui/cosmos/spin_asteroid",
+                "texture": "textures/ui/cosmos/celestial_selector/spin_asteroid",
                 "size": [10, 10],
                 "uv_size": [ 80, 80 ],
                 "anims": [
@@ -1103,7 +1103,7 @@
             {
               "Jupiter@selector.solar_system_planet": {
                 "$control_name": "jupiter",
-                "$texture": "textures/ui/cosmos/jupiter",
+                "$texture": "textures/ui/cosmos/celestial_selector/celestial_selector/jupiter",
                 "$size": [8, 8],
                 "$offset": [115, -42]
               }
@@ -1111,7 +1111,7 @@
             {
               "Saturn@selector.solar_system_planet": {
                 "$control_name": "saturn",
-                "$texture": "textures/ui/cosmos/saturn",
+                "$texture": "textures/ui/cosmos/celestial_selector/saturn",
                 "$size": [20, 8],
                 "$offset": [110, -59]
               }
@@ -1119,7 +1119,7 @@
             {
               "Uranus@selector.solar_system_planet": {
                 "$control_name": "uranus",
-                "$texture": "textures/ui/cosmos/uranus",
+                "$texture": "textures/ui/cosmos/celestial_selector/uranus",
                 "$size": [8, 20],
                 "$offset": [129, 64]
               }
@@ -1127,7 +1127,7 @@
             {
               "Neptune@selector.solar_system_planet": {
                 "$control_name": "neptune",
-                "$texture": "textures/ui/cosmos/neptune",
+                "$texture": "textures/ui/cosmos/celestial_selector/neptune",
                 "$size": [8, 8],
                 "$offset": [88, 90]
               }
@@ -1167,7 +1167,7 @@
         "checked_hover": {
           "type": "image",
           "size": "$selection_size",
-          "texture": "textures/ui/cosmos/selection_box",
+          "texture": "textures/ui/cosmos/celestial_selector/selection_box",
           "color": [1, 1, 0],
           "layer": 7,
           "anims": [

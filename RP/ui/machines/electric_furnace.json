@@ -20,7 +20,7 @@
             }},
             { "battery_slot@machines.item_slot": {
 				"$index": 1,
-				"$overlay_texture": "textures/ui/extra_slots/power",
+				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
 				"offset": [ 7, 46 ]
@@ -54,7 +54,7 @@
 	
 	"electric_furnace_bar": {
 		"type":"image",
-		"texture": "textures/ui/cosmos/electric_furnace_bar",
+		"texture": "textures/ui/cosmos/machines/electric_furnace_bar",
 		"size": [ 22, 15 ],
 		"controls": [
 			{ "progress@machines.specific_slot": {
@@ -85,7 +85,7 @@
 										"anchor_from": "top_left",
 										"type": "image",
 										"size": [22, 15],
-										"texture": "textures/ui/cosmos/electric_furnace_bar_fill"
+										"texture": "textures/ui/cosmos/machines/electric_furnace_bar_fill"
 									}}
 								]
 							}}

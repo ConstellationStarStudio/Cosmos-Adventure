@@ -75,25 +75,25 @@
         "controls": [
 			{
 				"head@space_gear.slot_overlay":{
-					"texture": "textures/ui/extra_slots/head",
+					"texture": "textures/ui/cosmos/slot_overlay/head",
 					"offset": [ 0, 0 ]
 				}
 			},
 			{
 				"body@space_gear.slot_overlay":{
-					"texture": "textures/ui/extra_slots/body",
+					"texture": "textures/ui/cosmos/slot_overlay/body",
 					"offset": [ 0, 18 ]
 				}
 			},
 			{
 				"legs@space_gear.slot_overlay":{
-					"texture": "textures/ui/extra_slots/legs",
+					"texture": "textures/ui/cosmos/slot_overlay/legs",
 					"offset": [ 0, 36 ]
 				}
 			},
 			{
 				"feet@space_gear.slot_overlay":{
-					"texture": "textures/ui/extra_slots/feet",
+					"texture": "textures/ui/cosmos/slot_overlay/feet",
 					"offset": [ 0, 54 ]
 				}
 			}
@@ -107,42 +107,42 @@
 		"controls": [
 			{
 				"reactor@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/shield"
+					"texture": "textures/ui/cosmos/slot_overlay/shield"
 				}
 			},
 			{
 				"parachute@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/parachute",
+					"texture": "textures/ui/cosmos/slot_overlay/parachute",
 					"offset": [ 18, 18 ]
 				}
 			},
 			{
 				"frequency_module@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/frequency",
+					"texture": "textures/ui/cosmos/slot_overlay/frequency",
 					"offset": [ -18, 18 ]
 				}
 			},
 			{
 				"mask@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/mask",
+					"texture": "textures/ui/cosmos/slot_overlay/mask",
 					"offset": [ 0, 18 ]
 				}
 			},
 			{
 				"gear@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/gear",
+					"texture": "textures/ui/cosmos/slot_overlay/gear",
 					"offset": [ 0, 36 ]
 				}
 			},
 			{
 				"tank1@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/tank",
+					"texture": "textures/ui/cosmos/slot_overlay/tank",
 					"offset": [ -9, 54 ]
 				}
 			},
 			{
 				"tank2@space_gear.slot_overlay": {
-					"texture": "textures/ui/extra_slots/tank",
+					"texture": "textures/ui/cosmos/slot_overlay/tank",
 					"offset": [ 9, 54 ]
 				}
 			}

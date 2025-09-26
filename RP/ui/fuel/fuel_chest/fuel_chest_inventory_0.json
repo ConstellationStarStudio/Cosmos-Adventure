@@ -61,7 +61,7 @@
 		"controls": [
 			{ "tank_back": {
 				"type":"image",
-				"texture": "textures/ui/cosmos/fuel_chest_tank_back",
+				"texture": "textures/ui/cosmos/machines/parachest_tank_back",
 				"layer": 1
 			}},
 			{ "rocket_fluid@machines.specific_slot": {
@@ -95,7 +95,7 @@
 			}},
 			{ "tank_front": {
 				"type": "image",
-				"texture": "textures/ui/cosmos/fuel_chest_tank_front",
+				"texture": "textures/ui/cosmos/machines/parachest_tank_front",
 				"layer": 3
 			}}
 		]

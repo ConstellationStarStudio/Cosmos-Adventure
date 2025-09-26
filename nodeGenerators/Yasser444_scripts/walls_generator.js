@@ -11,7 +11,6 @@ function generate_wall_block(block) {
         "minecraft:block": {
             description: {
                 identifier:id,
-                menu_category: { "category": "construction" },
                 states: { "generic:north_wall": [true, false], "generic:east_wall": [true, false], "generic:south_wall": [false, true], "generic:west_wall": [false, true] }
             },
             components: {

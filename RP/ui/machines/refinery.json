@@ -23,7 +23,7 @@
 			}},
 			{ "battery@machines.item_slot": {
 				"$index": 1,
-				"$overlay_texture": "textures/ui/extra_slots/power",
+				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
 				"offset": [37, 50]

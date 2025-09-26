@@ -1490,8 +1490,10 @@ custom.coords=Position
 entity.cosmos:treasure_chest.name=Treasure Chest
 
 ## creative inventory
-cosmos:cosmos_blocks=Cosmos Blocks
 cosmos:cosmos_items=Cosmos Items
+cosmos:cosmos_blocks=Cosmos Blocks
+cosmos:cosmos_machines=Cosmos Machines
+cosmos:debug_items=Debug Items
 
 ## Automatically generated keys (Need to be checked and sorted by a human)
 

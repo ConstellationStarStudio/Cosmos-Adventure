@@ -2,10 +2,7 @@
    "format_version": "1.20.80",
    "minecraft:item": {
        "description": {
-           "identifier": "cosmos:creative_canister",
-           "menu_category": {
-             "category": "items"
-           }
+           "identifier": "cosmos:creative_canister"
        },
        "components": {
            "minecraft:custom_components": ["cosmos:debug_canister"],

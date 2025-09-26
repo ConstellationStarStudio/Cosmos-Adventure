@@ -11,7 +11,6 @@ function generate_stairs_block(block) {
         "minecraft:block": {
             description: {
                 identifier:id,
-                menu_category: { "category": "construction" },
                 traits: { "minecraft:placement_direction": { enabled_states: ["minecraft:cardinal_direction"] }, "minecraft:placement_position": { enabled_states: ["minecraft:vertical_half"] } },
                 states: { "generic:north_east": [true, false], "generic:north_west": [true, false], "generic:south_east": [false, true], "generic:south_west": [false, true] }
             },
