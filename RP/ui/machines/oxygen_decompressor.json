@@ -14,7 +14,9 @@
 			}},
             { "line": {
                 "type": "image",
-                "texture": "textures/ui/extra_slots/oxygen_collector_line",
+                "texture": "textures/white",
+                "fill": true,
+                "color": [0.5, 0.5, 0.5],
                 "size": [1, 24],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
@@ -34,7 +36,7 @@
             }},
             { "battery_slot@machines.item_slot": {
 				"$index": 0,
-				"$overlay_texture": "textures/ui/extra_slots/power",
+				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
                 "offset": [32, 23.2],
                 "anchor_from": "top_left",
                 "anchor_to": "top_left"
