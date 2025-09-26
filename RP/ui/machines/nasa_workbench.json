@@ -115,7 +115,10 @@
                         "anchor_to": "top_left",
                         "offset": [ 10, 5 ],
                         "controls": [
-                            {"title_text@machines.text": {
+                            {"title_text": {
+                                "type": "label",
+                                "color": "$title_text_color",
+                                "layer": 2,
                                 "collection_index": 36,
                                 "text": "#text",
                                 "$tag": "",

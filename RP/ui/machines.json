@@ -1,7 +1,7 @@
 {
     "namespace": "machines",
 
-//up-to-date elements
+	//up-to-date elements
 
 	"specific_slot": {
 		"type": "collection_panel",
@@ -328,11 +328,6 @@
 
 //---------------------------------------------------------
 // depricated elements
-	"text": {
-		"type": "label",
-		"color": "$title_text_color",
-		"layer": 2
-	},
 	"old_button": {
 		"type": "button",
 		"size": [75, 18],
@@ -371,28 +366,7 @@
 	},
 
 	// outdated elements
-	"small_screen": {
-		"type": "panel",
-		"anchor_from": "top_left",
-		"anchor_to": "top_left",
-		"size": ["100%", "50%"]
-	},
 
-	"tall_screen": {
-		"type": "panel",
-		"anchor_from": "top_left",
-		"anchor_to": "top_left",
-		"offset": [0, -33],
-		"size": ["100%", "50% + 33px"]
-	},
-
-	"item_image": {
-		"type":"image",
-		"fill":true,
-		"size": [16, 16],
-		"uv_size": [16, 16],
-		"layer": 10
-	},
 	"clipper": {
 		"type": "panel",
 		"size": [ 20, 18 ],
@@ -623,104 +597,7 @@
 		]
 	},
 
-
-
-	"old_energy_bar": { //deprecated; use energy bar instead
-		"type":"image",
-		"texture": "textures/ui/cosmos/progress_bar",
-		"layer": 2,
-		"size": [ 55, 9 ],
-		"controls": [
-			{
-				"overlay@machines.item_image": {
-					"anchor_from": "left_middle",
-					"anchor_to": "right_middle",
-					"color": [0.9, 0.9, 0.9],
-					"texture": "textures/ui/extra_slots/power"
-				}
-			},
-			{
-				"overlay_active@machines.item_image": {
-					"anchor_from": "left_middle",
-					"anchor_to": "right_middle",
-					"texture": "textures/ui/extra_slots/power_active",
-					"bindings": [
-                        {
-                            "binding_type": "collection",
-                            "binding_name": "#hover_text",
-							"binding_name_override": "#data",
-                            "binding_collection_name": "container_items"
-                        },
-                        {
-                            "binding_type": "view",
-                            "source_property_name": "(not(#hover_text = #data - 'is_powered'))",
-                            "target_property_name": "#visible"
-                        }
-                    ]
-				}
-			},
-			{
-				"energy@machines.new_item_data": {
-					"$name": "progress_bar",
-					"anchor_from": "top_left",
-					"anchor_to": "top_left"
-				}
-			},
-			{
-				"energy_text@machines.new_item_data": {
-					"$name": "energy_hover"
-				}
-			}
-		]
-	},
-	"energy_hover@cosmos.button": {
-		"$action": "",
-		"size": [ 55, 9 ],
-		"controls": [{
-			"hover": {
-				"type": "custom",
-				"renderer": "hover_text_renderer",
-				"layer": 50,
-				"bindings": "$fetch_item_hover"
-			}
-		}],
-		"bindings": [
-			{
-				"binding_name": "#hover_text",
-				"binding_type": "collection",
-				"binding_collection_name": "container_items"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(not(#hover_text - 'Energy Storage' = #hover_text))",
-				"target_property_name": "#visible"
-			}
-		]
-	},
-	"oxygen_hover@cosmos.button": {
-		"$action": "",
-		"size": [ 55, 9 ],
-		"controls": [{
-			"hover": {
-				"type": "custom",
-				"renderer": "hover_text_renderer",
-				"layer": 50,
-				"bindings": "$fetch_item_hover"
-			}
-		}],
-		"bindings": [
-			{
-				"binding_name": "#hover_text",
-				"binding_type": "collection",
-				"binding_collection_name": "container_items"
-			},
-			{
-				"binding_type": "view",
-				"source_property_name": "(not(#hover_text - 'Oxygen Storage' = #hover_text))",
-				"target_property_name": "#visible"
-			}
-		]
-	},
+	
 	"progress_bar": {
 		"type": "panel",
 		"size": [1, 0],
@@ -737,44 +614,6 @@
 					"anchor_from": "top_left",
 					"bindings": "$set_bar_weight",
 					"$prefix": "cosmos:§energy"
-				}
-			}
-		]
-	},
-	
-	"oxygen_progress_bar": {
-		"type": "panel",
-		"size": [1, 0],
-		"anchor_to": "top_left",
-		"anchor_from": "top_left",
-		"controls": [
-			{
-				"image": {
-					"type": "image",
-					"texture": "textures/ui/cosmos/progress_bar_fill",
-					"color": [0.29, 0.63, 0.89],
-					"size": [1, 9],
-					"anchor_to": "top_left",
-					"anchor_from": "top_left",
-					"bindings": "$set_bar_weight",
-					"$prefix": "cosmos:§oxygen"
-				}
-			}
-		]
-	},
-
-    "debugging_interface@machines.interface": {
-		"$screen": "machines.debugger",
-		"$size": ["100%", "120% + 20px"]
-    },
-    "debugger": {
-		"type": "panel",
-		"controls": [
-			{
-				"input_grid@machines.item_grid": {
-					"offset": [0, -80],
-					"size": [ 360, 144 ],
-					"grid_dimensions": [ 20, 8 ]
 				}
 			}
 		]
@@ -817,40 +656,18 @@
             }
         ]
     },
-	
-    "interface": {
-        "type": "panel",
-		"$size": ["100%", "100%"],
-        "controls": [
-            { "container_gamepad_helpers@common.container_gamepad_helpers": {} },
-            { "selected_item_details_factory@common.selected_item_details_factory": {} },
-            { "item_lock_notification_factory@common.item_lock_notification_factory": {} },
-            {
-                "root_panel@common.root_panel": {
-                    "layer": 1,
-                    "controls": [
-                        { "common_panel@common.common_panel": {
-							"size": "$size",
-							"anchor_from": "bottom_left",
-							"anchor_to": "bottom_left"
-						} },
-                        {
-                            "panel": {
-                                "type": "panel",
-                                "layer": 5,
-                                "controls": [
-                                    { "top_half@$screen": {} },
-                                    { "bottom_half@common.inventory_panel_bottom_half_with_label": {} },
-                                    { "hotbar_grid@common.hotbar_grid_template": {} },
-                                    { "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {} }
-                                ]
-                            }
-                        },
-                        { "inventory_selected_icon_button@common.inventory_selected_icon_button": {} },
-                        { "gamepad_cursor@common.gamepad_cursor_button": {} }
-                    ]
-                }
-            }
-        ]
+
+    "debugging_interface@machines.dynamic_interface": {
+		"$size": ["100%", 234],
+		"$content": [
+			{
+				"input_grid@machines.item_grid": {
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"size": [ 360, 144 ],
+					"grid_dimensions": [ 20, 8 ]
+				}
+			}
+		]
     }
 }

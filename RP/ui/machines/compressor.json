@@ -27,10 +27,11 @@
 				"anchor_to": "top_left",
 				"offset": [ 54, 74 ]
 			}},
-			{ "fuel_text@machines.text": {
+			{ "fuel_text": {
 				"type": "label",
 				"text": "Fuel:",
 				"color": "$title_text_color",
+				"layer": 2,
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
 				"offset": [ 27, 79 ]
