@@ -1370,8 +1370,9 @@ item.cosmos:isothermal_helmet=Isothermal Helmet
 item.cosmos:isothermal_leggings=Isothermal Leggings
 item.cosmos:lead_ingot=Lead Ingot
 item.cosmos:liftoff_checklist=Prelaunch Checklist
-item.cosmos:n2_canister=Nitrogen Canister
 item.cosmos:o2_canister=Oxygen Canister
+item.cosmos:n2_canister=Nitrogen Canister
+item.cosmos:methane_canister=Methane Canister
 item.cosmos:oil_canister=Oil Canister
 item.cosmos:orion_drive=Orion Drive
 item.cosmos:radioactive_core=Radioactive Core
@@ -1397,6 +1398,25 @@ item.cosmos:tier1_key=Tier 1 Dungeon Key
 item.cosmos:tier2_key=Tier 2 Dungeon Key
 item.cosmos:tier3_key=Tier 3 Dungeon Key
 item.cosmos:volcanic_pickaxe=Volcanic Pickaxe
+
+##fluids
+fluid.undefined=Empty
+fluid.oil=Oil
+fluid.fuel=Fuel
+fluid.air=Atmospheric Gases
+fluid.o2_gas=Oxygen Gas
+fluid.h2=Hydrogen Gas
+fluid.n2=Nitrogen Gas
+fluid.co2_gas=Carbon Dioxide Gas
+fluid.methane_gas=Methane Gas
+fluid.helium_gas=Helium Gas
+fluid.argon_gas=Argon Gas
+fluid.liquid_oxygen=Liquid Oxygen
+fluid.liquid_nitrogen=Liquid Nitrogen
+fluid.liquid_methane=Liquid Methane
+fluid.liquid_argon=Liquid Argon
+fluid.bacterial_sludge=Bacterial Sludge
+fluid.sulphuric_acid=Sulphuric Acid
 
 ## blocks
 tile.cosmos:tin_ore.name=Tin Ore

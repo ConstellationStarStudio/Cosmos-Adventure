@@ -460,6 +460,9 @@
     "n2_canister": {
       "textures": "textures/items/n2_canister"
     },
+    "methane_canister": {
+      "textures": "textures/items/methane_canister"
+    },
     "orion_drive": {
       "textures": "textures/items/orion_drive"
     },

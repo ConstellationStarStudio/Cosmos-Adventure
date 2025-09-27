@@ -47,6 +47,7 @@
                             "cosmos:fuel_canister",
                             "cosmos:o2_canister",
                             "cosmos:n2_canister",
+                            "cosmos:methane_canister",
                             "cosmos:sensor_lens",
                             "cosmos:oxygen_vent",
                             "cosmos:oxygen_fan",

@@ -46,6 +46,26 @@ const liquid_lores = {
     "cosmos:fuel_canister": "Fuel: ",
     "cosmos:oil_canister": "Oil: "
 }
+
+export const fluid_names = {
+    undefined: "Empty",
+    oil: "Oil",
+    fuel: "Fuel",
+    air: "Atmospheric Gases",
+    o2_gas: "Oxygen Gas",
+    h2_gas: "Hydrogen Gas",
+    n2_gas: "Nitrogen Gas",
+    co2_gas: "Carbon Dioxide",
+    methane_gas: "Methane Gas",
+    helium_gas: "Helium Gas",
+    argon_gas: "Argon Gas",
+    liquid_oxygen: "Liquid Oxygen",
+    liquid_nitrogen: "Liquid Nitrogen",
+    liquid_methane: "Liquid Methane",
+    liquid_argon: "Liquid Argon",
+    bacterial_sludge: "Bacterial Sludge",
+    sulphuric_acid: "Sulphuric Acid",
+}
 // world.beforeEvents.worldInitialize.subscribe(({ blockComponentRegistry }) => {
 // 	blockComponentRegistry.registerCustomComponent("cosmos:liquid", {
 //         // onTick({block, dimension}){
@@ -177,7 +197,7 @@ export function load_to_canister(liquid_amount, liquid_type, container, slot){
     }
 }
 
-export function load_from_canister_instant(liquid_amount, liquid_type, entity, slot){
+export function load_from_canister_instant(liquid_amount, liquid_type, entity, slot) {
     const data = get_data(entity);
     let machine_capacity = liquid_type ? data[liquid_type].capacity: data.gas.capacity;
 
@@ -207,6 +227,16 @@ export function load_from_canister_instant(liquid_amount, liquid_type, entity, s
     container.setItem(slot, update_canister(canister, canister_capacity));
 
     return {amount: liquid_amount, liquid_type};        
+}
+
+export function load_from_canister({item, amount, capacity, ratio, container, slot}) {
+    const durability = item.getComponent('minecraft:durability')
+    const canister_amount = durability.maxDurability - durability.damage
+    const uncompressed = canister_amount * ratio
+    const space = capacity - amount
+    const remaining_canister_amount = Math.floor(Math.max(0, (uncompressed - space) / ratio))
+    if (canister_amount != remaining_canister_amount) container.setItem(slot, update_canister(item, remaining_canister_amount))
+    return Math.min(capacity, amount + uncompressed)
 }
 
 export function load_from_canister_gradual(liquid_amount, liquid_type, entity, slot){
