@@ -24,8 +24,8 @@ function reload_machine(entity){
 		entity.remove();
 		return;
 	}
-	new machines[machine_name].class(entity, block);
-	machine_entities.set(entity.id, { type: machine_name, location: block?.location });
+	const dynamic_object = JSON.parse(entity.getDynamicProperty("machine_data") ?? "{}");
+	machine_entities.set(entity.id, { type: machine_name, location: block?.location, stored_values: dynamic_object });
 }
 
 function hopper_intercations(block, entity, data) {
@@ -174,7 +174,8 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 				const machineEntity = block.dimension.spawnEntity(perm.type.id, block.bottomCenter());
 				machineEntity.nameTag = machine_object.ui;
 				try { new machine_object.class(machineEntity, block).onPlace() } catch { null }
-				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location });
+				const dynamic_object = JSON.parse(machineEntity.getDynamicProperty("machine_data") ?? "{}");
+				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location, stored_values: dynamic_object });
 				if (perm.getState("cosmos:full")) {
 					event.permutationToPlace = perm.withState("cosmos:full", false);
 				}

@@ -1,10 +1,15 @@
 import * as mc from "@minecraft/server";
+import { machine_entities } from "../core/machines/Machine";
 
 export function load_dynamic_object(storage, name) {
-	return JSON.parse(storage.getDynamicProperty(name) ?? "{}")
+	return machine_entities.get(storage.id)?.stored_values;
 }
 
-export function save_dynamic_object(storage, name, value) {
+export function save_dynamic_object(storage, name, value){
+	let machine = machine_entities.get(storage.id);
+	if(!machine) return;
+	machine.stored_values = value;
+	machine_entities.set(storage.id, machine);
 	storage.setDynamicProperty(name, JSON.stringify(value)) 
 }
 
