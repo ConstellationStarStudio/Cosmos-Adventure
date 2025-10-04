@@ -1,16 +1,16 @@
 {
-  "format_version": "1.20.80",
-  "minecraft:block": {
-	"description": {
-	  "identifier": "cosmos:nasa_workbench"
-	},
-	"components": {
-	  "minecraft:custom_components": ["cosmos:nasa_workbench"],
-	  "minecraft:display_name": "%tile.dummyblock.nasa_workbench.name\n§7%tile.rocket_workbench.description",
-	  "minecraft:destructible_by_explosion": false,
-	  "minecraft:destructible_by_mining": {
-		  "seconds_to_destroy": 0.5
-	  }
+    "format_version": "1.21.80",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:nasa_workbench"
+		},
+		"components": {
+			"minecraft:custom_components": ["cosmos:nasa_workbench"],
+			"minecraft:display_name": "%tile.dummyblock.nasa_workbench.name\n§7%tile.rocket_workbench.description",
+			"minecraft:destructible_by_explosion": false,
+			"minecraft:destructible_by_mining": {
+				"seconds_to_destroy": 0.5
+			}
+		}
 	}
-  }
 }

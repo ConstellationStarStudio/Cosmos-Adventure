@@ -1,5 +1,5 @@
 {
-	"format_version": "1.20.60",
+    "format_version": "1.21.80",
 	"minecraft:block": {
 		"description": {
 			"identifier": "cosmos:fluid_pipe",
@@ -19,10 +19,10 @@
 		"components": {
 			//"minecraft:display_name": "%tile.fluid_pipe.name\n§7%tile.fluid_pipe.description",
 			"minecraft:material_instances": {
-				"*": { "texture": "fluid_pipe", "render_method": "alpha_test" },
+				"*": { "texture": "fluid_pipe", "render_method": "blend" },
 				"fluid": { "texture": "still_lava", "render_method": "blend" },
-				"color": { "texture": "fluid_pipe_color", "render_method": "alpha_test" },
-				"pull": { "texture": "fluid_pipe_pull", "render_method": "alpha_test" }
+				"color": { "texture": "fluid_pipe_color", "render_method": "blend" },
+				"pull": { "texture": "fluid_pipe_pull", "render_method": "blend" }
 			},
 			"minecraft:collision_box": { "origin": [-2.5, 5.5, -2.5], "size": [5, 5, 5] },
 			"minecraft:selection_box": { "origin": [-5, 3, -5], "size": [10, 10, 10] },

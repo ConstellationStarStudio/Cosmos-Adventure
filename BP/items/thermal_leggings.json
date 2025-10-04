@@ -1,5 +1,5 @@
 {
-   "format_version": "1.20.20",
+   "format_version": "1.21.80",
    "minecraft:item": {
       "description": {
          "identifier": "cosmos:thermal_leggings"
@@ -8,9 +8,7 @@
          "minecraft:custom_components": [
             "cosmos:space_gear"
          ],
-         "minecraft:icon": {
-            "texture": "thermal_leggings"
-         },
+         "minecraft:icon": "thermal_leggings",
          "minecraft:max_stack_size": 1
       }
    }

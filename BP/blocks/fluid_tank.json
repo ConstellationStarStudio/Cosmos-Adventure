@@ -1,5 +1,5 @@
 {
-   "format_version": "1.20.10",
+   "format_version": "1.21.80",
    "minecraft:block": {
       "description": {
          "identifier": "cosmos:fluid_tank",

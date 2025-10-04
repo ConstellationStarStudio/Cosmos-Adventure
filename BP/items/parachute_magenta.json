@@ -1,5 +1,5 @@
 {
-   "format_version": "1.20.80",
+   "format_version": "1.21.80",
    "minecraft:item": {
       "description": {
          "identifier": "cosmos:parachute_magenta"

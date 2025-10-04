@@ -1103,7 +1103,7 @@
             {
               "Jupiter@selector.solar_system_planet": {
                 "$control_name": "jupiter",
-                "$texture": "textures/ui/cosmos/celestial_selector/celestial_selector/jupiter",
+                "$texture": "textures/ui/cosmos/celestial_selector/jupiter",
                 "$size": [8, 8],
                 "$offset": [115, -42]
               }

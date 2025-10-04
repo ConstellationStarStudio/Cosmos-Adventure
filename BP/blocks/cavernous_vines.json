@@ -1,5 +1,5 @@
 {
-    "format_version": "1.20.80",
+    "format_version": "1.21.80",
     "minecraft:block": {
         "description": {
             "identifier": "cosmos:cavernous_vines",
@@ -15,6 +15,14 @@
             "minecraft:tick": {"interval_range": [1,1]},
             "minecraft:custom_components": ["cosmos:cavernous_vines"],
             "minecraft:geometry": "minecraft:geometry.cross",
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "cavernous_vines1",
+                    "ambient_occlusion": false,
+                    "face_dimming": false,
+                    "render_method": "alpha_test"
+                }
+            },
             "minecraft:placement_filter": {
                 "conditions": [
                     {

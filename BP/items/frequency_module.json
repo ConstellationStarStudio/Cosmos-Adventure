@@ -1,5 +1,5 @@
 {
-   "format_version": "1.21.10",
+   "format_version": "1.21.80",
    "minecraft:item": {
       "description": {
          "identifier": "cosmos:frequency_module"
