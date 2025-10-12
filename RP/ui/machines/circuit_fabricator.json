@@ -14,7 +14,7 @@
 			}},
 			{ "background": {
 				"type":"image",
-				"texture": "textures/ui/cosmos/circuit_fabricator_background",
+				"texture": "textures/ui/cosmos/machines/circuit_fabricator_background",
 				"size": [155, 87],
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
