@@ -19,13 +19,13 @@ function reload_machine(entity){
 	const block = (machines[machine_name].using_block) ?
 		entity.dimension.getBlock(entity.location) :
 		undefined;
-	if (machines[machine_name].using_block && block.typeId != entity.typeId) {
+	if (machines[machine_name].using_block && (!block || block.typeId != entity.typeId)) {
 		machine_entities.delete(entity.id);
 		entity.remove();
 		return;
 	}
 	const dynamic_object = JSON.parse(entity.getDynamicProperty("machine_data") ?? "{}");
-	machine_entities.set(entity.id, { type: machine_name, location: block?.location, stored_values: dynamic_object });
+	machine_entities.set(entity.id, { type: machine_name, location: block?.location, machine_data: dynamic_object });
 }
 
 function hopper_intercations(block, entity, data) {
@@ -175,7 +175,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 				machineEntity.nameTag = machine_object.ui;
 				try { new machine_object.class(machineEntity, block).onPlace() } catch { null }
 				const dynamic_object = JSON.parse(machineEntity.getDynamicProperty("machine_data") ?? "{}");
-				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location, stored_values: dynamic_object });
+				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location, machine_data: dynamic_object });
 				if (perm.getState("cosmos:full")) {
 					event.permutationToPlace = perm.withState("cosmos:full", false);
 				}
@@ -279,7 +279,7 @@ world.beforeEvents.playerInteractWithEntity.subscribe((e) => {
 
 //remove the ui item entities
 world.afterEvents.entitySpawn.subscribe((data) => {
-	if (data.entity.typeId == "minecraft:item" && data.entity.getComponent("minecraft:item")?.itemStack.typeId == "cosmos:ui") {
+	if (data.entity.isValid && data.entity.typeId == "minecraft:item" && data.entity.getComponent("minecraft:item")?.itemStack.typeId == "cosmos:ui") {
 		data.entity.remove();
 	}
 });

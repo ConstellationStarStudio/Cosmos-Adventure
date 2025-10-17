@@ -1,6 +1,7 @@
-import { world } from "@minecraft/server";
+import { world, system } from "@minecraft/server";
 import { compare_position, get_entity, load_dynamic_object, save_dynamic_object, location_of_side } from "../../api/utils";
 import { get_data } from "../machines/Machine";
+import { remove } from "../items/wrench";
 
 export class MachinesInNetwork {
 	constructor(machine) {
@@ -14,18 +15,38 @@ export class MachinesInNetwork {
 		const outputs = this.machine.getDynamicProperty("output_connected_machines")
 		if (outputs) return JSON.parse(outputs)
 	}
-}
+} 
 
 export function charge_from_machine(entity, block, energy) {
 	let data = get_data(entity);
 	if(energy == data.energy.capacity) return energy;
-	let connectedMachines = new MachinesInNetwork(entity).getInputMachines();
+	let machines_in_network = new MachinesInNetwork(entity);
+	let connectedMachines = machines_in_network.getInputMachines();
 	if (connectedMachines && connectedMachines.length > 0) {
-		let inputs = connectedMachines.filter((input) => input[1] == "output" && input[0] != entity.id);
+		let inputs = connectedMachines.filter((input) => input[1] != "input" && input[0] != entity.id);
+		let connectedMachinesOutput; let outputs; let output_machines;
+		//so it needed to avoid double slot energy storage connections
+	    if(data.energy.output){
+			connectedMachinesOutput = machines_in_network.getOutputMachines();
+			if(connectedMachinesOutput){ outputs = connectedMachinesOutput.filter((output) => output[0] != entity.id && output[1] !== "output");}
+		}
 		for (let input_entity_id of inputs) {
 			let input_entity = world.getEntity(input_entity_id[0])
 			if(!input_entity) continue;
-			let dynamic_object = load_dynamic_object(input_entity, 'machine_data');
+			//just a fun thing for bugfix
+			if(outputs?.length > 0 && data.energy.output && get_data(input_entity).energy.input && outputs.every(element => element[0] == input_entity_id[0])){
+				let dim = entity.dimension; let input_loc = input_entity.location; let entity_loc = entity.location;
+				system.runTimeout(() => {
+					dim.createExplosion(input_loc, Math.random() * 5, {causesFire: true, breaksBlocks: true})
+					dim.createExplosion(entity_loc, Math.random() * 5, {causesFire: true, breaksBlocks: true})
+				}, 10);
+				remove(block);
+				remove(input_entity.dimension.getBlock({x: Math.floor(input_loc.x), 
+					y: Math.floor(input_loc.y), z: Math.floor(input_loc.z)
+				}));
+				return energy;
+			}
+			let dynamic_object = load_dynamic_object(input_entity);
 			let power = input_entity.getDynamicProperty("cosmos_power") ?? dynamic_object.power ?? 0;
 			power = (inputs.length > 0) ? Math.floor(power/inputs.length) : power;
 			const space = data.energy.capacity - energy
@@ -33,7 +54,7 @@ export function charge_from_machine(entity, block, energy) {
 				energy += Math.min(data.energy.maxInput, power, space)
 				if(dynamic_object.energy){ 
 					dynamic_object.energy -= Math.min(data.energy.maxInput, power, space);
-					save_dynamic_object(input_entity, 'machine_data', dynamic_object)
+					save_dynamic_object(input_entity, dynamic_object)
 				}
 			}
 		}
@@ -43,15 +64,19 @@ export function charge_from_machine(entity, block, energy) {
 		if(!input_entity) return energy;
 		const input_block = entity.dimension.getBlock(input_location)
 		const input_data = get_data(input_entity)
-		const power = input_entity.getDynamicProperty("cosmos_power") ?? load_dynamic_object(input_entity, 'machine_data').power ?? 0
+		let dynamic_object = load_dynamic_object(input_entity);
+		const power = input_entity.getDynamicProperty("cosmos_power") ?? dynamic_object.power ?? 0
 		const space = data.energy.capacity - energy
 		const io = location_of_side(input_block, input_data.energy.output)
 		if (compare_position(entity.location, io) && power > 0) {
 			energy += Math.min(data.energy.maxInput, power, space)
+			if (input_data.energy) {
+				dynamic_object.energy -= Math.min(data.energy.maxInput, power, space);
+				save_dynamic_object(input_entity, dynamic_object)
+			}
 		}
 	} return energy
 }
-
 export function charge_from_battery(entity, energy, slot) {
 	const data = get_data(entity)
 	const container = entity.getComponent('minecraft:inventory').container

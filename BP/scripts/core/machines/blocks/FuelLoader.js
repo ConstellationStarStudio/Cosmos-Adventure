@@ -37,7 +37,7 @@ export default class {
         const container = this.entity.getComponent('minecraft:inventory').container
 		const data = get_data(this.entity)
 		
-		const variables = load_dynamic_object(this.entity, 'machine_data')
+		const variables = load_dynamic_object(this.entity)
 		let energy = variables.energy ?? 0
 		let fuel = variables.fuel ?? 0
 		
@@ -64,7 +64,7 @@ export default class {
 		        
 		    }
 		}
-		save_dynamic_object(this.entity, 'machine_data', {energy, fuel})
+		save_dynamic_object(this.entity, {energy, fuel})
 		
 		const status =
 			energy == 0 ? "§4No Power" : 

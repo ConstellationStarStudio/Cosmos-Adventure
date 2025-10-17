@@ -65,7 +65,7 @@ export default class {
     const stopped = e.getDynamicProperty('stopped');
     const container = e.getComponent('minecraft:inventory').container;
 
-    const variables = load_dynamic_object(e, 'machine_data');
+    const variables = load_dynamic_object(e);
     let energy = variables.energy || 0;
 
     let time;
