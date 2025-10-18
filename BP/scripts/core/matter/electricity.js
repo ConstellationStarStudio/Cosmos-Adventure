@@ -1,7 +1,6 @@
 import { world, system } from "@minecraft/server";
 import { compare_position, get_entity, load_dynamic_object, save_dynamic_object, location_of_side } from "../../api/utils";
 import { get_data } from "../machines/Machine";
-import { remove } from "../items/wrench";
 
 export class MachinesInNetwork {
 	constructor(machine) {
@@ -35,16 +34,7 @@ export function charge_from_machine(entity, block, energy) {
 			if(!input_entity) continue;
 			//just a fun thing for bugfix
 			if(outputs?.length > 0 && data.energy.output && get_data(input_entity).energy.input && outputs.every(element => element[0] == input_entity_id[0])){
-				let dim = entity.dimension; let input_loc = input_entity.location; let entity_loc = entity.location;
-				system.runTimeout(() => {
-					dim.createExplosion(input_loc, Math.random() * 5, {causesFire: true, breaksBlocks: true})
-					dim.createExplosion(entity_loc, Math.random() * 5, {causesFire: true, breaksBlocks: true})
-				}, 10);
-				remove(block);
-				remove(input_entity.dimension.getBlock({x: Math.floor(input_loc.x), 
-					y: Math.floor(input_loc.y), z: Math.floor(input_loc.z)
-				}));
-				return energy;
+				continue;
 			}
 			let dynamic_object = load_dynamic_object(input_entity);
 			let power = input_entity.getDynamicProperty("cosmos_power") ?? dynamic_object.power ?? 0;
@@ -100,6 +90,21 @@ export function charge_from_battery(entity, energy, slot) {
 			const space = data.energy.capacity - energy
 			energy += Math.min(data.energy.maxInput, 200, space)
 		}
+	} return energy
+}
+
+export function charge_battery(machine, energy, slot) {
+	const container = machine.getComponent('minecraft:inventory').container
+	const battery = container.getItem(slot);
+	let durability = battery?.getComponent('minecraft:durability');
+	let battery_capacity = (durability)? durability.maxDurability - durability.damage: 0;
+
+	if (battery && battery.typeId == "cosmos:battery" && energy > 0 && battery_capacity < 15000) {
+		let charge = battery_capacity;
+		const space = 15000 - charge
+		charge += Math.min(200, energy, space)
+		energy -= Math.min(200, energy, space)
+		container.setItem(slot, update_battery(battery, charge))
 	} return energy
 }
 

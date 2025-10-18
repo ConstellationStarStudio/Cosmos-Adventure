@@ -87,7 +87,7 @@ export default {
 	"basic_solar_panel": {
 		ui: "",
 		class: BasicSolarPanel,
-		energy: {output: "right", maxPower: 120},
+		energy: {output: "back", capacity: 16000, maxPower: 200},
 		items: {
 			top_input: [0],
 			side_input: [0],

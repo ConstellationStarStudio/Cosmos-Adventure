@@ -6,7 +6,7 @@
 				"identifier": "geometry.solar_panel",
 				"texture_width": 256,
 				"texture_height": 128,
-				"visible_bounds_width": 4,
+				"visible_bounds_width": 5,
 				"visible_bounds_height": 4.5,
 				"visible_bounds_offset": [0, 1.75, 0]
 			},
@@ -14,13 +14,15 @@
 				{
 					"name": "bb_main",
 					"pivot": [0, 0, 0],
+					"rotation": [0, -90, 0],
 					"cubes": [
 						{"origin": [-1.5, 16, -1.5], "size": [3, 24, 3], "uv": [94, 50]}
 					]
 				},
 				{
 					"name": "bone",
-					"pivot": [0, 40, 0]
+					"pivot": [0, 40, 0],
+					"rotation": [0, -90, 0]
 				},
 				{
 					"name": "bone2",

@@ -1,22 +1,7 @@
 import { ItemStack } from "@minecraft/server";
-import { charge_from_machine, charge_from_battery, update_battery, } from "../../matter/electricity.js";
+import { charge_from_machine, charge_from_battery, charge_battery } from "../../matter/electricity.js";
 import { get_data } from "../Machine.js";
 import { compare_position, get_entity, load_dynamic_object, save_dynamic_object, compare_lists, location_of_side } from "../../../api/utils.js";
-
-function charge_battery(machine, energy, slot) {
-	const container = machine.getComponent('minecraft:inventory').container
-	const battery = container.getItem(slot);
-	let durability = battery?.getComponent('minecraft:durability');
-	let battery_capacity = (durability)? durability.maxDurability - durability.damage: 0;
-
-	if (battery && battery.typeId == "cosmos:battery" && energy > 0 && battery_capacity < 15000) {
-		let charge = battery_capacity;
-		const space = 15000 - charge
-		charge += Math.min(200, energy, space)
-		energy -= Math.min(200, energy, space)
-		container.setItem(slot, update_battery(battery, charge))
-	} return energy
-}
 
 export default class {
     constructor(entity, block) {
@@ -39,7 +24,6 @@ export default class {
 		energy = energy ? + energy : 0
 		
 		energy = charge_from_machine(store, this.block, energy)
-		if(!store.isValid) return;
 		
 		energy = charge_battery(store, energy, 0)
 		
