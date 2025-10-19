@@ -68,40 +68,49 @@ export default class {
 
     let time = world.getTimeOfDay();
     let day_length = 24000; 
-    let daylight_length = 13000;
+    let daylight_length = 12000;
 
-    let solar_angle = 360/day_length * time;
+    let solar_angle = 1/day_length * time;
+    solar_angle = solar_angle * 360;
     let is_day_time = (time <= daylight_length && (solar_angle < 180.5 || solar_angle > 359.5));
 
     let target_angle = (is_day_time)? 0: 180;
-    let current_angle = e.getProperty("cosmos:panel_angle") ?? 0;
-    current_angle += (target_angle - current_angle)/20;
+    let old_current_angle = e.getProperty("cosmos:panel_angle") ?? 0;
+    let current_angle = old_current_angle + (target_angle - old_current_angle)/20;
+    current_angle = parseFloat(current_angle.toFixed(4));
 
-    e.setProperty("cosmos:panel_angle", current_angle);
+    if(old_current_angle.toFixed(3) !== current_angle.toFixed(3)) e.setProperty("cosmos:panel_angle", current_angle);
 
     if(!(system.currentTick % 20)){
       e.addEffect("invisibility", 9999, {showParticles: false});
       energy = Math.max(energy - 5, 0);
       if(!stopped){
         solar_strength = 0;
-        if(is_day_time){
+        if(is_day_time && this.block != undefined){
           let {x, y, z} = this.block.location;
           let panel_blocks = [{x: x, z: z}, {x: x + 1, z: z}, {x: x - 1, z: z}, {x: x, z: z + 1}, {x: x, z: z - 1},
           {x: x + 1, z: z + 1}, {x: x - 1, z: z - 1}, {x: x - 1, z: z + 1}, {x: x + 1, z: z - 1}];
 
           panel_blocks.forEach((element) => {
-            if(e.dimension.getTopmostBlock(element).location.y == (y + 2)) solar_strength += 1;
+            let topmost_block = e.dimension.getTopmostBlock(element);
+            if(topmost_block != undefined && topmost_block.location.y == (y + 2)) solar_strength += 1;
           });
         }
       }
     }
+    solar_angle = 1/day_length * time; 
+    solar_angle = (solar_angle < 0.18)? 1 - Math.abs(solar_angle - 0.18): solar_angle - 0.18;
+    solar_angle = solar_angle * 360;
+
     let angles_difference = (180 - Math.abs((current_angle + 12.5) % 180 - solar_angle))/180;
     let generated_energy = Math.floor(0.01 * angles_difference ** 2 * (solar_strength * Math.abs(angles_difference) * 500));
     generated_energy = Math.min(data.energy.maxPower, generated_energy);
+
     energy = Math.min(energy + generated_energy, data.energy.capacity);
     energy = charge_battery(e, energy, 0)
     power = Math.min(energy, data.energy.maxPower)
-
     save_dynamic_object(e, {energy, solar_strength, power});
+    const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+    container.add_ui_display(1, energy_hover, Math.round((energy / data.energy.capacity) * 55))
   }
 }
