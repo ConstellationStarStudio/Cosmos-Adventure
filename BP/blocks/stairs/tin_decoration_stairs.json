@@ -1,75 +1,1352 @@
 {
-  "format_version": "1.20.80",
-  "minecraft:block": {
-    "description": {
-      "identifier": "cosmos:tin_decoration_stairs",
-      "traits": {
-        "minecraft:placement_direction": {
-          "enabled_states": [
-            "minecraft:cardinal_direction"
-          ]
+    "format_version": "1.21.70",
+    "minecraft:block": {
+        "description": {
+            "identifier": "cosmos:tin_decoration_stairs",
+            "menu_category": {
+                "category": "construction",
+                "group": "minecraft:itemGroup.name.stairs"
+            },
+            "traits": {
+                "minecraft:placement_position": {
+                    "enabled_states": [
+                        "minecraft:vertical_half"
+                    ]
+                },
+                "minecraft:placement_direction": {
+                    "enabled_states": [
+                        "minecraft:cardinal_direction"
+                    ]
+                }
+            },
+            "states": {
+                "cosmos:type": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5
+                ]
+            }
         },
-        "minecraft:placement_position": {
-          "enabled_states": [
-            "minecraft:vertical_half"
-          ]
-        }
-      },
-      "states": {
-        "generic:north_east": [
-          true,
-          false
-        ],
-        "generic:north_west": [
-          true,
-          false
-        ],
-        "generic:south_east": [
-          false,
-          true
-        ],
-        "generic:south_west": [
-          false,
-          true
+        "components": {
+            "minecraft:item_visual": {
+                "geometry": {
+                    "identifier": "geometry.cosmos.stairs",
+                    "bone_visibility": {
+                        "bot_ne": true,
+                        "bot_nw": true,
+                        "bot_se": true,
+                        "bot_sw": true,
+                        "top_ne": true,
+                        "top_nw": true,
+                        "top_se": false,
+                        "top_sw": false
+                    }
+                },
+                "material_instances": {
+                    "*": {
+                        "texture": "tin_decoration"
+                    }
+                }
+            },
+            "minecraft:material_instances": {
+                "*": {
+                    "texture": "tin_decoration"
+                }
+            },
+            "tag:cosmos:stairs": {},
+            "tag:minecraft:is_pickaxe_item_destructible": {},
+            "minecraft:destructible_by_mining": {
+                "seconds_to_destroy": 3,
+                "item_specific_speeds": [
+                    {
+                        "item": "minecraft:wooden_pickaxe",
+                        "destroy_speed": 1.5
+                    },
+                    {
+                        "item": "minecraft:stone_pickaxe",
+                        "destroy_speed": 0.75
+                    },
+                    {
+                        "item": "minecraft:iron_pickaxe",
+                        "destroy_speed": 0.5
+                    },
+                    {
+                        "item": "minecraft:diamond_pickaxe",
+                        "destroy_speed": 0.4
+                    },
+                    {
+                        "item": "minecraft:netherite_pickaxe",
+                        "destroy_speed": 0.35
+                    },
+                    {
+                        "item": "minecraft:golden_pickaxe",
+                        "destroy_speed": 0.25
+                    }
+                ]
+            },
+            "minecraft:destructible_by_explosion": false
+        },
+        "permutations": [
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom'",
+                "components": {
+                    "minecraft:collision_box": {
+                        "origin": [
+                            -8,
+                            0,
+                            -8
+                        ],
+                        "size": [
+                            16,
+                            8,
+                            16
+                        ]
+                    },
+                    "minecraft:selection_box": {
+                        "origin": [
+                            -8,
+                            0,
+                            -8
+                        ],
+                        "size": [
+                            16,
+                            16,
+                            16
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top'",
+                "components": {
+                    "minecraft:collision_box": {
+                        "origin": [
+                            -8,
+                            8,
+                            -8
+                        ],
+                        "size": [
+                            16,
+                            8,
+                            16
+                        ]
+                    },
+                    "minecraft:selection_box": {
+                        "origin": [
+                            -8,
+                            8,
+                            -8
+                        ],
+                        "size": [
+                            16,
+                            8,
+                            16
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": false,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "north"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": false,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "south"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": false,
+                            "top_se": true,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": true,
+                            "top_se": false,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": false,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "north",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": false,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "south",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "north",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "south",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "north",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "south",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": false,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "south",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": false,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down",
+                                    "north",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": true,
+                            "top_se": false,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": false,
+                            "top_se": false,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": false,
+                            "top_se": true,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": false,
+                            "top_se": false,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": false,
+                            "top_se": false,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": false,
+                            "top_se": true,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": false,
+                            "top_se": false,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": false,
+                            "top_nw": true,
+                            "top_se": false,
+                            "top_sw": false
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "down"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": false,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "north"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": false,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "south"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": false,
+                            "bot_se": true,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 1",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": true,
+                            "bot_se": false,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": false,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "north",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": false,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "south",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "south",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 2",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "north",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "north",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": true,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "south",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": false,
+                            "bot_se": true,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "south",
+                                    "east"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 3",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": true,
+                            "bot_se": false,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up",
+                                    "north",
+                                    "west"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": true,
+                            "bot_se": false,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": false,
+                            "bot_se": false,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": false,
+                            "bot_se": true,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 4",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": false,
+                            "bot_se": false,
+                            "bot_sw": true,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'north' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": false,
+                            "bot_se": false,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'south' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": false,
+                            "bot_se": true,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'east' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": true,
+                            "bot_nw": false,
+                            "bot_se": false,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('minecraft:cardinal_direction') == 'west' && q.block_state('cosmos:type') == 5",
+                "components": {
+                    "minecraft:geometry": {
+                        "identifier": "geometry.cosmos.stairs",
+                        "bone_visibility": {
+                            "bot_ne": false,
+                            "bot_nw": true,
+                            "bot_se": false,
+                            "bot_sw": false,
+                            "top_ne": true,
+                            "top_nw": true,
+                            "top_se": true,
+                            "top_sw": true
+                        }
+                    },
+                    "minecraft:liquid_detection": {
+                        "detection_rules": [
+                            {
+                                "liquid_type": "water",
+                                "can_contain_liquid": true,
+                                "stops_liquid_flowing_from_direction": [
+                                    "up"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
         ]
-      }
-    },
-    "components": {
-      "minecraft:geometry": {
-        "identifier": "geometry.stairs",
-        "bone_visibility": {
-          "top_ne": "q.block_state('minecraft:vertical_half') == 'top' || q.block_state('generic:north_east')",
-          "top_nw": "q.block_state('minecraft:vertical_half') == 'top' || q.block_state('generic:north_west')",
-          "top_se": "q.block_state('minecraft:vertical_half') == 'top' || q.block_state('generic:south_east')",
-          "top_sw": "q.block_state('minecraft:vertical_half') == 'top' || q.block_state('generic:south_west')",
-          "bottom_ne": "q.block_state('minecraft:vertical_half') == 'bottom' || q.block_state('generic:north_east')",
-          "bottom_nw": "q.block_state('minecraft:vertical_half') == 'bottom' || q.block_state('generic:north_west')",
-          "bottom_se": "q.block_state('minecraft:vertical_half') == 'bottom' || q.block_state('generic:south_east')",
-          "bottom_sw": "q.block_state('minecraft:vertical_half') == 'bottom' || q.block_state('generic:south_west')"
-        }
-      },
-      "minecraft:destructible_by_mining": {
-        "seconds_to_destroy": 0.5
-      },
-      "minecraft:destructible_by_explosion": {
-        "explosion_resistance": 12
-      },
-      "minecraft:material_instances": {
-        "*": {
-          "texture": "tin_decoration_block",
-          "render_method": "opaque"
-        }
-      },
-      "minecraft:custom_components": [
-        "cosmos:stairs"
-      ],
-      "minecraft:tick": {
-        "interval_range": [
-          1,
-          1
-        ]
-      },
-      "tag:stairs": {}
     }
-  }
 }

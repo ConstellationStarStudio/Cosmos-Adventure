@@ -1,0 +1,54 @@
+{
+  "format_version": "1.20.80",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:basic_solar_panel",
+      "menu_category": {
+        "category": "items"
+      },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": ["minecraft:cardinal_direction"],
+          "y_rotation_offset": 180
+        }
+      }
+    },
+    "components": {
+      "tag:machine": {},
+      //"minecraft:custom_components": ["cosmos:machine"],
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:material_instances": {
+        "up": { "render_method": "opaque", "texture": "basic_solar_panel_top" },
+        "down": { "render_method": "opaque", "texture": "machine_blank" },
+        "north": { "render_method": "opaque", "texture": "energy_output" },
+        "east": { "render_method": "opaque", "texture": "basic_solar_panel" },
+        "south": { "render_method": "opaque", "texture": "basic_solar_panel" },
+        "west": { "render_method": "opaque", "texture": "basic_solar_panel" }
+      }
+    },
+    "permutations": [
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, 180, 0] }
+          }
+        },
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, 90, 0] }
+          }
+        },
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, -90, 0] }
+          }
+        }
+    ]
+  }
+}

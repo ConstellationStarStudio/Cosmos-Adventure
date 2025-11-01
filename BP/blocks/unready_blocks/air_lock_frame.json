@@ -4,6 +4,9 @@
     "description": {
       "identifier": "cosmos:air_lock_frame"
     },
-    "components": {}
+    "components": {
+       "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": { "render_method": "blend", "texture": "air_lock_frame" }
   }
-}
+}}}

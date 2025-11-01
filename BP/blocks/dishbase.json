@@ -1,0 +1,20 @@
+{
+  "format_version": "1.21.50",
+  "minecraft:block": {
+	"description": {
+	  "identifier": "cosmos:dishbase"
+	},
+	"components": {
+	  "minecraft:custom_components":["cosmos:dishbase"],
+	  "minecraft:material_instances": {
+		"*": { "texture": "dishbase", "render_method": "alpha_test"}
+	  },
+	  "minecraft:loot": "loot_tables/blocks/dishbase.json",
+	  "minecraft:geometry": "minecraft:geometry.full_block",
+	  "minecraft:destructible_by_explosion": false,
+	  "minecraft:destructible_by_mining": {
+		  "seconds_to_destroy": 0.5
+	  }
+	}
+  }
+}

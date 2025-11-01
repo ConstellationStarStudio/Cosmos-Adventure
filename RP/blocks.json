@@ -1,309 +1,204 @@
 {
-   "format_version": [1, 1, 0],
-
+   "format_version": [
+      1,
+      1,
+      0
+   ],
    "tin_decoration_block": {
-      "sound": "stone",
-      "textures": "tin_decoration_block"
+      "sound": "stone"
    },
    "incased_redstone_dust": {
-      "sound": "stone",
-      "textures": "tin_decoration_block"
+      "sound": "stone"
    },
    "incased_redstone_repeater": {
-      "sound": "stone",
-      "textures": "tin_decoration_block"
+      "sound": "stone"
    },
    "detailed_tin_decoration_block": {
-      "sound": "stone",
-      "textures": {
-         "down": "detailed_tin_decoration_block_top",
-         "side": "detailed_tin_decoration_block",
-         "up": "tin_decoration_block"
-      }
+      "sound": "stone"
    },
-
-   "oil": {
-      "textures": "oil"
-   },
-
+   "oil": {},
    "moon_rock": {
-      "sound": "stone",
-      "textures": "moon_rock"
+      "sound": "stone"
    },
    "moon_dirt": {
-      "sound": "stone",
-      "textures": "moon_dirt"
+      "sound": "stone"
    },
    "moon_turf": {
-      "sound": "stone",
-      "textures": {
-         "down": "moon_dirt",
-         "side": "moon_turf_side",
-         "up": "moon_turf"
-      }
+      "sound": "stone"
    },
    "vapor_spout": {
-      "sound": "stone",
-      "textures": {
-         "side": "venus_soft_rock",
-         "down": "venus_soft_rock",
-         "up": "vapor_spout"
-      }
+      "sound": "stone"
    },
    "asteroids_rock": {
-      "sound": "stone",
-      "textures": "asteroids_rock"
+      "sound": "stone"
    },
    "asteroids_hard_rock": {
-      "sound": "stone",
-      "textures": "asteroids_hard_rock"
+      "sound": "stone"
    },
    "asteroids_soft_rock": {
-      "sound": "stone",
-      "textures": "asteroids_soft_rock"
+      "sound": "stone"
    },
    "asteroids_aluminum_ore": {
-     "sound": "stone",
-     "textures": "asteroids_aluminum_ore"
+      "sound": "stone"
    },
    "asteroids_iron_ore": {
-     "sound": "stone",
-     "textures": "asteroids_iron_ore"
+      "sound": "stone"
    },
    "dense_ice": {
-     "sound": "stone",
-     "textures": "dense_ice"
+      "sound": "stone"
    },
    "galena_ore": {
-     "sound": "stone",
-     "textures": "galena_ore"
+      "sound": "stone"
    },
    "mars_copper_ore": {
-     "sound": "stone",
-     "textures": "mars_copper_ore"
+      "sound": "stone"
    },
    "mars_fine_regolith": {
-     "sound": "stone",
-     "textures": "mars_fine_regolith"
+      "sound": "stone"
    },
    "mars_iron_ore": {
-     "sound": "stone",
-     "textures": "mars_iron_ore"
+      "sound": "stone"
    },
    "mars_regolith": {
-     "sound": "stone",
-     "textures": "mars_regolith"
+      "sound": "stone"
    },
    "mars_stone": {
-     "sound": "stone",
-     "textures": "mars_stone"
+      "sound": "stone"
    },
    "mars_tin_ore": {
-     "sound": "stone",
-     "textures": "mars_tin_ore"
+      "sound": "stone"
    },
    "moon_copper_ore": {
-     "sound": "stone",
-     "textures": "moon_copper_ore"
+      "sound": "stone"
    },
    "moon_sapphire_ore": {
-     "sound": "stone",
-     "textures": "moon_sapphire_ore"
+      "sound": "stone"
    },
    "moon_tin_ore": {
-     "sound": "stone",
-     "textures": "moon_tin_ore"
+      "sound": "stone"
    },
    "pumice": {
-     "sound": "stone",
-     "textures": "pumice"
+      "sound": "stone"
    },
    "scorched_venus_rock": {
-     "sound": "stone",
-     "textures": "scorched_venus_rock"
+      "sound": "stone"
    },
    "solar_ore": {
-     "sound": "stone",
-     "textures": "solar_ore"
+      "sound": "stone"
    },
    "venus_aluminum_ore": {
-     "sound": "stone",
-     "textures": "venus_aluminum_ore"
+      "sound": "stone"
    },
    "venus_hard_rock": {
-     "sound": "stone",
-     "textures": "venus_hard_rock"
+      "sound": "stone"
    },
    "venus_quartz_ore": {
-     "sound": "stone",
-     "textures": "venus_quartz_ore"
+      "sound": "stone"
    },
    "venus_silicon_ore": {
-     "sound": "stone",
-     "textures": "venus_silicon_ore"
+      "sound": "stone"
    },
    "venus_soft_rock": {
-     "sound": "stone",
-     "textures": "venus_soft_rock"
+      "sound": "stone"
    },
    "venus_tin_ore": {
-     "sound": "stone",
-     "textures": "venus_tin_ore"
+      "sound": "stone"
    },
    "venus_copper_ore": {
-     "sound": "stone",
-     "textures": "venus_copper_ore"
+      "sound": "stone"
    },
    "venus_volcanic_rock": {
-     "sound": "stone",
-     "textures": "venus_volcanic_rock"
+      "sound": "stone"
    },
-   // "moon_bedrock": {
-   //    "textures": "moon_bedrock"
-   // },
-   // "mars_bedrock": {
-   //    "textures": "mars_bedrock"
-   // },
-   // "venus_bedrock": {
-   //    "textures": "venus_bedrock"
-   // },
-   // "space_bedrock": {
-   //    "textures": "space_bedrock"
-   // },
    "mars_cobblestone": {
-      "sound": "stone",
-      "textures": "mars_cobblestone"
+      "sound": "stone"
    },
    "moon_dungeon_bricks": {
-      "sound": "stone",
-      "textures": "moon_dungeon_bricks"
+      "sound": "stone"
    },
    "moon_boss_indicator": {
-      "sound": "stone",
-      "textures": "moon_dungeon_bricks"
+      "sound": "stone"
    },
    "moon_boss_spawner": {
-      "sound": "stone",
-      "textures": "moon_dungeon_bricks"
+      "sound": "stone"
    },
    "mars_dungeon_bricks": {
-      "sound": "stone",
-      "textures": "mars_dungeon_bricks"
+      "sound": "stone"
    },
    "cavernous_vines": {
-      "sound": "grass",
-      "textures": "cavernous_vines"
+      "sound": "grass"
    },
-
    "tin_ore": {
-      "sound": "stone",
-      "textures": "tin_ore"
+      "sound": "stone"
    },
    "aluminum_ore": {
-      "sound": "stone",
-      "textures": "aluminum_ore"
+      "sound": "stone"
    },
    "silicon_ore": {
-      "sound": "stone",
-      "textures": "silicon_ore"
+      "sound": "stone"
    },
    "cheese_ore": {
-      "sound": "stone",
-      "textures": "moon_cheese_ore"
+      "sound": "stone"
    },
    "desh_ore": {
-      "sound": "stone",
-      "textures": "desh_ore"
+      "sound": "stone"
    },
    "ilmenite_ore": {
-      "sound": "stone",
-      "textures": "ilmenite_ore"
+      "sound": "stone"
    },
-
    "oxygen_detector": {
-      "sound": "stone",
-      "textures": {
-         "side": "oxygen_detector",
-         "down": "machine_blank",
-         "up": "machine_blank"
-      }
+      "sound": "stone"
    },
    "air_lock_controller": {
-      "sound": "stone",
-      "textures": {
-         "side": "air_lock_controller",
-         "down": "air_lock_frame",
-         "up": "air_lock_frame"
-      }
+      "sound": "stone"
    },
    "air_lock_frame": {
-      "sound": "stone",
-      "textures": "air_lock_frame"
+      "sound": "stone"
    },
    "telemetry_unit": {
-      "sound": "stone",
-      "textures": "telemetry_unit"
+      "sound": "stone"
    },
    "sealed_aluminum_wire": {
-      "sound": "stone",
-      "textures": "sealed_aluminum_wire"
+      "sound": "stone"
    },
    "sealed_heavy_aluminum_wire": {
-      "sound": "stone",
-      "textures": "sealed_heavy_aluminum_wire"
+      "sound": "stone"
    },
    "sealed_fluid_pipe": {
-      "sound": "stone",
-      "textures": "sealed_fluid_pipe"
+      "sound": "stone"
    },
-
    "tin_block": {
-      "sound": "stone",
-      "textures": "tin_block"
+      "sound": "stone"
    },
    "aluminum_block": {
-      "sound": "stone",
-      "textures": "aluminum_block"
+      "sound": "stone"
    },
    "silicon_block": {
-      "sound": "stone",
-      "textures": "silicon_block"
+      "sound": "stone"
    },
    "desh_block": {
-      "sound": "stone",
-      "textures": "desh_block"
+      "sound": "stone"
    },
    "titanium_block": {
-      "sound": "stone",
-      "textures": "titanium_block"
+      "sound": "stone"
    },
    "meteoric_iron_block": {
-      "sound": "stone",
-      "textures": "meteoric_iron_block"
+      "sound": "stone"
    },
    "lead_block": {
-      "sound": "stone",
-      "textures": "lead_block"
+      "sound": "stone"
    },
-
    "space_station": {
-      "sound": "stone",
-      "textures": {
-         "down": "space_station_top",
-         "side": "space_station_side",
-         "up": "space_station_top"
-      }
+      "sound": "stone"
    },
    "coal_generator": {
       "sound": "stone"
    },
    "energy_storage_module": {
-      "sound": "stone",
-      "textures": "energy_storage_module_01"
+      "sound": "stone"
    },
    "energy_storage_cluster": {
-      "sound": "stone",
-      "textures": "energy_storage_cluster_01"
+      "sound": "stone"
    },
    "advanced_compressor": {
       "sound": "stone"
@@ -315,59 +210,19 @@
       "sound": "stone"
    },
    "compressor": {
-      "sound": "stone",
-      "textures": {
-         "up": "machine_blank",
-         "down": "machine_blank",
-         "north": "machine_side",
-         "east": "machine_side",
-         "west": "machine_side",
-         "south": "compressor"
-      }
+      "sound": "stone"
    },
    "electric_compressor": {
-      "sound": "stone",
-      "textures": {
-         "up": "machine_blank",
-         "down": "machine_blank",
-         "north": "machine_side",
-         "east": "machine_side",
-         "west": "energy_input",
-         "south": "electric_compressor"
-      }
+      "sound": "stone"
    },
    "oxygen_collector": {
-      "sound": "stone",
-      "textures": {
-         "up": "oxygen_collector",
-         "down": "oxygen_collector",
-         "north": "oxygen_collector",
-         "east": "oxygen_output",
-         "west": "energy_input",
-         "south": "oxygen_collector"
-      }
+      "sound": "stone"
    },
    "circuit_fabricator": {
-      "sound": "stone",
-      "textures": {
-         "up": "machine_blank",
-         "down": "machine_blank",
-         "north": "machine_side",
-         "east": "machine_side",
-         "west": "energy_input",
-         "south": "circuit_fabricator"
-      }
+      "sound": "stone"
    },
    "nasa_workbench": {
-      "sound": "stone",
-      "textures": {
-         "up": "nasa_workbench_top",
-         "down": "cryo",
-         "north": "nasa_workbench_side",
-         "east": "nasa_workbench_side",
-         "west": "nasa_workbench_side",
-         "south": "nasa_workbench_side"
-      }
+      "sound": "stone"
    },
    "aluminum_wire": {
       "sound": "cloth"
@@ -376,7 +231,7 @@
       "sound": "stone",
       "texture": "dishbase"
    },
-      "cheese_block": {
+   "cheese_block": {
       "sound": "cloth"
    },
    "fluid_tank": {

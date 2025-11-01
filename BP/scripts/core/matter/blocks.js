@@ -1,3 +1,7 @@
+import { initializeDestructionHandlers } from '../../api/destruction_handler.js';
+import '../../api/event_manager.js';
+
+initializeDestructionHandlers();
 
 import "../blocks/aluminum_wire.js"
 import "../blocks/fluid_tank.js"

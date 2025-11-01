@@ -1,0 +1,28 @@
+{
+  "format_version": "1.20.10",
+  "minecraft:recipe_shaped": {
+    "description": {
+      "identifier": "cosmos:oxygen_bubble_distributor"
+    },
+    "tags": [
+      "crafting_table"
+    ],
+    "pattern": [
+      "WXW",
+      "YZY",
+      "WXW"
+    ],
+    "key": {
+      "W": "cosmos:compressed_steel",
+      "X": "cosmos:oxygen_fan",
+      "Y": "cosmos:oxygen_vent",
+      "Z": "cosmos:compressed_aluminum"
+    },
+    "unlock": [
+      "cosmos:compressed_steel"
+    ],
+    "result": {
+      "item": "cosmos:oxygen_bubble_distributor"
+    }
+  }
+}

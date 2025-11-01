@@ -1,0 +1,208 @@
+{
+  "format_version": "1.21.70",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:stairs_collision",
+      "menu_category": {
+        "category": "none",
+        "is_hidden_in_commands": true
+      },
+      "traits": {
+        "minecraft:placement_position": {
+          "enabled_states": [
+            "minecraft:vertical_half"
+          ]
+        },
+        "minecraft:placement_direction": {
+          "enabled_states": [
+            "minecraft:cardinal_direction"
+          ]
+        }
+      },
+      "states": {
+        "cosmos:corner": [
+          false,
+          true
+        ]
+      }
+    },
+    "components": {
+      
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:liquid_detection": {
+        "detection_rules": [
+          {
+            "liquid_type": "water",
+            "can_contain_liquid": true,
+            "on_liquid_touches": "no_reaction"
+          }
+        ]
+      },
+      "minecraft:material_instances": {
+        "*": {
+          "texture": "empty",
+          "render_method": "blend"
+        }
+      },
+      "minecraft:destruction_particles": {
+        "texture": "empty"
+      },
+      "minecraft:loot": "loot_tables/empty.json",
+      "minecraft:selection_box": false,
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 3,
+        "item_specific_speeds": [
+          {
+            "item": "minecraft:wooden_axe",
+            "destroy_speed": 1.5
+          },
+          {
+            "item": "minecraft:stone_axe",
+            "destroy_speed": 0.75
+          },
+          {
+            "item": "minecraft:iron_axe",
+            "destroy_speed": 0.5
+          },
+          {
+            "item": "minecraft:diamond_axe",
+            "destroy_speed": 0.4
+          },
+          {
+            "item": "minecraft:netherite_axe",
+            "destroy_speed": 0.35
+          },
+          {
+            "item": "minecraft:golden_axe",
+            "destroy_speed": 0.25
+          }
+        ]
+      },
+      "minecraft:redstone_conductivity": {
+        "allows_redstone_to_step_down": false,
+        "redstone_conductor": false
+      },
+      "minecraft:replaceable": {},
+      "tag:tap:no_connect": {}
+    },
+    "permutations": [
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'north'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              180,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": {
+            "rotation": [
+              0,
+              -90,
+              0
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && !q.block_state('cosmos:corner')",
+        "components": {
+          "minecraft:collision_box": {
+            "origin": [
+              -8,
+              0,
+              -8
+            ],
+            "size": [
+              16,
+              0.001,
+              8
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:vertical_half') == 'top' && !q.block_state('cosmos:corner')",
+        "components": {
+          "minecraft:collision_box": {
+            "origin": [
+              -8,
+              15.999,
+              -8
+            ],
+            "size": [
+              16,
+              0.001,
+              8
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:vertical_half') == 'bottom' && q.block_state('cosmos:corner')",
+        "components": {
+          "minecraft:collision_box": {
+            "origin": [
+              -8,
+              0,
+              -8
+            ],
+            "size": [
+              8,
+              0.001,
+              8
+            ]
+          }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:vertical_half') == 'top' && q.block_state('cosmos:corner')",
+        "components": {
+          "minecraft:collision_box": {
+            "origin": [
+              -8,
+              15.999,
+              -8
+            ],
+            "size": [
+              8,
+              0.001,
+              8
+            ]
+          }
+        }
+      }
+    ]
+  }
+}
