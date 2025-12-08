@@ -3,6 +3,7 @@
     "minecraft:block": {
         "description": {
             "identifier": "cosmos:glowstone_torch",
+            "menu_category": { "category": "items" },
             "traits": {
                 "minecraft:placement_position": {
                     "enabled_states": [

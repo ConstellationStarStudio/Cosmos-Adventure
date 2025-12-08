@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:asteroids_hard_rock"
+      "identifier": "cosmos:asteroids_hard_rock",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

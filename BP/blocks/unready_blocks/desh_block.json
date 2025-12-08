@@ -2,7 +2,8 @@
   "format_version": "1.20.60",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:desh_block"
+      "identifier": "cosmos:desh_block",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

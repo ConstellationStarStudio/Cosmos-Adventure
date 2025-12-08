@@ -3,6 +3,7 @@
     "minecraft:block": {
         "description":{
             "identifier": "cosmos:arc_lamp",
+			"menu_category": { "category": "items" },
             "states":{
                 "cosmos:lamp_direction": [0, 1, 2, 3],
                 "cosmos:lamp_active": [false, true],

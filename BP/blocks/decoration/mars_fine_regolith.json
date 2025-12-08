@@ -2,7 +2,8 @@
    "format_version": "1.20.80",
    "minecraft:block": {
       "description": {
-         "identifier": "cosmos:mars_fine_regolith"
+         "identifier": "cosmos:mars_fine_regolith",
+			"menu_category": { "category": "items" }
       },
       "components": {
          "minecraft:display_name": "%tile.basic_block_mars.mars_fine_regolith.name",

@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:astro_miner_base"
+      "identifier": "cosmos:astro_miner_base",
+		  "menu_category": { "category": "items" }
     },
     "components": {
       "minecraft:geometry": "minecraft:geometry.full_block",

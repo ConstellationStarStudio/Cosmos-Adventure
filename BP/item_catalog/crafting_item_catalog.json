@@ -367,9 +367,7 @@
                             "cosmos:dynamic_wand",
                             "cosmos:property_rod",
                             "cosmos:creative_battery",
-                            "cosmos:creative_canister",
-                            "cosmos:moon_boss_indicator",
-                            "cosmos:moon_boss_spawner"
+                            "cosmos:creative_canister"
                         ]
                     }
                 ]

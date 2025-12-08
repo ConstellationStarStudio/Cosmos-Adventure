@@ -1,8 +1,9 @@
 {
-  "format_version": "1.20.80",
+  "format_version": "1.21.90",
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:moon_tin_ore",
+		"menu_category": { "category": "items" },
       "states": {
          "cosmos:mining_speed": ["normal", "slow", "decreased", "fast", "rapid", "instant"]
       }

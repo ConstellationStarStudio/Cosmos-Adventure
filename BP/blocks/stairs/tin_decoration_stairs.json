@@ -3,6 +3,7 @@
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:tin_decoration_stairs",
+		  "menu_category": { "category": "items" },
       "traits": {
         "minecraft:placement_direction": {
           "enabled_states": [

@@ -3,6 +3,7 @@
     "minecraft:block": {
         "description":{
             "identifier": "cosmos:tier1_treasure_chest",
+		  "menu_category": { "category": "items" },
             "states": {
                 "cosmos:chest_state": ["locked", "unlocked", "open"]
             },

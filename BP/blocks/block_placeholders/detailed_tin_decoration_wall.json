@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:detailed_tin_decoration_wall"
+      "identifier": "cosmos:detailed_tin_decoration_wall",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:sealed_fluid_pipe"
+      "identifier": "cosmos:sealed_fluid_pipe",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

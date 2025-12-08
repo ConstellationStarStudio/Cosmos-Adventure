@@ -3,6 +3,7 @@
 	"minecraft:block": {
 		"description": {
 			"identifier": "cosmos:fluid_pipe",
+			"menu_category": { "category": "items" },
 			"states": {
 				"cosmos:up": [true, false],
 				"cosmos:down": [true, false],

@@ -3,6 +3,7 @@
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:mars_copper_ore",
+		"menu_category": { "category": "items" },
       "states": {
          "cosmos:mining_speed": ["normal", "slow", "decreased", "fast", "rapid", "instant"]
       }

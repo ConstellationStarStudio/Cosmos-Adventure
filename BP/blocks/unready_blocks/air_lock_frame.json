@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:air_lock_frame"
+      "identifier": "cosmos:air_lock_frame",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

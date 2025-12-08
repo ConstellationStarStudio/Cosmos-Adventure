@@ -3,6 +3,7 @@
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:mars_cobblestone_stairs",
+		  "menu_category": { "category": "items" },
       "traits": {
         "minecraft:placement_direction": {
           "enabled_states": [

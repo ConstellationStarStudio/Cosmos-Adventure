@@ -3,6 +3,7 @@
     "minecraft:block": {
       "description": {
         "identifier": "cosmos:buggy_fueling_pad",
+			"menu_category": { "category": "items" },
         "states": {
           "cosmos:center": [ false, true ]
         }

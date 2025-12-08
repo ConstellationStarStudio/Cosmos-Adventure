@@ -2,7 +2,8 @@
     "format_version": "1.21.80",
 	"minecraft:block": {
 		"description": {
-			"identifier": "cosmos:nasa_workbench"
+			"identifier": "cosmos:nasa_workbench",
+			"menu_category": { "category": "items" }
 		},
 		"components": {
 			"minecraft:custom_components": ["cosmos:nasa_workbench"],

@@ -3,6 +3,7 @@
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:beam_receiver",
+		  "menu_category": { "category": "items" },
       "states":{
           "cosmos:io": ["input", "output"]
       },

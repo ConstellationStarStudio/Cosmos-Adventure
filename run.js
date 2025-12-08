@@ -32,7 +32,7 @@ const skypedia = {
     target: "cosmos_skypedia/"
 }
 
-const mc = process.env.LOCALAPPDATA + "/Packages/Microsoft.MinecraftUWP_8wekyb3d8bbwe/LocalState/games/com.mojang/"
+const mc = process.env.APPDATA + "\\Minecraft Bedrock\\Users\\Shared\\games\\com.mojang\\"
 const bp_path = mc + "development_behavior_packs/"
 const rp_path = mc + "development_resource_packs/"
 

@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:flag"
+      "identifier": "cosmos:flag",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

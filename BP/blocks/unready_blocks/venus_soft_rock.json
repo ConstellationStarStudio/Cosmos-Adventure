@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:venus_soft_rock"
+      "identifier": "cosmos:venus_soft_rock",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

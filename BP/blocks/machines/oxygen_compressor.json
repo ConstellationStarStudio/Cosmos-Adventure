@@ -3,6 +3,7 @@
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:oxygen_compressor",
+			"menu_category": { "category": "items" },
       "traits": {
         "minecraft:placement_direction": {
           "enabled_states": ["minecraft:cardinal_direction"],

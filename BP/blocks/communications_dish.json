@@ -2,7 +2,8 @@
   "format_version": "1.21.50",
   "minecraft:block": {
 	"description": {
-	  "identifier": "cosmos:communications_dish"
+		"identifier": "cosmos:communications_dish",
+		"menu_category": { "category": "items" }
 	},
 	"components": {
 	  "minecraft:custom_components":["cosmos:dishbase"],

@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:lead_block"
+      "identifier": "cosmos:lead_block",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

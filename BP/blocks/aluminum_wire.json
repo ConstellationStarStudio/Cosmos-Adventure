@@ -3,6 +3,7 @@
 	"minecraft:block": {
 		"description": {
 			"identifier": "cosmos:aluminum_wire",
+			"menu_category": { "category": "items" },
 			"states": {
 				"cosmos:up": [false, true],
 				"cosmos:down": [false, true],

@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:moon_rock_slab"
+      "identifier": "cosmos:moon_rock_slab",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

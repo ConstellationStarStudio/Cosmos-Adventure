@@ -3,6 +3,7 @@
     "minecraft:block": {
         "description":{
             "identifier": "cosmos:hydraulic_platform",
+		    "menu_category": { "category": "items" },
             "states":{
                 "cosmos:rotation": [0, 1, 2, 3],
                 "cosmos:is_open": [false, true],

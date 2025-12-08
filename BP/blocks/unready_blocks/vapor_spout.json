@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:vapor_spout"
+      "identifier": "cosmos:vapor_spout",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }

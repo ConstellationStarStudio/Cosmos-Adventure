@@ -2,7 +2,8 @@
   "format_version": "1.20.80",
   "minecraft:block": {
     "description": {
-      "identifier": "cosmos:cryogenic_chamber"
+      "identifier": "cosmos:cryogenic_chamber",
+		  "menu_category": { "category": "items" }
     },
     "components": {}
   }
