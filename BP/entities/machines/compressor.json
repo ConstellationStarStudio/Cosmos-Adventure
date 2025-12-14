@@ -45,7 +45,8 @@
             },
             "minecraft:type_family": {
                 "family": [
-                    "cosmos"
+                    "cosmos",
+					"machine"
                 ]
             },
             "minecraft:collision_box": {

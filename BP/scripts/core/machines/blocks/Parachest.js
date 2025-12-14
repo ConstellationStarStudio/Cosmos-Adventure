@@ -1,6 +1,7 @@
 import { system, BlockPermutation } from "@minecraft/server";
 import { rocket_nametags } from "../../../api/player/liftoff";
 import { machine_entities } from "../Machine";
+import { load_dynamic_object, save_dynamic_object } from "../../../api/utils";
 
 export default class {
     constructor(entity, block) {
@@ -16,7 +17,7 @@ export default class {
         let parachest = this.entity;
         let inventory = parachest.getComponent('minecraft:inventory');
         let container = inventory.container;
-        let fuel = lander.getDynamicProperty("fuel_level") || 0;
+        let fuel = load_dynamic_object(lander, "machine_data")?.fuel || 0;
         container.add_ui_display(inventory.inventorySize - 4, "", Math.ceil((Math.ceil(fuel/26))))
 	}
 }
@@ -31,11 +32,11 @@ export function place_parachest(fuel, dimension, parachest_loc, inventory_size, 
     machine_entities.set(parachest_block.id, { type: machine_name, location: parachest_block.location});
     parachest_block.triggerEvent('cosmos:inv' + inventory_size);
     parachest_block.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[inventory_size];
-    parachest_block.setDynamicProperty("fuel_level", fuel);
+    save_dynamic_object(parachest_block, {fuel}, "machine_data")
     return parachest_block;
   }
 
   parachest.triggerEvent('cosmos:inv' + inventory_size);
   parachest.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[inventory_size];
-  parachest.setDynamicProperty("fuel_level", fuel);
+  save_dynamic_object(parachest, {fuel}, "machine_data")
 }

@@ -1,7 +1,7 @@
-import { world, system, ItemStack, BlockPermutation } from "@minecraft/server"
-import { machine_entities } from "../../core/machines/Machine";
+import { world, system, ItemStack, BlockPermutation } from "@minecraft/server";
 import { moon_lander } from "../../core/machines/rockets/MoonLander";
 import { place_parachest } from "../../core/machines/blocks/Parachest";
+import { save_dynamic_object, load_dynamic_object } from "../utils";
 
 const parachutes = {"cosmos:parachute_black": 0, 
     "cosmos:parachute_blue": 1,
@@ -191,10 +191,11 @@ export function rocket_flight(rocket) {
         v = Math.floor((a) * (1 - Math.pow(Math.E, (-t/(20 * b)))))
         rocket.addEffect('levitation', 2000, {showParticles: false, amplifier: v})
         let rotation = rocket_rotation(player, rocket)
-        let fuel = rocket.getDynamicProperty('fuel_level')  || 0;
+        let dynamic_object = load_dynamic_object(rocket, "vehicle_data")
+        let fuel = dynamic_object?.fuel || 0;
         if(!(system.currentTick % 2)){
             fuel = Math.max(0, fuel - 1)
-            rocket.setDynamicProperty("fuel_level", fuel);
+            save_dynamic_object(rocket, fuel, "vehicle_data");
         };
         if(!fuel && player.getGameMode() != "Creative"){
             rocket.removeEffect("levitation");
@@ -211,17 +212,3 @@ world.afterEvents.entityRemove.subscribe(({removedEntityId}) => {
     world.getPlayers().filter(player => player.getDynamicProperty('in_the_rocket') == removedEntityId)
     .forEach(player => dismount(player))
 })
-
-world.afterEvents.entitySpawn.subscribe((data) => {
-    if(data.entity.typeId == "cosmos:rocket_tier_1"){
-        const machine_name = data.entity.typeId.replace('cosmos:', '');
-        machine_entities.set(data.entity.id, { type: machine_name, location: undefined});
-        let inventory_size = data.entity.getComponent("minecraft:inventory").inventorySize - 2;
-        data.entity.nameTag = '§f§u§e§l§' + rocket_nametags[inventory_size];
-    }else if(data.entity.typeId == "cosmos:lander"){
-        const machine_name = data.entity.typeId.replace('cosmos:', '');
-        machine_entities.set(data.entity.id, { type: machine_name, location: undefined});
-        let inventory_size = data.entity.getComponent("minecraft:inventory").inventorySize - 4;
-        data.entity.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[inventory_size];
-    }
-});

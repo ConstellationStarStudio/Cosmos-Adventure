@@ -8,7 +8,7 @@
 				"cosmos:panel_angle": {
                   "type": "float",
                   "range": [0.0, 180.0],
-                  "default": 0.0,
+                  "default": 45.0,
                   "client_sync": true
                 }
 			}
@@ -54,6 +54,7 @@
             "minecraft:type_family": {
                 "family": [
                     "cosmos",
+					"machine",
 					"power",
 					"has_power_output"
                 ]
@@ -73,7 +74,7 @@
             },
             "minecraft:inventory": {
                 "container_type": "container",
-                "inventory_size": 2
+                "inventory_size": 5
             },
             "minecraft:pushable": {
                 "is_pushable": false,

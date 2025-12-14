@@ -2,6 +2,7 @@ import { ActionFormData } from "@minecraft/server-ui";
 import { world, system, Player } from "@minecraft/server";
 import { saved_rocket_items, return_to_earth} from "./liftoff";
 import { moon_lander } from "../../core/machines/rockets/MoonLander";
+import { load_dynamic_object } from "../utils";
 
 const debug = true
 
@@ -79,7 +80,7 @@ function launch(player, planet, usingRocket) {
 		let rocket = riding.entityRidingOn;
 		let container = rocket.getComponent("minecraft:inventory").container;
 		size = rocket.getComponent("minecraft:inventory").inventorySize;
-		fuel = rocket.getDynamicProperty("fuel_level") ?? 0;
+		fuel = load_dynamic_object(rocket, "vehicle_data")?.fuel ?? 0;
 		items = [];
 		id = rocket.id;
 		typeId = rocket.typeId;
