@@ -6,6 +6,7 @@ import "./api/player/oxygen.js"
 import "./api/world/PlanetBuilder.js"
 
 import "./core/machines/Machine.js"
+import "./core/vehicles/Vehicle.js"
 
 import "./planets/GCPlanetsDimensions.js"
 

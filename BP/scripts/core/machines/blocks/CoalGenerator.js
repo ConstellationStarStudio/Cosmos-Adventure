@@ -26,7 +26,7 @@ export default class {
     const isCoalBlock = fuelItem?.typeId === 'minecraft:coal_block';
     
     
-    const variables = load_dynamic_object(this.entity)
+    const variables = load_dynamic_object(this.entity,  "machine_data")
     let burnTime = variables.burnTime || 0
     let heat = variables.heat || 0
     let power = variables.power || 0
@@ -47,7 +47,7 @@ export default class {
     
     // Save and Update UI 
     if(!compare_lists(first_values, [burnTime, heat, power]) || !container.getItem(1)){
-      save_dynamic_object(this.entity, {burnTime, heat, power})
+      save_dynamic_object(this.entity, {burnTime, heat, power}, "machine_data")
       const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
       container.add_ui_display(1, display_text)
     }

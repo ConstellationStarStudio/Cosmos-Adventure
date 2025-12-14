@@ -30,7 +30,7 @@ export default class {
 		const dimension = this.entity.dimension
 		const active = this.entity.getDynamicProperty("active")
 		
-		const variables = load_dynamic_object(this.entity)
+		const variables = load_dynamic_object(this.entity, "machine_data")
 		let energy = variables.energy ?? 0
 		let oil = variables.oil ?? 0
 		let fuel = variables.fuel ?? 0
@@ -79,7 +79,7 @@ export default class {
 		"§2Refining"
 
 		
-		save_dynamic_object(this.entity, {energy, oil, fuel})
+		save_dynamic_object(this.entity, {energy, oil, fuel}, "machine_data")
 		
 		// setup UI display
 		container.add_ui_display(3, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.round((energy / data.energy.capacity) * 55))

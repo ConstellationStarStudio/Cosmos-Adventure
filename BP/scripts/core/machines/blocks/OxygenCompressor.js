@@ -19,7 +19,7 @@ export default class {
         let tank = container.getItem(1);
         const durability = tank?.getComponent("minecraft:durability");
 
-        const variables = load_dynamic_object(this.entity);
+        const variables = load_dynamic_object(this.entity, "machine_data");
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
         o2 = input_fluid("o2", this.entity, this.block, o2);
@@ -39,7 +39,7 @@ export default class {
                 energy = Math.max(0, energy - 300);
             }
         }
-        save_dynamic_object(this.entity, {energy, o2});
+        save_dynamic_object(this.entity, {energy, o2}, "machine_data");
         
         let status = (energy < 300)? "§4Not Enough Power":
         (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":

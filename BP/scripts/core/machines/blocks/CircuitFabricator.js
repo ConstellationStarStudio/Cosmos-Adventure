@@ -24,7 +24,7 @@ export default class {
 			"minecraft:redstone"
 		])
 
-		const variables = load_dynamic_object(this.entity)
+		const variables = load_dynamic_object(this.entity, "machine_data")
 		let energy = variables.energy || 0
 		let progress = variables.progress || 0
 
@@ -56,7 +56,7 @@ export default class {
 			this.block.dimension.playSound("random.anvil_land", this.entity.location)
 		}
 
-		save_dynamic_object(this.entity, {energy, progress})
+		save_dynamic_object(this.entity, {energy, progress}, "machine_data")
 		if(!compare_lists(first_values, [energy, progress]) || !container.getItem(7)){
 			const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 			container.add_ui_display(7, energy_hover, Math.round((energy / data.energy.capacity) * 55))

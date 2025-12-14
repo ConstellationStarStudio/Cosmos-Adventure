@@ -16,19 +16,20 @@ function reload_machine(entity){
 	const machine_name = entity.typeId.replace('cosmos:', '');
 	if (!Object.keys(machines).includes(machine_name)) return;
 	if (machine_entities.has(entity.id)) return;
-	const block = (machines[machine_name].using_block) ?
-		entity.dimension.getBlock(entity.location) :
-		undefined;
-	if (machines[machine_name].using_block && (!block || block.typeId != entity.typeId)) {
+	const block = entity.dimension.getBlock(entity.location);
+	if (block && block.typeId != entity.typeId) {
 		machine_entities.delete(entity.id);
 		entity.remove();
 		return;
 	}
+	let block_location = (block)? block.location: entity.location;
+	block_location = {x: Math.floor(block_location.x), y: Math.floor(block_location.y), z: Math.floor(block_location.z)};
+
 	const dynamic_object = JSON.parse(entity.getDynamicProperty("machine_data") ?? "{}");
-	machine_entities.set(entity.id, { type: machine_name, location: block?.location, machine_data: dynamic_object });
+	machine_entities.set(entity.id, { type: machine_name, location: block_location, entity_data: dynamic_object });
 }
 
-function hopper_intercations(block, entity, data) {
+function hopper_interactions(block, entity, data) {
 	;(()=>{ // drain items out of the output slots
 		let hopper; try { hopper = block.below()} catch {} // makes sure it doesn't try pick a block below the world bottom 
 		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
@@ -140,7 +141,7 @@ function block_entity_access() {
 }
 
 world.afterEvents.worldLoad.subscribe(() => {
-	world.getDims(dimension => dimension.getEntities({includeFamilies: ['cosmos']})).forEach(entity => {reload_machine(entity)});
+	world.getDims(dimension => dimension.getEntities({includeFamilies: ['machine']})).forEach(entity => {reload_machine(entity)});
 	system.runInterval(() => {
 		if (machine_entities.size === 0) return;
 		// give block access every 2 ticks
@@ -148,14 +149,14 @@ world.afterEvents.worldLoad.subscribe(() => {
 
 		machine_entities.forEach((machineData, entityId) => {
 			const machineEntity = world.getEntity(entityId);
+			if (!machineEntity?.isValid) return;
+			let block = machineEntity.dimension.getBlock(machineData.location);
+			if(!block) return;
 			const data = machines[machineData.type]
-			let using_block = data.using_block;
-			if (!machineEntity?.isValid || !using_block) return
-			const block = machineEntity.dimension.getBlock(machineData.location)
 			// tick the machine
-			new data.class(machineEntity, using_block? block: undefined)
+			new data.class(machineEntity, block)
 			// hopper support every 8 ticks
-			if (system.currentTick % 8 == 0) hopper_intercations(block, machineEntity, data)
+			if (system.currentTick % 8 == 0) hopper_interactions(block, machineEntity, data)
 		});
 	});
 });
@@ -175,7 +176,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 				machineEntity.nameTag = machine_object.ui;
 				try { new machine_object.class(machineEntity, block).onPlace() } catch { null }
 				const dynamic_object = JSON.parse(machineEntity.getDynamicProperty("machine_data") ?? "{}");
-				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location, machine_data: dynamic_object });
+				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location, entity_data: dynamic_object });
 				if (perm.getState("cosmos:full")) {
 					event.permutationToPlace = perm.withState("cosmos:full", false);
 				}

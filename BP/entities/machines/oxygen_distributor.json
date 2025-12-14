@@ -55,6 +55,7 @@
                 "family": [
                     "cosmos",
 					"power",
+					"machine",
 					"oxygen",
 					"has_power_input",
 					"has_o2_input"

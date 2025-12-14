@@ -36,7 +36,7 @@ export default class {
 		const fuelItem = container.getItem(9);
 		const isCoalBlock = fuelItem?.typeId === 'minecraft:coal_block'; 
 
-		const variables = load_dynamic_object(this.entity);
+		const variables = load_dynamic_object(this.entity, "machine_data");
 		let burnTime = variables.burnTime || 0;
 		let burnDuration = variables.burnDuration || 0;
 		let progress = variables.progress || 0;
@@ -70,7 +70,7 @@ export default class {
 
 
 		if(!compare_lists(first_values, [burnTime, burnDuration, progress]) || !container.getItem(11)){
-			save_dynamic_object(this.entity, {progress, burnDuration, burnTime})
+			save_dynamic_object(this.entity, {progress, burnDuration, burnTime}, "machine_data")
 			container.add_ui_display(11, '', Math.round((burnTime / burnDuration) * 13))
 			container.add_ui_display(12, '', Math.ceil((progress / 200) * 52))
 			container.add_ui_display(13, `§r   Status:\n${!progress ? '    §6Idle' : '§2Compressing'}`)

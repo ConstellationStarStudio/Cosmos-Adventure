@@ -61,7 +61,7 @@ export default class {
     const data = get_data(e);
     const container = e.getComponent('minecraft:inventory').container;
 
-    const variables = load_dynamic_object(e);
+    const variables = load_dynamic_object(e, "machine_data");
     let energy = variables.energy || 0;
     let solar_strength = variables.solar_strength || 0;
     let power = variables.power || 0;
@@ -109,7 +109,7 @@ export default class {
     energy = Math.min(energy + generated_energy, data.energy.capacity);
     energy = charge_battery(e, energy, 0)
     power = Math.min(energy, data.energy.maxPower)
-    save_dynamic_object(e, {energy, solar_strength, power});
+    save_dynamic_object(e, {energy, solar_strength, power}, "machine_data");
     const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
     container.add_ui_display(1, energy_hover, Math.round((energy / data.energy.capacity) * 55))
   }

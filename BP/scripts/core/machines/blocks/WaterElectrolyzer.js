@@ -16,7 +16,7 @@ export default class {
         const container = this.entity.getComponent('minecraft:inventory').container
         const active = this.entity.getDynamicProperty('active')
         
-        const variables = load_dynamic_object(this.entity)
+        const variables = load_dynamic_object(this.entity, "machine_data")
         let energy = variables.energy || 0
         let water = variables.water || 0
         let o2 = variables.o2 || 0
@@ -40,7 +40,7 @@ export default class {
             const creative_battery = container.getItem(1)?.typeId == "cosmos:creative_battery"
             energy = creative_battery ? energy : Math.max(0, energy - 375)
         }
-        save_dynamic_object(this.entity, {energy, water, o2, h2})
+        save_dynamic_object(this.entity, {energy, water, o2, h2}, "machine_data")
         
         //ui display
         if (system.currentTick % 3 == 0) {

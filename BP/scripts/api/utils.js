@@ -1,16 +1,21 @@
 import * as mc from "@minecraft/server";
-import { machine_entities } from "../core/machines/Machine";
+import machine_entities from "../core/machines/Machine";
+import vehicles from "../core/vehicles/Vehicle";
 
-export function load_dynamic_object(storage) {
-	return machine_entities.get(storage.id)?.machine_data;
+const data_maps = {
+	"machine_data": machine_entities,
+	"vehicle_data": vehicles
+}
+export function load_dynamic_object(storage, name) {
+	return data_maps[name].get(storage.id)?.entity_data;
 }
 
-export function save_dynamic_object(storage, value){
-	let machine = machine_entities.get(storage.id);
-	if(!machine) return;
-	machine.machine_data = value;
-	machine_entities.set(storage.id, machine);
-	storage.setDynamicProperty("machine_data", JSON.stringify(value)) 
+export function save_dynamic_object(storage, value, name){
+	let entity = data_maps[name].get(storage.id);
+	if(!entity) return;
+	entity.entity_data = value;
+	data_maps[name].set(storage.id, machine);
+	storage.setDynamicProperty(name, JSON.stringify(value)) 
 }
 
 export function str(object) { return JSON.stringify(object) }

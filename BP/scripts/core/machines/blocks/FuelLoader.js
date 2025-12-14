@@ -37,7 +37,7 @@ export default class {
         const container = this.entity.getComponent('minecraft:inventory').container
 		const data = get_data(this.entity)
 		
-		const variables = load_dynamic_object(this.entity)
+		const variables = load_dynamic_object(this.entity, "machine_data")
 		let energy = variables.energy ?? 0
 		let fuel = variables.fuel ?? 0
 		
@@ -51,20 +51,21 @@ export default class {
 		    let rockets = get_rockets(this.block)
 		    if(rockets.length > 0){
 		        rockets.forEach((rocket) =>{
-		            let fuel_level = rocket.getDynamicProperty("fuel_level")
+					let rocket_dynamic_object = load_dynamic_object(rocket, "vehicle_data")
+		            let fuel_level = rocket_dynamic_object?.fuel ?? 0;
 		            fuel_level = (fuel_level)? fuel_level:
 		            0;
 		            if(fuel_level < 1000){
 		                let level = Math.min(1000, fuel_level + 2)
-		            rocket.setDynamicProperty("fuel_level", level)
-		            fuel = Math.max(0, fuel - 2)
-		            energy = Math.max(0, energy - 30)
+		                save_dynamic_object(rocket, rocket_dynamic_object, "vehicle_data");
+		                fuel = Math.max(0, fuel - 2)
+		                energy = Math.max(0, energy - 30)
 		            }
 		        })
 		        
 		    }
 		}
-		save_dynamic_object(this.entity, {energy, fuel})
+		save_dynamic_object(this.entity, {energy, fuel}, "machine_data")
 		
 		const status =
 			energy == 0 ? "§4No Power" : 

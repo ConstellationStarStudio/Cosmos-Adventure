@@ -15,7 +15,7 @@ export default class {
 		const store = this.entity
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const store_data = get_data(store)
-		const variables = load_dynamic_object(this.entity);
+		const variables = load_dynamic_object(this.entity, "machine_data");
 		let energy = variables.energy || 0;
 		let power = variables.power || 0;
 
@@ -32,7 +32,7 @@ export default class {
 		power = Math.min(energy, store_data.energy.maxPower);
 		//store and display data
 
-		save_dynamic_object(this.entity, {energy, power});
+		save_dynamic_object(this.entity, {energy, power}, "machine_data");
 		container.add_ui_display(2, `§r ${energy} gJ\nof ${store_data.energy.capacity} gJ`)
 		container.add_ui_display(3, '', Math.ceil((energy/ store_data.energy.capacity) * 75 ))
 		

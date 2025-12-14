@@ -82,7 +82,8 @@
          },
          "minecraft:type_family": {
             "family": [
-               "rocket"
+               "rocket",
+               "vehicle"
             ]
          }
       },

@@ -46,6 +46,7 @@
             "minecraft:type_family": {
                 "family": [
                     "cosmos",
+					"machine",
 					"power",
 					"energy_storage",
 					"has_power_output",

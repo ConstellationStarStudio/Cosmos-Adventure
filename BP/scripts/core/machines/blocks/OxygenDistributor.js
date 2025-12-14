@@ -18,7 +18,7 @@ export default class {
         const container = distributor.getComponent('minecraft:inventory').container;
 		const data = get_data(distributor);
 
-        const variables = load_dynamic_object(distributor);
+        const variables = load_dynamic_object(distributor, "machine_data");
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
         o2 = input_fluid("o2", distributor, this.block, o2);
@@ -27,7 +27,7 @@ export default class {
         energy = charge_from_machine(distributor, this.block, energy);
         energy = charge_from_battery(distributor, energy, 1);
 
-        let bubble_radius = distributor.getDynamicProperty("bubble_radius") ?? 0;
+        let bubble_radius = variables.bubble_radius || 0;
 
         if(bubble_radius > 0.5 && !distributor.hasTag("bubble_active")) distributor.addTag("bubble_active")
         else if(bubble_radius < 0.5){distributor.removeTag("bubble_active")};
@@ -54,8 +54,7 @@ export default class {
         }
 
         distributor.setProperty("cosmos:bubble_radius", visible_button ? bubble_radius : 0)
-        distributor.setDynamicProperty("bubble_radius", bubble_radius)
-        save_dynamic_object(distributor, {energy, o2});
+        save_dynamic_object(distributor, {energy, o2, bubble_radius}, "machine_data");
 
         let status = (!energy)? "§4Not Enough Power":
         (o2 < 30)? "§4Not Enough Oxygen":

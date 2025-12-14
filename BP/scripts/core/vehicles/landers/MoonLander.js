@@ -1,6 +1,6 @@
-import { system, world} from "@minecraft/server"
+import { system } from "@minecraft/server"
 import { dismount, set_items_to_lander, saved_rocket_items, rocket_nametags} from "../../../api/player/liftoff";
-
+import { save_dynamic_object, load_dynamic_object} from "../../../api/utils";
 export default class{
     constructor(entity, block) {
         this.entity = entity;
@@ -12,7 +12,7 @@ export default class{
         let lander = this.entity;
         let inventory = lander.getComponent('minecraft:inventory');
         let container = inventory.container;
-        let fuel = lander.getDynamicProperty("fuel_level") || 0;
+        let fuel = load_dynamic_object(lander, "vehicle_data")?.fuel || 0;
         container.add_ui_display(inventory.inventorySize - 4, "", Math.ceil((Math.ceil(fuel/26))))
     }
 }
@@ -46,7 +46,7 @@ export function moon_lander(player, load = true){
     let lander = player.dimension.spawnEntity("cosmos:lander", {x: data.loc.x, y: 250, z: data.loc.z});
     lander.triggerEvent("cosmos:lander_gravity_disable");
     lander.teleport(data.loc);
-    lander.setDynamicProperty("fuel_level", data.fuel);
+    save_dynamic_object(lander, data.fuel, "vehicle_data")
     lander.getComponent("minecraft:rideable").addRider(player);
     player.camera.setCamera("minecraft:follow_orbit", { radius: 20 });
     player.setDynamicProperty("dimension", undefined);

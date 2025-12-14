@@ -34,7 +34,7 @@ export default class {
         let dimension = this.entity.dimension.id;
         const data = get_data(this.entity);
         const container = this.entity.getComponent('minecraft:inventory').container;
-        const variables = load_dynamic_object(this.entity);
+        const variables = load_dynamic_object(this.entity, "machine_data");
 
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
@@ -65,7 +65,7 @@ export default class {
         (oxygen_source_bloks < 2 && dimension !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
 		"§2Active";
         
-        save_dynamic_object(this.entity, {energy, o2});
+        save_dynamic_object(this.entity, {energy, o2}, "machine_data");
 
         const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`;
         const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`;

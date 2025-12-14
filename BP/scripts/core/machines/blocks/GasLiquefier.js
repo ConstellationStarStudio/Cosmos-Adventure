@@ -21,7 +21,7 @@ export default class {
         const active = this.entity.getDynamicProperty('active')
 
         //loading variables
-		const variables = load_dynamic_object(this.entity)
+		const variables = load_dynamic_object(this.entity, "machine_data")
 		let energy = variables.energy || 0
 		let input_tank = variables.input_tank ?? {amount: 0}
 		let output_tank = variables.output_tank ?? {amount: 0}
@@ -65,7 +65,7 @@ export default class {
 		//mars Co2 into liquid argon
 		// venus has Co2(for MS) and Nitrogen(for GL)
 
-		save_dynamic_object(this.entity, {energy, input_tank, output_tank})
+		save_dynamic_object(this.entity, {energy, input_tank, output_tank}, "machine_data")
 
         //ui display
 		container.add_ui_display(3, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((energy / data.energy.capacity) * 55))

@@ -14,7 +14,7 @@ export default class {
     smelt(){
 		const container = this.entity.getComponent('minecraft:inventory').container;
 		const data = get_data(this.entity);
-		const variables = load_dynamic_object(this.entity);
+		const variables = load_dynamic_object(this.entity, "machine_data");
 		let energy = variables.energy || 0
 		let progress = variables.progress || 0
 		let first_values = [energy, progress]
@@ -44,7 +44,7 @@ export default class {
 		}
 
 		if(!compare_lists(first_values, [energy, progress]) || !container.getItem(3)){
-			save_dynamic_object(this.entity, {energy, progress});
+			save_dynamic_object(this.entity, {energy, progress}, "machine_data");
 			const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 			container.add_ui_display(3, energy_hover, Math.round((energy / data.energy.capacity) * 55))
 			container.add_ui_display(4, '', Math.ceil((progress / 200) * 24))

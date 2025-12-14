@@ -1,6 +1,7 @@
-import { system, world} from "@minecraft/server"
+import { system } from "@minecraft/server"
 import { start_countdown, dismount} from "../../../api/player/liftoff";
 import { start_celestial_selector } from "../../../api/player/celestial_selector";
+import { load_dynamic_object } from "../../../api/utils";
 
 export default class{
     constructor(entity, block) {
@@ -11,6 +12,7 @@ export default class{
     rocket(){
         if(system.currentTick % 10) return;
         let rocket = this.entity;
+
         const rider = rocket.getComponent('minecraft:rideable').getRiders()
         .find(rider => rider.typeId == "minecraft:player")
         const active = rocket.getDynamicProperty('active');
@@ -36,7 +38,7 @@ export default class{
             container.setItem(inventory.inventorySize - 1, undefined);
             return
         };
-        let fuel = rocket.getDynamicProperty("fuel_level") || 0;
+        let fuel = load_dynamic_object(rocket, "vehicle_data")?.fuel || 0;
         container.add_ui_display(inventory.inventorySize - 2, 'Fuel Tank. Requires\nfuel loader to fill', Math.ceil((Math.ceil(fuel/26))))
         container.add_ui_display(inventory.inventorySize - 1, "§2" + `${Math.round(fuel * 100/1000)}` + '.0%% full')
         //disable jumping

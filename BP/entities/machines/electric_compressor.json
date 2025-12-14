@@ -47,6 +47,7 @@
                 "family": [
                     "cosmos",
 					"power",
+					"machine",
 					"has_power_input"
                 ]
             },
