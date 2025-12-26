@@ -6,7 +6,7 @@ export let vehicles = new Map();
 function reload_vehicle(entity){
     if (!Object.keys(AllVehicles).includes(entity.typeId) || vehicles.has(entity.id)) return;
     const dynamic_object = JSON.parse(entity.getDynamicProperty("vehicle_data") ?? "{}");
-    machine_entities.set(entity.id, { entity_data: dynamic_object });
+    vehicles.set(entity.id, { entity_data: dynamic_object });
 }
 world.afterEvents.entityLoad.subscribe(({ entity }) => {
     reload_vehicle(entity);
@@ -19,8 +19,9 @@ world.afterEvents.worldLoad.subscribe(() => {
         vehicles.forEach((vehicleData, entityId) => {
             const vehicle = world.getEntity(entityId);
             if(!vehicle?.isValid) return;
-            // tick the machine
-            new data.class(machineEntity)
+            const data = AllVehicles[vehicle.typeId]
+            // tick the vehicle
+            new data.class(vehicle)
         });
     });
 });

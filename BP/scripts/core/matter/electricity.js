@@ -36,7 +36,7 @@ export function charge_from_machine(entity, block, energy) {
 			if(outputs?.length > 0 && data.energy.output && get_data(input_entity).energy.input && outputs.every(element => element[0] == input_entity_id[0])){
 				continue;
 			}
-			let dynamic_object = load_dynamic_object(input_entity);
+			let dynamic_object = load_dynamic_object(input_entity, "machine_data");
 			let power = input_entity.getDynamicProperty("cosmos_power") ?? dynamic_object.power ?? 0;
 			power = (inputs.length > 0) ? Math.floor(power/inputs.length) : power;
 			const space = data.energy.capacity - energy
@@ -54,7 +54,7 @@ export function charge_from_machine(entity, block, energy) {
 		if(!input_entity) return energy;
 		const input_block = entity.dimension.getBlock(input_location)
 		const input_data = get_data(input_entity)
-		let dynamic_object = load_dynamic_object(input_entity);
+		let dynamic_object = load_dynamic_object(input_entity, "machine_data");
 		const power = input_entity.getDynamicProperty("cosmos_power") ?? dynamic_object.power ?? 0
 		const space = data.energy.capacity - energy
 		const io = location_of_side(input_block, input_data.energy.output)

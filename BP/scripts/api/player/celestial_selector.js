@@ -1,7 +1,7 @@
 import { ActionFormData } from "@minecraft/server-ui";
 import { world, system, Player } from "@minecraft/server";
 import { saved_rocket_items, return_to_earth} from "./liftoff";
-import { moon_lander } from "../../core/machines/rockets/MoonLander";
+import { moon_lander } from "../../core/vehicles/landers/MoonLander";
 import { load_dynamic_object } from "../utils";
 
 const debug = true

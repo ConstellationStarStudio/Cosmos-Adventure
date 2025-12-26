@@ -1,5 +1,5 @@
 import { world, system, ItemStack, BlockPermutation } from "@minecraft/server";
-import { moon_lander } from "../../core/machines/rockets/MoonLander";
+import { moon_lander } from "../../core/vehicles/landers/MoonLander";
 import { place_parachest } from "../../core/machines/blocks/Parachest";
 import { save_dynamic_object, load_dynamic_object } from "../utils";
 
