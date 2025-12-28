@@ -1,0 +1,20 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "cosmos:fallen_meteor",
+			"textures": {
+				"default": "textures/blocks/hot_fallen_meteor"
+			},
+			"materials": {
+				"default": "skeleton"
+			},
+			"geometry": {
+				"default": "geometry.fallen_meteor"
+			},
+		    "render_controllers": [
+                "controller.render.default"
+	        ]
+		}
+	}
+}

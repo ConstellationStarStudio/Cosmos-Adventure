@@ -1,0 +1,35 @@
+{
+    "format_version": "1.20.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "cosmos:fallen_meteor",
+            "is_summonable": true
+        },
+        "component_groups": {
+			"despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+        "components": {
+            "minecraft:collision_box": {
+                "width": 1,
+                "height": 1
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:physics": {
+                "has_gravity": true,
+				"has_collision": true
+            }
+        },
+		"events": {
+			"cosmos:despawn": {
+				"add": {
+					"component_groups": ["despawn"]
+				}
+			}
+		}
+    }
+}

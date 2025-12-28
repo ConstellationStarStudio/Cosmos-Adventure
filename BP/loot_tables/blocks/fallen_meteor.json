@@ -1,0 +1,27 @@
+{
+    "pools": [
+        {
+            "rolls": 1,
+            "conditions": [
+                {
+                    "condition": "match_tool",
+                    "count": 1,
+                    "minecraft:match_tool_filter_all": [
+                        "minecraft:is_tool",
+                        "minecraft:is_pickaxe"
+                    ],
+                    "minecraft:match_tool_filter_any": [
+                        "minecraft:diamond_tier",
+                        "minecraft:netherite_tier"
+                    ]
+                }
+            ],
+            "entries": [
+                {
+                    "type": "item",
+                    "name": "cosmos:meteoric_raw_iron"
+                }
+            ]
+        }
+    ]
+}
