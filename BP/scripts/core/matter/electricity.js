@@ -44,7 +44,7 @@ export function charge_from_machine(entity, block, energy) {
 				energy += Math.min(data.energy.maxInput, power, space)
 				if(dynamic_object.energy){ 
 					dynamic_object.energy -= Math.min(data.energy.maxInput, power, space);
-					save_dynamic_object(input_entity, dynamic_object)
+					save_dynamic_object(input_entity, dynamic_object, "machine_data")
 				}
 			}
 		}
@@ -62,7 +62,7 @@ export function charge_from_machine(entity, block, energy) {
 			energy += Math.min(data.energy.maxInput, power, space)
 			if (input_data.energy) {
 				dynamic_object.energy -= Math.min(data.energy.maxInput, power, space);
-				save_dynamic_object(input_entity, dynamic_object)
+				save_dynamic_object(input_entity, dynamic_object, "machine_data")
 			}
 		}
 	} return energy
