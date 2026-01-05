@@ -1,0 +1,17 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.meteor.rotation": {
+			"loop": true,
+			"animation_length": 11.25,
+			"bones": {
+				"meteor": {
+					"rotation": {
+						"0.0": [0, 0, 0],
+						"11.25": [-360, -360, 0]
+					}
+				}
+			}
+		}
+	}
+}

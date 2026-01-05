@@ -4,17 +4,25 @@
 		"description": {
 			"identifier": "cosmos:fallen_meteor",
 			"textures": {
-				"default": "textures/blocks/hot_fallen_meteor"
+				"default": "textures/entity/meteor"
 			},
 			"materials": {
 				"default": "skeleton"
 			},
 			"geometry": {
-				"default": "geometry.fallen_meteor"
+				"default": "geometry.meteor"
 			},
 		    "render_controllers": [
                 "controller.render.default"
-	        ]
+	        ],
+			"scripts": {
+				"animate": [
+					"rotation"
+				]
+			},
+			"animations": {
+				"rotation": "animation.meteor.rotation"
+			}
 		}
 	}
 }

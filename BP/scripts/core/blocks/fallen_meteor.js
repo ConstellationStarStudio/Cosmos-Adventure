@@ -6,7 +6,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
             if(system.currentTick % 5000 == 0 && block.permutation.getState("cosmos:heat_level") == 1){
                 block.setPermutation(block.permutation.withState("cosmos:heat_level", 0));
             }
-            if(system.currentTick % 5 == 0 && block.permutation.getState("cosmos:heat_level")){
+            if(system.currentTick % 5 == 0 && dimension.isChunkLoaded(block.location) && block.permutation.getState("cosmos:heat_level")){
                 let {x, y, z} = block.center();
                 let burned_entity = dimension.getEntities({location: block.center(), maxDistance: 1})[0]
                 if(!burned_entity) return;

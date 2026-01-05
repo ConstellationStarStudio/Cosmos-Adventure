@@ -6,8 +6,10 @@
             "is_summonable": true
         },
         "component_groups": {
-			"despawn": {
-				"minecraft:instant_despawn": {}
+			"big_meteor": {
+                "minecraft:scale": {
+                    "value": 6
+                }
 			}
 		},
         "components": {
@@ -15,19 +17,23 @@
                 "width": 1,
                 "height": 1
             },
+            "minecraft:scale": {
+                "value": 1
+            },
             "minecraft:pushable": {
                 "is_pushable": false,
                 "is_pushable_by_piston": false
             },
             "minecraft:physics": {
-                "has_gravity": true,
+                "has_gravity": false,
 				"has_collision": true
-            }
+            },
+            "minecraft:projectile": {}
         },
 		"events": {
-			"cosmos:despawn": {
+			"cosmos:big_meteor": {
 				"add": {
-					"component_groups": ["despawn"]
+					"component_groups": ["big_meteor"]
 				}
 			}
 		}

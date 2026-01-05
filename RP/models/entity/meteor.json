@@ -1,0 +1,125 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.meteor",
+				"texture_width": 128,
+				"texture_height": 64,
+				"visible_bounds_width": 3,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "meteor",
+					"pivot": [0, 7, 0]
+				},
+				{
+					"name": "shapes9",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-11, -2, -9], "size": [1, 18, 18], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes8",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-9, -2, 10], "size": [18, 18, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes7",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-7, 3, 10], "size": [7, 12, 2], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes6",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [11, -1, -8], "size": [1, 5, 5], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes5",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-9, -4, -9], "size": [18, 1, 18], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes4",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [0, 0, 11], "size": [4, 13, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes3",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-5, 6, -12], "size": [5, 9, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes2",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-10, -3, -10], "size": [20, 20, 20], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes1",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [0, 10, -13], "size": [2, 4, 4], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes13",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-9, 17, -9], "size": [18, 1, 18], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes12",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-9, -2, -11], "size": [18, 18, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes11",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [-9, -2, -11], "size": [18, 18, 1], "uv": [0, 0]}
+					]
+				},
+				{
+					"name": "shapes10",
+					"parent": "meteor",
+					"pivot": [0, 7, 0],
+					"cubes": [
+						{"origin": [10, -2, -9], "size": [1, 18, 18], "uv": [0, 0]}
+					]
+				}
+			]
+		}
+	]
+}
