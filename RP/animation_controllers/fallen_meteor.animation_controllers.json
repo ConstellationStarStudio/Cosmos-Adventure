@@ -1,0 +1,25 @@
+{
+    "format_version": "1.10.0",
+    "animation_controllers": {
+        "controller.animation.fallen_meteor.cancel_death_animaton": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "transitions": [
+                        {
+                            "cancel_animation": "!q.is_alive"
+                        }
+                    ]
+                },
+                "cancel_animation": {
+                    "animations": ["fallen_meteor_death"],
+                    "transitions": [
+                        {
+                            "default": "q.is_alive && q.all_animations_finished"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
