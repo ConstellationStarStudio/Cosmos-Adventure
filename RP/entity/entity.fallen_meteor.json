@@ -13,15 +13,20 @@
 				"default": "geometry.meteor"
 			},
 		    "render_controllers": [
-                "controller.render.default"
+                "controller.render.rocket"
 	        ],
+			"enable_attachables": false,
+			"hide_armor": true,
 			"scripts": {
 				"animate": [
-					"rotation"
+					"rotation",
+					"cancel_death_animaton"
 				]
 			},
 			"animations": {
-				"rotation": "animation.meteor.rotation"
+				"rotation": "animation.meteor.rotation",
+				"fallen_meteor_death": "animation.meteor.death",
+				"cancel_death_animaton": "controller.animation.fallen_meteor.cancel_death_animaton"
 			}
 		}
 	}
