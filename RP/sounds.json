@@ -28,7 +28,6 @@
             ],
             "volume": 1
          },
-      
          "cosmos:evolved_zombie": {
             "events": {
                "ambient": "mob.zombie.say",
@@ -41,7 +40,49 @@
             ],
             "volume": 0.45
          },
+         "cosmos:evolved_creeper" : {
+            "events" : {
+               "death" : "mob.creeper.death",
+               "fuse" : {
+                  "pitch" : 0.50,
+                  "sound" : "random.fuse",
+                  "volume" : 1.0
+               },
+               "hurt" : "mob.creeper.say"
+            },
+            "pitch" : [ 0.80, 1.20 ],
+            "variants" : {
+               "key" : null
+            },
+            "volume" : 1.0
+         },
+         "cosmos:evolved_skeleton" : {
+            "events" : {
+               "ambient" : "mob.skeleton.say",
+               "death" : "mob.skeleton.death",
+               "hurt" : {
+                  "sound" : "mob.skeleton.hurt",
+                  "volume" : 0.70
+               },
+               "step" : {
+                  "pitch" : 1.0,
+                  "sound" : "mob.skeleton.step",
+                  "volume" : 1.0
+               }
+            },
+            "pitch" : [ 0.80, 1.20 ],
+            "variants" : {
+               "key" : null
+            },
+            "volume" : 1.0
+         },
          "cosmos:coal_generator": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:basic_solar_panel": {
             "events": {
                "death": "none"
             },
@@ -150,6 +191,36 @@
             "volume": 0
          },
          "cosmos:parachest": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:fallen_meteor": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:rocket_tier_1": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:rocket_tier_2": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:rocket_tier_3": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
+         "cosmos:cargo_rocket": {
             "events": {
                "death": "none"
             },
