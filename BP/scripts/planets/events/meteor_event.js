@@ -2,11 +2,11 @@ import {world, system, BlockPermutation} from "@minecraft/server";
 
 //so it reduces radius if chunks aren't loaded yet
 function reduce_distant(player, radius){
-    for(let r of [1, 0.5, 0.35, 0.1]){
+    for(let r of [1, 0.5, 0.3, 0.1]){
         if(player.dimension.isChunkLoaded({x: player.location.x + Math.floor(radius * r), y: 0, z: player.location.z})){
             radius = Math.floor(radius * r);
             return radius;
-        }else if(r == 0.25) return undefined;
+        }else if(r == 0.1) return undefined;
     }
 }
 export function throw_meteors(player){
@@ -25,9 +25,11 @@ export function throw_meteors(player){
         x = reduce_distant(closest_player, x);
         if(!x) return;
         let meteor = dim.spawnEntity("cosmos:fallen_meteor", {x: px + x, y: 255, z: pz + z})
+        meteor.teleport({x: px + x, y: 355, z: pz + z})
         let projectile = meteor.getComponent("minecraft:projectile");
         projectile.gravity = 0.03999999910593033;
         projectile.shoot({x: motX, y: 0, z: motZ})
+        meteor.applyImpulse({x: motX, y: 0, z: motZ})
     }
     //is's needed for big ones
     if(Math.floor(Math.random() * chance * 3) === 0){
@@ -41,9 +43,11 @@ export function throw_meteors(player){
         x = reduce_distant(closest_player, x);
         if(!x) return;
         let meteor = dim.spawnEntity("cosmos:fallen_meteor", {x: px + x, y: 255, z: pz + z}, {spawnEvent: "cosmos:big_meteor"})
+        meteor.teleport({x: px + x, y: 355, z: pz + z})
         let projectile = meteor.getComponent("minecraft:projectile");
         projectile.gravity = 0.03999999910593033;
         projectile.shoot({x: motX, y: 0, z: motZ})
+        meteor.applyImpulse({x: motX, y: 0, z: motZ})
     }
 }
 
