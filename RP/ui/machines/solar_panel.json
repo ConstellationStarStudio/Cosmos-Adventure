@@ -1,0 +1,60 @@
+{
+    "namespace": "solar_panel",
+
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 201],
+        "$content": [
+            { "title": {
+                "type": "label",
+                "text": "Basic Solar Panel",
+                "color": "$title_text_color",
+                "anchor_from": "top_middle",
+				"anchor_to": "top_middle",
+				"offset": [ 0, 5 ]
+            }},
+            { "battery_slot@machines.item_slot": {
+                "$index": 0,
+                "$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
+                "anchor_from": "top_right",
+				"anchor_to": "top_right",
+				"offset": [-7, 82]
+            }},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 1,
+                "anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 96, 24]
+            }},
+            { "solar_icon@machines.solar_icon": {
+                "$index": 2,
+                "anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [47, 20]
+            }},
+            { "generating@machines.item_text": {
+                "$index": 3,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [ 0, 49 ]
+            }},
+            { "status@machines.item_text": {
+                "$index": 4,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [ 0, 59 ]
+            }},
+            { "boost@machines.item_text": {
+                "$index": 5,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [ 0, 69 ]
+            }},
+            { "start_button@machines.machine_button": {
+                "$index": 6,
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [ 0, 82 ]
+            }}
+        ]
+    }
+}

@@ -57,7 +57,8 @@ export default class {
   }
   generateEnergy() {
     const e = this.entity;
-    const stopped = e.getDynamicProperty('stopped');
+    let stopped = e.getDynamicProperty('stopped');
+    if(stopped == undefined) stopped = true;
     const data = get_data(e);
     const container = e.getComponent('minecraft:inventory').container;
 
@@ -83,7 +84,6 @@ export default class {
 
     if(!(system.currentTick % 20)){
       e.addEffect("invisibility", 9999, {showParticles: false});
-      energy = Math.max(energy - 5, 0);
       if(!stopped){
         solar_strength = 0;
         if(is_day_time && this.block != undefined){
@@ -106,11 +106,36 @@ export default class {
     let generated_energy = Math.floor(0.01 * angles_difference ** 2 * (solar_strength * Math.abs(angles_difference) * 500));
     generated_energy = Math.min(data.energy.maxPower, generated_energy);
 
-    energy = Math.min(energy + generated_energy, data.energy.capacity);
-    energy = charge_battery(e, energy, 0)
+    if(!stopped){
+      energy = Math.min(energy + generated_energy, data.energy.capacity);
+      energy = charge_battery(e, energy, 0)
+    }
     power = Math.min(energy, data.energy.maxPower)
     save_dynamic_object(e, {energy, solar_strength, power}, "machine_data");
+
     const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+    const is_generating = `§r${power == 0 ? 'Generating: Not Generating' : 'Generating: ' + generated_energy + ' gJ/t' }`;
+    let status = "§rStatus: ";
+    let status_info = (stopped)? '§6Disabled':
+    (solar_strength > 0 && solar_strength < 9)? '§4Sun Partially Visible':
+    (solar_strength == 9)? '§2Collecting Energy':
+    '§4Sun Is Not Visible';
+    status = status + status_info;
+
+    let solar = "Sun Visible: " 
+    solar = solar + (solar_strength/9 * 100).toFixed(1) + "%"
+
     container.add_ui_display(1, energy_hover, Math.round((energy / data.energy.capacity) * 55))
+    container.add_ui_display(2, solar, solar_strength > 0 ? 55: 0);
+
+    container.add_ui_display(3, is_generating)
+    container.add_ui_display(4, status)
+    container.add_ui_display(5, "§rEnvinromental Boost: 0.0%%")
+
+    if(!container.getItem(6)) {
+       this.entity.setDynamicProperty('stopped', !stopped)
+       container.add_ui_button(6, stopped ? 'Disable' : 'Enable')
+    }
+
   }
 }

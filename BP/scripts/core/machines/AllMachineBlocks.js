@@ -77,7 +77,7 @@ export default {
 		},
 	},
 	"basic_solar_panel": {
-		ui: "",
+		ui: "§s§o§l§a§r§_§p§a§n§e§l",
 		class: BasicSolarPanel,
 		energy: {output: "back", capacity: 16000, maxPower: 200},
 		items: {

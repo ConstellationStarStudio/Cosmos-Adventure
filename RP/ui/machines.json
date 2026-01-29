@@ -316,6 +316,34 @@
 		]
 	},
 
+	"solar_icon": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/machines/solar_off",
+		"size": [ 18, 18 ],
+		"controls": [
+            {"solar_icon@machines.specific_slot": {
+			    "controls": [
+				    {"texture": {
+						"type": "panel",
+						"collection_index": "$index",
+				        "controls": [
+				        { "sun_visible": {
+					        "type": "image",
+					        "texture": "textures/ui/cosmos/machines/solar_on",
+					        "size": [18, 18],
+					        "bindings": "$use_durability",
+					        "$source": "#null", "$target": "#null",
+					        "$visible_if": "(not (#data = 1000))"
+				        }}
+				    ]
+			    }}
+		        ]
+		    }
+	    },
+		{ "solar_hover@machines.item_hover": {} }
+	    ]
+	},
+
 
 	"item_grid": { // 1(18) 2(36) 3(54) 4(72) 5(90) 6(108) 7(126) 8(144) 9(162) 10(180) 11(198) 12(216) 13(234) 14(252) 15(270) 16(288) 17(306) 18(324) 19(342) 20(360) 
 		"type": "grid",
