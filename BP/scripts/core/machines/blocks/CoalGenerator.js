@@ -93,5 +93,8 @@ export default class {
       container.add_ui_display(1, display_text);
       this.lastUiUpdate = system.currentTick;
     }
+
+    // Active if burning, has heat/power to dissipate, or has fuel to consume
+    return this.burnTime > 0 || this.heat > 0 || this.power > 0 || (fuelTypes.has(fuelItem?.typeId) && this.burnTime === 0);
   }
 }

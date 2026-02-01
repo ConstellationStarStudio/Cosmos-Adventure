@@ -106,5 +106,7 @@ export default class {
 			container.add_ui_display(13, `§r   Status:\n${!this.progress ? '    §6Idle' : '§2Compressing'}`);
             this.lastUiUpdate = system.currentTick;
 		}
+
+        return this.progress > 0 || this.burnTime > 0 || (output !== undefined && has_space && fuelTypes.has(fuelItem?.typeId));
 	}
 }

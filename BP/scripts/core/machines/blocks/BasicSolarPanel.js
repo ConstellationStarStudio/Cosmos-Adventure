@@ -159,5 +159,11 @@ export default class {
        this.entity.setDynamicProperty('stopped', !stopped);
        container.add_ui_button(6, !stopped ? 'Enable' : 'Disable');
     }
+
+    // Return active state: True if running/generating or UI needs update, False if fully idle
+    // If we generated energy or charged battery, we are active.
+    // If sun check is due, we should be active to perform it.
+    const isWorking = !stopped && (generated_energy > 0 || this.energy < data.energy.capacity);
+    return isWorking || system.currentTick - this.lastUiUpdate > 20;
   }
 }

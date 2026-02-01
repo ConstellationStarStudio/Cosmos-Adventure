@@ -81,10 +81,11 @@ export default class {
         }
 
         if (!container.getItem(9)) {
-            const newActive = active === undefined ? false : !active;
-            this.entity.setDynamicProperty('active', newActive);
-            container.add_ui_button(9, newActive === false ? "Process" : "Stop");
+            this.entity.setDynamicProperty('active', active === undefined ? false : !active);
+            container.add_ui_button(9, active === false ? "Process" : "Stop");
         }
+
+        return active && this.water > 0 && this.energy >= 375 && (this.o2 < data.o2.capacity || this.h2 < data.h2.capacity);
     }
 }
 

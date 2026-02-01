@@ -119,5 +119,7 @@ export default class {
 		    container.add_ui_display(14, '§rStatus: ' + (!this.energy ? '§4No Power' : this.progress > 0 ? '§2Running' : '§6Idle'));
             this.lastUiUpdate = system.currentTick;
 		}
+
+        return this.progress > 0 || (this.energy > 0 && output !== undefined && (can_fit(0, 1) || can_fit(1, 1)));
 	}
 }

@@ -31,11 +31,12 @@ export default class {
                 const vars = load_dynamic_object(this.entity, "machine_data") || {};
                 const fuel = vars.fuel || 0;
                 
-                // Always ensure UI display is present (cleared by manager if taken)
+                // Ensure UI display is present 
                 container.add_ui_display(container.size - 4, "", Math.ceil(fuel / 26));
             }
             this.lastUiUpdate = system.currentTick;
         }
+        return false; 
 	}
 }
 

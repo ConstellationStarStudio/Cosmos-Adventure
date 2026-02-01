@@ -78,5 +78,7 @@ export default class {
             container.add_ui_display(4, '§rStatus: ' + status);
             this.lastUiUpdate = system.currentTick;
         }
+
+        return this.energy > 0 || (tank && durability?.damage < durability?.maxDurability);
     }
 }

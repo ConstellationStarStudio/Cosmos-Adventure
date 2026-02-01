@@ -104,5 +104,7 @@ export default class {
             this.entity.setDynamicProperty('active', !active);
             container.add_ui_button(7, !active ? 'Stop Refining' : 'Refine');
         }
+
+        return !active && this.oil > 0 && this.energy >= 120 && this.fuel < data.fuel.capacity;
 	}
 }

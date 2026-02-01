@@ -83,5 +83,7 @@ export default class {
             container.add_ui_display(5, '§rStatus: ' + status);
             this.lastUiUpdate = system.currentTick;
         }
+
+        return this.energy > 0 || this.o2 > 0;
     }
 }

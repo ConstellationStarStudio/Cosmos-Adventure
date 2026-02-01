@@ -88,5 +88,7 @@ export default class {
             this.entity.setDynamicProperty('visible_button', !visible_button);
             container.add_ui_toggle(5, !visible_button ? 0 : 1);
         }
+
+        return (this.energy > 0 && this.o2 > 30) || this.bubble_radius > 0;
     }
 }

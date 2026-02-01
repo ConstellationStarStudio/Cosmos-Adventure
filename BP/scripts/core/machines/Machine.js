@@ -13,10 +13,16 @@ const PROTECTED_ITEMS = new Set(["cosmos:ui", "cosmos:ui_button"]);
 
 class MachineManager {
     constructor() {
-        this.machines = new Map(); // Map<entityId, MachineInstance>
-        this.activeMachineList = []; // Array for round-robin ticking
-        this.viewedMachines = new Set(); // Set<entityId>
-        this.lastProcessedIndex = 0;
+        this.machines = new Map(); // Map<entityId, MachineRecord>
+        
+        // Scheduling Lists
+        this.workingMachines = new Set(); // Active machines (Budgeted)
+        this.idleMachines = new Set();    // Sleeping machines (Polled rarely)
+        this.viewedMachines = new Set();  // Priority machines (Every tick)
+        
+        // Iterators for Round-Robin
+        this.workingIterator = null;
+        this.idleIterator = null;
         
         this.init();
     }
@@ -63,17 +69,14 @@ class MachineManager {
 
         const machineName = entity.typeId.replace('cosmos:', '');
         const config = machines[machineName];
-        
         if (!config) return;
 
         const block = entity.dimension.getBlock(entity.location);
-        // Create Persistent Instance
-        let instance;
         const dynamic_object = JSON.parse(entity.getDynamicProperty("machine_data") ?? "{}");
+        let instance;
+        
         try {
             instance = new config.class(entity, block);
-            
-            // Inject metadata
             instance.machineName = machineName;
             instance.config = config;
             instance.lastTickTime = system.currentTick;
@@ -93,7 +96,7 @@ class MachineManager {
         };
 
         this.machines.set(entity.id, record);
-        this.activeMachineList.push(record);
+        this.workingMachines.add(entity.id); // Default to working state
     }
 
     unregister(entityId) {
@@ -101,8 +104,8 @@ class MachineManager {
         if (record) {
             if (record.instance.onDestroy) record.instance.onDestroy();
             this.machines.delete(entityId);
-            const idx = this.activeMachineList.indexOf(record);
-            if (idx > -1) this.activeMachineList.splice(idx, 1);
+            this.workingMachines.delete(entityId);
+            this.idleMachines.delete(entityId);
             this.viewedMachines.delete(entityId);
         }
     }
@@ -145,10 +148,6 @@ class MachineManager {
 
         if (!machineEntity) return;
 
-        const machine_name = machineEntity.typeId.replace('cosmos:', '');
-        if (machines[machine_name].multi_block) multi_block_machines[machineEntity.typeId](block, true);
-
-        // Cleanup UI Items
         const container = machineEntity.getComponent('minecraft:inventory')?.container;
         if (container) {
             for (let i = 0; i < container.size; i++) {
@@ -160,6 +159,7 @@ class MachineManager {
         }
 
         this.unregister(machineEntity.id);
+        machineEntity.kill();
         machineEntity.remove();
     }
 
@@ -167,6 +167,9 @@ class MachineManager {
         const { target: entity, player } = e;
         if (!this.machines.has(entity.id)) return;
         
+        // Wake up machine on interaction
+        this.promoteToWorking(entity.id);
+
         if (player.isSneaking) {
             e.cancel = true;
             this.handleSneakInteract(player, entity);
@@ -217,41 +220,93 @@ class MachineManager {
         }
     }
 
+    promoteToWorking(id) {
+        if (this.idleMachines.has(id)) {
+            this.idleMachines.delete(id);
+            this.workingMachines.add(id);
+        }
+    }
+
+    demoteToIdle(id) {
+        if (this.workingMachines.has(id)) {
+            this.workingMachines.delete(id);
+            this.idleMachines.add(id);
+        }
+    }
+
     tick() {
         try {
             const currentTick = system.currentTick;
             this.updateViewedMachines(currentTick);
 
-            // Tick Viewed Machines (Priority: Every Tick)
+            // 1. Tick Viewed Machines 
             for (const entityId of this.viewedMachines) {
+                // Viewed machines are always treated as active for UI smoothness
                 this.tickMachine(entityId, currentTick, true);
+                this.promoteToWorking(entityId); // Ensure they stay in working list for when player looks away
             }
 
-            // Tick Background Machines (Delta Time-based Round Robin)
+            // 2. Tick Working Machines (Budget: 2ms)
             const TIME_BUDGET_MS = 2;
             const startTime = Date.now();
-            const totalAtStart = this.activeMachineList.length;
+            
+            if (this.workingMachines.size > 0) {
+                // Initialize/Reset iterator if needed
+                if (!this.workingIterator || this.workingIterator.done) {
+                    this.workingIterator = this.workingMachines.values();
+                }
 
-            if (totalAtStart > 0) {
-                // Iterate up to the number of machines we had at the start
-                for (let i = 0; i < totalAtStart; i++) {
-                    // Optimization: Check time budget every 5 iterations to reduce Date.now() overhead
-                    if (i % 5 === 0 && Date.now() - startTime >= TIME_BUDGET_MS) break;
+                let result = this.workingIterator.next();
+                let processed = 0;
+                
+                while (!result.done) {
+                    // Check budget every 5 items
+                    if (processed % 5 === 0 && Date.now() - startTime >= TIME_BUDGET_MS) break;
+
+                    const entityId = result.value;
+                    if (!this.viewedMachines.has(entityId)) {
+                        const isActive = this.tickMachine(entityId, currentTick, false);
+                        // If machine reports it is idle (isActive === false), move to idle list
+                        if (isActive === false) {
+                            this.demoteToIdle(entityId);
+                        }
+                    }
                     
-                    // Safety: Check current length in case machines were unregistered during this loop
-                    const currentTotal = this.activeMachineList.length;
-                    if (currentTotal === 0) break;
-                    
-                    this.lastProcessedIndex = (this.lastProcessedIndex + 1) % currentTotal;
-                    const record = this.activeMachineList[this.lastProcessedIndex];
-                    
-                    if (record && !this.viewedMachines.has(record.id)) {
-                        this.tickMachine(record.id, currentTick, false);
+                    processed++;
+                    result = this.workingIterator.next();
+                }
+                
+                // If we finished the list, reset for next tick
+                if (result.done) {
+                    this.workingIterator = null;
+                }
+            }
+
+            // 3. Tick Idle Machines 
+            if (this.idleMachines.size > 0) {
+                if (!this.idleIterator || this.idleIterator.done) {
+                    this.idleIterator = this.idleMachines.values();
+                }
+
+                for (let i = 0; i < 2; i++) { // Poll 2 machines per tick
+                    const result = this.idleIterator.next();
+                    if (result.done) {
+                        this.idleIterator = null;
+                        break;
+                    }
+                    const entityId = result.value;
+                    if (!this.viewedMachines.has(entityId)) {
+                        const isActive = this.tickMachine(entityId, currentTick, false);
+                        // If machine reports active (true), wake it up
+                        if (isActive === true) {
+                            this.promoteToWorking(entityId);
+                        }
                     }
                 }
             }
+
         } catch (e) {
-        //This is where out of bounds happens sometimes
+            console.error(`[MachineManager] Global Tick Error: ${e}`);
         }
     }
 
@@ -268,6 +323,7 @@ class MachineManager {
 
             if (entityHit && this.machines.has(entityHit.entity.id)) {
                 this.viewedMachines.add(entityHit.entity.id);
+                // Trigger Shrink/Visuals
                 const machineEntity = entityHit.entity;
                 if (player.isSneaking) {
                     machineEntity.triggerEvent("cosmos:shrink");
@@ -298,28 +354,36 @@ class MachineManager {
         const record = this.machines.get(entityId);
         if (!record || !record.entity.isValid) {
             if (record) this.unregister(entityId);
-            return;
+            return false;
         }
 
         const dt = currentTick - record.lastTickTime;
-        if (dt <= 0) return;
+        if (dt <= 0) return true; // Keep active if dt is 0 to avoid jitter
 
         try {
             if (!record.block || !record.block.isValid) {
                 record.block = record.entity.dimension.getBlock(record.entity.location);
             }
-            if (record.block.typeId !== record.entity.typeId) return;
-        } catch (e) { return; }
+            if (record.block.typeId !== record.entity.typeId) return false;
+        } catch (e) { return false; }
 
+        let isActive = true;
         try {
-            if (typeof record.instance.tick === 'function') record.instance.tick(dt);
-            else new record.config.class(record.entity, record.block);
-
-            if (currentTick % 8 === 0) this.handleHopperInteractions(record.block, record.entity, record.config);
+            if (typeof record.instance.tick === 'function') {
+                const result = record.instance.tick(dt);
+                // If result is boolean, strictly respect it. If undefined/void, return true (legacy/always active).
+                if (typeof result === 'boolean') isActive = result;
+            } else {
+                new record.config.class(record.entity, record.block);
+            }
+            if (isActive && currentTick % 8 === 0) {
+                this.handleHopperInteractions(record.block, record.entity, record.config);
+            }
         } catch (e) {
             console.warn(`Error ticking machine ${record.id}: ${e}`);
         }
         record.lastTickTime = currentTick;
+        return isActive;
     }
 
     handleHopperInteractions(block, entity, data) {
@@ -347,7 +411,7 @@ class MachineManager {
              }
         }
 
-        // Input
+        // Input (Top)
         if (data.items.top_input) {
             const hopper = block.above();
             if (hopper && hopper.typeId === "minecraft:hopper" && !hopper.permutation.getState("toggle_bit") && hopper.permutation.getState("facing_direction") === 0) {
@@ -355,7 +419,7 @@ class MachineManager {
             }
         }
 
-        // Input
+        // Input (Sides)
         if (data.items.side_input) {
              const dirs = { north: 3, east: 4, south: 2, west: 5 };
              for (const [dir, face] of Object.entries(dirs)) {

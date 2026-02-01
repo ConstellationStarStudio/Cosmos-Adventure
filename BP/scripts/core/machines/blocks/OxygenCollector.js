@@ -94,6 +94,8 @@ export default class {
             container.add_ui_display(4, `§rCollecting: §r${this.energy > 0 ? oxygen_source_bloks : 0}/s`);
             this.lastUiUpdate = system.currentTick;
         }
+
+        return this.energy > 0;
     }
 }
 

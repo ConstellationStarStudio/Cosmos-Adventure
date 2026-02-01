@@ -59,5 +59,8 @@ export default class {
                 }
             }
         } catch (e) {}
+
+        const energyChanged = Math.abs(this.energy - (vars.energy || 0)) > 0;
+        return energyChanged || this.power > 0;
     }
 }

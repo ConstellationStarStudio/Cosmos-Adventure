@@ -117,5 +117,7 @@ export default class {
             this.entity.setDynamicProperty('stopped', !stopped);
             container.add_ui_button(5, !stopped ? 'Stop Loading' : 'Loading');
         }
+
+        return !stopped && this.energy > 0 && this.fuel >= 2;
 	}
 }

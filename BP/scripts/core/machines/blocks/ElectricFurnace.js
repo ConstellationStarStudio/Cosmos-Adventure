@@ -75,5 +75,7 @@ export default class {
 			container.add_ui_display(5, '§rStatus: ' + (!this.energy ? '\n§4No Power' : this.progress > 0 ? '\n§2Running' : '\n§6Idle'));
             this.lastUiUpdate = system.currentTick;
 		}
+
+        return this.progress > 0 || (this.energy >= 45 && input && recipes[input.typeId]);
     }
 }

@@ -66,5 +66,7 @@ export default class {
 		    container.add_ui_display(5, `Liquid Tank\n(${fluid_names[this.output_tank.type]}\n§e${Math.floor(this.output_tank.amount)} / ${data.liquid.capacity}`, Math.ceil((this.output_tank.amount / data.liquid.capacity) * 38));
             this.lastUiUpdate = system.currentTick;
         }
+
+        return this.energy > 0 && this.input_tank.amount > 0;
 	}
 }
