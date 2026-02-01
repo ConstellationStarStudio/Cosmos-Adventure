@@ -8,68 +8,63 @@ export default class {
 	constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-		if (entity.isValid) {
-			this.liquefyGas();
-		}
+        
+        const vars = load_dynamic_object(this.entity, "machine_data") || {};
+        this.energy = vars.energy || 0;
+        this.input_tank = vars.input_tank ?? { amount: 0 };
+        this.output_tank = vars.output_tank ?? { amount: 0 };
+        
+        this.lastUiUpdate = 0;
 	}
 
+    /**
+     * @param {number} dt 
+     */
+	tick(dt = 1) {
+        if (!this.entity.isValid) return;
 
-	liquefyGas() {
         //loading data
-		const data = get_data(this.entity)
-		const container = this.entity.getComponent('minecraft:inventory').container
-        const active = this.entity.getDynamicProperty('active')
+		const data = get_data(this.entity);
+		const container = this.entity.getComponent('minecraft:inventory').container;
+        const active = this.entity.getDynamicProperty('active');
 
-        //loading variables
-		const variables = load_dynamic_object(this.entity, "machine_data")
-		let energy = variables.energy || 0
-		let input_tank = variables.input_tank ?? {amount: 0}
-		let output_tank = variables.output_tank ?? {amount: 0}
-		
-		//managing energy
-		energy = charge_from_machine(this.entity, this.block, energy)
-		energy = charge_from_battery(this.entity, energy, 1)
+		// 1. Managing energy
+        for (let i = 0; i < dt; i++) {
+            this.energy = charge_from_machine(this.entity, this.block, this.energy);
+            this.energy = charge_from_battery(this.entity, this.energy, 1);
+        }
 
-		//manage fluids
-		const input = container.getItem(0)
-		if (input && input.typeId == "cosmos:o2_canister" && ["o2_gas", undefined].includes(input_tank.type)) {
-			input_tank = { type: "o2_gas", amount: load_from_canister({
-				item: input, ratio: 2,
-				amount: input_tank.amount,
-				capacity: data.gas.capacity,
-				container, slot: 0
-			})}
-		}
-		if (input && input.typeId == "cosmos:n2_canister" && ["n2_gas", undefined].includes(input_tank.type)) {
-			input_tank = { type: "n2_gas", amount: load_from_canister({
-				item: input, ratio: 2,
-				amount: input_tank.amount,
-				capacity: data.gas.capacity,
-				container, slot: 0
-			})}
-		}
-		if (input && input.typeId == "cosmos:methane_canister" && ["methane_gas", undefined].includes(input_tank.type)) {
-			input_tank = { type: "methane_gas", amount: load_from_canister({
-				item: input, ratio: 1,
-				amount: input_tank.amount,
-				capacity: data.gas.capacity,
-				container, slot: 0
-			})}
+		// 2. Manage fluids (loading from canisters)
+		const input = container.getItem(0);
+		if (input) {
+            const types = {
+                "cosmos:o2_canister": { type: "o2_gas", ratio: 2 },
+                "cosmos:n2_canister": { type: "n2_gas", ratio: 2 },
+                "cosmos:methane_canister": { type: "methane_gas", ratio: 1 }
+            };
+            
+            const config = types[input.typeId];
+            if (config && (this.input_tank.type === config.type || this.input_tank.type === undefined)) {
+                this.input_tank.type = config.type;
+                this.input_tank.amount = load_from_canister({
+                    item: input, ratio: config.ratio,
+                    amount: this.input_tank.amount,
+                    capacity: data.gas.capacity,
+                    container, slot: 0
+                });
+            }
 		}
 
-		//makes snow particles that fall on the sides
-		//oxygen gas into liquid oxygen
-		//nitrogen gas into liuquid nitrogen
-		//methane into fuel
-		//liquid nitrogen from overworld air
-		//mars Co2 into liquid argon
-		// venus has Co2(for MS) and Nitrogen(for GL)
+        // 3. Liquefaction Logic
+        // [Add liquefaction logic here when defined]
 
-		save_dynamic_object(this.entity, {energy, input_tank, output_tank}, "machine_data")
-
-        //ui display
-		container.add_ui_display(3, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((energy / data.energy.capacity) * 55))
-		container.add_ui_display(4, `Gas Storage\n(${fluid_names[input_tank.type]})\n§e${input_tank.amount} / ${data.gas.capacity}`, Math.ceil((input_tank.amount / data.gas.capacity) * 38))
-		container.add_ui_display(5, `Liquid Tank\n(${fluid_names[output_tank.type]})\n§e${output_tank.amount} / ${data.liquid.capacity}`, Math.ceil((output_tank.amount / data.liquid.capacity) * 38))
+        // 4. UI Display
+        if (!container.getItem(3) || system.currentTick - this.lastUiUpdate > 20) {
+            save_dynamic_object(this.entity, { energy: Math.floor(this.energy), input_tank: this.input_tank, output_tank: this.output_tank }, "machine_data");
+		    container.add_ui_display(3, `Energy Storage\n§aEnergy: ${Math.floor(this.energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((this.energy / data.energy.capacity) * 55));
+		    container.add_ui_display(4, `Gas Storage\n(${fluid_names[this.input_tank.type]}\n§e${Math.floor(this.input_tank.amount)} / ${data.gas.capacity}`, Math.ceil((this.input_tank.amount / data.gas.capacity) * 38));
+		    container.add_ui_display(5, `Liquid Tank\n(${fluid_names[this.output_tank.type]}\n§e${Math.floor(this.output_tank.amount)} / ${data.liquid.capacity}`, Math.ceil((this.output_tank.amount / data.liquid.capacity) * 38));
+            this.lastUiUpdate = system.currentTick;
+        }
 	}
 }
