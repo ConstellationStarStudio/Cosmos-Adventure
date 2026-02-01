@@ -24,6 +24,8 @@ class MachineManager {
         this.workingIterator = null;
         this.idleIterator = null;
         
+        this.playerCache = new Map();
+
         this.init();
     }
 
@@ -312,22 +314,57 @@ class MachineManager {
 
     updateViewedMachines(currentTick) {
         if (currentTick % 5 !== 0) return;
-        this.viewedMachines.clear();
-        for (const player of world.getAllPlayers()) {
+        
+        const newViewedSet = new Set();
+        const players = world.getAllPlayers();
+
+        for (const player of players) {
             this.protectPlayerInventory(player);
-            const entityHit = player.getEntitiesFromViewDirection({
-                maxDistance: 6,
-                families: ["cosmos"],
-                ignoreBlockCollision: true
-            })[0];
+
+            // Optimization: Skip raycast if player hasn't moved/rotated
+            const lastData = this.playerCache.get(player.id);
+            const loc = player.location;
+            const rot = player.getRotation(); // {x, y}
+            
+            let useCache = false;
+            if (lastData) {
+                const distSq = (loc.x - lastData.loc.x)**2 + (loc.y - lastData.loc.y)**2 + (loc.z - lastData.loc.z)**2;
+                const rotDist = Math.abs(rot.x - lastData.rot.x) + Math.abs(rot.y - lastData.rot.y);
+                if (distSq < 0.01 && rotDist < 1.0) useCache = true;
+            }
+
+            let entityHit = null;
+            if (useCache) {
+                // Verify the cached entity still exists and is valid
+                if (lastData.hitId && this.machines.has(lastData.hitId)) {
+                    entityHit = { entity: world.getEntity(lastData.hitId) };
+                    // If entity became invalid/unloaded, force re-cast next time (or handle null)
+                    if (!entityHit.entity) entityHit = null; 
+                }
+            } else {
+                entityHit = player.getEntitiesFromViewDirection({
+                    maxDistance: 6,
+                    families: ["cosmos"],
+                    ignoreBlockCollision: true
+                })[0];
+                
+                this.playerCache.set(player.id, { 
+                    loc: {x: loc.x, y: loc.y, z: loc.z}, 
+                    rot: {x: rot.x, y: rot.y}, 
+                    hitId: entityHit?.entity?.id 
+                });
+            }
 
             if (entityHit && this.machines.has(entityHit.entity.id)) {
-                this.viewedMachines.add(entityHit.entity.id);
-                // Trigger Shrink/Visuals
+                const id = entityHit.entity.id;
+                newViewedSet.add(id);
+                
+                // Trigger Shrink/Visuals (Always do this if viewed, even if cached, for responsiveness)
                 const machineEntity = entityHit.entity;
                 if (player.isSneaking) {
                     machineEntity.triggerEvent("cosmos:shrink");
-                } else {
+                }
+                else {
                     const item = player.getComponent("minecraft:equippable").getEquipment("Mainhand")?.typeId;
                     if (pickaxes.has(item) || item === "cosmos:standard_wrench") {
                          machineEntity.triggerEvent("cosmos:shrink");
@@ -335,6 +372,7 @@ class MachineManager {
                 }
             }
         }
+        this.viewedMachines = newViewedSet;
     }
 
     protectPlayerInventory(player) {
