@@ -146,7 +146,7 @@ export function player_gravity(players){
     if (gravity.value == 9.8) continue;
 
     if (player.isOnGround) {
-      if (player.fallingVelocity > 0.5) {
+      if (player.fallingVelocity > 0.5 && !player.getEffect('slow_falling')) {
           let damage = (player.fallingVelocity * 2) ** 1.7;
           if (damage >= 1) player.applyDamage(damage, { cause: 'fall' });
       }
@@ -212,8 +212,12 @@ export function player_gravity(players){
     player.fallingVelocity = player.fallVelocity/2
   }
 
-  GravityEntities.forEach((entity, index) => {
-    if (!entity.isValid || entity.dimension.id != 'minecraft:the_end') return GravityEntities.splice(index, 1);
+  for (let index = GravityEntities.length - 1; index >= 0; index--) {
+    const entity = GravityEntities[index];
+    if (!entity.isValid || entity.dimension.id != 'minecraft:the_end') {
+        GravityEntities.splice(index, 1);
+        continue;
+    }
     setGravity(entity)
 
     if (entity.isInWater) entity.fallingVelocity = 0;
@@ -222,15 +226,15 @@ export function player_gravity(players){
       let velocity = entity.fallingVelocity
       let damage = (velocity * 2) ** 1.7
       entity.fallingVelocity = 0
-      if (damage >= 1) entity.applyDamage(damage, { cause: 'fall' })
+      if (damage >= 1 && !entity.getEffect('slow_falling')) entity.applyDamage(damage, { cause: 'fall' })
     }
 
-    if (entity.typeId == 'minecraft:player') return;
+    if (entity.typeId == 'minecraft:player') continue;
 
     const gravity = Gravity.of(entity)
-    if (gravity.value == 9.8) return;
+    if (gravity.value == 9.8) continue;
 
-    if (entity.isOnGround || entity.isSwimming || entity.isInWater || entity.getComponent('can_fly')) return;
+    if (entity.isOnGround || entity.isSwimming || entity.isInWater || entity.getComponent('can_fly')) continue;
 
     if (entity.getComponent('projectile') == undefined) {
       entity.applyImpulse({ x: 0, z: 0, y: (9.8 - gravity.value)/130/(EntityGravityMod[entity.typeId] || 1) })
@@ -240,12 +244,12 @@ export function player_gravity(players){
         y: -1,
         z: 0
       })
-      if (ray == undefined) return; 
+      if (ray == undefined) continue; 
 
 
       let distance = entity.location.y - sumObjects(ray.block, ray.faceLocation).y
       entity.distance = distance
-      if (distance < -entity.getVelocity().y*2) entity.addEffect('slow_falling', 1, { amplifier: 0, showParticles: false });
+      if (distance < -entity.getVelocity().y*2) entity.addEffect('slow_falling', 5, { amplifier: 0, showParticles: false });
 
       entity.fallingVelocity = -entity.getVelocity().y
     } else {
@@ -258,7 +262,7 @@ export function player_gravity(players){
 
       projectile.gravity = oldGravity - (9.8 - gravity.value)*oldGravity/20
     }
-  })
+  }
 }
 
 const Geo = new class {
