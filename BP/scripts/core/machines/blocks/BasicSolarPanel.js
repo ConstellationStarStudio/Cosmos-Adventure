@@ -59,7 +59,7 @@ export default class {
     this.lastUiUpdate = 0;
   }
 
-  tick(dt = 1) {
+  tick(dt = 1, isViewed = false) {
     if (!this.entity.isValid) return;
 
     const e = this.entity;
@@ -130,7 +130,7 @@ export default class {
     this.power = Math.min(this.energy, data.energy.maxPower);
 
     // Save and UI - Optimize to only save/update periodically or on significant change
-    if (system.currentTick - this.lastUiUpdate > 20 || !container.getItem(1)) {
+    if (isViewed || system.currentTick - this.lastUiUpdate > 20 || !container.getItem(1)) {
         save_dynamic_object(e, { energy: Math.floor(this.energy), solar_strength: this.solar_strength, power: Math.floor(this.power) }, "machine_data");
 
         const energy_hover = `Energy Storage\n§aEnergy: ${Math.floor(this.energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
@@ -145,7 +145,7 @@ export default class {
         let solar = "Sun Visible: " 
         solar = solar + (this.solar_strength/9 * 100).toFixed(1) + "%";
 
-        if (system.currentTick - this.lastUiUpdate > 20 || !container.getItem(1)) {
+        if (isViewed || system.currentTick - this.lastUiUpdate > 20 || !container.getItem(1)) {
             container.add_ui_display(1, energy_hover, Math.round((this.energy / data.energy.capacity) * 55));
             container.add_ui_display(2, solar, this.solar_strength > 0 ? 55: 0);
             container.add_ui_display(3, is_generating);

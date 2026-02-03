@@ -137,6 +137,10 @@ class MachineManager {
     }
 
     onBreak({ block, dimension, brokenBlockPermutation: perm }) {
+        if (multi_block_machines[perm.type.id]) {
+             multi_block_machines[perm.type.id](block, true);
+        }
+
         detach_wires(block);
         const machineEntity = dimension.getEntities({
             type: perm.type.id,
@@ -408,7 +412,7 @@ class MachineManager {
         let isActive = true;
         try {
             if (typeof record.instance.tick === 'function') {
-                const result = record.instance.tick(dt);
+                const result = record.instance.tick(dt, isViewed);
                 // If result is boolean, strictly respect it. If undefined/void, return true (legacy/always active).
                 if (typeof result === 'boolean') isActive = result;
             } else {

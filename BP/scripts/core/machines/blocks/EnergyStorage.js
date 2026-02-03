@@ -16,8 +16,9 @@ export default class {
 
     /**
      * @param {number} dt 
+     * @param {boolean} isViewed
      */
-    tick(dt = 1) {
+    tick(dt = 1, isViewed = false) {
         if (!this.entity.isValid) return;
 
 		const store = this.entity;
@@ -34,12 +35,15 @@ export default class {
 		this.power = Math.min(this.energy, store_data.energy.maxPower);
 
 		// Store and display data
-		save_dynamic_object(this.entity, { energy: Math.floor(this.energy), power: Math.floor(this.power) }, "machine_data");
+        if (isViewed || this.power > 0) {
+		    save_dynamic_object(this.entity, { energy: Math.floor(this.energy), power: Math.floor(this.power) }, "machine_data");
+        }
 		
-        // Update UI displays (always check for missing items)
-        if (!container.getItem(2) || dt > 0) {
+        // Update UI displays (always check for missing items, or if viewed )
+        if (isViewed || !container.getItem(2) || should_update(this.lastUiUpdate, 20)) {
             container.add_ui_display(2, `§r ${Math.floor(this.energy)} gJ\nof ${store_data.energy.capacity} gJ`);
 		    container.add_ui_display(3, '', Math.ceil((this.energy / store_data.energy.capacity) * 75 ));
+            this.lastUiUpdate = system.currentTick;
         }
 		
 		// Visual block state update
@@ -64,3 +68,4 @@ export default class {
         return energyChanged || this.power > 0;
     }
 }
+function should_update(last, interval) { return (system.currentTick - last) >= interval; }
