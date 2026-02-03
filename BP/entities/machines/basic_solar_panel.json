@@ -12,12 +12,18 @@
                   "client_sync": true
                 }
 			}
-		},
+        },
         "component_groups": {
 			"shrink": {
 				"minecraft:collision_box": {
-					"width": 0.0,
-					"height": 0.0
+					"width": 0.7,
+					"height": 0.7
+				},
+				"minecraft:timer": {
+					"time": 0.1,
+					"time_down_event": {
+						"event":"cosmos:expand"
+					}
 				}
 			},
 			"expand": {
@@ -40,24 +46,18 @@
 			}
 		},
         "components": {
-            "minecraft:inventory": {
-                "container_type": "container",
-                "inventory_size": 27
+            "minecraft:damage_sensor": {
+                "triggers": {
+                    "deals_damage": false
+                }
             },
             "minecraft:type_family": {
                 "family": [
+                    "cosmos",
 					"machine",
-					"energy_machine",
-                    "luminiae_generic",
-					"has_power_input",
-					"has_fuel_input"
+					"power",
+					"has_power_output"
                 ]
-            },
-
-            "minecraft:damage_sensor": {
-                "triggers": {
-                    "deals_damage": "no"
-                }
             },
             "minecraft:collision_box": {
                 "width": 1,
@@ -72,18 +72,31 @@
                 "value": 100,
                 "max": 100
             },
+            "minecraft:inventory": {
+                "container_type": "container",
+                "inventory_size": 7
+            },
             "minecraft:pushable": {
                 "is_pushable": false,
-                "is_pushable_by_piston": true
+                "is_pushable_by_piston": false
             },
-            "minecraft:persistent": {},
             "minecraft:physics": {
                 "has_gravity": false,
 				"has_collision": false
+            },
+			"minecraft:renders_when_invisible": {},
+            "minecraft:spell_effects": {
+				"add_effects": [
+					{
+						"visible": false,
+                        "effect": "invisibility",
+                        "duration": "infinite"
+                    }
+                ]
             }
         },
 		"events": {
-			"general_block_entity:shrink": {
+			"cosmos:shrink": {
 				"add": {
 					"component_groups": ["shrink"]
 				}
@@ -93,7 +106,7 @@
 					"component_groups": ["despawn"]
 				}
 			},
-			"general_block_entity:expand": {
+			"cosmos:expand": {
 				"remove": {
 					"component_groups": ["shrink"]
 				},
