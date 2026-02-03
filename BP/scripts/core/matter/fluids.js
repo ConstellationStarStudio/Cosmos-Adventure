@@ -1,6 +1,6 @@
 import { world, BlockPermutation, ItemStack, system } from "@minecraft/server"
 import { update_battery } from "./electricity"
-import { compare_position, get_entity, load_dynamic_object, location_of_side } from "../../api/utils"
+import { compare_position, get_entity, load_dynamic_object, location_of_side, save_dynamic_object } from "../../api/utils"
 import { get_data } from "../machines/Machine"
 
 function evaporate(block) {
@@ -137,44 +137,130 @@ export function output_fluid(fluid_type, entity, block, fluid) {
     if (!target_location || fluid == 0) return fluid
     const target_block = block.dimension.getBlock(target_location)
 
-    if (target_block.typeId == "cosmos:fluid_pipe") {
-        return fluid
-    } else {
-        const target_entity = get_entity(entity.dimension, target_location, `has_${fluid_type}_input`)
-        if (!target_entity) return fluid
-        
-        const target_capacity = get_data(target_entity)[fluid_type].capacity
-        const target_fluid = load_dynamic_object(target_entity, 'machine_data')?.[fluid_type] ?? 0
-        if (target_fluid == target_capacity) return fluid
-        
-        const oi = location_of_side(target_block, get_data(target_entity)[fluid_type].input)
-        if (!compare_position(entity.location, oi)) return fluid
+    const destinations = find_fluid_targets(target_block, fluid_type, 'input', entity.location);
+    
+    let current_fluid = fluid;
 
-        const space = target_capacity - target_fluid
-        return fluid - Math.min(fluid, space)
+    for (const dest of destinations) {
+        if (current_fluid <= 0) break;
+
+        if (dest.type === 'tank') {
+            const perm = dest.block.permutation;
+            const level = perm.getState("cosmos:fill_level");
+            const dest_fluid = perm.getState("cosmos:fluid");
+            if ((level === 0 || dest_fluid === fluid_type) && level < 15) {
+                if (current_fluid >= 1000) {
+                    dest.block.setPermutation(perm.withState("cosmos:fill_level", level + 1).withState("cosmos:fluid", fluid_type));
+                    current_fluid -= 1000;
+                }
+            }
+        } else if (dest.type === 'machine') {
+            const dest_data = get_data(dest.entity);
+            const dest_capacity = dest_data[fluid_type].capacity;
+            const dest_stored = load_dynamic_object(dest.entity, 'machine_data')?.[fluid_type] ?? 0;
+            
+            const space = dest_capacity - dest_stored;
+            if (space > 0) {
+                const transfer = Math.min(current_fluid, space, 100); 
+                if (transfer > 0) {
+                    const machine_vars = load_dynamic_object(dest.entity, 'machine_data') || {};
+                    machine_vars[fluid_type] = dest_stored + transfer;
+                    save_dynamic_object(dest.entity, machine_vars, 'machine_data');
+                    current_fluid -= transfer;
+                }
+            }
+        }
     }
+
+    return current_fluid;
 }
 
 export function input_fluid(fluid_type, entity, block, fluid) {
     const data = get_data(entity)
+    const capacity = data[fluid_type].capacity;
+    if (fluid >= capacity) return fluid;
+
     const source_location = location_of_side(block, data[fluid_type].input)
-    if (!source_location || fluid == data[fluid_type].capacity) return fluid
+    if (!source_location) return fluid
     const source_block = block.dimension.getBlock(source_location)
 
-    if (source_block.typeId == "cosmos:fluid_pipe") {
-        return fluid
-    } else {
-        const source_entity = get_entity(entity.dimension, source_location, `has_${fluid_type}_output`)
-        if (!source_entity) return fluid
-        
-        const source_fluid = load_dynamic_object(source_entity, 'machine_data')?.[fluid_type] ?? 0
-        if (source_fluid == 0) return fluid
-        
-        const io = location_of_side(source_block, get_data(source_entity)[fluid_type].output)
-        if (!compare_position(entity.location, io)) return fluid
-        
-        return Math.min(fluid + source_fluid, data[fluid_type].capacity)
+    const sources = find_fluid_targets(source_block, fluid_type, 'output', entity.location);
+    
+    let current_fluid = fluid;
+    let space = capacity - current_fluid;
+
+    for (const source of sources) {
+        if (space <= 0) break;
+
+        if (source.type === 'tank') {
+            const perm = source.block.permutation;
+            const level = perm.getState("cosmos:fill_level");
+            const source_fluid_type = perm.getState("cosmos:fluid");
+
+            if (level > 0 && source_fluid_type === fluid_type) {
+                if (space >= 1000) {
+                    source.block.setPermutation(perm.withState("cosmos:fill_level", level - 1));
+                    current_fluid += 1000;
+                    space -= 1000;
+                }
+            }
+        } else if (source.type === 'machine') {
+            const source_stored = load_dynamic_object(source.entity, 'machine_data')?.[fluid_type] ?? 0;
+            
+            if (source_stored > 0) {
+                const transfer = Math.min(space, source_stored, 100); 
+                if (transfer > 0) {
+                    const machine_vars = load_dynamic_object(source.entity, 'machine_data') || {};
+                    machine_vars[fluid_type] = source_stored - transfer;
+                    save_dynamic_object(source.entity, machine_vars, 'machine_data');
+                    current_fluid += transfer;
+                    space -= transfer;
+                }
+            }
+        }
     }
+    
+    return current_fluid;
+}
+
+function find_fluid_targets(start_block, fluid_type, mode, ignore_pos) {
+    const targets = [];
+    const visited = new Set();
+    const queue = [{block: start_block, dist: 0}];
+    
+    if (ignore_pos) visited.add(`${Math.floor(ignore_pos.x)},${Math.floor(ignore_pos.y)},${Math.floor(ignore_pos.z)}`);
+
+    const MAX_DIST = 16;
+    let head = 0;
+
+    while (head < queue.length) {
+        const {block, dist} = queue[head++];
+        const key = `${block.location.x},${block.location.y},${block.location.z}`;
+        
+        if (visited.has(key)) continue;
+        visited.add(key);
+
+        if (block.typeId === "cosmos:fluid_pipe") {
+            if (dist < MAX_DIST) {
+                const neighbors = [
+                    block.north(), block.east(), block.south(), block.west(), block.above(), block.below()
+                ];
+                for (const neighbor of neighbors) {
+                    if (neighbor) queue.push({block: neighbor, dist: dist + 1});
+                }
+            }
+        } else if (block.typeId === "cosmos:fluid_tank") {
+            targets.push({type: 'tank', block: block});
+        } else {
+            const tag = mode === 'input' ? `has_${fluid_type}_input` : `has_${fluid_type}_output`;
+            const entity = get_entity(block.dimension, block.location, tag);
+            
+            if (entity) {
+                targets.push({type: 'machine', entity: entity});
+            }
+        }
+    }
+    return targets;
 }
 
 export function load_to_canister(liquid_amount, liquid_type, container, slot){

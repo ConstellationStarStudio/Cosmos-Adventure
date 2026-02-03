@@ -1,81 +1,112 @@
 import { ItemStack } from "@minecraft/server";
 import recipes from "../../../recipes/compressor"
 import machines from "../AllMachineBlocks"
-import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
+import { compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils";
 
-const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"])
+const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"]);
 
 function get_ingredients(container) {
-	const inputs = machines.compressor.items.top_input
-	return inputs.map(i => container.getItem(i))
+	const inputs = machines.compressor.items.top_input;
+	return inputs.map(i => container.getItem(i));
 }
 
 function find_recipe(ingredients) {
 	for (let [result, recipe] of recipes) {
-		if (ingredients.length != recipe.length) continue
-		if (!compare_lists(recipe, ingredients)) {
-			continue
-		} else return result
-	} return undefined
+		if (ingredients.length !== recipe.length) continue;
+		if (!compare_lists(recipe, ingredients)) continue;
+		else return result;
+	} return undefined;
 }
 
 export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid) this.compress()
+        
+        const vars = load_dynamic_object(this.entity, "machine_data") || {};
+        this.burnTime = vars.burnTime || 0;
+        this.burnDuration = vars.burnDuration || 0;
+        this.progress = vars.progress || 0;
+        this.lastUiUpdate = 0;
 	}
 
-	compress() {
+    /**
+     * @param {number} dt 
+     */
+    tick(dt = 1) {
+        if (!this.entity.isValid) return;
+
 		const container = this.entity.getComponent('minecraft:inventory').container;
-		const items = get_ingredients(container)
-		const ingredients = [...items.map(i => i?.typeId)].filter(i => i).sort()
-		const output = find_recipe(ingredients)
-		const output_item = container.getItem(10)
-		const has_space = !output_item || (output_item.typeId == output && output_item.amount < 64)
+		const items = get_ingredients(container);
+		const ingredientIds = [...items.map(i => i?.typeId)].filter(i => i).sort();
+		const output = find_recipe(ingredientIds);
+		const output_item = container.getItem(10);
+		const has_space = !output_item || (output_item.typeId === output && output_item.amount < output_item.maxAmount);
 		const fuelItem = container.getItem(9);
 		const isCoalBlock = fuelItem?.typeId === 'minecraft:coal_block'; 
 
-		const variables = load_dynamic_object(this.entity, "machine_data");
-		let burnTime = variables.burnTime || 0;
-		let burnDuration = variables.burnDuration || 0;
-		let progress = variables.progress || 0;
+        let stateChanged = false;
 
-		let first_values = [burnTime, burnDuration, progress]
-
-		if (burnTime == 0 && output && has_space && fuelTypes.has(fuelItem?.typeId) ) {
-			container.setItem(9, fuelItem.decrementStack())
-			burnTime = isCoalBlock ? 16010 : 1610
-			burnDuration = isCoalBlock ? 16010 : 1610
+        // 1. Fuel Start
+		if (this.burnTime === 0 && output && has_space && fuelTypes.has(fuelItem?.typeId)) {
+			container.setItem(9, fuelItem.decrementStack());
+			this.burnTime = isCoalBlock ? 16010 : 1610;
+			this.burnDuration = isCoalBlock ? 16010 : 1610;
+            stateChanged = true;
 		}
-		if (burnTime > 0) burnTime--
 
-		if (burnTime > 0 && progress < 200 && output && has_space) progress++
+        // 2. Burn Logic
+		if (this.burnTime > 0) {
+            const consumption = Math.min(this.burnTime, dt);
+            this.burnTime -= consumption;
+            stateChanged = true;
+        }
 
-		if ((burnTime == 0 || !has_space) && progress > 0) progress--
+        // 3. Progress Logic
+		if (this.burnTime > 0 && this.progress < 200 && output && has_space) {
+            const gain = Math.min(200 - this.progress, dt);
+            
+            // Sound triggers
+            const oldProgress = this.progress;
+            this.progress += gain;
+            
+            [120, 160, 200].forEach(threshold => {
+                if (oldProgress < threshold && this.progress >= threshold) {
+                    this.block.dimension.playSound("random.anvil_land", this.entity.location);
+                }
+            });
+            stateChanged = true;
+        } else if ((this.burnTime === 0 || !has_space) && this.progress > 0) {
+            this.progress = Math.max(0, this.progress - dt);
+            stateChanged = true;
+        }
 
-		if (!output && progress > 0) progress = 0
+		if (!output && this.progress > 0) {
+            this.progress = 0;
+            stateChanged = true;
+        }
 
-		if ([120, 160, 200].includes(progress)) this.block.dimension.playSound("random.anvil_land", this.entity.location)
-
-		if (progress == 200) {
-			progress = 0
+        // 4. Completion
+		if (this.progress >= 200) {
+			this.progress = 0;
 			for (let i = 0; i < 9; i++) {
-				if (items[i]) container.setItem(i, items[i].decrementStack())
+				if (items[i]) container.setItem(i, items[i].decrementStack());
 			}
-			if (output_item?.typeId == output) {
-				container.setItem(10, output_item.incrementStack())
-			} else container.setItem(10, new ItemStack(output))
+			if (output_item?.typeId === output) {
+				container.setItem(10, output_item.incrementStack());
+			} else container.setItem(10, new ItemStack(output));
+            stateChanged = true;
 		}
 
-
-		if(!compare_lists(first_values, [burnTime, burnDuration, progress]) || !container.getItem(11)){
-			save_dynamic_object(this.entity, {progress, burnDuration, burnTime}, "machine_data")
-			container.add_ui_display(11, '', Math.round((burnTime / burnDuration) * 13))
-			container.add_ui_display(12, '', Math.ceil((progress / 200) * 52))
-			container.add_ui_display(13, `§r   Status:\n${!progress ? '    §6Idle' : '§2Compressing'}`)
+        // 5. UI and Persistence
+		if (stateChanged || !container.getItem(11) || system.currentTick - this.lastUiUpdate > 20) {
+			save_dynamic_object(this.entity, { progress: this.progress, burnDuration: this.burnDuration, burnTime: this.burnTime }, "machine_data");
+			container.add_ui_display(11, '', Math.round((this.burnTime / this.burnDuration) * 13));
+			container.add_ui_display(12, '', Math.ceil((this.progress / 200) * 52));
+			container.add_ui_display(13, `§r   Status:\n${!this.progress ? '    §6Idle' : '§2Compressing'}`);
+            this.lastUiUpdate = system.currentTick;
 		}
 
+        return this.progress > 0 || this.burnTime > 0 || (output !== undefined && has_space && fuelTypes.has(fuelItem?.typeId));
 	}
 }
-

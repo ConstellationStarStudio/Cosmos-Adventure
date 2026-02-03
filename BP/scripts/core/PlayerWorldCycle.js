@@ -32,7 +32,7 @@ world.afterEvents.worldLoad.subscribe(() => {
             if(!(currentTick % 10) && tags.includes("in_space")) spawn_footprint(player, player.location)
         });
         //manage gravity
-        //player_gravity(players_in_space)
+        player_gravity(players)
     });
 });
 

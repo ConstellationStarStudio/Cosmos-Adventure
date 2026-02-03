@@ -1,6 +1,6 @@
 import {world, system} from "@minecraft/server";
 import {detach_wires, attach_to_wires} from "../blocks/aluminum_wire"
-import {machine_entities} from "../machines/Machine"
+import {machine_entities, machineManager} from "../machines/Machine"
 
 const directions = ["north", "east", "south", "west"]
 
@@ -28,7 +28,12 @@ export function remove(block) {
     maxDistance: 0.5,})[0];
     dimension.runCommand(`fill ${coords} ${coords} air destroy`)
     if(machineEntity){
-      machine_entities.delete(machineEntity.id);
+      if (machineManager) {
+          machineManager.unregister(machineEntity.id);
+      } else {
+          machine_entities.delete(machineEntity.id);
+      }
+      
       const container = machineEntity.getComponent('minecraft:inventory')?.container;
       if (container) {
         for (let i = 0; i < container.size; i++) {

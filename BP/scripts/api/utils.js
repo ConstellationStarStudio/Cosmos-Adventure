@@ -13,9 +13,14 @@ export function load_dynamic_object(storage, name){
 export function save_dynamic_object(storage, value, name){
 	let entity = data_maps[name].get(storage.id);
 	if(!entity) return;
-	entity.entity_data = value;
-	data_maps[name].set(storage.id, entity);
-	storage.setDynamicProperty(name, JSON.stringify(value)) 
+    const newDataString = JSON.stringify(value);
+    const oldDataString = JSON.stringify(entity.entity_data); // cheaper than entity write
+
+    if (newDataString !== oldDataString) {
+	    entity.entity_data = value;
+	    data_maps[name].set(storage.id, entity);
+	    storage.setDynamicProperty(name, newDataString);
+    }
 }
 
 export function str(object) { return JSON.stringify(object) }
