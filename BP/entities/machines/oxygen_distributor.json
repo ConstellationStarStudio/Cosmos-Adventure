@@ -34,7 +34,7 @@
 					"looping": true,
 					"time": 0.5,
 					"time_down_event": {
-						"event":"compycraft_era:highlight_paricles"
+						"event":"cosmos:highlight_paricles"
 					}
 				}
 			}
@@ -88,7 +88,7 @@
 					"component_groups": ["shrink"]
 				}
 			},
-			"compycraft_era:despawn": {
+			"cosmos:despawn": {
 				"add": {
 					"component_groups": ["despawn"]
 				}
@@ -101,12 +101,12 @@
 					"component_groups": ["expand"]
 				}
 			},
-			"compycraft_era:highlight": {
+			"cosmos:highlight": {
 				"add": {
 					"component_groups": ["highlight"]
 				}
 			},
-			"compycraft_era:highlight_paricles": {
+			"cosmos:highlight_paricles": {
 				"queue_command": {
 					"command": [
 						"particle \"minecraft:villager_happy\" ~-0.5 ~1 ~-0.5",
