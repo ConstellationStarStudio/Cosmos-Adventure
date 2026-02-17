@@ -1,14 +1,10 @@
-import {world} from "@minecraft/server";
+import {system} from "@minecraft/server";
 
-function checkBlocks(block){
-	const nearbyBlocks = block.getNeighbors(6);
-	for (const nearbyBlocksSet of nearbyBlocks){
-		if (nearbyBlocksSet != undefined && nearbyBlocksSet.typeId == 'cosmos:arc_lamp'){
-			nearbyBlocksSet.setPermutation(nearbyBlocksSet.permutation.withState('cosmos:lamp_active', !nearbyBlocksSet.permutation.getState('cosmos:lamp_active')))
-		}
-	}
-}
-
-world.afterEvents.playerInteractWithBlock.subscribe(({ block }) => {
-	if(/minecraft:.+_button/.test(block.typeId)) checkBlocks(block);
+system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
+	blockComponentRegistry.registerCustomComponent('cosmos:arc_lamp', {
+		onRedstoneUpdate({block, powerLevel}){
+			if(powerLevel > 0) block.setPermutation(block.permutation.withState('cosmos:lamp_active', false))
+			else{ block.setPermutation(block.permutation.withState('cosmos:lamp_active', true)) }
+		},
+	})
 })

@@ -1,7 +1,7 @@
 {
     "format_version": "1.8.0",
     "render_controllers": {
-      "controller.render.item32": {
+      "controller.render.dungeon_key": {
         "geometry": "Geometry.default",
         "materials": [ { "*": "variable.is_enchanted ? Material.enchanted : Material.default" } ],
         "textures": [ "Texture.default", "Texture.enchanted" ]

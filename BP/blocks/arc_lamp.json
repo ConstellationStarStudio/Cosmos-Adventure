@@ -1,13 +1,12 @@
 {
-    "format_version": "1.21.80",
+    "format_version": "1.26.0",
     "minecraft:block": {
         "description":{
             "identifier": "cosmos:arc_lamp",
 			"menu_category": { "category": "items" },
             "states":{
                 "cosmos:lamp_direction": [0, 1, 2, 3],
-                "cosmos:lamp_active": [false, true],
-                "cosmos:placed": [false, true]
+                "cosmos:lamp_active": [true, false]
             },
             "traits" : {
                 "minecraft:placement_position": {
@@ -65,19 +64,7 @@
                 }
             },
             {
-                "condition": "query.block_state('cosmos:placed')",
-                "minecraft:geometry": {
-                    "identifier": "geometry.arc_lamp",
-                    "bone_visibility": {
-                        "lamp_north_direction": "q.block_state('cosmos:lamp_direction') == 0",
-                        "lamp_south_direction": "q.block_state('cosmos:lamp_direction') == 1",
-                        "lamp_west_direction": "q.block_state('cosmos:lamp_direction')  == 2",
-                        "lamp_east_direction": "q.block_state('cosmos:lamp_direction') == 3"
-                    }
-                }
-            },
-            {
-                "condition": "query.block_state('cosmos:lamp_active') == true && query.block_state('cosmos:placed')",
+                "condition": "query.block_state('cosmos:lamp_active') == false",
                 "components": {
                     "minecraft:material_instances": {
                         "*": { "texture": "arc_lamp_off", "render_method": "opaque" }
@@ -87,15 +74,15 @@
                         "identifier": "geometry.arc_lamp",
                         "bone_visibility": {
                             "lamp_north_direction": "q.block_state('cosmos:lamp_direction') == 0",
-                            "lamp_south_direction": "q.block_state('cosmos:lamp_direction') == 1",
-                            "lamp_west_direction": "q.block_state('cosmos:lamp_direction')  == 2",
+                            "lamp_west_direction": "q.block_state('cosmos:lamp_direction')  == 1",
+                            "lamp_south_direction": "q.block_state('cosmos:lamp_direction') == 2",
                             "lamp_east_direction": "q.block_state('cosmos:lamp_direction') == 3"
                         }
                     }
                 }
             },
             {
-                "condition": "query.block_state('cosmos:lamp_active') == false && query.block_state('cosmos:placed')",
+                "condition": "query.block_state('cosmos:lamp_active') == true",
                 "components": {
                     "minecraft:material_instances": {
                         "*": { "texture": "arc_lamp_on", "render_method": "opaque" }
@@ -105,8 +92,8 @@
                         "identifier": "geometry.arc_lamp",
                         "bone_visibility": {
                             "lamp_north_direction": "q.block_state('cosmos:lamp_direction') == 0",
-                            "lamp_south_direction": "q.block_state('cosmos:lamp_direction') == 1",
-                            "lamp_west_direction": "q.block_state('cosmos:lamp_direction')  == 2",
+                            "lamp_west_direction": "q.block_state('cosmos:lamp_direction')  == 1",
+                            "lamp_south_direction": "q.block_state('cosmos:lamp_direction') == 2",
                             "lamp_east_direction": "q.block_state('cosmos:lamp_direction') == 3"
                         }
                     }
@@ -115,15 +102,34 @@
         ],
         "components":{
             "minecraft:display_name": "%tile.arclamp.name\n§7%tile.arclamp.description",
-            "minecraft:custom_components": ["cosmos:placed"],
             "minecraft:collision_box": false,
             "minecraft:selection_box": {
                 "origin": [-5, 0, -5],
                 "size": [10, 9, 10]
             },
+            "cosmos:arc_lamp": {},
+            "minecraft:redstone_conductivity": {
+                "allows_wire_to_step_down": false,
+                "redstone_conductor": true
+            },
+            "minecraft:redstone_consumer": {"min_power": 0},
             "minecraft:geometry": {
-				"identifier": "geometry.arc_lamp_item"
-			},
+                "identifier": "geometry.arc_lamp",
+                "bone_visibility": {
+                    "lamp_north_direction": "q.block_state('cosmos:lamp_direction') == 0",
+                    "lamp_west_direction": "q.block_state('cosmos:lamp_direction')  == 1",
+                    "lamp_south_direction": "q.block_state('cosmos:lamp_direction') == 2",
+                    "lamp_east_direction": "q.block_state('cosmos:lamp_direction') == 3"
+                }
+            },
+            "minecraft:item_visual": {
+                "material_instances": {
+                    "*": { "texture": "arc_lamp_on", "render_method": "opaque" }
+                },
+                "geometry": {
+                    "identifier": "geometry.arc_lamp_item"
+                }
+            },
             "minecraft:material_instances": {
                 "*": { "texture": "arc_lamp_on", "render_method": "opaque" }
             }

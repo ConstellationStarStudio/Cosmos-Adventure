@@ -22,9 +22,7 @@
       }
    },
 
-   "oil": {
-      "textures": "oil"
-   },
+   "oil": {},
 
    "moon_rock": {
       "sound": "stone",
@@ -191,8 +189,7 @@
       "textures": "mars_dungeon_bricks"
    },
    "cavernous_vines": {
-      "sound": "grass",
-      "textures": "cavernous_vines"
+      "sound": "grass"
    },
 
    "tin_ore": {
@@ -298,12 +295,10 @@
       "sound": "stone"
    },
    "energy_storage_module": {
-      "sound": "stone",
-      "textures": "energy_storage_module_01"
+      "sound": "stone"
    },
    "energy_storage_cluster": {
-      "sound": "stone",
-      "textures": "energy_storage_cluster_01"
+      "sound": "stone"
    },
    "advanced_compressor": {
       "sound": "stone"
@@ -315,48 +310,16 @@
       "sound": "stone"
    },
    "compressor": {
-      "sound": "stone",
-      "textures": {
-         "up": "machine_blank",
-         "down": "machine_blank",
-         "north": "machine_side",
-         "east": "machine_side",
-         "west": "machine_side",
-         "south": "compressor"
-      }
+      "sound": "stone"
    },
    "electric_compressor": {
-      "sound": "stone",
-      "textures": {
-         "up": "machine_blank",
-         "down": "machine_blank",
-         "north": "machine_side",
-         "east": "machine_side",
-         "west": "energy_input",
-         "south": "electric_compressor"
-      }
+      "sound": "stone"
    },
    "oxygen_collector": {
-      "sound": "stone",
-      "textures": {
-         "up": "oxygen_collector",
-         "down": "oxygen_collector",
-         "north": "oxygen_collector",
-         "east": "oxygen_output",
-         "west": "energy_input",
-         "south": "oxygen_collector"
-      }
+      "sound": "stone"
    },
    "circuit_fabricator": {
-      "sound": "stone",
-      "textures": {
-         "up": "machine_blank",
-         "down": "machine_blank",
-         "north": "machine_side",
-         "east": "machine_side",
-         "west": "energy_input",
-         "south": "circuit_fabricator"
-      }
+      "sound": "stone"
    },
    "nasa_workbench": {
       "sound": "stone",

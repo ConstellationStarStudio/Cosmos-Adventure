@@ -66,18 +66,6 @@ world.afterEvents.playerBreakBlock.subscribe(({brokenBlockPermutation:block, ite
 	player.getComponent('equippable').setEquipment('Mainhand', item)
 })
 
-// to remove the item model
-system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
-	blockComponentRegistry.registerCustomComponent("cosmos:placed", {
-        beforeOnPlayerPlace(e){
-			system.run(() => {
-				e.permutationToPlace = e.permutationToPlace.withState("cosmos:placed", true);
-			});
-        },
-    });
-})
-
-
 //determines how fast the block will take to mine
 world.afterEvents.worldLoad.subscribe(() => {
 	system.runInterval(()=> {

@@ -23,7 +23,7 @@
         ]
       },
       "render_controllers": [
-        "controller.render.item32"
+        "controller.render.dungeon_key"
       ]
     }
   }
