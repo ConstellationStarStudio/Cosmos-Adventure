@@ -111,7 +111,9 @@ world.afterEvents.playerDimensionChange.subscribe((data) => {
 export function start_countdown(rocket, player) {
     rocket.setDynamicProperty('active', true)
     player.inputPermissions.setPermissionCategory(2, false)
-    let countdown = player.getGameMode() == 'Creative' ? 5 : 20
+    //player.playSound("rocket.launch") this does'nt works because of camera thing 
+    let countdown = player.getGameMode() == 'Creative' ? 20 : 20
+    rocket.dimension.spawnParticle("cosmos:rocket_smoke", {x: rocket.location.x, y: rocket.location.y + 1.1, z: rocket.location.z});
     const counter = system.runInterval(()=> {
         if (!rocket || !rocket.isValid) {
             system.clearRun(counter)
@@ -147,38 +149,36 @@ export function dismount(player) {
     player.inputPermissions.setPermissionCategory(6, true)
 }
 export function rocket_rotation(player, rocket){
-   let x = player.inputInfo.getMovementVector().x;
-   let y = player.inputInfo.getMovementVector().y;
-   x = Math.round(x)
-   y = Math.round(y)
-   let rotationX = (x == 0 && y == 0)?
-   rocket.getProperty("cosmos:rotation_x"):
-   (x == 0 && y == 1)? 
-   rocket.getProperty("cosmos:rotation_x") - 0.7:
-   (x == 0 && y == -1)? 
-   rocket.getProperty("cosmos:rotation_x") + 0.7: 
-   rocket.getProperty("cosmos:rotation_x");
-   
-   let rotationY = (x == 0 && y == 0)?
-   rocket.getRotation().y:
-   (x == 1 && y == 0)? 
-   rocket.getRotation().y  + 1:
-   (x == -1 && y == 0)? 
-   rocket.getRotation().y - 1: 
-   rocket.getRotation().y;
-   rotationX = (rotationX > 180)? 180:
-   (rotationX < 0)? 0:
-   rotationX;
-   return [rotationX, rotationY]
-}
+   let input_x = player.inputInfo.getMovementVector().x;
+   let input_y = player.inputInfo.getMovementVector().y;
+   input_x = Math.round(input_x);
+   input_y = Math.round(input_y);
 
+   let rotation = {x: rocket.getProperty("cosmos:rotation_x"), y: rocket.getProperty("cosmos:rotation_y")};
+   rotation.x = Math.min(Math.max(rotation.x + -(input_y * 0.7), -90), 90);
+   rotation.y = rotation.y + -(input_x * 1);
+
+    rotation.y = (rotation.y > 360)? 0: (rotation.y < 0)? 360:
+    rotation.y;
+    return rotation;
+}
+export function rocket_motion(time_since_launch, rotation){
+    let multiplier = time_since_launch / 150;
+    multiplier = Math.min(multiplier, 1);
+    let velocity = {x: 0, y: 0, z: 0};
+    velocity.y = -multiplier * Math.cos((rotation.x - 180) / 57.2957795147);
+
+    velocity.x = -(50 * Math.cos(rotation.y/57.2957795147) * Math.sin(rotation.x * 0.01/57.2957795147));
+    velocity.z = -(50 * Math.sin(rotation.y/57.2957795147) * Math.sin(rotation.x * 0.01/57.2957795147));
+    return velocity;
+}
 export function rocket_flight(rocket) {
     if (!rocket || !rocket.isValid) return
-    rocket.addEffect('levitation', 2000, {showParticles: false})
-    let t = 0; let v
-    const a = 30; const b = 10
+    let t = 0;
+    //enables flight particles
+    rocket.setProperty("cosmos:launched", true)
     let flight = system.runInterval(() => {
-        if(!rocket || !rocket.isValid || rocket.getComponent("minecraft:rideable").getRiders().length === 0){
+        if(!rocket || !rocket.isValid || rocket.getComponent("minecraft:rideable").getRiders().length === 0 || rocket.getDynamicProperty("freezed")){
             system.clearRun(flight);
             return;
         }
@@ -187,24 +187,27 @@ export function rocket_flight(rocket) {
         t++;
         if (t == 40) world.sendMessage('§7Do not save & quit or disconnect while flying the rocket or in the celestial selector.')
         if (!rocket || !rocket.isValid) return
-        if (v >= 10) rocket.setDynamicProperty('rocket_launched', true)
-        v = Math.floor((a) * (1 - Math.pow(Math.E, (-t/(20 * b)))))
-        rocket.addEffect('levitation', 2000, {showParticles: false, amplifier: v})
-        let rotation = rocket_rotation(player, rocket)
+        if (t > 40) rocket.setDynamicProperty('rocket_launched', true)
+        
+        let rotation = rocket_rotation(player, rocket);
+        let velocity = rocket_motion(t, rotation);
+        rocket.clearVelocity();
+        rocket.applyImpulse({x: velocity.x, y: velocity.y, z: velocity.z});
+
         let dynamic_object = load_dynamic_object(rocket, "vehicle_data")
         let fuel = dynamic_object?.fuel || 0;
         if(!(system.currentTick % 2)){
             fuel = Math.max(0, fuel - 1)
-            save_dynamic_object(rocket, fuel, "vehicle_data");
+            dynamic_object.fuel = fuel;
+            save_dynamic_object(rocket, dynamic_object, "vehicle_data");
         };
         if(!fuel && player.getGameMode() != "Creative"){
-            rocket.removeEffect("levitation");
+            rocket.setProperty("cosmos:launched", false);
             system.clearRun(flight);
             return;
         }
-        rocket.setRotation({x: rocket.getRotation().x, y: rotation[1]});
-        rocket.setProperty("cosmos:rotation_x", rotation[0]);
-        player.setProperty("cosmos:rotation_x", rotation[0]);
+        rocket.setProperty("cosmos:rotation_y", rotation.y);
+        rocket.setProperty("cosmos:rotation_x", rotation.x);
     })
 }
 

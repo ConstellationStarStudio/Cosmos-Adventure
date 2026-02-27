@@ -4,11 +4,22 @@
       "description": {
          "identifier": "cosmos:rocket_tier_1",
          "is_summonable": true,
-         "properties": {
+            "properties": {
                 "cosmos:rotation_x": {
                   "type": "float",
-                  "range": [0.0, 180.0],
-                  "default": 90.0,
+                  "range": [-90.0, 90.0],
+                  "default": 0.0,
+                  "client_sync": true
+                },
+                "cosmos:rotation_y": {
+                    "type": "float",
+                    "range": [0.0, 360.0],
+                    "default": 0.0,
+                    "client_sync": true
+                },
+                "cosmos:launched": {
+                  "type": "bool",
+                  "default": false,
                   "client_sync": true
                 }
             }
@@ -37,7 +48,13 @@
                "container_type": "chest_boat",
                "inventory_size": 56
             }
-			}
+			},
+         "disabled_gravity": {
+            "minecraft:physics": {
+               "has_gravity": false,
+               "has_collision": true
+            }
+         }
    },
       "components": {       
          "minecraft:collision_box": {
@@ -112,7 +129,12 @@
                 "add":{
                     "component_groups": ["inv54"]
             }
-         }
+         },
+         "cosmos:disable_gravity": {
+                "add":{
+                    "component_groups": ["disabled_gravity"]
+                  }
+            }
       }
    }
 }

@@ -1,0 +1,9 @@
+{
+    "format_version": "1.8.0",
+    "animations": {
+        "animation.rocket_tier_1.spawn_flame": {
+            "loop": false,
+            "animation_length": 1
+         }
+    }
+}

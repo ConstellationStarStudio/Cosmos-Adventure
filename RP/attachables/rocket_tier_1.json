@@ -4,7 +4,7 @@
      "description": {
        "identifier": "cosmos:rocket_tier_1_item",
         "geometry": {
-           "default": "geometry.rocket_tier_1"
+           "default": "geometry.rocket_tier_1_item"
         },
         "materials": {
            "default": "skeleton"

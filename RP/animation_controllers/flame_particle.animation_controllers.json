@@ -1,0 +1,31 @@
+{
+    "format_version": "1.10.0",
+    "animation_controllers": {
+        "controller.animation.rocket_tier_1.flame_particle": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "transitions": [
+                        {
+                            "flame": "query.property('cosmos:launched')"
+                        }
+                    ]
+                },
+                "flame": {
+                    "animations": ["spawn_flame"],
+                    "particle_effects": [
+                    {
+                        "effect": "launch_flame",
+                        "locator": "engine"
+                    }
+                    ],
+                    "transitions": [
+                        {
+                            "default": "!query.property('cosmos:launched')"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

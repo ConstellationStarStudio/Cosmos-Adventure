@@ -38,6 +38,15 @@
 				"volume": 1
 				}
 			]
+		},
+                "rocket.launch":{
+			"category": "neutral",
+			"sounds": [
+				{
+				"name": "sounds/rocket/shuttle",
+				"volume": 1
+				}
+			]
 		}
 	}
 }

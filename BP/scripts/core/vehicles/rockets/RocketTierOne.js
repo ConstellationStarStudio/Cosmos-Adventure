@@ -17,17 +17,14 @@ export default class{
         .find(rider => rider.typeId == "minecraft:player")
         const active = rocket.getDynamicProperty('active');
         const launched = rocket.getDynamicProperty("rocket_launched");
-        //explode when the rocket stops after laucnching
-        if (launched && rocket.getVelocity().y == 0) {
-            rocket.dimension.createExplosion(rocket.location, 10, {causesFire: true, breaksBlocks: true})
-            rocket.remove()
-        }
         //start the celestial selector when the rocket reaches space
         if (active && rocket.location.y > 1200) {
             const current_rider = rocket.getComponent('minecraft:rideable').getRiders()
             .find(rider => rider.typeId == "minecraft:player")
             if (current_rider && !rocket.getDynamicProperty("freezed")){
                 rocket.setDynamicProperty("freezed", true)
+                rocket.setProperty("cosmos:launched", false)
+                rocket.triggerEvent("cosmos:disable_gravity")
                 start_celestial_selector(current_rider)
             }
         }
@@ -66,6 +63,10 @@ export default class{
             rider.setDynamicProperty('in_the_rocket', rocket.id)
             //display the countdown timer
             if (!active) rider.onScreenDisplay.setTitle('§c20', {fadeInDuration: 0, fadeOutDuration: 0, stayDuration: 20000})
+        }
+        if (fuel === 0 && launched && !rocket.getDynamicProperty("freezed") && !rocket.getProperty("cosmos:launched") && rocket.getVelocity().y == 0) {
+            rocket.dimension.createExplosion(rocket.location, 10, {causesFire: true, breaksBlocks: true})
+            rocket.remove()
         }
         //fix the camera and remove the countdown if the player leaves 
         system.runTimeout(() => {

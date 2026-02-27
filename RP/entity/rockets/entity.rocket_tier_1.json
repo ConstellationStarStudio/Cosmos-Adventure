@@ -15,15 +15,21 @@
 			"render_controllers": [
 				"controller.render.rocket"
 			],
+			"particle_effects": {
+				"launch_flame": "cosmos:rocket_flame"
+			},
 			"enable_attachables": false,
 			"hide_armor": true,
 			"scripts": {
 				"animate": [
-					"rotation"
+					"rotation",
+					"rocket_flame"
 				]
 			},
 			"animations": {
-				"rotation": "animation.rocket_tier_1.rotation"
+				"rotation": "animation.rocket_tier_1.rotation",
+				"rocket_flame": "controller.animation.rocket_tier_1.flame_particle",
+				"spawn_flame": "animation.rocket_tier_1.spawn_flame"
 			}
 		}
 	}

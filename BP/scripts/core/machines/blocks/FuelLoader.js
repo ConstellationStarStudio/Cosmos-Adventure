@@ -57,6 +57,7 @@ export default class {
 		            0;
 		            if(fuel_level < 1000){
 		                let level = Math.min(1000, fuel_level + 2)
+						rocket_dynamic_object.fuel = level;
 		                save_dynamic_object(rocket, rocket_dynamic_object, "vehicle_data");
 		                fuel = Math.max(0, fuel - 2)
 		                energy = Math.max(0, energy - 30)
