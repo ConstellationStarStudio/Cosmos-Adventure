@@ -1,0 +1,13 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.skybox.rotation": {
+			"loop": true,
+			"bones": {
+				"skybox": {
+					"scale": 5
+				}
+			}
+		}
+	}
+}

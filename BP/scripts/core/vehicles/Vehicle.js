@@ -37,3 +37,20 @@ world.afterEvents.entitySpawn.subscribe((data) => {
         data.entity.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[inventory_size];
     }
 });
+
+export function set_items_to_vehicle(vehicle, size, items_to_set, typeId){
+    let container = vehicle.getComponent("minecraft:inventory").container;
+    let inventorySize = vehicle.getComponent("minecraft:inventory").inventorySize;
+    //checks items_to_set array existence
+    if(items_to_set){
+        for(let i = 0; i <= (inventorySize - 5); i++){
+            container.setItem(i, items_to_set[i])
+        }
+    }
+    //put rocket and launchpad into inventory
+    container.setItem(inventorySize - 2, new ItemStack("cosmos:rocket_launch_pad", 9))
+    let rocket_item = new ItemStack(typeId + "_item")
+    rocket_item.setLore([`§r§7Storage Space: ${size}`])
+    rocket_item.setDynamicProperty("inventory_size", size)
+    container.setItem(inventorySize - 1, rocket_item)
+}

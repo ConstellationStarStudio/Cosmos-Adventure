@@ -1,7 +1,7 @@
 import { ActionFormData } from "@minecraft/server-ui";
 import { world, system, Player } from "@minecraft/server";
-import { saved_rocket_items, return_to_earth} from "./liftoff";
-import { moon_lander } from "../../core/vehicles/landers/MoonLander";
+import { saved_rocket_items } from "./liftoff";
+import { return_to_earth } from "../../planets/dimensions/Overworld";
 import { load_dynamic_object } from "../utils";
 
 const debug = true
@@ -63,11 +63,11 @@ export function select_solar_system(player, tier = 1, usingRocket = true) {
 		if (station_index % 2 == 1) rename_station(player, station)
 	})
 }
-/**@param {Player} player  */
+
 function launch(player, planet, usingRocket) {
 	player.sendMessage("Launch to "+ planet)
 	player.setDynamicProperty("in_celestial_selector")
-
+	planet = planet.toLowerCase();
 	//if there's no rocket it will put standart values into property
 	let typeId = "cosmos:rocket_tier_1";
 	let id = undefined;
@@ -91,16 +91,7 @@ function launch(player, planet, usingRocket) {
 	}
 	let dimension = player.dimension;
 
-	if (planet == 'Moon'){
-		let moon = world.getDimension("the_end");
-		let loc = { x: 75000 + (Math.random() * 20), y: 1000, z: 75000 + (Math.random() * 20) };
-		if(items) saved_rocket_items.set(id, items)
-		player.setDynamicProperty('dimension', JSON.stringify({planet, fuel, loc, size, id, typeId}))
-		player.teleport(loc, { dimension: moon });
-		if (dimension.id == "minecraft:the_end"){
-			system.runTimeout(() => {moon_lander(player, false);}, 5);
-		}
-	}else if(planet == 'Overworld'){
+    if(planet == 'overworld'){
 		let overworld = world.getDimension("overworld")
 		let loc = { x: 0 + (Math.random() * 20), y: 255, z: 0 + (Math.random() * 20) };
 		if(items) saved_rocket_items.set(id, items)
@@ -109,6 +100,9 @@ function launch(player, planet, usingRocket) {
 		if (dimension.id == "minecraft:overworld"){
 			system.runTimeout(() => {return_to_earth(player);}, 5);
 		}
+	}else{
+		let planet_object = world.getPlanet(planet);
+		if(planet_object) planet_object.launching(player, {fuel, size, id, typeId, items, dimension}, false);
 	}
 
 	if (debug) player.sendMessage(`Launch ${player.nameTag} to ${planet}`)

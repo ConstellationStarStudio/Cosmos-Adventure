@@ -1,5 +1,4 @@
-import { world, BlockVolume, system } from "@minecraft/server"
-import { Planet } from "../../planets/dimension/GalacticraftPlanets"
+import { world, BlockVolume, system } from "@minecraft/server";
 
 function chunk_corner({x, z}) {
     return {
@@ -28,7 +27,8 @@ system.beforeEvents.startup.subscribe(({blockComponentRegistry}) => {
             })
             shulkers.forEach(shulker=> shulker.remove())
             
-            let planet = Planet.getAll().find(pl => pl.isOnPlanet(location));
+            let planet = block.getPlanet();
+            if(!planet) return;
             let offset = planet.offset(location)
             offset.x = offset.x - 8;
             offset.z = offset.z - 8;

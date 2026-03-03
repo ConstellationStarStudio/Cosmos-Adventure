@@ -1,0 +1,35 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.earth",
+				"texture_width": 12,
+				"texture_height": 12,
+				"visible_bounds_width": 51,
+				"visible_bounds_height": 89,
+				"visible_bounds_offset": [0, -42.5, 0]
+			},
+			"bones": [
+				{
+					"name": "earth",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{
+							"origin": [-400, -860, -400],
+							"size": [900, 1, 900],
+							"uv": {
+								"north": {"uv": [-8, 2], "uv_size": [12, 0]},
+								"east": {"uv": [-20, 2], "uv_size": [12, 0]},
+								"south": {"uv": [16, 2], "uv_size": [12, 0]},
+								"west": {"uv": [4, 2], "uv_size": [12, 0]},
+								"up": {"uv": [0, 0], "uv_size": [12, 12]},
+								"down": {"uv": [4, 2], "uv_size": [12, -12]}
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

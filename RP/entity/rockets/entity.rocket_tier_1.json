@@ -4,16 +4,19 @@
 		"description": {
 			"identifier": "cosmos:rocket_tier_1",
 			"textures": {
-				"default": "textures/entity/rocket_tier_1"
+				"default": "textures/entity/rocket_tier_1",
+				"planet": "textures/ui/cosmos/celestial_selector/earth"
 			},
 			"materials": {
 				"default": "skeleton"
 			},
 			"geometry": {
-				"default": "geometry.rocket_tier_1"
+				"default": "geometry.rocket_tier_1",
+				"planet": "geometry.earth"
 			},
 			"render_controllers": [
-				"controller.render.rocket"
+				"controller.render.rocket",
+				"controller.render.planet"
 			],
 			"particle_effects": {
 				"launch_flame": "cosmos:rocket_flame"

@@ -21,7 +21,18 @@
                   "type": "bool",
                   "default": false,
                   "client_sync": true
-                }
+                },
+               "cosmos:planet": {
+                  "type": "bool",
+                  "default": false,
+                  "client_sync": true
+                },
+               "cosmos:planet_scale": {
+                    "type": "float",
+                    "range": [0.0, 1.5],
+                    "default": 1.0,
+                    "client_sync": true
+               }
             }
       },
         "component_groups": {

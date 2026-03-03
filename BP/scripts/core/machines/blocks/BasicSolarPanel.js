@@ -66,10 +66,10 @@ export default class {
     let energy = variables.energy || 0;
     let solar_strength = variables.solar_strength || 0;
     let power = variables.power || 0;
-
-    let time = world.getTimeOfDay();
-    let day_length = 24000; 
-    let daylight_length = 12000;
+    let planet = e.getPlanet();
+    let time = planet ? planet.getTimeOfDay(): world.getTimeOfDay();
+    let day_length = planet ? planet.time.length: 24000; 
+    let daylight_length = planet ? planet.time.day: 12000;
 
     let solar_angle = 1/day_length * time;
     solar_angle = solar_angle * 360;

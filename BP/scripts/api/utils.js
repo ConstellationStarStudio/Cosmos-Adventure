@@ -1,6 +1,7 @@
 import * as mc from "@minecraft/server";
 import {machine_entities} from "../core/machines/Machine";
 import {vehicles} from "../core/vehicles/Vehicle";
+import ALL_PLANETS from "../planets/AllPlanets";
 
 const data_maps = {
 	"machine_data": machine_entities,
@@ -104,12 +105,14 @@ export const pickaxes = new Set([
 // }
 export function isUnderground(player) {
 	let block = player.dimension.getTopmostBlock(player.location)
-	if (player.location.y >= block.y) return false
+	if (player.location.y >= block.location.y) return false
+	/*commented untill isSolid release 
 	let min = player.dimension.heightRange.min
-	while (!block.isSolid && block.y > min) {
-		if (player.location.y >= block.y) return false
+	while (!block.isSolid && block.location.y > min) {
+		if (player.location.y >= block.location.y) return false
 		block = block.below()
 	}
+	*/
 	return true
 }
 
@@ -121,3 +124,24 @@ export function compare_position(a, b) {
 export function floor_position({ x, y, z }) {
 	return { x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) };
 }
+export function getPlanetByLocation(location){
+    let {x, y, z} = location;
+    return ALL_PLANETS.find((planet) => (
+        x >= planet.range.start.x && x <= planet.range.end.x && 
+        z >= planet.range.start.z && z <= planet.range.end.z)
+    )?.class;
+}
+//needs to be moved to addon settings after manifest v3 release
+mc.system.beforeEvents.startup.subscribe(({ customCommandRegistry }) => {
+	customCommandRegistry.registerCommand({name: "cosmos:render_distance", 
+		cheatsRequired: false, 
+		description: "Changes the Script Render Distance", 
+		permissionLevel: 1,
+	    mandatoryParameters: [{ type: mc.CustomCommandParamType.Integer, name: "chunks" }]
+	}, 
+	(CustomCommandOrigin, chunks) => {
+		if(CustomCommandOrigin.sourceType == "Entity" && CustomCommandOrigin.sourceEntity.typeId == "minecraft:player"){
+			mc.world.setDynamicProperty("render_distance", chunks);
+		}
+	});
+});

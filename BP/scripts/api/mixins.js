@@ -1,4 +1,6 @@
 import * as mc from "@minecraft/server";
+import ALL_PLANETS from "../planets/AllPlanets";
+import { getPlanetByLocation } from "./utils";
 
 /**
  * Originally from "ConMaster2112"
@@ -14,7 +16,6 @@ globalThis.Merge = (() => {
         return getObject && object;
     };
 })();
-
 
 const { world, ItemStack } = mc;
 
@@ -93,8 +94,13 @@ Merge(mc.Block.prototype, {
     // returns an object eg: { above: Block, north: Block, east: Block, ...}
     six_neighbors() {
         return this.four_neighbors(["above", "north", "east", "west", "south", "below"])
-    }
+    },
 
+    getPlanet(){
+        if(this.dimension.id == "minecraft:the_end") {
+            return getPlanetByLocation(this.location);
+        }else return undefined;
+    },
 });
 
 
@@ -106,7 +112,18 @@ Merge(mc.World.prototype, {
             const dimension = this.getDimension(dim);
             return fn ? fn(dimension) : dimension
         })
+    },
+    getPlanet(type){
+        return ALL_PLANETS.find((planet) => planet.id == type)?.class;
     }
+});
+
+Merge(mc.Entity.prototype, {
+    getPlanet(){
+        if(this.dimension.id == "minecraft:the_end") {
+            return getPlanetByLocation(this.location);
+        }else return undefined;
+    },
 });
 
 

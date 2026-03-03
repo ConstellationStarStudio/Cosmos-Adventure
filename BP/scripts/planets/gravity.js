@@ -1,5 +1,4 @@
 import { world, system, Entity } from "@minecraft/server";
-import { Planet } from "./GalacticraftPlanets.js"
 export { Gravity };
 
 
@@ -128,15 +127,9 @@ system.runInterval(() => {
 
 function setGravity(entity) {
   let gravity = Gravity.of(entity)
-  if (entity.dimension.id != 'minecraft:the_end') return gravity.setTemp(9.8);
-  for (let planet of Planet.getAll()) {
-    if (planet.gravity > 5) continue;
-    if (planet.isOnPlanet(entity.location)) {
-      gravity.setTemp(planet.gravity)
-      return true
-    }
-  }
-  gravity.setTemp(9.8)
+  let planet = entity.getPlanet()
+  if (!planet) return gravity.setTemp(9.8);
+  gravity.setTemp(planet.gravity)
 }
 
 export function player_gravity(players){
