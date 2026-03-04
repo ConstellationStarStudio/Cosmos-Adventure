@@ -1,6 +1,7 @@
 import { world, system } from "@minecraft/server";
 import { place_parachest } from "../../core/machines/blocks/Parachest";
 import { set_items_to_vehicle } from "../../core/vehicles/Vehicle";
+import { saved_rocket_items } from "../../api/player/liftoff";
 
 const parachutes = {"cosmos:parachute_black": 0, 
     "cosmos:parachute_blue": 1,
@@ -20,7 +21,7 @@ const parachutes = {"cosmos:parachute_black": 0,
     "cosmos:parachute_yellow": 15
 }
 
-export function return_to_earth(player){
+export function return_to_earth(player, player_data){
     player.inputPermissions.setPermissionCategory(2, true)
     player.inputPermissions.setPermissionCategory(6, true)
     player.setDynamicProperty('in_the_rocket')
@@ -28,7 +29,6 @@ export function return_to_earth(player){
     let overworld = world.getDimension("overworld");
     
     const space_gear = JSON.parse(player.getDynamicProperty("space_gear") ?? '{}')
-    let player_data;
 
     let parachute_color = undefined;
     let parachest = undefined;
@@ -38,12 +38,9 @@ export function return_to_earth(player){
         player.setProperty("cosmos:parachute", parachute_color);
         player.addEffect("slow_falling", 9999, {showParticles: false})
     }
-    if(player.getDynamicProperty('dimension')){
-        player_data = JSON.parse(player.getDynamicProperty('dimension'));
-        player.teleport(player_data.loc, { dimension: world.getDimension("overworld")});
-        player.setDynamicProperty('dimension') 
-
-        parachest = overworld.spawnEntity("cosmos:parachute_chest_entity", {x: Math.round(player_data.loc.x) + 5.5, y: 255, z: Math.round(player_data.loc.z) + 5.5})
+    if(player_data){
+        player.teleport(player.location, { dimension: overworld});
+        parachest = overworld.spawnEntity("cosmos:parachute_chest_entity", {x: Math.round(player.location.x) + 5.5, y: 255, z: Math.round(player.location.z) + 5.5})
         parachest.setProperty("cosmos:parachute", parachute_color ?? 11);
         parachest.addEffect("slow_falling", 9999, {showParticles: false, amplifier: 3})
     }
@@ -71,4 +68,17 @@ export function return_to_earth(player){
             system.clearRun(player_falling);
         }
     });
+}
+
+export function launch_to_earth(player, rocket_data){ 
+    let location = { x: 0 + (Math.random() * 20), y: 255, z: 0 + (Math.random() * 20) };
+	if(rocket_data?.items) saved_rocket_items.set(rocket_data.id, rocket_data.items)
+
+    if (player.dimension.id == "minecraft:overworld"){
+        player.teleport(location);
+        system.runTimeout(() => {return_to_earth(player, rocket_data);}, 5)
+        return;
+    };
+    player.setDynamicProperty('dimension', JSON.stringify(rocket_data));
+    player.teleport(location, { dimension: world.getDimension("minecraft:overworld") });
 }

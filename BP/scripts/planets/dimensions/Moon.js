@@ -14,17 +14,17 @@ export class Moon extends Planet{
         this._time = {length: 192000, day: 96000}
     }
     launching(player, data, loaded = false){
-        if(loaded){ moon_lander(player, true); return;}
+        if(loaded){ moon_lander(player, data); return;}
         let loc = { x: this._center.x + (Math.random() * 20), y: 1000, z: this._center.z + (Math.random() * 20) };
-        if(data.items) saved_rocket_items.set(id, data.items)
-        let player_data = {type: this._type, fuel: data.fuel, 
-        loc, size: data.size, id: data.id, typeId: data.typeId};
-        console.warn(player_data)
-        player.setDynamicProperty('dimension', JSON.stringify(player_data))
-        player.teleport(loc, { dimension: world.getDimension("the_end")});
-        if(data.dimension.id == "minecraft:the_end"){ 
-            system.runTimeout(() => {moon_lander(player, true);}, 5);
+        if(data.items) saved_rocket_items.set(data.id, data.items);
+
+        if(player.dimension.id == "minecraft:the_end"){ 
+            player.teleport(loc)
+            system.runTimeout(() => {moon_lander(player, data);}, 5);
+            return;
         }
+        player.setDynamicProperty('dimension', JSON.stringify(data));
+        player.teleport(loc, { dimension: world.getDimension("the_end")})
     }
 }
 function lander_rotation(player, lander){
@@ -41,21 +41,18 @@ function lander_rotation(player, lander){
     final_rotation_y;
     return [final_rotation_x, final_rotation_y]
 }
-function moon_lander(player, load = true){
+function moon_lander(player, data, load = true){
     let speed = 0;
     player.inputPermissions.setPermissionCategory(2, false);
     player.inputPermissions.setPermissionCategory(6, false);
     player.setProperty("cosmos:rotation_x", 90);
-    
-    let data = JSON.parse(player.getDynamicProperty('dimension'))
     let items_to_set = saved_rocket_items.get(data.id);
     saved_rocket_items.delete(data.id)
-    let typeId = data.typeId;
-    let size = data.size - 2;
+    let size = data.size - 2
     let group = 'cosmos:inv' + size;
-    let lander = player.dimension.spawnEntity("cosmos:lander", {x: data.loc.x, y: 250, z: data.loc.z});
+    let lander = player.dimension.spawnEntity("cosmos:lander", {x: player.location.x, y: 250, z: player.location.z});
     lander.triggerEvent("cosmos:lander_gravity_disable");
-    lander.teleport(data.loc);
+    lander.teleport({x: player.location.x, y: 1000, z: player.location.z});
     save_dynamic_object(lander, data.fuel, "vehicle_data")
     lander.getComponent("minecraft:rideable").addRider(player);
     player.camera.setCamera("minecraft:follow_orbit", { radius: 20 });
@@ -129,7 +126,7 @@ function moon_lander(player, load = true){
                 lander.getComponent("minecraft:rideable").ejectRider(player)
                 lander.triggerEvent("cosmos:rideable_false")
 
-                set_items_to_vehicle(lander, size, items_to_set, typeId)
+                set_items_to_vehicle(lander, size, items_to_set, data.typeId)
 
                 lander.triggerEvent("cosmos:lander_gravity_enable")
                 system.clearRun(lander_flight);

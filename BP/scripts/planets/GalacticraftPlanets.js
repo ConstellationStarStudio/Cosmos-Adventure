@@ -1,5 +1,6 @@
 import { world, system } from "@minecraft/server";
 import { isUnderground } from "../api/utils";
+import { return_to_earth } from "./dimensions/Overworld";
 
 export class Planet{
     constructor(){
@@ -62,8 +63,12 @@ world.afterEvents.gameRuleChange.subscribe(({rule, value}) => {
 world.afterEvents.playerDimensionChange.subscribe((data) => {
     if(!data.player.getDynamicProperty('dimension')) return;
     let player_data = JSON.parse(data.player.getDynamicProperty('dimension'));
-    let planet = world.getPlanet(player_data.type);
-    planet.launching(data.player, player_data, true);
+    data.player.setDynamicProperty("dimension");
+    
+    if(player_data.type !== "overworld"){
+        let planet = world.getPlanet(player_data.type);
+        planet.launching(data.player, player_data, true);
+    }else return_to_earth(data.player, player_data)
 });
 
 //system of cleaning entity that were spawned in night
@@ -82,7 +87,6 @@ world.afterEvents.worldLoad.subscribe(() => {
         mobs.forEach((mob) => {
             if(!mob.isValid) return;
             let planet = mob.getPlanet();
-            console.warn(planet?.getTimeOfDay())
             if(planet && !isUnderground(mob) && planet.getTimeOfDay() < planet.time.day) mob.setOnFire(10)
         });
     }, 100);

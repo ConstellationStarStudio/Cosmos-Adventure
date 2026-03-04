@@ -1,4 +1,4 @@
-import {system, world} from "@minecraft/server";
+import {system, world, ItemStack} from "@minecraft/server";
 import AllVehicles from "./AllVehicles";
 import { rocket_nametags } from "../../api/player/liftoff";
 export let vehicles = new Map();

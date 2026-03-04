@@ -117,6 +117,16 @@ export function rocket_flight(rocket) {
     })
 }
 
+//if there's no rocket it will return standart values
+export function get_rocket_data(rocket, use_standart_data = false){
+    if(use_standart_data) return {typeId: "cosmos:rocket_tier_1", id: undefined, size: 2, fuel: 0, items: undefined};
+    let inventory = rocket.getComponent("minecraft:inventory");
+	let fuel = load_dynamic_object(rocket, "vehicle_data")?.fuel ?? 0;
+	let items = [];
+	for(let i = 0; i <= (inventory.inventorySize - 3); i++){ items.push(inventory.container.getItem(i)) };
+    return {typeId: rocket.typeId, id: rocket.id, size: inventory.inventorySize, fuel, items}
+}
+
 world.afterEvents.entityRemove.subscribe(({removedEntityId}) => {
     world.getPlayers().filter(player => player.getDynamicProperty('in_the_rocket') == removedEntityId)
     .forEach(player => dismount(player))
