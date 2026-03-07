@@ -17,7 +17,7 @@
                {
                   "filters": {
                      "subject": "other",
-                     "value": "villager",
+                     "value": "alien_villager",
                      "test": "is_family"
                   }
                }
@@ -108,7 +108,7 @@
             "walk_speed_multiplier": 1
          },
          "minecraft:type_family": {
-            "family": "villager"
+            "family": "alien_villager"
          },
          "minecraft:movement.basic": {},
          "minecraft:inventory": {
@@ -172,14 +172,14 @@
             "minecraft:trade_table": {
                "table": "trading/alien_villager_trades.json",
                "convert_trades_economy": false,
-               "display_name": "entity.alien_villager.name"
+               "display_name": "entity.cosmos:alien_villager.name"
             },
             "minecraft:variant": {
                "value": 0
             },
             "minecraft:type_family": {
                "family": [
-                  "villager",
+                  "alien_villager",
                   "peasant",
                   "farmer"
                ]
@@ -240,7 +240,7 @@
          "adult": {
             "minecraft:type_family": {
                "family": [
-                  "villager",
+                  "alien_villager",
                   "peasant",
                   "farmer",
                   "abult"
