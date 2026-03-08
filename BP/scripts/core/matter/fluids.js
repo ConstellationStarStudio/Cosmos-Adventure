@@ -161,7 +161,7 @@ export function input_fluid(fluid_type, entity, block, fluid) {
     if (!source_location || fluid == data[fluid_type].capacity) return fluid
     const source_block = block.dimension.getBlock(source_location)
 
-    if (source_block.typeId == "cosmos:fluid_pipe") {
+    if (source_block?.typeId == "cosmos:fluid_pipe") {
         return fluid
     } else {
         const source_entity = get_entity(entity.dimension, source_location, `has_${fluid_type}_output`)
@@ -195,6 +195,7 @@ export function load_to_canister(liquid_amount, liquid_type, container, slot){
         container.setItem(slot, update_canister(canister, canister_capacity, liquid_type));
         return liquid_amount;
     }
+    return liquid_amount;
 }
 
 export function load_from_canister_instant(liquid_amount, liquid_type, entity, slot) {

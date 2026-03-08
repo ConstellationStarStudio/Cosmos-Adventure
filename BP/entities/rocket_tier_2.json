@@ -3,10 +3,71 @@
    "minecraft:entity": {
       "description": {
          "identifier": "cosmos:rocket_tier_2",
-         "is_summonable": true
+         "is_summonable": true,
+            "properties": {
+                "cosmos:rotation_x": {
+                  "type": "float",
+                  "range": [-90.0, 90.0],
+                  "default": 0.0,
+                  "client_sync": true
+                },
+                "cosmos:rotation_y": {
+                    "type": "float",
+                    "range": [0.0, 360.0],
+                    "default": 0.0,
+                    "client_sync": true
+                },
+                "cosmos:launched": {
+                  "type": "bool",
+                  "default": false,
+                  "client_sync": true
+                },
+               "cosmos:planet": {
+                  "type": "bool",
+                  "default": false,
+                  "client_sync": true
+                },
+               "cosmos:planet_scale": {
+                    "type": "float",
+                    "range": [0.0, 1.5],
+                    "default": 1.0,
+                    "client_sync": true
+               }
+            }
       },
-      "component_groups": {},
-      "components": {
+        "component_groups": {
+         "inv0": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 2
+            }
+         },
+			"inv18": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 20
+            }
+			},
+			"inv36": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 38
+            }
+			},
+			"inv54": {
+            "minecraft:inventory": {
+               "container_type": "chest_boat",
+               "inventory_size": 56
+            }
+			},
+         "disabled_gravity": {
+            "minecraft:physics": {
+               "has_gravity": false,
+               "has_collision": true
+            }
+         }
+   },
+      "components": {       
          "minecraft:collision_box": {
             "height": 4.5,
             "width": 1
@@ -44,19 +105,47 @@
             "pull_in_entities": false,
             "seat_count": 1,
             "seats": {
-               "position": [
-                  0,
-                  1.1,
-                  0
-               ]
+               "position": [0, 1.5, 0]
             }
          },
          "minecraft:type_family": {
             "family": [
-               "rocket"
+               "rocket",
+               "vehicle"
             ]
          }
       },
-      "events": {}
+      "events": {
+         "cosmos:tick": {
+             "queue_command": {
+                  "command": "scriptevent cosmos:rocket tick"
+            }
+         },
+         "cosmos:inv0": {
+                "add":{
+                    "component_groups": ["inv0"]
+            }
+         },
+         "cosmos:inv18": {
+                "add":{
+                    "component_groups": ["inv18"]
+            }
+         },
+         "cosmos:inv36": {
+                "add":{
+                    "component_groups": ["inv36"]
+            }
+         },
+         "cosmos:inv54": {
+                "add":{
+                    "component_groups": ["inv54"]
+            }
+         },
+         "cosmos:disable_gravity": {
+                "add":{
+                    "component_groups": ["disabled_gravity"]
+                  }
+            }
+      }
    }
 }

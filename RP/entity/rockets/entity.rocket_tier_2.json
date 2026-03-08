@@ -1,20 +1,39 @@
 {
-   "format_version": "1.8.0",
-   "minecraft:client_entity": {
-      "description": {
-         "geometry": {
-            "default": "geometry.rocket_tier_2"
-         },
-         "identifier": "cosmos:rocket_tier_2",
-         "materials": {
-            "default": "skeleton"
-         },
-         "render_controllers": [
-            "controller.render.rocket"
-         ],
-         "textures": {
-            "default": "textures/entity/rocket_tier_2"
-         }
-      }
-   }
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "cosmos:rocket_tier_2",
+			"textures": {
+				"default": "textures/entity/rocket_tier_2",
+				"planet": "textures/ui/cosmos/celestial_selector/earth"
+			},
+			"materials": {
+				"default": "skeleton"
+			},
+			"geometry": {
+				"default": "geometry.rocket_tier_2",
+				"planet": "geometry.earth"
+			},
+			"render_controllers": [
+				"controller.render.rocket",
+				"controller.render.planet"
+			],
+			"particle_effects": {
+				"launch_flame": "cosmos:rocket_flame"
+			},
+			"enable_attachables": false,
+			"hide_armor": true,
+			"scripts": {
+				"animate": [
+					"rotation",
+					"rocket_flame"
+				]
+			},
+			"animations": {
+				"rotation": "animation.rocket_tier_1.rotation",
+				"rocket_flame": "controller.animation.rocket_tier_1.flame_particle",
+				"spawn_flame": "animation.rocket_tier_1.spawn_flame"
+			}
+		}
+	}
 }

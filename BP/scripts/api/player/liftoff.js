@@ -1,5 +1,6 @@
 import { world, system } from "@minecraft/server";
 import { save_dynamic_object, load_dynamic_object } from "../utils";
+import { get_vehicle_data } from "../../core/vehicles/Vehicle";
 
 export const rocket_nametags = {0: 0, 18: 1, 36: 2, 54: 3}
 export let saved_rocket_items = new Map();
@@ -58,11 +59,11 @@ export function rocket_rotation(player, rocket){
     rotation.y;
     return rotation;
 }
-export function rocket_motion(time_since_launch, rotation){
+export function rocket_motion(time_since_launch, rotation, speed){
     let multiplier = time_since_launch / 150;
     multiplier = Math.min(multiplier, 1);
     let velocity = {x: 0, y: 0, z: 0};
-    velocity.y = -multiplier * Math.cos((rotation.x - 180) / 57.2957795147);
+    velocity.y = -multiplier * Math.cos((rotation.x - 180) / 57.2957795147) * speed;
 
     velocity.x = -(50 * Math.cos(rotation.y/57.2957795147) * Math.sin(rotation.x * 0.01/57.2957795147));
     velocity.z = -(50 * Math.sin(rotation.y/57.2957795147) * Math.sin(rotation.x * 0.01/57.2957795147));
@@ -71,6 +72,8 @@ export function rocket_motion(time_since_launch, rotation){
 export function rocket_flight(rocket) {
     if (!rocket || !rocket.isValid) return
     let t = 0;
+    let data = get_vehicle_data(rocket);
+    let fuel_multiplier = rocket.getPlanet()?.fuelMultiplier ?? 1;
     //enables flight particles
     rocket.setProperty("cosmos:launched", true)
     let flight = system.runInterval(() => {
@@ -86,13 +89,13 @@ export function rocket_flight(rocket) {
         if (t > 40) rocket.setDynamicProperty('rocket_launched', true)
         
         let rotation = rocket_rotation(player, rocket);
-        let velocity = rocket_motion(t, rotation);
+        let velocity = rocket_motion(t, rotation, data.speed);
         rocket.clearVelocity();
         rocket.applyImpulse({x: velocity.x, y: velocity.y, z: velocity.z});
 
         let dynamic_object = load_dynamic_object(rocket, "vehicle_data")
         let fuel = dynamic_object?.fuel || 0;
-        if(!(system.currentTick % 2)){
+        if(t % Math.floor(2 * (1 / fuel_multiplier)) === 0){
             fuel = Math.max(0, fuel - 1)
             dynamic_object.fuel = fuel;
             save_dynamic_object(rocket, dynamic_object, "vehicle_data");
@@ -111,8 +114,8 @@ export function rocket_flight(rocket) {
             scale = 850 * (0.25 - scale / 10000);
             scale = Math.max(scale, 0.2);
             scale = scale/200;
-            rocket.setProperty("cosmos:planet", true);
-            rocket.setProperty("cosmos:planet_scale", scale)
+            player.setPropertyOverrideForEntity(rocket, "cosmos:planet", true);
+            player.setPropertyOverrideForEntity(rocket, "cosmos:planet_scale", scale)
         }
     })
 }

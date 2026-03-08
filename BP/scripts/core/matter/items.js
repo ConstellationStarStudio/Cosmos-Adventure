@@ -6,6 +6,7 @@ import "../items/desh_pickaxe.js"
 
 import { world } from "@minecraft/server"
 import { update_battery } from "./electricity"
+import { tanks, update_tank } from "../../api/player/oxygen.js"
 
 world.afterEvents.playerInventoryItemChange.subscribe(({itemStack:item, slot, player}) => {
     if (item?.typeId == "cosmos:empty_canister" && item?.getComponent("minecraft:durability").damage != 1000){
@@ -19,5 +20,8 @@ world.afterEvents.playerInventoryItemChange.subscribe(({itemStack:item, slot, pl
     else if (item?.typeId == "cosmos:ui_button") {
         const id = item.getLore()[0]
         if (!id || !world.getEntity(id)) player.getComponent("minecraft:inventory").container.setItem(slot)
+    }
+    else if(item?.typeId && tanks[item.typeId] && !item?.getLore().length){
+        player.getComponent("minecraft:inventory").container.setItem(slot, update_tank(item, 0));
     }
 })

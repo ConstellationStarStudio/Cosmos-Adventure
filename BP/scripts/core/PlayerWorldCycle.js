@@ -20,10 +20,11 @@ world.afterEvents.worldLoad.subscribe(() => {
 
         players.forEach((player) => {
             let tags = player.getTags();
+            let planet = player.getPlanet();
             //manage oxygen
             if(!(currentTick % 20) && tags.includes("ableToOxygen") && !tags.includes("oxygen_hunger") && player.getGameMode() == "Survival" && !is_entity_in_a_bubble(player)) oxygen_spending(player)
             //manage asteroids falling in the moon
-            if(tags.includes("in_space") && tags.includes("moon")){
+            if(tags.includes("in_space") && planet?.type == "moon"){
                 throw_meteors(player);
             }
             //manage dungeon finder
@@ -53,9 +54,9 @@ world.afterEvents.playerDimensionChange.subscribe((data) => {
         if(!planet) return;
         data.player.addTag("in_space");
         data.player.addTag("ableToOxygen");
-        data.player.addTag(planet.type);
     }
     if(data.fromDimension.id == "minecraft:the_end"){
+        data.player.runCommand("fog @s remove mars")
         space_tags_removing(data.player);
     }
 });

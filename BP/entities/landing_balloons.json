@@ -2,19 +2,19 @@
     "format_version": "1.8.0",
     "minecraft:entity": {
         "description": {
-            "identifier": "cosmos:lander",
+            "identifier": "cosmos:landing_balloons",
             "is_summonable": true,
             "properties": {
                 "cosmos:rotation_x": {
-                  "type": "int",
-                  "range": [-45, 45],
-                  "default": 0,
+                  "type": "float",
+                  "range": [-20.0, 20.0],
+                  "default": 0.0,
                   "client_sync": true
                 },
                 "cosmos:rotation_y": {
-                    "type": "int",
-                    "range": [0, 360],
-                    "default": 0,
+                    "type": "float",
+                    "range": [0.0, 360.0],
+                    "default": 0.0,
                     "client_sync": true
                 }
             }
@@ -103,7 +103,7 @@
                 "inventory_size": 4
             },
             "minecraft:collision_box": {
-                "height": 4,
+                "height": 2,
                 "width": 2
             },
             "minecraft:tick_world": {},
@@ -145,7 +145,7 @@
                 "pull_in_entities": false,
                 "seat_count": 1,
                 "seats": {
-                    "position": [ 0, 2, 0]
+                    "position": [ 0, 0.4, 0]
                 }
             }
         }

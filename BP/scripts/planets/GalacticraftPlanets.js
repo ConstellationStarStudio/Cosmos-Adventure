@@ -9,6 +9,7 @@ export class Planet{
         this._range;
         this._time;
         this._center;
+        this._fuelMultiplier;
     }
     get type(){
         return this._type;
@@ -30,6 +31,9 @@ export class Planet{
     }
     get gravity() {
         return this._gravity;
+    }
+    get fuelMultiplier() {
+        return this._fuelMultiplier;
     }
     offset(location) {
         return {
@@ -63,8 +67,13 @@ world.afterEvents.gameRuleChange.subscribe(({rule, value}) => {
 world.afterEvents.playerDimensionChange.subscribe((data) => {
     if(!data.player.getDynamicProperty('dimension')) return;
     let player_data = JSON.parse(data.player.getDynamicProperty('dimension'));
-    data.player.setDynamicProperty("dimension");
-    
+    data.player.setDynamicProperty('dimension');
+    let planet = world.getPlanet(player_data.type);
+
+    if(data.fromDimension.id == "minecraft:the_end" && player_data.type !== "overworld"){
+        planet.launching(data.player, player_data, false)
+        return;
+    }
     if(player_data.type !== "overworld"){
         let planet = world.getPlanet(player_data.type);
         planet.launching(data.player, player_data, true);
@@ -72,12 +81,12 @@ world.afterEvents.playerDimensionChange.subscribe((data) => {
 });
 
 //system of cleaning entity that were spawned in night
-const evolved_mobs = ["cosmos:evolved_zombie", "cosmos:evolved_creeper", "cosmos:evolved_skeleton"]
+const evolved_mobs = ["cosmos:evolved_zombie", "cosmos:evolved_creeper", "cosmos:evolved_skeleton", "cosmos:evolved_spider"]
 world.afterEvents.entitySpawn.subscribe(({entity, cause}) => {
     if(entity.isValid && cause == "Spawned" && evolved_mobs.includes(entity.typeId)){
         let planet = entity.getPlanet();
         if(planet && planet.getTimeOfDay() < planet.time.day && !isUnderground(entity)) entity.remove()
-        else if(planet && entity.typeId !== "cosmos:evolved_creeper") entity.addTag("hostile_space_mob")
+        else if(planet && entity.typeId !== "cosmos:evolved_creeper" && entity.typeId !== "cosmos:evolved_spider") entity.addTag("hostile_space_mob")
     }
 });
 

@@ -60,13 +60,15 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
         onUseOn({block, source:player, usedOnBlockPermutation:pad, itemStack:item}) {
 			if (block.typeId != "cosmos:rocket_launch_pad") return
 			if (!pad.getState("cosmos:center")) return
-			if (item.typeId != "cosmos:rocket_tier_1_item") return
+			if (!["cosmos:rocket_tier_1_item", "cosmos:rocket_tier_2_item"].includes(item.typeId)) return
 			if (player.dimension.getEntities({ location: block.center(), maxDistance: 1 }).length) return
 
 			const {x, y, z} = block.center()
 			const equipment = player.getComponent("minecraft:equippable")
 			let inventory_size = item.getDynamicProperty('inventory_size') || 0;
-			player.dimension.spawnEntity("cosmos:rocket_tier_1", {x: x, y: y - 0.3, z: z}, {spawnEvent: 'cosmos:inv' + inventory_size, initialRotation: 90})
+			let type = {"cosmos:rocket_tier_1_item": "cosmos:rocket_tier_1", 
+			"cosmos:rocket_tier_2_item": "cosmos:rocket_tier_2"}[item.typeId];
+			player.dimension.spawnEntity(type, {x: x, y: y - 0.3, z: z}, {spawnEvent: 'cosmos:inv' + inventory_size, initialRotation: 90})
 			if (player.getGameMode() != "Creative") equipment.setEquipment("Mainhand", item.decrementStack())
         }
     })

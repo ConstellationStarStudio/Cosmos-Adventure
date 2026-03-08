@@ -100,7 +100,7 @@ function create_station(player) {
 	world.setDynamicProperty("all_space_stations", JSON.stringify(space_stations))
 }
 
-export function start_celestial_selector(player) {
+export function start_celestial_selector(player, tier = 1) {
 	player.setDynamicProperty('in_celestial_selector', true)
 	player.runCommand('hud @s hide all')
 	const fade = system.runInterval(() => {
@@ -111,7 +111,7 @@ export function start_celestial_selector(player) {
 			system.clearRun(fade)
 		}
 	}, 20)
-	select_solar_system(player)
+	select_solar_system(player, tier)
 }
 
 system.beforeEvents.startup.subscribe(({ customCommandRegistry }) => {

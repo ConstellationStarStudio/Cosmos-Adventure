@@ -27,7 +27,6 @@ export default class {
 		//load data
 		const data = get_data(this.entity)
         const container = this.entity.getComponent('minecraft:inventory').container
-		const dimension = this.entity.dimension
 		const active = this.entity.getDynamicProperty("active")
 		
 		const variables = load_dynamic_object(this.entity, "machine_data")

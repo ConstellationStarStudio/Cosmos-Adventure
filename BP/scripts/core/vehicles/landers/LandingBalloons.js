@@ -6,17 +6,17 @@ export default class{
     constructor(entity, block) {
         this.entity = entity;
         this.block = block;
-        if (entity.isValid) this.lander();
+        if (entity.isValid) this.landing_balloons();
     }
-    lander(){
+    landing_balloons(){
         if(system.currentTick % 20) return;
-        let lander = this.entity;
-        let inventory = lander.getComponent('minecraft:inventory');
+        let landing_balloons = this.entity;
+        let inventory = landing_balloons .getComponent('minecraft:inventory');
         let container = inventory.container;
-        let fuel = load_dynamic_object(lander, "vehicle_data")?.fuel || 0;
+        let fuel = load_dynamic_object(landing_balloons, "vehicle_data")?.fuel || 0;
         if(fuel > 0){
             fuel = load_to_canister(fuel, "fuel", container, 1);
-            save_dynamic_object(lander, {fuel}, "vehicle_data")
+            save_dynamic_object(landing_balloons, {fuel}, "vehicle_data")
         }
         container.add_ui_display(inventory.inventorySize - 4, "", Math.ceil((Math.ceil(fuel/26))))
     }

@@ -2,6 +2,7 @@ import { system, MolangVariableMap} from "@minecraft/server"
 import { start_countdown, dismount} from "../../../api/player/liftoff";
 import { start_celestial_selector } from "../../../api/player/celestial_selector";
 import { load_dynamic_object } from "../../../api/utils";
+import { get_vehicle_data } from "../Vehicle";
 
 export default class{
     constructor(entity, block) {
@@ -12,6 +13,7 @@ export default class{
     rocket(){
         if(system.currentTick % 10) return;
         let rocket = this.entity;
+        let data = get_vehicle_data(rocket);
 
         const rider = rocket.getComponent('minecraft:rideable').getRiders()
         .find(rider => rider.typeId == "minecraft:player")
@@ -25,7 +27,7 @@ export default class{
                 rocket.setDynamicProperty("freezed", true)
                 rocket.setProperty("cosmos:launched", false)
                 rocket.triggerEvent("cosmos:disable_gravity")
-                start_celestial_selector(current_rider)
+                start_celestial_selector(current_rider, data.tier)
             }
         }
         let inventory = rocket.getComponent('minecraft:inventory');
@@ -59,7 +61,7 @@ export default class{
         }
         //set the camera and the player in the rocket      
         if (!rider.getDynamicProperty('in_the_rocket')) {
-            rider.camera.setCamera("minecraft:follow_orbit", { radius: 20 })
+            rider.camera.setCamera(data.camera)
             rider.setDynamicProperty('in_the_rocket', rocket.id)
             //display the countdown timer
             if (!active) rider.onScreenDisplay.setTitle('§c20', {fadeInDuration: 0, fadeOutDuration: 0, stayDuration: 20000})

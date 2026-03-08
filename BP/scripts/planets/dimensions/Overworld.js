@@ -71,6 +71,7 @@ export function return_to_earth(player, player_data){
 }
 
 export function launch_to_earth(player, rocket_data){ 
+    player.runCommand("fog @s remove mars");
     let location = { x: 0 + (Math.random() * 20), y: 255, z: 0 + (Math.random() * 20) };
 	if(rocket_data?.items) saved_rocket_items.set(rocket_data.id, rocket_data.items)
 
