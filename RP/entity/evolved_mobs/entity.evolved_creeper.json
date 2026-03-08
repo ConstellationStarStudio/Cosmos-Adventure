@@ -13,7 +13,7 @@
         "default": "geometry.evolved_creeper"
       },
       "spawn_egg": {
-        "base_color": "#799c65",
+        "base_color": "#0da70b",
         "overlay_color": "#000000"
       },
       "scripts": {
