@@ -13,7 +13,7 @@
 			}
         },
         "distribution": {
-            "iterations": "v.originz <= -50000 && v.originz >= -100000 && v.originx <= -50000 && v.originx >= -100000",
+            "iterations": "v.originx >= -100000 && v.originz >= 50000 && v.originx <= -50000 && v.originz <= 100000",
             "x": 0,
             "y": 10,
             "z": 0
