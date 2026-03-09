@@ -15,7 +15,7 @@
         "default": "geometry.item_df"
       },
       "animations": {
-        "hold": "animation.item32.hold"
+        "hold": "animation.dungeon_finder.hold"
       },
       "scripts": {
         "animate": [

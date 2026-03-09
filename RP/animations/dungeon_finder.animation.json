@@ -1,0 +1,15 @@
+{
+    "format_version": "1.10.0",
+    "animations": {
+      "animation.dungeon_finder.hold": {
+        "loop": true,
+        "bones": {
+          "rightitem": {
+            "position": [ "c.is_first_person ? -2 : 1", "c.is_first_person ? 3.5 : 0", "c.is_first_person ? -1 : -6" ],
+            "rotation": [ "c.is_first_person ? 57.5 : 10", "c.is_first_person ? 0 : 0", "c.is_first_person ? 25 : -165" ],
+            "scale":["c.is_first_person ? 1 : 0.5", "c.is_first_person ? 1 : 0.5", "c.is_first_person ? 1 : 0.5"]
+          }
+        }
+      }
+    }
+  }
