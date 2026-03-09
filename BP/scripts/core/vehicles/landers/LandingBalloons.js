@@ -11,7 +11,7 @@ export default class{
     landing_balloons(){
         if(system.currentTick % 20) return;
         let landing_balloons = this.entity;
-        let inventory = landing_balloons .getComponent('minecraft:inventory');
+        let inventory = landing_balloons.getComponent('minecraft:inventory');
         let container = inventory.container;
         let fuel = load_dynamic_object(landing_balloons, "vehicle_data")?.fuel || 0;
         if(fuel > 0){
