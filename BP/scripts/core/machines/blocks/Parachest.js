@@ -1,28 +1,34 @@
 import { system, BlockPermutation } from "@minecraft/server";
 import { rocket_nametags } from "../../../api/player/liftoff";
 import { machine_entities } from "../Machine";
+import { load_to_canister } from "../../matter/fluids";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils";
 
 export default class {
     constructor(entity, block) {
 		this.entity = entity;
 		this.block = block;
-        if (entity.isValid) this.parachest;
+        if (entity.isValid) this.parachest();
     }
     onPlace(){
       place_parachest(0, undefined, undefined, 0, undefined, this.entity)
     }
     parachest() {
-		if(system.currentTick % 10) return;
+		    if(system.currentTick % 20) return;
         let parachest = this.entity;
         let inventory = parachest.getComponent('minecraft:inventory');
         let container = inventory.container;
-        let fuel = load_dynamic_object(lander, "machine_data")?.fuel || 0;
+        let fuel = load_dynamic_object(parachest, "machine_data")?.fuel || 0;
+        if(fuel > 0){
+          fuel = load_to_canister(fuel, "fuel", container, 1);
+          save_dynamic_object(parachest, {fuel}, "machine_data")
+        }
         container.add_ui_display(inventory.inventorySize - 4, "", Math.ceil((Math.ceil(fuel/26))))
 	}
 }
 
 //takes location or entity
+
 export function place_parachest(fuel, dimension, parachest_loc, inventory_size, parachute_color, parachest = undefined){
   if(!parachest){
     dimension.getBlock(parachest_loc).setPermutation(BlockPermutation.resolve("cosmos:parachest", {"cosmos:parachute": parachute_color ?? 11}))

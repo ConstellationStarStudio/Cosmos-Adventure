@@ -59,30 +59,27 @@
          },
          "minecraft:damage_sensor": {
             "triggers": {
-                  "deals_damage": false
+            "deals_damage": false
             }
-         },    
-         "minecraft:collision_box": {
-            "height": 1,
-            "width": 1
          },
+         "minecraft:type_family": {
+            "family": [
+               "cosmos",
+               "machine"
+               ]
+         },
+         "minecraft:collision_box": {
+            "width": 1,
+            "height": 1
+         },
+			"minecraft:health": {
+				"value": 1,
+				"max": 1,
+				"min": 1
+			},
          "minecraft:knockback_resistance": {
             "value": 100,
             "max": 100
-         },
-         "minecraft:type_family": {
-            "family": ["cosmos"]
-            },
-         "minecraft:fall_damage": {
-            "value": 0
-         },
-         "minecraft:fire_immune": true,
-         "minecraft:health": {
-            "max": 1,
-            "value": 1
-         },
-         "minecraft:push_through": {
-            "value": 1
          },
          "minecraft:pushable": {
             "is_pushable": false,
@@ -90,7 +87,7 @@
          },
          "minecraft:physics": {
             "has_gravity": false,
-            "has_collision": false
+				"has_collision": false
          }
       },
       "events": {
