@@ -5,7 +5,7 @@
 			"loop": true,
 			"bones": {
 				"entity": {
-					"rotation": [0, "180 - query.property('cosmos:rotation_y')", 0]
+					"rotation": [0, "v.rotation - 180", 0]
                                 },
 				"wheel_f_right": {
 					"rotation": ["query.property('cosmos:wheel_rotation_x')", 0, 0]
@@ -18,6 +18,31 @@
 				},
 				"wheel_b_left": {
 					"rotation": ["query.property('cosmos:wheel_rotation_x')", 0, 0]
+				}
+			}
+		},
+		"animation.moon_buggy.radar": {
+			"loop": true,
+			"animation_length": 6.6146,
+			"bones": {
+				"radar": {
+					"rotation": {
+						"0.0": [-30, 0, -70],
+						"1.5191": {
+							"pre": [9.54802, -18.91326, 52.50526],
+							"post": [9.54802, -18.91326, 52.50526],
+							"lerp_mode": "catmullrom"
+						},
+						"3.1684": {
+							"post": [27.83729, 1.6116, -73.8861],
+							"lerp_mode": "catmullrom"
+						},
+						"4.7309": {
+							"post": [9.12298, 8.23626, 56.94384],
+							"lerp_mode": "catmullrom"
+						},
+						"6.5972": [-30, 0, -70]
+					}
 				}
 			}
 		}
