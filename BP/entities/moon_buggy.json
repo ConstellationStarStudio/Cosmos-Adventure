@@ -45,13 +45,7 @@
             }
 			}
       },
-      "components": {
-         "minecraft:timer": {
-				"time": 1,
-				"time_down_event": {
-					"event": "cosmos:tick"
-				}
-         },         
+      "components": {       
          "minecraft:collision_box": {
             "height": 4,
             "width": 1
@@ -78,11 +72,7 @@
             "has_gravity": true,
             "has_collision": true
          },
-         "minecraft:input_ground_controlled": {},
 			"minecraft:can_climb": {},
-         "minecraft:movement": {
-				"value": 0.15
-			},
          "minecraft:rideable": {
             "crouching_skip_interact": true,
             "family_types": [
@@ -93,7 +83,7 @@
             "pull_in_entities": false,
             "seat_count": 1,
             "seats": {
-               "position": [0, 0.4, -0.4]
+               "position": [0, 0.4, 0]
             }
          },
          "minecraft:type_family": {
@@ -103,11 +93,6 @@
          }
       },
       "events": {
-         "cosmos:tick": {
-             "queue_command": {
-                  "command": "scriptevent cosmos:rocket tick"
-             }
-         },
                   "cosmos:inv0": {
                 "add":{
                     "component_groups": ["inv0"]
