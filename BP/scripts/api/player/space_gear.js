@@ -59,10 +59,12 @@ function setItems(player, entity) {
 		const slot = slotKeys[i]
 		if (space_gear[slot]) {
 			const [item_id, fill_level] = space_gear[slot].split(' ')
-			const item = new ItemStack(item_id)
-			const durability = item.getComponent('minecraft:durability')
-			if (durability) {
-				durability.damage = durability.maxDurability - fill_level
+			let item = new ItemStack(item_id)
+			if (tanks[item.typeId]) {
+				item = update_tank(item, fill_level);
+			}else{
+				const durability = item.getComponent('minecraft:durability')
+                if (durability) durability.damage = durability.maxDurability - fill_level;
 			}
 			container.setItem(i, item)
 		} else container.setItem(i)
