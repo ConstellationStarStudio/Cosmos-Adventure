@@ -47,16 +47,8 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
   });
 });
 
-export default class {
-  constructor(entity, block) {
-    this.entity = entity;
-    this.block = block;
-    if (entity.isValid) {
-      this.generateEnergy();
-    }
-  }
-  generateEnergy() {
-    const e = this.entity;
+export default function(entity, block){
+    const e = entity;
     let stopped = e.getDynamicProperty('stopped');
     if(stopped == undefined) stopped = true;
     const data = get_data(e);
@@ -86,8 +78,8 @@ export default class {
       e.addEffect("invisibility", 9999, {showParticles: false});
       if(!stopped){
         solar_strength = 0;
-        if(is_day_time && this.block != undefined){
-          let {x, y, z} = this.block.location;
+        if(is_day_time && block != undefined){
+          let {x, y, z} = block.location;
           let panel_blocks = [{x: x, z: z}, {x: x + 1, z: z}, {x: x - 1, z: z}, {x: x, z: z + 1}, {x: x, z: z - 1},
           {x: x + 1, z: z + 1}, {x: x - 1, z: z - 1}, {x: x - 1, z: z + 1}, {x: x + 1, z: z - 1}];
 
@@ -133,9 +125,7 @@ export default class {
     container.add_ui_display(5, "§rEnvinromental Boost: 0.0%%")
 
     if(!container.getItem(6)) {
-       this.entity.setDynamicProperty('stopped', !stopped)
-       container.add_ui_button(6, stopped ? 'Disable' : 'Enable')
+        entity.setDynamicProperty('stopped', !stopped)
+        container.add_ui_button(6, stopped ? 'Disable' : 'Enable')
     }
-
-  }
 }

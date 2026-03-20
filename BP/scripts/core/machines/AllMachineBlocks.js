@@ -15,6 +15,8 @@ import Parachest from './blocks/Parachest'
 import OxygenDistributor from './blocks/OxygenDistributor'
 import BasicSolarPanel from './blocks/BasicSolarPanel'
 
+import { place_parachest } from './blocks/Parachest'
+
 export default {
 	"coal_generator": {
 		ui: "§c§o§a§l§_§g§e§n§e§r§a§t§o§r",
@@ -151,5 +153,6 @@ export default {
 	"parachest":{
 		ui: '',
 		class: Parachest,
+		place(entity){ place_parachest(0, undefined, undefined, 0, undefined, entity)}
 	}
 }

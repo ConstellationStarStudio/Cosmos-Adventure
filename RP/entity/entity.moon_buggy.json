@@ -13,7 +13,7 @@
 				"default": "geometry.moon_buggy"
 			},
 			"render_controllers": [
-				"controller.render.rocket"
+				"controller.render.buggy"
 			],
 			"enable_attachables": false,
 			"hide_armor": true,
@@ -25,12 +25,13 @@
 
                     "v.body = v.trs_struct;",
 
-                    "v.is_rendered = false;"
+                    "v.is_rendered = false;",
+					"v.container_number = q.property('cosmos:container_number');"
 			    ],
 			    "pre_animation": [
 			        "v.is_rendered ? {v.body = q.bone_orientation_trs('entity');};",
 			        "v.is_rendered = true;",
-					"t.old_rotation = (math.floor(v.body.r.z) == 180)? 360 - (v.body.r.y + 90): v.body.r.y + 90;  t.old_rotation = t.old_rotation + 90; t.old_rotation = (t.old_rotation > 360)? t.old_rotation - 360: t.old_rotation; v.rotation = math.lerprotate(t.old_rotation, q.property('cosmos:rotation_y'), q.delta_time * 3);"
+					"t.old_rotation = (math.floor(v.body.r.z) == 180)? 360 - (v.body.r.y + 90): v.body.r.y + 90;  t.old_rotation = t.old_rotation + 90; t.old_rotation = (t.old_rotation > 360)? t.old_rotation - 360: t.old_rotation; v.rotation = math.lerprotate(t.old_rotation, q.property('cosmos:rotation_y'), q.delta_time * 3.5);"
 		        ],
 				"animate": [
 					"rotation",

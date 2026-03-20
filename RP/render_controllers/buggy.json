@@ -1,0 +1,27 @@
+{
+  "format_version": "1.20.80",
+  "render_controllers": {
+    "controller.render.buggy": {
+      "geometry": "geometry.default",
+      "materials": [
+        {
+          "*": "material.default"
+        }
+      ],
+      "part_visibility": [
+        {
+          "cargo_right": "v.container_number > 0"
+        },
+        {
+          "cargo_mid": "v.container_number > 1"
+        },
+        {
+          "cargo_left": "v.container_number > 2"
+        }
+      ],
+      "textures": [
+        "texture.default"
+      ]
+    }
+  }
+}
