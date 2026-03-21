@@ -154,7 +154,7 @@ world.afterEvents.worldLoad.subscribe(() => {
 			if(!block) return;
 			const data = machines[machineData.type]
 			// tick the machine
-			new data.class(machineEntity, block)
+			data.class(machineEntity, block)
 			// hopper support every 8 ticks
 			if (system.currentTick % 8 == 0) hopper_interactions(block, machineEntity, data)
 		});
@@ -174,7 +174,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 			system.run(() => {
 				const machineEntity = block.dimension.spawnEntity(perm.type.id, block.bottomCenter());
 				machineEntity.nameTag = machine_object.ui;
-				try { new machine_object.class(machineEntity, block).onPlace() } catch { null }
+				try { machine_object.place(machineEntity) } catch { null }
 				const dynamic_object = JSON.parse(machineEntity.getDynamicProperty("machine_data") ?? "{}");
 				machine_entities.set(machineEntity.id, { type: machine_name, location: block.location, entity_data: dynamic_object });
 				if (perm.getState("cosmos:full")) {

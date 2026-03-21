@@ -4,27 +4,17 @@ import { machine_entities } from "../Machine";
 import { load_to_canister } from "../../matter/fluids";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils";
 
-export default class {
-    constructor(entity, block) {
-		this.entity = entity;
-		this.block = block;
-        if (entity.isValid) this.parachest();
-    }
-    onPlace(){
-      place_parachest(0, undefined, undefined, 0, undefined, this.entity)
-    }
-    parachest() {
-		    if(system.currentTick % 20) return;
-        let parachest = this.entity;
-        let inventory = parachest.getComponent('minecraft:inventory');
-        let container = inventory.container;
-        let fuel = load_dynamic_object(parachest, "machine_data")?.fuel || 0;
-        if(fuel > 0){
-          fuel = load_to_canister(fuel, "fuel", container, 1);
-          save_dynamic_object(parachest, {fuel}, "machine_data")
-        }
-        container.add_ui_display(inventory.inventorySize - 4, "", Math.ceil((Math.ceil(fuel/26))))
-	}
+export default function(entity, block){
+  if(system.currentTick % 20) return;
+  let parachest = entity;
+  let inventory = parachest.getComponent('minecraft:inventory');
+  let container = inventory.container;
+  let fuel = load_dynamic_object(parachest, "machine_data")?.fuel || 0;
+  if(fuel > 0){
+    fuel = load_to_canister(fuel, "fuel", container, 1);
+    save_dynamic_object(parachest, {fuel}, "machine_data")
+  }
+  container.add_ui_display(inventory.inventorySize - 4, "", Math.ceil((Math.ceil(fuel/26))))
 }
 
 //takes location or entity

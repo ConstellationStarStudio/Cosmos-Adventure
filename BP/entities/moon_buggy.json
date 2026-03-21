@@ -16,6 +16,18 @@
                   "range": [0.0, 360.0],
                   "default": 0.0,
                   "client_sync": true
+                },
+                "cosmos:wheel_rotation_y": {
+                  "type": "float",
+                  "range": [-30.0, 30.0],
+                  "default": 0.0,
+                  "client_sync": true
+                },
+                "cosmos:container_number": {
+                  "type": "int",
+                  "range": [0, 3],
+                  "default": 0,
+                  "client_sync": true
                 }
             }
         },
@@ -47,8 +59,8 @@
       },
       "components": {       
          "minecraft:collision_box": {
-            "height": 4,
-            "width": 1
+            "height": 0.6,
+            "width": 1.4
          },
          "minecraft:fall_damage": {
             "value": 0
@@ -88,7 +100,8 @@
          },
          "minecraft:type_family": {
             "family": [
-               "buggy"
+               "buggy",
+               "vehicle"
             ]
          }
       },

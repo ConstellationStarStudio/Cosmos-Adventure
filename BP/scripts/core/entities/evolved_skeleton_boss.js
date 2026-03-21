@@ -1,7 +1,7 @@
 import {system, world, BlockPermutation} from "@minecraft/server"
 
 let evolved_skeletons = new Map();
-const difficult_number = {"Peaseful": 0, "Easy": 1, "Normal": 2, "Hard": 3};
+const difficult_number = {"Peaceful": 0, "Easy": 1, "Normal": 2, "Hard": 3};
 
 //that's a direct port of original functions
 
@@ -156,7 +156,7 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
             if(!players_in_area.length) return;
             let boss = data.block.dimension.spawnEntity("cosmos:evolved_skeleton_boss", {x: loc.x + (area.x/2), y: loc.y + 1, z: loc.z + (area.z/2)});
             let arrow_event = world.afterEvents.projectileHitBlock.subscribe((data) => {
-                if(data.source.typeId == "cosmos:evolved_skeleton_boss" && data.source.id == boss.id && data.projectile.isValid) data.projectile?.remove()
+                if(data.source?.typeId == "cosmos:evolved_skeleton_boss" && data.source?.id == boss.id && data.projectile.isValid) data.projectile?.remove()
             });
 
             evolved_skeletons.set(loc_as_string, {boss: boss.id, dead: false, takenPlayer: false, shouldShoot: true, area: area, event: arrow_event})
