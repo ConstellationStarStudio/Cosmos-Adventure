@@ -1,6 +1,7 @@
 import { world, system, BlockPermutation, ItemStack } from "@minecraft/server";
 import machines from "./AllMachineBlocks";
 import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
+import { attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
 import { pickaxes } from "../../api/utils";
 import { setSolarPanelBlocks } from "./blocks/BasicSolarPanel";
 
@@ -181,10 +182,12 @@ system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 					event.permutationToPlace = perm.withState("cosmos:full", false);
 				}
 				attach_to_wires(block);
+				attach_pipes(block)
 			});
 		},
 		onPlayerBreak({ block, dimension, brokenBlockPermutation: perm }) {
 			detach_wires(block);
+			detach_pipes(block)
 			const machineEntity = dimension.getEntities({
 				type: perm.type.id,
 				location: {

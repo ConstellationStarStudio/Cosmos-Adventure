@@ -3,7 +3,7 @@ import machines from "../machines/AllMachineBlocks.js"
 import { get_entity, location_of_side, compare_position } from "../../api/utils.js"
 import { get_data } from "../machines/Machine.js"
 
-function str_pos(location) {
+export function str_pos(location) {
 	if (!location) return
 	const {x, y, z} = location
 	return`${x} ${y} ${z}`

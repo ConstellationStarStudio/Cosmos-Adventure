@@ -7,16 +7,16 @@ const data_maps = {
 	"machine_data": machine_entities,
 	"vehicle_data": vehicles
 }
-export function load_dynamic_object(storage, name){
-	return data_maps[name].get(storage.id)?.entity_data;
+export function load_dynamic_object(storage, type, name = 'variables'){
+	return data_maps[type].get(storage.id)?.entity_data[name];
 }
 
-export function save_dynamic_object(storage, value, name){
-	let entity = data_maps[name].get(storage.id);
+export function save_dynamic_object(storage, value, type, name = 'variables'){
+	let entity = data_maps[type].get(storage.id);
 	if(!entity) return;
-	entity.entity_data = value;
-	data_maps[name].set(storage.id, entity);
-	storage.setDynamicProperty(name, JSON.stringify(value)) 
+	entity.entity_data[name] = value;
+	data_maps[type].set(storage.id, entity);
+	storage.setDynamicProperty(type, JSON.stringify(entity.entity_data)) 
 }
 
 export function str(object) { return JSON.stringify(object) }

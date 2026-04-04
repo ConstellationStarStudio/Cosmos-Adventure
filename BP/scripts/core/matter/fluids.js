@@ -130,15 +130,14 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
         }
     })
 })
-
 export function output_fluid(fluid_type, entity, block, fluid) {
     const data = get_data(entity)
     const target_location = location_of_side(block, data[fluid_type].output)
     if (!target_location || fluid == 0) return fluid
     const target_block = block.dimension.getBlock(target_location)
 
-    if (target_block.typeId == "cosmos:fluid_pipe") {
-        return fluid
+    if (target_block.typeId == "cosmos:fluid_pipe" && fluid > 0) {
+        return fluid;
     } else {
         const target_entity = get_entity(entity.dimension, target_location, `has_${fluid_type}_input`)
         if (!target_entity) return fluid
