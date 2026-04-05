@@ -1,7 +1,8 @@
 import { world, BlockPermutation, ItemStack, system } from "@minecraft/server"
 import { update_battery } from "./electricity"
-import { compare_position, get_entity, load_dynamic_object, location_of_side } from "../../api/utils"
+import { compare_position, get_entity, load_dynamic_object, location_of_side, save_dynamic_object } from "../../api/utils"
 import { get_data } from "../machines/Machine"
+import { save_fluid_amount, get_fluid_amount } from "./fluid_system"
 
 function evaporate(block) {
     const liquid = block.permutation
@@ -137,20 +138,8 @@ export function output_fluid(fluid_type, entity, block, fluid) {
     const target_block = block.dimension.getBlock(target_location)
 
     if (target_block.typeId == "cosmos:fluid_pipe" && fluid > 0) {
+        fluid = save_fluid_amount(entity, fluid_type, fluid);
         return fluid;
-    } else {
-        const target_entity = get_entity(entity.dimension, target_location, `has_${fluid_type}_input`)
-        if (!target_entity) return fluid
-        
-        const target_capacity = get_data(target_entity)[fluid_type].capacity
-        const target_fluid = load_dynamic_object(target_entity, 'machine_data')?.[fluid_type] ?? 0
-        if (target_fluid == target_capacity) return fluid
-        
-        const oi = location_of_side(target_block, get_data(target_entity)[fluid_type].input)
-        if (!compare_position(entity.location, oi)) return fluid
-
-        const space = target_capacity - target_fluid
-        return fluid - Math.min(fluid, space)
     }
 }
 
@@ -161,18 +150,24 @@ export function input_fluid(fluid_type, entity, block, fluid) {
     const source_block = block.dimension.getBlock(source_location)
 
     if (source_block?.typeId == "cosmos:fluid_pipe") {
+        fluid = get_fluid_amount(entity, fluid_type, fluid)
         return fluid
     } else {
         const source_entity = get_entity(entity.dimension, source_location, `has_${fluid_type}_output`)
         if (!source_entity) return fluid
         
-        const source_fluid = load_dynamic_object(source_entity, 'machine_data')?.[fluid_type] ?? 0
+        let variables = load_dynamic_object(source_entity, 'machine_data');
+        const source_fluid = variables?.[fluid_type] ?? 0
         if (source_fluid == 0) return fluid
         
         const io = location_of_side(source_block, get_data(source_entity)[fluid_type].output)
         if (!compare_position(entity.location, io)) return fluid
-        
-        return Math.min(fluid + source_fluid, data[fluid_type].capacity)
+
+        const space = data[fluid_type].capacity - fluid;
+
+        variables[fluid_type] -= Math.min(source_fluid, space);
+        save_dynamic_object(source_entity, variables, 'machine_data')
+        return fluid + Math.min(source_fluid, space);
     }
 }
 
