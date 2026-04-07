@@ -1,6 +1,7 @@
-import { world } from "@minecraft/server"
+import { world, system} from "@minecraft/server"
 import { load_dynamic_object, save_dynamic_object } from "../../api/utils"
 import { get_data } from "../machines/Machine";
+import { side_blocks } from "../blocks/fluid_pipe";
 
 export function get_fluid_amount(machine, fluid_type, fluid){
     let fluid_storage = load_dynamic_object(machine, 'machine_data', 'fluid_storage_entity');
@@ -31,12 +32,11 @@ export function get_fluid_amount(machine, fluid_type, fluid){
         if(amount && amount[fluid_type]){
             fluid_storage[fluid_type] = machine_entity.id;
             save_dynamic_object(machine, fluid_storage, 'machine_data', 'fluid_storage_entity');
-
+            fluid += Math.min(amount[fluid_type], space, 100);
             amount[fluid_type] -= Math.min(100, amount[fluid_type], space);
 
             save_dynamic_object(machine_entity, amount, 'machine_data', 'fluid_storage_amount');
-
-            return fluid + Math.min(amount[fluid_type], space, 100);
+            return fluid;
         }
     }
     return fluid;
@@ -46,8 +46,9 @@ function fluid_amount(machine){
     return amount;
 }
 
-export function save_fluid_amount(machine, fluid_type, amount){
+export function save_fluid_amount(machine, fluid_type, pipe, amount){
     let fluid_storage = load_dynamic_object(machine, 'machine_data', 'fluid_storage_entity');
+    if(fluid_storage && fluid_storage["unknown"]) return amount;
 
     if(fluid_storage && fluid_storage[fluid_type]){
         let machine_entity = (machine.id == fluid_storage[fluid_type])? machine: world.getEntity(fluid_storage[fluid_type]);
@@ -55,8 +56,14 @@ export function save_fluid_amount(machine, fluid_type, amount){
         if(fluid && fluid[fluid_type] !== undefined){
             fluid[fluid_type] += amount;
             save_dynamic_object(machine_entity, fluid, 'machine_data', 'fluid_storage_amount');
+            
+            if(machine.id == fluid_storage[fluid_type]){
+                let state = pipe.permutation.getState("cosmos:fluid");
+                if(fluid[fluid_type] > 0 && state != fluid_type) system.runJob(update_fluid(pipe, fluid_type));
+                else if(fluid[fluid_type] === 0 && state != "empty") system.runJob(update_fluid(pipe, "empty"));
+            }
             return 0;
-        }else if(fluid && Object.entries(fluid).length > 0){
+        }else if(fluid && Object.keys(fluid).length > 0){
             return amount;
         }
     }
@@ -66,19 +73,17 @@ export function save_fluid_amount(machine, fluid_type, amount){
     let machines = JSON.parse(machine.getDynamicProperty("fluid_system") ?? '{}');
 
     if(machines.output){
-        for(let machine of machines.output[fluid_type]){
-            let machine_entity = world.getEntity(machine[0]); 
+        for(let output of machines.output[fluid_type]){
+            let machine_entity = world.getEntity(output[0]); 
             let fluid = load_dynamic_object(machine_entity, 'machine_data', 'fluid_storage_amount');
-
-            if(fluid && fluid[fluid_type]){
+            if(fluid && fluid[fluid_type] !== undefined){
                 fluid[fluid_type] += amount;
                 fluid_storage[fluid_type] = machine_entity.id;
-
                 save_dynamic_object(machine, fluid_storage, 'machine_data', 'fluid_storage_entity');
                 save_dynamic_object(machine_entity, fluid, 'machine_data', 'fluid_storage_amount');
                 return 0;
-            }else if(fluid && Object.entries(fluid).length > 0){
-                fluid_storage[fluid_type] = machine_entity.id;
+            }else if(fluid && Object.keys(fluid).length > 0){
+                fluid_storage["unknown"] = machine_entity.id;
                 save_dynamic_object(machine, fluid_storage, 'machine_data', 'fluid_storage_entity');
                 return amount;
             }
@@ -92,4 +97,36 @@ export function save_fluid_amount(machine, fluid_type, amount){
     save_dynamic_object(machine, fluid, 'machine_data', 'fluid_storage_amount');
 
     return 0;
+}
+
+function get_sides(pipe, updated_pipes){
+    let sides = pipe.permutation.getAllStates();
+	let loc = pipe.location;
+	let blocks = side_blocks(loc);
+    let pipes = [];
+    for(let side in sides){
+        if(!sides[side] || !blocks[side]) continue;
+        let block = blocks[side];
+        if(updated_pipes.includes(JSON.stringify({x: block.x, y: block.y, z: block.z}))) continue;
+        pipes.push(block);
+    }
+    return pipes;
+}
+function* update_fluid(pipe, fluid){
+    let updated_pipes = [];
+    let pipes_to_update = [];
+
+    pipes_to_update = get_sides(pipe, updated_pipes);
+    pipe.setPermutation(pipe.permutation.withState("cosmos:fluid", fluid))
+    for(let i = 0; i < pipes_to_update.length; i++){
+        let block = pipes_to_update[i];
+        updated_pipes.push(JSON.stringify({x: block.x, y: block.y, z: block.z}));
+        let new_pipe = pipe.dimension.getBlock(block);
+        if(new_pipe && !new_pipe.isAir && new_pipe.typeId == "cosmos:fluid_pipe"){
+            pipes_to_update = [...pipes_to_update, ...get_sides(new_pipe, updated_pipes)]
+            new_pipe.setPermutation(new_pipe.permutation.withState("cosmos:fluid", fluid));
+            yield;
+        }
+    }
+
 }

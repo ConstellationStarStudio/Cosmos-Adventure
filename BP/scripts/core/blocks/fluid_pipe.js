@@ -5,7 +5,7 @@ import { get_entity } from "../../api/utils.js"
 import { get_data } from "../machines/Machine.js"
 import { compare_position, location_of_side } from "../../api/utils.js"
 
-function side_blocks(loc){ 
+export function side_blocks(loc){ 
 	return {
 	"cosmos:fluid_up": {x: loc.x, y: loc.y + 1, z: loc.z},
 	"cosmos:fluid_down": {x: loc.x, y: loc.y - 1, z: loc.z},
@@ -18,7 +18,7 @@ function side_blocks(loc){
 const faces = ["cosmos:fluid_up", "cosmos:fluid_north", 
 	"cosmos:fluid_east", "cosmos:fluid_west", "cosmos:fluid_south", "cosmos:fluid_down"]
 
-const same_side = {
+export const pipe_same_side = {
 	above: "cosmos:fluid_up",
 	below: "cosmos:fluid_down",
 	north: "cosmos:fluid_north",
@@ -26,7 +26,7 @@ const same_side = {
 	east: "cosmos:fluid_east",
 	west: "cosmos:fluid_west", 
 }
-const opposite_side = {
+export const pipe_opposite_side = {
 	above: "cosmos:fluid_down",
 	below: "cosmos:fluid_up",
 	north: "cosmos:fluid_south",
@@ -35,7 +35,7 @@ const opposite_side = {
 	west: "cosmos:fluid_east",
 }
 
-function get_direction(location){
+export function get_direction(location){
 	const sides = [
 		[{x: 1, y: 0, z: 0}, 'east'],
 		[{x: -1, y: 0, z: 0}, 'west'],
@@ -93,8 +93,9 @@ function getSides(pipeOs, permutation, pipes){
 		let loc_as_string = JSON.stringify(blocks[block]);
 		let pipe_in_map = pipes.get(loc_as_string);
 		if(!pipe_in_map){
-			if(sides[block] == 1) pipes.set(loc_as_string, {type: 'pipe', connected: undefined});
-			else pipes.set(loc_as_string, {type:  undefined, connected: [loc]});
+			let connected_block = pipeOs.dimension.getBlock(blocks[block]);
+			if(connected_block?.typeId == "cosmos:fluid_pipe") pipes.set(loc_as_string, {type: 'pipe', connected: undefined, block: connected_block});
+			else pipes.set(loc_as_string, {type: undefined, connected: [loc], block: connected_block});
 				
 		}else if(pipe_in_map.connected){
 			let position = pipe_in_map.connected.find((element) => !compare_position(loc, element));
@@ -113,7 +114,7 @@ function find_connected_machines(first_pipe, perm = first_pipe.permutation, init
 
 	getSides(first_pipe, perm, pipesWillDone);
 	for(let pipe of pipesIterator){
-		let block = first_pipe.dimension.getBlock(JSON.parse(pipe[0]));
+		let block = pipe[1].block;
 		if(pipe[1].type == "pipe" && !block.isAir){
 			getSides(block, block.permutation, pipesWillDone)
 		}
@@ -163,8 +164,8 @@ function connect_pipes(pipe) {
 	const states = {}
 	for (const [side, block] of Object.entries(neighbors)) {
 		if (block.typeId == 'cosmos:fluid_pipe') {
-			block.setPermutation(block.permutation.withState(opposite_side[side], 1))
-			states[same_side[side]] = 1
+			block.setPermutation(block.permutation.withState(pipe_opposite_side[side], 1))
+			states[pipe_same_side[side]] = 1
 		}
 		const machine_type = block.typeId.split(':').pop()
 		if (Object.keys(machines).includes(machine_type)) {
@@ -175,7 +176,7 @@ function connect_pipes(pipe) {
 				    str_pos(location_of_side(block, element[1].input)),
 				    str_pos(location_of_side(block, element[1].output))
 			    ];
-			    if(connections.includes(str_pos(pipe.location))) states[same_side[side]] = 1
+			    if(connections.includes(str_pos(pipe.location))) states[pipe_same_side[side]] = 1
 			});
 		}
 	}
@@ -198,9 +199,7 @@ export function fluidNetwork(foundMachines){
 			if(slot[1].input){
 				let input_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].input));
 				let inputs = undefined;
-				let direction = {x: machine_block.location.x - input_side.location.x, y: machine_block.location.y - input_side.location.y, z: machine_block.location.z - input_side.location.z }
-				direction = same_side[get_direction(direction)];
-                if(input_side.typeId == 'cosmos:fluid_pipe' && input_side.permutation.getState(direction) == 2){
+                if(input_side.typeId == 'cosmos:fluid_pipe'){
 					inputs = find_connected_machines(input_side, input_side.permutation, machine.id);
 				}
 				if(inputs && inputs.length > 0){
@@ -212,7 +211,7 @@ export function fluidNetwork(foundMachines){
 				let output_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].output));
 				let outputs = undefined;
 				let direction = {x: machine_block.location.x - output_side.location.x, y: machine_block.location.y - output_side.location.y, z: machine_block.location.z - output_side.location.z }
-				direction = same_side[get_direction(direction)];
+				direction = pipe_same_side[get_direction(direction)];
                 if(output_side.typeId == 'cosmos:fluid_pipe' && output_side.permutation.getState(direction) == 2){
 					outputs = find_connected_machines(output_side, output_side.permutation, machine.id);
 				}

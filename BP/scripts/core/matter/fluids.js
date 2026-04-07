@@ -2,6 +2,7 @@ import { world, BlockPermutation, ItemStack, system } from "@minecraft/server"
 import { update_battery } from "./electricity"
 import { compare_position, get_entity, load_dynamic_object, location_of_side, save_dynamic_object } from "../../api/utils"
 import { get_data } from "../machines/Machine"
+import { get_direction, pipe_same_side } from "../blocks/fluid_pipe"
 import { save_fluid_amount, get_fluid_amount } from "./fluid_system"
 
 function evaporate(block) {
@@ -134,16 +135,23 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
 export function output_fluid(fluid_type, entity, block, fluid) {
     const data = get_data(entity)
     const target_location = location_of_side(block, data[fluid_type].output)
-    if (!target_location || fluid == 0) return fluid
+    if (!target_location) return fluid
     const target_block = block.dimension.getBlock(target_location)
-
-    if (target_block.typeId == "cosmos:fluid_pipe" && fluid > 0) {
-        fluid = save_fluid_amount(entity, fluid_type, fluid);
+    let direction = {x: block.location.x - Math.floor(target_location.x),
+        y: block.location.y - Math.floor(target_location.y), 
+        z: block.location.z - Math.floor(target_location.z)
+    }
+    direction = get_direction(direction);
+    if (target_block.typeId == "cosmos:fluid_pipe" && target_block.permutation.getState(pipe_same_side[direction]) == 2) {
+        fluid = save_fluid_amount(entity, fluid_type, target_block, fluid);
         return fluid;
     }
+
+    return fluid;
 }
 
 export function input_fluid(fluid_type, entity, block, fluid) {
+    if(system.currentTick % 20) return fluid;
     const data = get_data(entity)
     const source_location = location_of_side(block, data[fluid_type].input)
     if (!source_location || fluid == data[fluid_type].capacity) return fluid
