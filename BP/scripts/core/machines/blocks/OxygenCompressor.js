@@ -14,7 +14,7 @@ export default function(entity, block){
     const variables = load_dynamic_object(entity, "machine_data");
     let energy = variables.energy || 0;
     let o2 = variables.o2 || 0;
-    o2 = input_fluid("o2", entity, block, o2);
+    o2 = input_fluid({type: "o2", slot: "o2"}, entity, block, o2);
     if(!(system.currentTick % 10)) o2 = load_from_canister_gradual(o2, "o2", entity, 2);
     // Energy management
     energy = charge_from_machine(entity, block, energy);

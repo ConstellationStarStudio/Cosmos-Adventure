@@ -83,6 +83,11 @@ export function attach_to_machine(pipe){
 		sides[block] = (sides[block] == 1)? 2: 1;
 	}
 	pipe.setPermutation(BlockPermutation.resolve(pipe.typeId, sides));
+	system.run(() => { 
+		let connected_machines = find_connected_machines(pipe);
+		fluidNetwork(connected_machines); 
+	});
+
 }
 function getSides(pipeOs, permutation, pipes){
 	let sides = permutation.getAllStates();
@@ -221,7 +226,6 @@ export function fluidNetwork(foundMachines){
 				}
 			}
 		});
-
 		machine.setDynamicProperty("fluid_system", JSON.stringify(machines));
 		console.warn(JSON.stringify(machines))
 	}

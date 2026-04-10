@@ -29,7 +29,7 @@ export default function(entity, block) {
     (energy > 0)? oxygen_source_bloks:
     0;
 
-    o2 = output_fluid("o2", entity, block, o2);
+    o2 = output_fluid({type: "o2", slot: "o2"}, entity, block, o2);
     //checks for leaves or cropes approximately once every 40 ticks
     if(Math.floor(Math.random() * 10) === 0 && dimension_id == "minecraft:the_end" && energy > 200){
         oxygen_source_bloks = 0;

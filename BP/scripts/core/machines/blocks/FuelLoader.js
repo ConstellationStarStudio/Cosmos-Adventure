@@ -42,7 +42,7 @@ export default function(entity, block) {
 	
 	energy = charge_from_battery(entity, energy, 1)
 	
-	fuel = input_fluid("fuel", entity, block, fuel)
+	fuel = input_fluid({type: "fuel", slot: "fuel"}, entity, block, fuel)
 	fuel = load_from_canister_instant(fuel, "fuel", entity, 0).amount;
 	if(!stopped && vehicles.length > 0 && energy > 0 && fuel >= 2 && block){
 			vehicles.forEach((vehicle) =>{

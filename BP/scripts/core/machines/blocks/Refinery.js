@@ -1,8 +1,9 @@
 import { system, ItemStack } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import { output_fluid, load_to_canister, load_from_canister_instant } from "../../matter/fluids.js";
-import { get_data } from "../Machine.js";
+import { get_data, machine_entities } from "../Machine.js";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
+import { get_fluid_amount } from "../../matter/fluid_system.js";
 
 function make_smoke({dimension, x, y, z}) {
 	const flame = (X, Y, Z) => {dimension.spawnParticle('minecraft:basic_flame_particle', {x: x + X, y: y + Y, z: z + Z})}
@@ -51,7 +52,7 @@ export default function(entity, block) {
 
 	//move fluids
 	fuel = load_to_canister(fuel, "fuel", container, 2)
-	fuel = output_fluid("fuel", entity, block, fuel)
+	fuel = output_fluid({type: "fuel", slot: "fuel"}, entity, block, fuel)
 
 	// refine oil
 	if (!active && system.currentTick % 2 == 0 && oil > 0 && energy > 0 && fuel < data.fuel.capacity) {
@@ -69,9 +70,7 @@ export default function(entity, block) {
 	active ? "§6Ready" : 
 	"§2Refining"
 
-	
 	save_dynamic_object(entity, {energy, oil, fuel}, "machine_data")
-	
 	// setup UI display
 	container.add_ui_display(3, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.round((energy / data.energy.capacity) * 55))
 	container.add_ui_display(4, `Oil Storage\n§eOil: ${oil} / ${data.oil.capacity} mB`, Math.ceil((Math.ceil(oil / 1000) / (data.oil.capacity / 1000)) * 38))

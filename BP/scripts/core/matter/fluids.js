@@ -132,9 +132,9 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
         }
     })
 })
-export function output_fluid(fluid_type, entity, block, fluid) {
+export function output_fluid(fluid_data, entity, block, fluid) {
     const data = get_data(entity)
-    const target_location = location_of_side(block, data[fluid_type].output)
+    const target_location = location_of_side(block, data[fluid_data.slot].output)
     if (!target_location) return fluid
     const target_block = block.dimension.getBlock(target_location)
     let direction = {x: block.location.x - Math.floor(target_location.x),
@@ -143,37 +143,36 @@ export function output_fluid(fluid_type, entity, block, fluid) {
     }
     direction = get_direction(direction);
     if (target_block.typeId == "cosmos:fluid_pipe" && target_block.permutation.getState(pipe_same_side[direction]) == 2) {
-        fluid = save_fluid_amount(entity, fluid_type, target_block, fluid);
+        fluid = save_fluid_amount(entity, fluid_data, target_block, fluid);
         return fluid;
     }
-
     return fluid;
 }
 
-export function input_fluid(fluid_type, entity, block, fluid) {
+export function input_fluid(fluid_data, entity, block, fluid) {
     if(system.currentTick % 20) return fluid;
     const data = get_data(entity)
-    const source_location = location_of_side(block, data[fluid_type].input)
-    if (!source_location || fluid == data[fluid_type].capacity) return fluid
+    const source_location = location_of_side(block, data[fluid_data.slot].input)
+    if (!source_location || fluid == data[fluid_data.slot].capacity) return fluid
     const source_block = block.dimension.getBlock(source_location)
 
     if (source_block?.typeId == "cosmos:fluid_pipe") {
-        fluid = get_fluid_amount(entity, fluid_type, fluid)
+        fluid = get_fluid_amount(entity, fluid_data, fluid)
         return fluid
     } else {
-        const source_entity = get_entity(entity.dimension, source_location, `has_${fluid_type}_output`)
+        const source_entity = get_entity(entity.dimension, source_location, `has_${fluid_data.type}_output`)
         if (!source_entity) return fluid
         
         let variables = load_dynamic_object(source_entity, 'machine_data');
-        const source_fluid = variables?.[fluid_type] ?? 0
+        const source_fluid = variables?.[fluid_data.type] ?? 0
         if (source_fluid == 0) return fluid
         
-        const io = location_of_side(source_block, get_data(source_entity)[fluid_type].output)
+        const io = location_of_side(source_block, get_data(source_entity)[fluid_data.type].output)
         if (!compare_position(entity.location, io)) return fluid
 
-        const space = data[fluid_type].capacity - fluid;
+        const space = data[fluid_data.slot].capacity - fluid;
 
-        variables[fluid_type] -= Math.min(source_fluid, space);
+        variables[fluid_data.type] -= Math.min(source_fluid, space);
         save_dynamic_object(source_entity, variables, 'machine_data')
         return fluid + Math.min(source_fluid, space);
     }
