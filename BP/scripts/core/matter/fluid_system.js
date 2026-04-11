@@ -1,8 +1,9 @@
-import { world, system} from "@minecraft/server"
+import { world, system, BlockPermutation} from "@minecraft/server"
 import { load_dynamic_object, save_dynamic_object } from "../../api/utils"
 import { get_data } from "../machines/Machine";
 import { side_blocks } from "../blocks/fluid_pipe";
 
+//finds fluid_storage entity in pipes networks and loads fluid from there
 export function get_fluid_amount(machine, fluid_data, fluid){
     let fluid_storage = load_dynamic_object(machine, 'machine_data', 'fluid_storage_entity');
     const data = get_data(machine);
@@ -62,9 +63,16 @@ export function save_fluid_amount(machine, fluid_data, pipe, amount){
             save_dynamic_object(machine_entity, fluid, 'machine_data', 'fluid_storage_amount');
             
             if(machine.id == fluid_storage[fluid_type]){
-                let state = pipe.permutation.getState("cosmos:fluid");
+                let state = pipe.typeId.replace("cosmos:fluid_pipe_", '');
                 if(fluid[fluid_type] > 0 && state != fluid_type) system.runJob(update_fluid(pipe, fluid_type));
-                else if(fluid[fluid_type] === 0 && state != "empty") system.runJob(update_fluid(pipe, "empty"));
+                else if(fluid[fluid_type] === 0 && pipe.typeId != "cosmos:fluid_pipe"){
+                    system.runTimeout(() => {
+                        let new_pipe = machine.dimension.getBlock(pipe.location);
+                        if(!machine_entity.isValid || new_pipe.typeId == "cosmos:fluid_pipe" || new_pipe.typeId != pipe.typeId) return;
+                        let new_fluid = load_dynamic_object(machine_entity, 'machine_data', 'fluid_storage_amount'); 
+                        if(!new_fluid[fluid_type] || new_fluid[fluid_type] === 0) system.runJob(update_fluid(pipe, "empty"))
+                    }, 20);
+                }
             }
             return 0;
         }else if(fluid && Object.keys(fluid).length > 0){
@@ -134,19 +142,21 @@ function get_sides(pipe, updated_pipes){
     }
     return pipes;
 }
+//updates visual part of pipes
 function* update_fluid(pipe, fluid){
     let updated_pipes = [];
     let pipes_to_update = [];
-
+    const new_type = (fluid == "empty")? "cosmos:fluid_pipe" : "cosmos:fluid_pipe" + "_" + fluid;
     pipes_to_update = get_sides(pipe, updated_pipes);
-    pipe.setPermutation(pipe.permutation.withState("cosmos:fluid", fluid))
+    pipe.setPermutation(BlockPermutation.resolve(new_type, pipe.permutation.getAllStates()))
+
     for(let i = 0; i < pipes_to_update.length; i++){
         let block = pipes_to_update[i];
         updated_pipes.push(JSON.stringify({x: block.x, y: block.y, z: block.z}));
         let new_pipe = pipe.dimension.getBlock(block);
-        if(new_pipe && !new_pipe.isAir && new_pipe.typeId == "cosmos:fluid_pipe"){
+        if(new_pipe && !new_pipe.isAir && /cosmos:fluid_pipe/.test(new_pipe.typeId)){
             pipes_to_update = [...pipes_to_update, ...get_sides(new_pipe, updated_pipes)]
-            new_pipe.setPermutation(new_pipe.permutation.withState("cosmos:fluid", fluid));
+            new_pipe.setPermutation(BlockPermutation.resolve(new_type, new_pipe.permutation.getAllStates()));
             yield;
         }
     }

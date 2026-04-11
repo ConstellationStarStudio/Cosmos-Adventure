@@ -1,0 +1,76 @@
+{
+    "format_version": "1.21.80",
+	"minecraft:block": {
+		"description": {
+			"identifier": "cosmos:fluid_pipe",
+			"menu_category": { "category": "items" },
+			"states": {
+				"cosmos:fluid_up": [0, 1, 2],
+				"cosmos:fluid_down": [0, 1, 2],
+				"cosmos:fluid_north": [0, 1, 2],
+				"cosmos:fluid_east": [0, 1, 2],
+				"cosmos:fluid_south": [0, 1, 2],
+				"cosmos:fluid_west": [0, 1, 2]
+			}
+		},
+		"components": {
+			//"minecraft:display_name": "%tile.fluid_pipe.name\n§7%tile.fluid_pipe.description",
+			"minecraft:material_instances": {
+				"*": { "texture": "fluid_pipe", "render_method": "blend" },
+				"fluid": { "texture": "still_lava", "render_method": "blend" },
+				"color": { "texture": "fluid_pipe_color", "render_method": "blend" },
+				"pull": { "texture": "fluid_pipe_pull", "render_method": "blend" }
+			},
+			"minecraft:collision_box": { "sorigin": [-2.5, 5.5, -2.5], "size": [5, 5, 5] },
+			"minecraft:selection_box": { "origin": [-5, 3, -5], "size": [10, 10, 10] },
+			"minecraft:light_dampening": 0,
+			"minecraft:loot": "loot_tables/blocks/fluid_pipe.json",
+			"minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
+			"minecraft:destructible_by_explosion": false,
+			"minecraft:custom_components": ["cosmos:fluid_pipe"],
+			"minecraft:geometry": {
+				"identifier": "geometry.fluid_pipe",
+				"bone_visibility": {
+					"up": "q.block_state('cosmos:fluid_up') != 0",
+					"down": "q.block_state('cosmos:fluid_down') != 0",
+					"north": "q.block_state('cosmos:fluid_north') != 0",
+					"east": "q.block_state('cosmos:fluid_east') != 0",
+					"south": "q.block_state('cosmos:fluid_south') != 0",
+					"west": "q.block_state('cosmos:fluid_west') != 0",
+					
+					"fluid_middle": false,
+					"fluid_up": false,
+					"fluid_down": false,
+					"fluid_north": false,
+					"fluid_east": false,
+					"fluid_south": false,
+					"fluid_west": false,
+					
+					"pull_up": "q.block_state('cosmos:fluid_up') == 2",
+					"pull_down": "q.block_state('cosmos:fluid_down') == 2",
+					"pull_north": "q.block_state('cosmos:fluid_north') == 2",
+					"pull_east": "q.block_state('cosmos:fluid_east') == 2",
+					"pull_south": "q.block_state('cosmos:fluid_south') == 2",
+					"pull_west": "q.block_state('cosmos:fluid_west') == 2",
+
+					"white": true,
+					"silver": false,
+					"gray": false,
+					"black": false,
+					"brown": false,
+					"red": false,
+					"orange": false,
+					"yellow": false,
+					"lime": false,
+					"green": false,
+					"light_blue": false,
+					"cyan": false,
+					"blue": false,
+					"purple": false,
+					"magenta": false,
+					"pink": false
+				}
+			}
+		}
+	}
+}

@@ -51,7 +51,7 @@ export function get_direction(location){
 export function detach_pipes(block) {
 	const neighbors = block.getNeighbors(6)
 	for (const [i, pipe] of neighbors.entries()) {
-		if ('cosmos:fluid_pipe' == pipe.typeId) 
+		if (/cosmos:fluid_pipe/.test(pipe.typeId)) 
 			pipe.setPermutation(pipe.permutation.withState(faces[5 - i], 0))
 		    system.run(() => { fluidNetwork(find_connected_machines(block)); });
 	}
@@ -62,11 +62,11 @@ export function attach_pipes(block){
 		if(slot[0] == 'energy') return;
 		if(slot[1].input){
 			const pipe = block.dimension.getBlock(location_of_side(block, slot[1].input));
-			if(pipe?.typeId == 'cosmos:fluid_pipe') connect_pipes(pipe)
+			if(/cosmos:fluid_pipe/.test(pipe?.typeId)) connect_pipes(pipe)
 		}
 		if(slot[1].output){
 			const pipe = block.dimension.getBlock(location_of_side(block, slot[1].output));
-			if(pipe?.typeId == 'cosmos:fluid_pipe') connect_pipes(pipe)
+			if(/cosmos:fluid_pipe/.test(pipe?.typeId)) connect_pipes(pipe)
 		}
 	});
 }
@@ -99,7 +99,7 @@ function getSides(pipeOs, permutation, pipes){
 		let pipe_in_map = pipes.get(loc_as_string);
 		if(!pipe_in_map){
 			let connected_block = pipeOs.dimension.getBlock(blocks[block]);
-			if(connected_block?.typeId == "cosmos:fluid_pipe") pipes.set(loc_as_string, {type: 'pipe', connected: undefined, block: connected_block});
+			if(/cosmos:fluid_pipe/.test(connected_block?.typeId)) pipes.set(loc_as_string, {type: 'pipe', connected: undefined, block: connected_block});
 			else pipes.set(loc_as_string, {type: undefined, connected: [loc], block: connected_block});
 				
 		}else if(pipe_in_map.connected){
@@ -112,7 +112,7 @@ function getSides(pipeOs, permutation, pipes){
 	}
 }
 function find_connected_machines(first_pipe, perm = first_pipe.permutation, initial_machine = undefined){
-	if(perm?.type.id !== "cosmos:fluid_pipe") return undefined;
+	if(!/cosmos:fluid_pipe/.test(perm?.type.id)) return undefined;
 	let pipesWillDone = new Map();
 	let foundMachines = [];
 	let pipesIterator = pipesWillDone[Symbol.iterator]();
@@ -168,7 +168,7 @@ function connect_pipes(pipe) {
 	const neighbors = pipe.six_neighbors()
 	const states = {}
 	for (const [side, block] of Object.entries(neighbors)) {
-		if (block.typeId == 'cosmos:fluid_pipe') {
+		if (/cosmos:fluid_pipe/.test(block.typeId)) {
 			block.setPermutation(block.permutation.withState(pipe_opposite_side[side], 1))
 			states[pipe_same_side[side]] = 1
 		}
@@ -185,7 +185,7 @@ function connect_pipes(pipe) {
 			});
 		}
 	}
-	pipe.setPermutation(BlockPermutation.resolve("cosmos:fluid_pipe", states))
+	pipe.setPermutation(BlockPermutation.resolve(pipe.typeId, states))
 	system.run(() => { 
 		let connected_machines = find_connected_machines(pipe);
 		fluidNetwork(connected_machines); 
@@ -204,7 +204,7 @@ export function fluidNetwork(foundMachines){
 			if(slot[1].input){
 				let input_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].input));
 				let inputs = undefined;
-                if(input_side.typeId == 'cosmos:fluid_pipe'){
+                if(/cosmos:fluid_pipe/.test(input_side.typeId)){
 					inputs = find_connected_machines(input_side, input_side.permutation, machine.id);
 				}
 				if(inputs && inputs.length > 0){
@@ -217,7 +217,7 @@ export function fluidNetwork(foundMachines){
 				let outputs = undefined;
 				let direction = {x: machine_block.location.x - output_side.location.x, y: machine_block.location.y - output_side.location.y, z: machine_block.location.z - output_side.location.z }
 				direction = pipe_same_side[get_direction(direction)];
-                if(output_side.typeId == 'cosmos:fluid_pipe' && output_side.permutation.getState(direction) == 2){
+                if(/cosmos:fluid_pipe/.test(output_side.typeId) && output_side.permutation.getState(direction) == 2){
 					outputs = find_connected_machines(output_side, output_side.permutation, machine.id);
 				}
 				if(outputs && outputs.length > 0){
@@ -233,8 +233,8 @@ export function fluidNetwork(foundMachines){
 
 system.beforeEvents.startup.subscribe(({ blockComponentRegistry }) => {
 	blockComponentRegistry.registerCustomComponent('cosmos:fluid_pipe', {
-		onPlace({block}) {
-			connect_pipes(block, "cosmos:fluid_pipe")
+		beforeOnPlayerPlace({block}) {
+			system.run(() => {connect_pipes(block)});
 		},
 		onPlayerBreak({block}) {
 			detach_pipes(block)

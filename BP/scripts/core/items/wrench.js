@@ -56,7 +56,7 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
 				    block.setPermutation(perm.withState('cosmos:lamp_direction', direction));
             return;
           }
-          if(block.typeId == "cosmos:fluid_pipe") attach_to_machine(block)
+          if(/cosmos:fluid_pipe/.test(block.typeId)) attach_to_machine(block)
           if (!block.hasTag("machine")) return
           if (player.isSneaking) remove(block)
           else rotate(block, perm)
