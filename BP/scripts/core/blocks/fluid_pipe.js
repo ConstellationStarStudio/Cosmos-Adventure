@@ -4,6 +4,8 @@ import { str_pos } from "./aluminum_wire"
 import { get_entity } from "../../api/utils.js"
 import { get_data } from "../machines/Machine.js"
 import { compare_position, location_of_side } from "../../api/utils.js"
+import { update_network, update_fluid } from "../matter/fluid_network.js"
+import { load_dynamic_object } from "../../api/utils.js"
 
 export function side_blocks(loc){ 
 	return {
@@ -51,9 +53,13 @@ export function get_direction(location){
 export function detach_pipes(block) {
 	const neighbors = block.getNeighbors(6)
 	for (const [i, pipe] of neighbors.entries()) {
-		if (/cosmos:fluid_pipe/.test(pipe.typeId)) 
+		if (/cosmos:fluid_pipe/.test(pipe.typeId)){
 			pipe.setPermutation(pipe.permutation.withState(faces[5 - i], 0))
-		    system.run(() => { fluidNetwork(find_connected_machines(block)); });
+		    system.run(() => { 
+				fluidNetwork(find_connected_machines(pipe));
+				system.runJob(update_fluid(pipe, "empty"));
+			 });
+		} 
 	}
 }
 export function attach_pipes(block){
@@ -171,6 +177,10 @@ function connect_pipes(pipe) {
 		if (/cosmos:fluid_pipe/.test(block.typeId)) {
 			block.setPermutation(block.permutation.withState(pipe_opposite_side[side], 1))
 			states[pipe_same_side[side]] = 1
+			if(block.typeId != "cosmos:fluid_pipe"){
+				let fluid_type = block.typeId.replace("cosmos:fluid_pipe_", "");
+			    system.runJob(update_fluid(pipe, fluid_type))
+			}
 		}
 		const machine_type = block.typeId.split(':').pop()
 		if (Object.keys(machines).includes(machine_type)) {
@@ -226,8 +236,13 @@ export function fluidNetwork(foundMachines){
 				}
 			}
 		});
+		let old_list = JSON.parse(machine.getDynamicProperty("fluid_system") ?? "{}");
+		let fluid_storage = load_dynamic_object(machine, 'machine_data', 'fluid_storage_amount');
+
+		if(fluid_storage && Object.keys(fluid_storage).length > 0){
+		    update_network(machine, old_list, machines)
+		}
 		machine.setDynamicProperty("fluid_system", JSON.stringify(machines));
-		console.warn(JSON.stringify(machines))
 	}
 }
 

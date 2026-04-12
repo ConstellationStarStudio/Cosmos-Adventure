@@ -3,7 +3,7 @@ import { charge_from_battery, charge_from_machine } from "../../matter/electrici
 import { output_fluid, load_to_canister, load_from_canister_instant } from "../../matter/fluids.js";
 import { get_data, machine_entities } from "../Machine.js";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
-import { get_fluid_amount } from "../../matter/fluid_system.js";
+import { get_fluid_amount } from "../../matter/fluid_network.js";
 
 function make_smoke({dimension, x, y, z}) {
 	const flame = (X, Y, Z) => {dimension.spawnParticle('minecraft:basic_flame_particle', {x: x + X, y: y + Y, z: z + Z})}

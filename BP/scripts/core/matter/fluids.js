@@ -3,7 +3,7 @@ import { update_battery } from "./electricity"
 import { compare_position, get_entity, load_dynamic_object, location_of_side, save_dynamic_object } from "../../api/utils"
 import { get_data } from "../machines/Machine"
 import { get_direction, pipe_same_side } from "../blocks/fluid_pipe"
-import { save_fluid_amount, get_fluid_amount } from "./fluid_system"
+import { save_fluid_amount, get_fluid_amount } from "./fluid_network"
 
 function evaporate(block) {
     const liquid = block.permutation
