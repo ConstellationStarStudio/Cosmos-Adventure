@@ -133,6 +133,7 @@ system.beforeEvents.startup.subscribe(({itemComponentRegistry}) => {
     })
 })
 export function output_fluid(fluid_data, entity, block, fluid) {
+    if(system.currentTick % 20) return fluid;
     const data = get_data(entity)
     const target_location = location_of_side(block, data[fluid_data.slot].output)
     if (!target_location) return fluid

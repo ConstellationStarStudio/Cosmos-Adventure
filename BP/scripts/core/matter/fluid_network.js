@@ -57,11 +57,22 @@ export function save_fluid_amount(machine, fluid_data, pipe, amount){
     const fluid_type = fluid_data.type;
     const slot = fluid_data.slot;
 
+    let machines = JSON.parse(machine.getDynamicProperty("fluid_system") ?? '{}');
+    let max_space = machines?.pipe_count?.output[slot] ?? 0;
+    max_space = max_space * 200;
+
     if(fluid_storage && fluid_storage[fluid_type]){
         let machine_entity = (machine.id == fluid_storage[fluid_type])? machine: world.getEntity(fluid_storage[fluid_type]);
         let fluid = load_dynamic_object(machine_entity, 'machine_data', 'fluid_storage_amount');
         if(fluid && fluid[fluid_type] !== undefined){
-            fluid[fluid_type].amount += amount;
+            if(fluid[fluid_type].amount > max_space){
+                fluid[fluid_type].amount = max_space;
+            }
+            if(fluid[fluid_type].amount < max_space){
+                let space = Math.min(amount, max_space - fluid[fluid_type].amount);
+                fluid[fluid_type].amount += Math.min(amount, space);
+                amount -= Math.min(amount, space);
+            }
             save_dynamic_object(machine_entity, fluid, 'machine_data', 'fluid_storage_amount');
             
             if(machine.id == fluid_storage[fluid_type] && /cosmos:fluid_pipe/.test(pipe.typeId)){
@@ -77,7 +88,7 @@ export function save_fluid_amount(machine, fluid_data, pipe, amount){
                     }, 21);
                 }
             }
-            return 0;
+            return amount;
         }else if(fluid && Object.keys(fluid).length > 0){
             return amount;
         }
@@ -85,13 +96,15 @@ export function save_fluid_amount(machine, fluid_data, pipe, amount){
 
     if(fluid_storage == undefined) fluid_storage = {};
 
-    let machines = JSON.parse(machine.getDynamicProperty("fluid_system") ?? '{}');
     if(machines.output){
         for(let output of machines.output[slot]){
             let machine_entity = world.getEntity(output[0]); 
             let fluid = load_dynamic_object(machine_entity, 'machine_data', 'fluid_storage_amount');
             if(fluid && fluid[fluid_type] !== undefined){
-                fluid[fluid_type].amount += amount;
+                if(fluid[fluid_type].amount > max_space) fluid[fluid_type].amount = max_space;
+                let space = Math.min(amount, max_space - fluid[fluid_type].amount);
+                fluid[fluid_type].amount += Math.min(amount, space);
+                amount -= Math.min(amount, space);
                 fluid[fluid_type].slot = slot;
                 fluid_storage[fluid_type] = machine_entity.id;
                 save_dynamic_object(machine, fluid_storage, 'machine_data', 'fluid_storage_entity');
@@ -108,13 +121,16 @@ export function save_fluid_amount(machine, fluid_data, pipe, amount){
     
     let fluid = {}
     fluid[fluid_type] = {};
-    fluid[fluid_type].amount = amount;
     fluid[fluid_type].slot = slot;
+
+    let space = Math.min(amount, max_space);
+    fluid[fluid_type].amount = Math.min(amount, space);
+    amount -= Math.min(amount, space);
 
     save_dynamic_object(machine, fluid_storage, 'machine_data', 'fluid_storage_entity');
     save_dynamic_object(machine, fluid, 'machine_data', 'fluid_storage_amount');
 
-    return 0;
+    return amount;
 }
 
 export function update_network(storage, old_list, new_list){

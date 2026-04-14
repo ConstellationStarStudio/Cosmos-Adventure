@@ -56,7 +56,7 @@ export function detach_pipes(block) {
 		if (/cosmos:fluid_pipe/.test(pipe.typeId)){
 			pipe.setPermutation(pipe.permutation.withState(faces[5 - i], 0))
 		    system.run(() => { 
-				fluidNetwork(find_connected_machines(pipe));
+				fluidNetwork(find_connected_machines(pipe)?.foundMachines);
 				system.runJob(update_fluid(pipe, "empty"));
 			 });
 		} 
@@ -90,7 +90,7 @@ export function attach_to_machine(pipe){
 	}
 	pipe.setPermutation(BlockPermutation.resolve(pipe.typeId, sides));
 	system.run(() => { 
-		let connected_machines = find_connected_machines(pipe);
+		let connected_machines = find_connected_machines(pipe)?.foundMachines;
 		fluidNetwork(connected_machines); 
 	});
 
@@ -122,11 +122,12 @@ function find_connected_machines(first_pipe, perm = first_pipe.permutation, init
 	let pipesWillDone = new Map();
 	let foundMachines = [];
 	let pipesIterator = pipesWillDone[Symbol.iterator]();
-
+	let pipes_counter = 0;
 	getSides(first_pipe, perm, pipesWillDone);
 	for(let pipe of pipesIterator){
 		let block = pipe[1].block;
 		if(pipe[1].type == "pipe" && !block.isAir){
+			pipes_counter++;
 			getSides(block, block.permutation, pipesWillDone)
 		}
 	}
@@ -167,7 +168,7 @@ function find_connected_machines(first_pipe, perm = first_pipe.permutation, init
 
 		foundMachines.push([machineEntity.id, final_slot])
     });
-	return foundMachines;
+	return {foundMachines, pipes_counter};
 }
 
 function connect_pipes(pipe) {
@@ -197,7 +198,7 @@ function connect_pipes(pipe) {
 	}
 	pipe.setPermutation(BlockPermutation.resolve(pipe.typeId, states))
 	system.run(() => { 
-		let connected_machines = find_connected_machines(pipe);
+		let connected_machines = find_connected_machines(pipe)?.foundMachines;
 		fluidNetwork(connected_machines); 
 	});
 }
@@ -211,11 +212,14 @@ export function fluidNetwork(foundMachines){
 		let machines = {};
 		data.forEach((slot) => {
 			if(slot[0] == 'energy' || (!slot[1].input && !slot[1].output)) return;
+			machines.pipe_count = {input: {}, output: {}};
 			if(slot[1].input){
 				let input_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].input));
 				let inputs = undefined;
                 if(/cosmos:fluid_pipe/.test(input_side.typeId)){
 					inputs = find_connected_machines(input_side, input_side.permutation, machine.id);
+					machines.pipe_count.input[slot[0]] = inputs.pipes_counter ?? 0;
+					inputs = inputs?.foundMachines
 				}
 				if(inputs && inputs.length > 0){
 					machines.input = {};
@@ -229,6 +233,9 @@ export function fluidNetwork(foundMachines){
 				direction = pipe_same_side[get_direction(direction)];
                 if(/cosmos:fluid_pipe/.test(output_side.typeId) && output_side.permutation.getState(direction) == 2){
 					outputs = find_connected_machines(output_side, output_side.permutation, machine.id);
+					machines.pipe_count.output[slot[0]] = outputs.pipes_counter ?? 0;
+					outputs = outputs?.foundMachines
+
 				}
 				if(outputs && outputs.length > 0){
 					machines.output = {};
