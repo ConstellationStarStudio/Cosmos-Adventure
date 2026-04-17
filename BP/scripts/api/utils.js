@@ -8,8 +8,9 @@ const data_maps = {
 	"vehicle_data": vehicles
 }
 export function load_dynamic_object(storage, type, name = 'variables'){
-	const data = data_maps[type].get(storage.id)?.entity_data[name];
-	return data ?? {};
+	let data = data_maps[type].get(storage.id)?.entity_data;
+	data = data ? data[name] : {};
+	return data;
 }
 
 export function save_dynamic_object(storage, value, type, name = 'variables'){
