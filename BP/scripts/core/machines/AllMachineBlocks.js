@@ -13,6 +13,7 @@ import GasLiquefier from './blocks/GasLiquefier'
 import ElectricFurnace from './blocks/ElectricFurnace'
 import Parachest from './blocks/Parachest'
 import OxygenDistributor from './blocks/OxygenDistributor'
+import OxygenStorage from './blocks/OxygenStorage'
 import BasicSolarPanel from './blocks/BasicSolarPanel'
 
 import { place_parachest } from './blocks/Parachest'
@@ -105,6 +106,11 @@ export default {
 		class: OxygenDistributor,
 		energy: {input: "right", capacity: 16000, maxInput: 25},
 		o2: {input: "left", capacity: 6000, maxInput: 16},
+	},
+	"oxygen_storage_module": {
+		ui: "",
+		class: OxygenStorage,
+		o2: {input: "right", "output": "left", capacity: 60000, maxInput: 16},
 	},
 	"oxygen_decompressor": {
 		ui: "§o§x§y§g§e§n§_§d§e§c§o§m§p§r§e§s§s§o§r",

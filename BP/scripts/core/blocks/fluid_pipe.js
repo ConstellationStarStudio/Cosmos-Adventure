@@ -155,7 +155,7 @@ function find_connected_machines(first_pipe, perm = first_pipe.permutation, init
 			slots.forEach((element) => {
 				const input = element.input;
 				const output = element.output;
-                final_slot[element.type] = [];
+                final_slot[element.type] = final_slot[element.type] ?? [];
 				if(input && compare_position(input, vector)){
 					final_slot[element.type].push("input")
 				}
@@ -165,7 +165,6 @@ function find_connected_machines(first_pipe, perm = first_pipe.permutation, init
 				if(!final_slot[element.type].length) final_slot[element.type] = undefined;
 			});
 		});
-
 		foundMachines.push([machineEntity.id, final_slot])
     });
 	return {foundMachines, pipes_counter};
