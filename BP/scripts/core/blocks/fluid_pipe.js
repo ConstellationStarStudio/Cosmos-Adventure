@@ -208,45 +208,40 @@ export function fluidNetwork(foundMachines){
 		let machine = world.getEntity(machine_data[0]);
 		let machine_block = machine.dimension.getBlock(machine.location);
 		const data = Object.entries(get_data(machine));
-		let machines = {};
+		let machines = {found_machines: {}};
 		data.forEach((slot) => {
 			if(slot[0] == 'energy' || (!slot[1].input && !slot[1].output)) return;
 			machines.pipe_count = {input: {}, output: {}};
 			if(slot[1].input){
 				let input_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].input));
-				let inputs = undefined;
                 if(/cosmos:fluid_pipe/.test(input_side.typeId)){
-					inputs = find_connected_machines(input_side, input_side.permutation, machine.id);
+					let inputs = find_connected_machines(input_side, input_side.permutation, machine.id);
 					machines.pipe_count.input[slot[0]] = inputs.pipes_counter ?? 0;
-					inputs = inputs?.foundMachines
-				}
-				if(inputs && inputs.length > 0){
-					machines.input = {};
-					machines.input[slot[0]] = inputs;
+					if(inputs?.foundMachines?.length > 0){
+						machines.found_machines[slot[0]] = machines[slot[0]] ?? {};
+						machines.found_machines[slot[0]].input = inputs?.foundMachines 
+					}
 				}
 			}
 			if(slot[1].output){
 				let output_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].output));
-				let outputs = undefined;
 				let direction = {x: machine_block.location.x - output_side.location.x, y: machine_block.location.y - output_side.location.y, z: machine_block.location.z - output_side.location.z }
 				direction = pipe_same_side[get_direction(direction)];
                 if(/cosmos:fluid_pipe/.test(output_side.typeId) && output_side.permutation.getState(direction) == 2){
-					outputs = find_connected_machines(output_side, output_side.permutation, machine.id);
+					let outputs = find_connected_machines(output_side, output_side.permutation, machine.id);
 					machines.pipe_count.output[slot[0]] = outputs.pipes_counter ?? 0;
-					outputs = outputs?.foundMachines
-
-				}
-				if(outputs && outputs.length > 0){
-					machines.output = {};
-					machines.output[slot[0]] = outputs
+					if(outputs?.foundMachines?.length > 0){
+						machines.found_machines[slot[0]] = machines[slot[0]] ?? {};
+						machines.found_machines[slot[0]].output = outputs?.foundMachines;
+					}
 				}
 			}
 		});
 		let old_list = JSON.parse(machine.getDynamicProperty("fluid_system") ?? "{}");
-		let fluid_storage = load_dynamic_object(machine, 'machine_data', 'fluid_storage_amount');
+		let fluid_storage = load_dynamic_object(machine, 'machine_data', 'fluid_storage_entity');
 
 		if(fluid_storage && Object.keys(fluid_storage).length > 0){
-		    update_network(machine, old_list, machines)
+		    update_network(machine, fluid_storage, old_list, machines)
 		}
 		machine.setDynamicProperty("fluid_system", JSON.stringify(machines));
 	}
