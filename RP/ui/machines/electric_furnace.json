@@ -1,12 +1,20 @@
 {
     "namespace": "electric_furnace",
 
+	"furnace_interface@electric_furnace.interface": {
+		"$title": "Electric Furnace",
+		"$is_arc": false
+    },
+    "arc_furnace_interface@electric_furnace.interface": {
+		"$title": "Electric Arc Furnace",
+		"$is_arc": true
+    },
     "interface@machines.dynamic_interface": {
         "$size": ["100%", 157],
         "$content": [
 			{ "title": {
 				"type": "label",
-				"text": "Electric Furnace",
+				"text": "$title",
 				"color": "$title_text_color",
 				"anchor_from": "top_middle",
 				"anchor_to": "top_middle",
@@ -25,30 +33,37 @@
 				"anchor_to": "top_left",
 				"offset": [ 7, 46 ]
 			}},
-            { "output@machines.item_slot": {
-				"$index": 2,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 108, 23 ]
-            }},
             { "energy_bar@machines.energy_bar": {
-                "$index": 3,
+                "$index": 2,
                 "anchor_from": "top_left",
                 "anchor_to": "top_left",
                 "offset": [ 39, 49]
             }},
 			{ "progress@electric_furnace.electric_furnace_bar": {
-				"$index": 4,
+				"$index": 3,
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
 				"offset": [ 77, 23 ]
 			}},
             { "status@machines.item_text": {
-				"$index": 5,
+				"$index": 4,
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",
 				"offset": [ 98, 49 ]
-			}}
+			}},
+			{ "output@machines.item_slot": {
+				"$index": 5,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 108, 23 ]
+            }},
+			{ "output_2@machines.item_slot": {
+				"ignored": "($is_arc = false)",
+				"$index": 6,
+				"anchor_from": "top_left",
+				"anchor_to": "top_left",
+				"offset": [ 126, 23 ]
+            }}
 		]
 	},
 	

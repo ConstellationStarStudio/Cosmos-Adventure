@@ -16,6 +16,7 @@ import Parachest from './blocks/Parachest'
 import OxygenDistributor from './blocks/OxygenDistributor'
 import BasicSolarPanel from './blocks/BasicSolarPanel'
 import Deconstructor from './blocks/Deconstructor'
+import electric_furnace from '../../recipes/electric_furnace'
 
 const AllMachines = {
 	coal_generator: CoalGenerator,
@@ -24,7 +25,8 @@ const AllMachines = {
 	energy_storage_cluster: EnergyStorage.energy_storage_cluster,
 	electric_compressor: ElectricCompressor.electric_compressor,
 	advanced_compressor: ElectricCompressor.advanced_compressor,
-	electric_furnace: ElectricFurnace,
+	electric_furnace: ElectricFurnace.electric_furnace,
+	electric_arc_furnace: ElectricFurnace.electric_arc_furnace,
 	basic_solar_panel: BasicSolarPanel,
 	oxygen_collector: OxygenCollector,
 	oxygen_compressor: OxygenCompressor,
