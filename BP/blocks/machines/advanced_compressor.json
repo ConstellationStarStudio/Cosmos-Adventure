@@ -12,8 +12,9 @@
       }
     },
     "components": {
+      "minecraft:display_name": "%tile.advanced_compressor.name\n§7%tile.compressor_advanced.description",
       "tag:machine": {},
-      // "cosmos:machine": {},
+      "cosmos:machine": {},
       "minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
       "minecraft:destructible_by_explosion": false,
       "minecraft:movable": { "movement_type": "immovable" },

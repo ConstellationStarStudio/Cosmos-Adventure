@@ -117,6 +117,12 @@
             },
             "volume": 0
          },
+         "cosmos:advanced_compressor": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
          "cosmos:dishbase": {
             "events": {
                "death": "none"

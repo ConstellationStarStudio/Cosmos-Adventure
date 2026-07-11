@@ -1,12 +1,18 @@
 {
     "namespace": "electric_compressor",
 
+	"standart_interface@electric_compressor.interface": {
+		"$title": "Electric Compressor"
+    },
+    "advanced_interface@electric_compressor.interface": {
+		"$title": "Advanced Compressor"
+    },
     "interface@machines.dynamic_interface": {
         "$size": ["100%", 199],
         "$content": [
 			{ "title": {
 				"type": "label",
-				"text": "Electric Compressor",
+				"text": "$title",
 				"color": "$title_text_color",
 				"anchor_from": "top_left",
 				"anchor_to": "top_left",

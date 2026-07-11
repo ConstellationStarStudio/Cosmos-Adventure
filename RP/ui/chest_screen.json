@@ -53,7 +53,13 @@
             },
             {
                 "requires": "(not (($ct - '§e§l§e§c§t§r§i§c§_§c§o§m§p§r§e§s§s§o§r') = $ct))",
-                "$screen_content": "electric_compressor.interface",
+                "$screen_content": "electric_compressor.standart_interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§a§d§v§a§n§c§e§d§_§c§o§m§p§r§e§s§s§o§r') = $ct))",
+                "$screen_content": "electric_compressor.advanced_interface",
                 "$screen_bg_content": "common.screen_background",
                 "$screen_background_alpha": 0.4
             },
