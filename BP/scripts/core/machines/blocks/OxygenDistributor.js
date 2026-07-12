@@ -9,7 +9,7 @@ const OxygenDisplay = 2, EnergyDisplay = 3, StatusDisplay = 4
 const ButtonSlot = 5
 
 const data = {
-    energy: {input: "right", capacity: 16000, maxInput: 25},
+    energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {input: "left", capacity: 6000, maxInput: 8},
     onTick(entity, block) {
         let distributor = entity;
@@ -48,7 +48,7 @@ const data = {
 
         let active = (bubble_radius > 1 && energy > 0 && o2 > 30);
         if(!(system.currentTick % 2)) {
-            if (energy > 0 && o2 > 30){
+            if (energy > (data.energy.rate * 2) && o2 > 30){
                 o2 = Math.max(o2 - 3, 0);
                 energy = Math.max(energy - 3, 0);
                 bubble_radius += 0.02;
@@ -70,7 +70,7 @@ const data = {
         distributor.setProperty("cosmos:bubble_radius", visible_button ? bubble_radius : 0)
         save_dynamic_object(distributor, {energy, o2, bubble_radius}, "machine_data");
 
-        let status = (!energy)? "§4Not Enough Power":
+        let status = (energy <= (data.energy.rate * 2))? "§4Not Enough Power":
         (o2 < 30)? "§4Not Enough Oxygen":
         "§2Active";
 

@@ -22,7 +22,7 @@ function make_smoke({dimension, x, y, z}) {
 }
 
 const data = {
-	energy: {input: "above", capacity: 16000, maxInput: 120},
+	energy: {input: "above", capacity: 16000, maxInput: 150, rate: 60},
 	oil: {input: "right", capacity: 24000},
 	fuel: {output: "left", capacity: 24000},
 	onTick(entity, block) {
@@ -61,20 +61,17 @@ const data = {
 		fuel = output_fluid({type: "fuel", slot: "fuel"}, entity, block, fuel);
 
 		// refine oil
-		if (!active && system.currentTick % 2 == 0 && oil > 0 && energy > 0 && fuel < data.fuel.capacity) {
-			if (energy >= 120) {
-				let melted_amount = Math.min(data.fuel.capacity - fuel, Math.min(oil, tier));
-
-				fuel += melted_amount; oil -= melted_amount; energy -= 120;
-				if (system.currentTick % 20 == 0) make_smoke(block)
-			}
+		if (!active && system.currentTick % 2 == 0 && oil > 0 && energy > (data.energy.rate * 2) && fuel < data.fuel.capacity) {
+			let melted_amount = Math.min(data.fuel.capacity - fuel, Math.min(oil, tier));
+            fuel += melted_amount; oil -= melted_amount; energy -= (data.energy.rate * 2);
+			if (system.currentTick % 20 == 0) make_smoke(block)
 		}
 
 
 		// write the status text
-		const status = energy == 0 ? "§4No Power"
+		const status = !energy ? "§4No Power"
 		: oil == 0 ? "§cNo Oil"
-		: energy < 120 ? "§6Not Enough Power"
+		: energy < (data.energy.rate * 2) ? "§6Not Enough Power"
 		: fuel == data.fuel.capacity ? "§cFull"
 		: active ? "§6Ready"
 		: "§2Refining"

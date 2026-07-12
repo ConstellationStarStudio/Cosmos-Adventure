@@ -30,7 +30,7 @@ function get_vehicles(block) {
 }
 
 const data = {
-	energy: {input: "right", capacity: 16000, maxInput: 120},
+	energy: {input: "right", capacity: 16000, maxInput: 75, rate: 30},
 	fuel: {input: "left", capacity: 12000},
 	onTick(entity, block) {
 		const active = entity.getDynamicProperty('active')
@@ -46,7 +46,7 @@ const data = {
 		fuel = input_fluid({type: "fuel", slot: "fuel"}, entity, block, fuel)
 		fuel = load_from_item(fuel, "fuel", data.fuel.capacity, container, InputSlot)
 
-		if (active && energy > 0 && fuel >= 2 && block) {
+		if (active && energy > data.energy.rate && fuel >= 2 && block) {
 			const vehicles = system.currentTick % 100 == 0 ? (entity.vehicles = get_vehicles(block)) : entity.vehicles ?? []
 			vehicles.forEach((vehicle) => {
 				if (!vehicle || !vehicle.isValid) return
@@ -56,14 +56,14 @@ const data = {
 				vehicle_data.fuel = Math.min(1000, fuel_level + 2)
 				save_dynamic_object(vehicle, vehicle_data, "vehicle_data")
 				fuel = Math.max(0, fuel - 2)
-				energy = Math.max(0, energy - 30)
+				energy = Math.max(0, energy - data.energy.rate)
 			})
 		}
 
 		save_dynamic_object(entity, {energy, fuel}, "machine_data")
 		
 		const status = fuel == 0 ? "§4No Fuel to Load"
-		: energy < 30 ? "§4Not Enough Power"
+		: energy <= data.energy.rate ? "§4Not Enough Power"
 		: active ? "§2Active"
 		: "§6Ready"
 		

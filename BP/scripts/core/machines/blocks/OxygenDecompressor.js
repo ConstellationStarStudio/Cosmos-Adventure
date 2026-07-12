@@ -6,7 +6,7 @@ import { output_fluid } from "../../matter/fluids";
 import { update_tank, tanks } from "../../../api/player/oxygen";
 
 const data = {
-    energy: {input: "right", capacity: 16000, maxInput: 10},
+    energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {output: "left", capacity: 1200},
     onTick(entity, block) {
         const container = entity.getComponent('minecraft:inventory').container;
@@ -24,18 +24,18 @@ const data = {
         
         if(!(system.currentTick % 20)){
             energy = Math.max(energy - 5, 0);
-            if(energy >= 200 && tank && Object.keys(tanks).includes(tank.typeId) && durability.damage < durability.maxDurability){
+            if(energy > (data.energy.rate * 20) && tank && Object.keys(tanks).includes(tank.typeId) && durability.damage < durability.maxDurability){
                 let saved_durability = durability ? durability.maxDurability - durability.damage:
                 0;
                 tank = update_tank(tank, Math.max(saved_durability - 40, 0));
                 if(container.getItem(1)) container.setItem(1, tank);
                 o2 = Math.min(data["o2"].capacity, o2 + 20)
-                energy = Math.max(0, energy - 200);
+                energy = Math.max(0, energy - (data.energy.rate * 20));
             }
         }
         save_dynamic_object(entity, {energy, o2}, "machine_data");
         
-        let status = (energy < 200)? "§4Not Enough Power":
+        let status = (energy <= (data.energy.rate * 20))? "§4Not Enough Power":
         (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
         (durability.damage == durability.maxDurability)? "§4Oxygen Tank Empty":
         "§2Active";

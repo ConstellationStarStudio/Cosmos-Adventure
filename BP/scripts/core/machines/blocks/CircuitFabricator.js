@@ -10,10 +10,10 @@ const EnergyDisplay = 7, ProgressDisplay = 8, StatusDisplay = 9
 const IngredientSlots = [DiamondSlot, Silicon1Slot, Silicon2Slot, RedstoneSlot]
 const IngredientTypes = ["minecraft:diamond", "cosmos:raw_silicon", "cosmos:raw_silicon", "minecraft:redstone"]
 
-const MaxProgress = 150, EnergyRate = 20
+const MaxProgress = 150
 
 const data = {
-	energy: {input: "right", capacity: 16000, maxInput: 50},
+	energy: {input: "right", capacity: 16000, maxInput: 45, rate: 20},
 	items: {
 		top_input: [InputSlot],
 		side_input: IngredientSlots,
@@ -37,9 +37,9 @@ const data = {
 		energy = charge_from_block(entity, block, energy)
 		energy = charge_from_battery(entity, energy, BatterySlot)
 		// increase the progress if has ingredients, the recipe matches, has space, and energy
-		if (has_ingredients && recipe && has_space && energy && progress < MaxProgress) progress++, energy -= Math.min(energy, EnergyRate)
+		if (has_ingredients && recipe && has_space && energy > data.energy.rate && progress < MaxProgress) progress++, energy -= Math.min(energy, data.energy.rate)
 		// regress the progress if no space or no energy
-		if (progress && (!has_space || !energy)) progress--
+		if (progress && (!has_space || energy <= data.energy.rate)) progress--
 		// reset the progress if no ingredients or the recipe changed
 		if (progress && (!has_ingredients || !recipe)) progress = 0
 		// craft the item if progress is full
@@ -63,7 +63,7 @@ const data = {
 			const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 			container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
 			container.add_ui_display(ProgressDisplay, `Progress: ${Math.round((progress / time_required) * 100)}%`, Math.round((progress / time_required) * 51))
-			container.add_ui_display(StatusDisplay, `§r Status:\n${!energy ? '§4No Power' : progress ? '§2Running' : '   §6Idle'}`)
+			container.add_ui_display(StatusDisplay, `§r Status:\n${energy <= data.energy.rate ? '§4No Power' : progress ? '§2Running' : '   §6Idle'}`)
 		}
 	}
 }; export default data

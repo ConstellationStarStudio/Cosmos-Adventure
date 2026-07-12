@@ -6,7 +6,7 @@ import electric_furnace from "../../../recipes/electric_furnace";
 
 const data = {
 	electric_furnace: {
-		energy: {input: "right", capacity: 16000, maxInput: 45},
+		energy: {input: "right", capacity: 16000, maxInput: 112, rate: 45},
 		items: {
 			top_input: [0],
 			side_input: [0],
@@ -16,7 +16,7 @@ const data = {
 		onTick: onTick
 	},
 	electric_arc_furnace: {
-		energy: {input: "right", capacity: 25000, maxInput: 60},
+		energy: {input: "right", capacity: 25000, maxInput: 150, rate: 60},
 		items: {
 			top_input: [0],
 			side_input: [0],
@@ -46,7 +46,7 @@ function onTick(entity, block) {
 
 	if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
 
-	if(energy > 0){
+	if(energy > furnace_data.energy.rate){
 		let input = container.getItem(0);
 		let outputs = [container.getItem(5)];
 		if(furnace_data.tier == 2) outputs.push(container.getItem(6));
@@ -61,7 +61,7 @@ function onTick(entity, block) {
 		if(input && outputId && condition){
 			if (progress < required_time){
 				progress += 1;
-				energy = Math.max(0, energy - furnace_data.energy.maxInput);
+				energy = Math.max(0, energy - furnace_data.energy.rate);
 			}else{
 				progress = 0;
 				container.setItem(0, input.decrementStack());
@@ -83,6 +83,6 @@ function onTick(entity, block) {
 		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${furnace_data.energy.capacity} gJ`
 		container.add_ui_display(2, energy_hover, Math.round((energy / furnace_data.energy.capacity) * 55))
 		container.add_ui_display(3, '', Math.ceil((progress / required_time) * 24))
-		container.add_ui_display(4, '§rStatus: ' + (!energy ? '\n§4No Power' : progress ? '\n§2Running' : '\n§6Idle'))
+		container.add_ui_display(4, '§rStatus: ' + (energy <= furnace_data.energy.rate ? '\n§4No Power' : progress ? '\n§2Running' : '\n§6Idle'))
 	}
 }; export default data;

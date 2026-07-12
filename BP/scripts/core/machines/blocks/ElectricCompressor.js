@@ -10,7 +10,7 @@ const EnergyDisplay = 12, ProgressDisplay = 13, StatusDisplay = 14
 const data = {
 	electric_compressor: {
 		onTick: onTick,
-		energy: {input: "right", capacity: 16000, maxInput: 1500},
+		energy: {input: "right", capacity: 16000, maxInput: 187, rate: 75},
 		items: {
 			top_input: InputSlots,
 			side_input: InputSlots,
@@ -20,7 +20,7 @@ const data = {
 	},
 	advanced_compressor: {
 		onTick: onTick,
-		energy: {input: "right", capacity: 16000, maxInput: 1500},
+		energy: {input: "right", capacity: 16000, maxInput: 187, rate: 75},
 		items: {
 			top_input: InputSlots,
 			side_input: InputSlots,
@@ -51,12 +51,12 @@ function onTick(entity, block){
 	const output_items = OutputSlots.map(slot => container.getItem(slot))
 	const one_has_space = (oneItemMax) => (!output_items[0] || (output_items[0].typeId == recipe && ((oneItemMax === 64)? output_items[0].amount < oneItemMax: output_items[0].amount <= oneItemMax)))
 	const two_has_space = (twoItemMax) => (!output_items[1] || (output_items[1].typeId == recipe && ((twoItemMax === 64)? output_items[1].amount < twoItemMax: output_items[1].amount <= twoItemMax)))
-	if (energy > 0 && progress < required_time && recipe && (one_has_space(64) || two_has_space(64))) {
+	if (energy > compressor_data.energy.rate && progress < required_time && recipe && (one_has_space(64) || two_has_space(64))) {
 		progress++;
-		energy -= Math.min(50, energy);
+		energy -= Math.min(compressor_data.energy.rate, energy);
 	}
 
-	if ((energy == 0 || (recipe === undefined || (!one_has_space(64) && !two_has_space(64)))) && progress > 0) progress--
+	if ((energy < compressor_data.energy.rate || (recipe === undefined || (!one_has_space(64) && !two_has_space(64)))) && progress > 0) progress = 0;
 	if (progress >= required_time) {
 		block.dimension.playSound("random.anvil_land", entity.location)
 		progress = 0
@@ -112,6 +112,6 @@ function onTick(entity, block){
 		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${compressor_data.energy.capacity} gJ`
 		container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / compressor_data.energy.capacity) * 55))
 		container.add_ui_display(ProgressDisplay, '', Math.ceil((progress / required_time) * 52))
-		container.add_ui_display(StatusDisplay, '§rStatus: ' + (!energy ? '§4No Power' : progress ? '§2Running' : '§6Idle'))
+		container.add_ui_display(StatusDisplay, '§rStatus: ' + (energy <= compressor_data.energy.rate ? '§4No Power' : progress ? '§2Running' : '§6Idle'))
 	}
 }; export default data;

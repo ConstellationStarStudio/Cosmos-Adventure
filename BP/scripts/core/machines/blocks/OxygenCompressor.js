@@ -8,7 +8,7 @@ const CanisterSlot = 0, BatterySlot = 1,  TankSlot = 2
 const EnergyDisplay = 3, OxygenDisplay = 4, StatusDisplay = 5
 
 const data = {
-    energy: {input: "right", capacity: 16000, maxInput: 15},
+    energy: {input: "right", capacity: 16000, maxInput: 37, rate: 15},
     o2: {input: "left", capacity: 1200, maxInput: 16},
     onTick(entity, block) {
         const container = entity.getComponent('minecraft:inventory').container
@@ -43,18 +43,18 @@ const data = {
         
         if(!(system.currentTick % 20)){
             energy = Math.max(energy - 5, 0);
-            if(energy >= 300 && tank && Object.keys(tanks).includes(tank.typeId) && durability.damage){
+            if(energy >= (data.energy.rate * 20) && tank && Object.keys(tanks).includes(tank.typeId) && durability.damage){
                 let saved_durability = durability ? durability.maxDurability - durability.damage:
                 0;
                 tank = update_tank(tank, Math.min(saved_durability + Math.min(o2, 40), durability.maxDurability));
                 if(container.getItem(TankSlot)) container.setItem(TankSlot, tank);
                 o2 = Math.max(0, o2 - 40)
-                energy = Math.max(0, energy - 300);
+                energy = Math.max(0, energy - (data.energy.rate * 20));
             }
         }
         save_dynamic_object(entity, {energy, o2}, "machine_data");
         
-        let status = (energy < 300)? "§4Not Enough Power":
+        let status = (energy <= (data.energy.rate * 20))? "§4Not Enough Power":
         (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
         (!durability.damage)? "§4Oxygen Tank Full":
         (o2 == 0)? "§4Not Enough Oxygen":

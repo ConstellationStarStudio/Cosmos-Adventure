@@ -10,7 +10,7 @@ const StatusDisplay = 8, ButtonSlot = 9
 const ProcessButtonText = (state) => state ? 'Stop' : 'Process'
 
 const data = {
-	energy: {input: "below", capacity: 16000, maxInput: 900},
+	energy: {input: "below", capacity: 16000, maxInput: 300},
 	water: {input: "left", capacity: 4000},
 	o2: {output: "back", capacity: 4000},
 	h2: {output: "right", capacity: 4000},

@@ -7,7 +7,7 @@ const BatterySlot = 9, InputSlot = 10
 const EnergyDisplay = 11, ProgressDisplay = 12, StatusDisplay = 13
 
 const data = {
-	energy: {input: "right", capacity: 16000, maxInput: 45},
+	energy: {input: "right", capacity: 16000, maxInput: 187, rate: 75},
 	onTick(entity, block){
 		const container = entity.getComponent('minecraft:inventory').container;
 		const variables = load_dynamic_object(entity, "machine_data");
@@ -18,11 +18,11 @@ const data = {
 		energy = charge_from_battery(entity, energy, BatterySlot);
 		if(!(system.currentTick % 80)) energy -= Math.min(5, energy)
 
-		if(energy > 50){
+		if(energy > data.energy.rate){
 			let recipe_item = container.getItem(InputSlot);
 			if (recipe_item){
 				progress++;
-				energy -= Math.min(50, energy);
+				energy -= Math.min(data.energy.rate, energy);
 			}
 			else progress = 0
 

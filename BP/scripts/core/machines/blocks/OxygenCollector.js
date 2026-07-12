@@ -18,7 +18,7 @@ const valid_oxygen_blocks = ["minecraft:oak_leaves",
 ]
 
 const data = {
-    energy: {input: "right", capacity: 16000, maxInput: 25},
+    energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {output: "left", capacity: 6000},
     onTick(entity, block) {
         const dimension_id = entity.dimension.id;
@@ -29,13 +29,13 @@ const data = {
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
         let oxygen_source_bloks = variables.oxygen_source_bloks || 0;
-        oxygen_source_bloks = (dimension_id == "minecraft:overworld" && energy > 0)? 93:
-        (energy > 0)? oxygen_source_bloks:
+        oxygen_source_bloks = (dimension_id == "minecraft:overworld" && energy > data.energy.rate)? 93:
+        (energy > data.energy.rate)? oxygen_source_bloks:
         0;
 
         o2 = output_fluid({type: "o2", slot: "o2"}, entity, block, o2);
         //checks for leaves or cropes approximately once every 40 ticks
-        if(Math.floor(Math.random() * 10) === 0 && ["cosmos:space_stations", "minecraft:the_end"].includes(dimension_id) && energy > 200){
+        if(Math.floor(Math.random() * 10) === 0 && ["cosmos:space_stations", "minecraft:the_end"].includes(dimension_id) && energy > (data.energy.rate * 10)){
             oxygen_source_bloks = 0;
             let {x, y, z} = entity.location;
             for(let location of block.dimension.getBlocks(
@@ -46,7 +46,7 @@ const data = {
             } 
         }
         
-        if(!(system.currentTick % 10) && energy > 200){
+        if(!(system.currentTick % 10) && energy > (data.energy.rate * 10)){
             o2 += Math.floor((0.75 * oxygen_source_bloks));
             o2 = Math.min(o2, 6000)
         }
@@ -54,9 +54,9 @@ const data = {
         // Energy management
         energy = charge_from_machine(entity, block, energy);
         energy = charge_from_battery(entity, energy, 0);
-        energy = Math.max(0, energy - 10);
+        energy = Math.max(0, energy - data.energy.rate);
 
-        const status = energy == 0 ? "§4Not Enough Power" :
+        const status = energy <= data.energy.rate ? "§4Not Enough Power" :
         (oxygen_source_bloks < 2 && dimension_id !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
         "§2Active";
         

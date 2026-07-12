@@ -11,7 +11,7 @@ const EnergyDisplay = 7, StatusDisplay = 8, ButtonSlot = 9
 const ProcessButtonText = (state) => state ? 'Process' : 'Stop'
 
 const data = {
-	energy: { input: "below", capacity: 16000, maxInput: 900 },
+	energy: { input: "below", capacity: 16000, maxInput: 150 },
 	gas: { input: "left", capacity: 4000 },
 	liquid: { output: "right", capacity: 2000 },
 	onTick(entity, block) {

@@ -9,7 +9,7 @@ const data = {
 			output: "right", 
 			capacity: 500000,
 			maxPower: 300,
-			maxInput: 2000
+			maxInput: 750
 		},
 	},
 	energy_storage_cluster: {
@@ -19,7 +19,7 @@ const data = {
 			output: "right", 
 			capacity: 2500000,
 			maxPower: 1800,
-			maxInput: 2000
+			maxInput: 4500
 		},
 	}
 }
