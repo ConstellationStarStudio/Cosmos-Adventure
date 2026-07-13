@@ -14,6 +14,7 @@ export class Moon extends Planet{
         this._center = {x: 75000, z: 75000};
         this._time = {length: 192000, day: 96000};
         this._fuelMultiplier = 0.7;
+        this._solarEnergyMultiplier = 1.4;
     }
     launching(player, data, loaded = false){
         player.runCommand("fog @s remove mars")

@@ -3,10 +3,11 @@ import machines from "./AllMachineBlocks";
 import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
 import { attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
 import { pickaxes } from "../../api/utils";
-import { setSolarPanelBlocks } from "./blocks/BasicSolarPanel";
+import { setSolarPanelBlocks } from "./blocks/SolarPanel";
 
 const multi_block_machines = {
-	"cosmos:basic_solar_panel": setSolarPanelBlocks
+	"cosmos:basic_solar_panel": setSolarPanelBlocks,
+	"cosmos:advanced_solar_panel": setSolarPanelBlocks
 }
 export let machine_entities = new Map();
 

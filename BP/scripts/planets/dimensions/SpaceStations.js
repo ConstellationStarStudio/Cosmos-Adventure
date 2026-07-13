@@ -13,6 +13,7 @@ export class SpaceStations extends Planet{
         this._center = {x: 0, z: 0};
         this._time = {length: 1, day: 1};
         this._fuelMultiplier = 0.9;
+        this._solarEnergyMultiplier = 2;
     }
     launching(player, data, loaded = false){
         let stations_dimension = world.getDimension("cosmos:space_stations");

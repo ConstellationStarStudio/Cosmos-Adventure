@@ -2,7 +2,7 @@
     "format_version": "1.20.0",
     "minecraft:entity": {
         "description": {
-            "identifier": "cosmos:basic_solar_panel",
+            "identifier": "cosmos:advanced_solar_panel",
             "is_summonable": true,
 			"properties": {
 				"cosmos:panel_angle": {

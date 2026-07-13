@@ -10,6 +10,7 @@ export class Planet{
         this._time;
         this._center;
         this._fuelMultiplier;
+        this._solarEnergyMultiplier;
     }
     get type(){
         return this._type;
@@ -34,6 +35,9 @@ export class Planet{
     }
     get fuelMultiplier() {
         return this._fuelMultiplier;
+    }
+    get solarEnergyMultiplier() {
+        return this._solarEnergyMultiplier;
     }
     offset(location) {
         return {

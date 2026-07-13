@@ -13,6 +13,7 @@ export class Mars extends Planet{
         this._center = {x: -75000, z: 75000};
         this._time = {length: 24000, day: 12000};
         this._fuelMultiplier = 0.9;
+        this._solarEnergyMultiplier = 0.52;
     }
     launching(player, data, loaded = false){
         player.runCommand("fog @s push cosmos:mars_fog mars")

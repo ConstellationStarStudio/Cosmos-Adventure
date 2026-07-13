@@ -105,6 +105,12 @@
             },
             "volume": 0
          },
+         "cosmos:advanced_solar_panel": {
+            "events": {
+               "death": "none"
+            },
+            "volume": 0
+         },
          "cosmos:compressor": {
             "events": {
                "death": "none"

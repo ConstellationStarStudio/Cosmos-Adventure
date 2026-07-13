@@ -20,7 +20,7 @@ import { desh_pickaxe_component } from "../core/items/desh_pickaxe";
 import { grapple_component } from "../core/items/grapple";
 import { wrench_component } from "../core/items/wrench";
 import { bucket_component } from "../core/matter/fluids";
-import { solar_panel_component } from "../core/machines/blocks/BasicSolarPanel";
+import { solar_panel_component } from "../core/machines/blocks/SolarPanel";
 import { machine_component } from "../core/machines/Machine";
 import { select_solar_system } from "./player/celestial_selector";
 import { volcanic_pickaxe_component } from "../core/items/volcanic_pickaxe";
