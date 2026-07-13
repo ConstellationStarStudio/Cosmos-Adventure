@@ -115,6 +115,9 @@
     "tank_water": {
       "textures": "textures/blocks/fluids/tank_water"
     },
+    "hydrogen": {
+      "textures": "textures/blocks/fluids/hydrogen"
+    },
 
     //machines
     "advanced_energy_input": {

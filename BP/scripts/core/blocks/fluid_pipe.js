@@ -207,9 +207,10 @@ export function fluidNetwork(foundMachines){
 		let machine_block = machine.dimension.getBlock(machine.location);
 		const data = Object.entries(get_data(machine));
 		let machines = {found_machines: {}};
+		machines.pipe_count = {input: {}, output: {}};
 		data.forEach((slot) => {
 			if(slot[0] == 'energy' || (!slot[1].input && !slot[1].output)) return;
-			machines.pipe_count = {input: {}, output: {}};
+			
 			if(slot[1].input){
 				let input_side = machine.dimension.getBlock(location_of_side(machine_block, slot[1].input));
                 if(input_side.hasTag("fluid_pipe")){

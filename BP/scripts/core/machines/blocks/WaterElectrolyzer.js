@@ -11,9 +11,9 @@ const ProcessButtonText = (state) => state ? 'Stop' : 'Process'
 
 const data = {
 	energy: {input: "below", capacity: 16000, maxInput: 300},
-	water: {input: "left", capacity: 4000},
-	o2: {output: "back", capacity: 4000},
-	h2: {output: "right", capacity: 4000},
+	water: {input: "right", capacity: 4000},
+	o2: {output: "front", capacity: 4000},
+	h2: {output: "left", capacity: 4000},
 	onTick(entity, block) {
         const container = entity.getComponent('minecraft:inventory').container
         const active = entity.getDynamicProperty('active')
@@ -31,7 +31,7 @@ const data = {
         water = input_fluid({type: "water", slot: "water"}, entity, block, water)
         water = load_from_item(water, "water", data.water.capacity, container, InputSlot)
 
-        o2 = output_fluid({type: 'o2', slot: 'o2'}, entity, block, o2)
+        o2 = output_fluid({type: 'o2', slot: 'o2'}, entity, block, o2);
         h2 = output_fluid({type: 'h2', slot: 'h2'}, entity, block, h2)
 
         let status = energy < 375 ? '§cLow energy' : !water ? '§cNo Water!' : '§6Idle'
