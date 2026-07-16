@@ -185,7 +185,7 @@ export const machine_component = {
 	},
 	onPlayerBreak({ block, dimension, brokenBlockPermutation: perm }) {
 		detach_wires(block);
-		detach_pipes(block);
+		detach_pipes(block, perm, "machine");
 		
 		const entity = dimension.getEntities({
 			type: perm.type.id,

@@ -12,14 +12,14 @@ function rotate(block, perm) {
 	system.runTimeout(()=>{
     detach_wires(block)
     attach_to_wires(block)
-    detach_pipes(block)
+    detach_pipes(block, block.permutation, "machine")
     attach_pipes(block)
   }, 1)
 }
 
 export function remove(block) {
   detach_wires(block)
-  detach_pipes(block)
+  detach_pipes(block, block.permutation, "machine")
   const {dimension, location} = block
   const coords = `${location.x} ${location.y} ${location.z}`
   const machineEntity = dimension.getEntities({

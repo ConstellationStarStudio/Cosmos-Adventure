@@ -1,5 +1,5 @@
 {
-    "format_version": "1.21.80",
+    "format_version": "1.26.0",
 	"minecraft:block": {
 		"description": {
 			"identifier": "cosmos:fluid_pipe",
@@ -10,7 +10,8 @@
 				"cosmos:fluid_north": [0, 1, 2],
 				"cosmos:fluid_east": [0, 1, 2],
 				"cosmos:fluid_south": [0, 1, 2],
-				"cosmos:fluid_west": [0, 1, 2]
+				"cosmos:fluid_west": [0, 1, 2],
+				"cosmos:tick": [false, true]
 			}
 		},
 		"components": {
@@ -28,7 +29,7 @@
 			"minecraft:loot": "loot_tables/blocks/fluid_pipe.json",
 			"minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
 			"minecraft:destructible_by_explosion": false,
-			"minecraft:custom_components": ["cosmos:fluid_pipe"],
+			"cosmos:fluid_pipe": {},
 			"minecraft:geometry": {
 				"identifier": "geometry.fluid_pipe",
 				"bone_visibility": {
@@ -72,6 +73,20 @@
 					"pink": false
 				}
 			}
-		}
+		},
+		"permutations": [
+			{
+				"condition": "q.block_state('cosmos:tick') == true",
+				"components": {
+					"minecraft:tick": {
+						 "interval_range": [0, 20],
+						 "looping": true
+                     },
+					"cosmos:fluid_tick": {},
+					"cosmos:fluid_pipe": {}
+				}
+				
+			}
+		]
 	}
 }

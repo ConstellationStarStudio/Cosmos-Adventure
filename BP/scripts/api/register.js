@@ -24,6 +24,7 @@ import { solar_panel_component } from "../core/machines/blocks/SolarPanel";
 import { machine_component } from "../core/machines/Machine";
 import { select_solar_system } from "./player/celestial_selector";
 import { volcanic_pickaxe_component } from "../core/items/volcanic_pickaxe";
+import { fluid_tick_component } from "../core/matter/fluid_network";
 import nasa_workbench_recipes from "../recipes/nasa_workbench";
 
 system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegistry, blockComponentRegistry, dimensionRegistry}) => {
@@ -55,6 +56,7 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
     register_block_component("cosmos:boss_block", evolved_skeleton_component)
     register_block_component('cosmos:solar_panel', solar_panel_component)
     register_block_component('cosmos:machine', machine_component)
+    register_block_component('cosmos:fluid_tick', fluid_tick_component)
     
     // Item Components
     register_item_component("cosmos:space_gear", space_gear_component)
