@@ -10,7 +10,8 @@
 				"cosmos:fluid_east": [0, 1, 2],
 				"cosmos:fluid_south": [0, 1, 2],
 				"cosmos:fluid_west": [0, 1, 2],
-				"cosmos:tick": [false, true]
+				"cosmos:tick": [false, true],
+				"cosmos:liquid": ["gas", "liquid"]
 			}
 		},
 		"components": {

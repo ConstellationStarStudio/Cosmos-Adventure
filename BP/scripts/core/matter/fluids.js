@@ -66,13 +66,13 @@ export const fluid_names = {
     oil: "Oil",
     fuel: "Fuel",
     air: "Atmospheric Gases",
-    o2_gas: "Oxygen Gas",
-    h2_gas: "Hydrogen Gas",
-    n2_gas: "Nitrogen Gas",
-    co2_gas: "Carbon Dioxide",
-    methane_gas: "Methane Gas",
-    helium_gas: "Helium Gas",
-    argon_gas: "Argon Gas",
+    o2: "Oxygen Gas",
+    h2: "Hydrogen Gas",
+    n2: "Nitrogen Gas",
+    co2: "Carbon Dioxide",
+    methane: "Methane Gas",
+    helium: "Helium Gas",
+    argon: "Argon Gas",
     liquid_oxygen: "Liquid Oxygen",
     liquid_nitrogen: "Liquid Nitrogen",
     liquid_methane: "Liquid Methane",
@@ -145,12 +145,11 @@ export function output_fluid(fluid_data, entity, block, fluid) {
     
     /* debug purposes
     prints fluid system object and all registered pipes
-    if you wanna delete registered pipes and system use world.clearDynamicProperties()
+    if you wanna delete registered pipes and system use world.clearDynamicProperties();
     note: it might clean stations too
     console.warn(JSON.stringify(world.getDynamicPropertyIds(), fluid_network))
-    console.warn(JSON.stringify(fluid_network))
-    */
-
+    console.warn(JSON.stringify(fluid_network))*/
+    
     const data = get_data(entity)
     const target_location = location_of_side(block, data[fluid_data.slot].output)
     if (!target_location) return fluid
@@ -160,12 +159,14 @@ export function output_fluid(fluid_data, entity, block, fluid) {
         z: block.location.z - Math.floor(target_location.z)
     }
     direction = get_direction(direction);
-    if (target_block.hasTag("fluid_pipe") && target_block.permutation.getState(pipe_same_side[direction]) == 2) {
-        let network_id = world.getDynamicProperty(JSON.stringify(target_block.location));
+
+    let condition_state = (fluid_data.liquid_type == "g") ? 1: 2;
+    if (target_block.hasTag("fluid_pipe") && target_block.permutation.getState(pipe_same_side[direction]) >= condition_state){
+        let network_id = world.getDynamicProperty(target_block.dimension.id + JSON.stringify(target_block.location));
         if(!network_id){
-            fluid = create_network(target_block, fluid_data.type, fluid);
+            fluid = create_network(target_block, fluid_data.type, fluid_data.liquid_type, fluid);
             return fluid;
-        }else if(fluid_network[network_id]?.t == fluid_data.type){
+        }else if(fluid_network[network_id]?.t == fluid_data.type && fluid_network[network_id]?.l == fluid_data.liquid_type){
             let network = fluid_network[network_id];
             let capacity = Math.min(network.p * 200 - network.c, fluid);
             network.c += capacity;
@@ -179,24 +180,27 @@ export function output_fluid(fluid_data, entity, block, fluid) {
 }
 
 export function input_fluid(fluid_data, entity, block, fluid) {
-    if(system.currentTick % 20) return fluid;
+    if(system.currentTick % 20) return [fluid, fluid_data.type];
     const data = get_data(entity)
     const source_location = location_of_side(block, data[fluid_data.slot].input)
-    if (!source_location || fluid == data[fluid_data.slot].capacity) return fluid
+    if (!source_location || fluid == data[fluid_data.slot].capacity) return [fluid, fluid_data.type]
     const source_block = block.dimension.getBlock(source_location)
 
     if (source_block?.hasTag("fluid_pipe")) {
-        let network = world.getDynamicProperty(JSON.stringify(source_block.location));
+        let network = world.getDynamicProperty(source_block.dimension.id + JSON.stringify(source_block.location));
         network = fluid_network[network];
-        if(network?.t == fluid_data.type){
+        if(network && fluid_data.type == undefined && network.l == fluid_data.liquid_type){
+            fluid_data.type = network.t;
+        }
+        if(network && network.t == fluid_data.type && network.l == fluid_data.liquid_type){
             let extracted_fluid = Math.min(data[fluid_data.slot].capacity - fluid, Math.floor(network.c/(network.i ?? 1)));
             network.c -= extracted_fluid;
             fluid += extracted_fluid;
             save_network();
-            return fluid;
+            return [fluid, fluid_data.type];
         }
     }
-    return fluid;
+    return [fluid, fluid_data.type];
 }
 
 export function load_from_item(amount, fluid_type, capacity, container, slot) {

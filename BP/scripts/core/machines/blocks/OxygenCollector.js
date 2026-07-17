@@ -33,7 +33,7 @@ const data = {
         (energy > data.energy.rate)? oxygen_source_bloks:
         0;
 
-        o2 = output_fluid({type: "o2", slot: "o2"}, entity, block, o2);
+        o2 = output_fluid({type: "o2", slot: "o2", liquid_type: "g"}, entity, block, o2);
         //checks for leaves or cropes approximately once every 40 ticks
         if(Math.floor(Math.random() * 10) === 0 && ["cosmos:space_stations", "minecraft:the_end"].includes(dimension_id) && energy > (data.energy.rate * 10)){
             oxygen_source_bloks = 0;

@@ -50,13 +50,13 @@ export function get_direction(location){
 }
 export function detach_pipes(block, perm, type = "pipe"){
 	const neighbors = six_neighbors(block);
-	let id = world.getDynamicProperty(JSON.stringify(block.location));
+	let id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
 	let pipes = [];
 	let network_ids = new Set();
 	for (const side in neighbors) {
 		const pipe = neighbors[side]
 		if (!pipe.hasTag("fluid_pipe") || !pipe.permutation.getState(pipe_opposite_side[side])) continue;
-		let network_id = world.getDynamicProperty(JSON.stringify(pipe.location));
+		let network_id = world.getDynamicProperty(pipe.dimension.id + JSON.stringify(pipe.location));
 		network_ids.add(network_id);
 		pipes.push([pipe, side, network_id]);
 	}
@@ -69,7 +69,7 @@ export function detach_pipes(block, perm, type = "pipe"){
 		delete fluid_network[id];
 	    save_network();
 	}
-	world.setDynamicProperty(JSON.stringify(block.location), undefined);
+	world.setDynamicProperty(block.dimension.id + JSON.stringify(block.location), undefined);
 
 	pipes.forEach((pipe) => {
 		pipe[0].setPermutation(pipe[0].permutation.withState(pipe_opposite_side[pipe[1]], 0));
@@ -106,7 +106,7 @@ export function attach_to_machine(pipe){
 	}
 	pipe.setPermutation(BlockPermutation.resolve(pipe.typeId, sides));
 
-	let network_id = world.getDynamicProperty(JSON.stringify(pipe.location));
+	let network_id = world.getDynamicProperty(pipe.dimension.id + JSON.stringify(pipe.location));
 	if(network_id && fluid_network[network_id]){
 		fluid_network[network_id].e = false;
 		save_network();
@@ -156,11 +156,11 @@ export function update_pipe_network(first_pipe, id, perm = first_pipe.permutatio
 		if(value.type == "pipe"){
 			pipes_counter++;
 			let block = value.block;
-			let block_id = world.getDynamicProperty(JSON.stringify(block.location));
+			let block_id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
 			if(block.permutation.getState("cosmos:tick")) block.setPermutation(block.permutation.withState("cosmos:tick", false))
 			if(id && !tick_pipes.length) tick_pipes.push(value.block);
 			if(block_id != id){
-			    world.setDynamicProperty(JSON.stringify(block.location), id);
+			    world.setDynamicProperty(block.dimension.id + JSON.stringify(block.location), id);
 			    delete fluid_network[block_id];
 		    }
 		}else if(id){
@@ -184,7 +184,7 @@ export function update_pipe_network(first_pipe, id, perm = first_pipe.permutatio
 		}
     });
 	if(tick_pipes.length > 0) tick_pipes[0].setPermutation(tick_pipes[0].permutation.withState("cosmos:tick", true));
-	if(!id) system.runJob(update_fluid(first_pipe, "empty", perm));
+	if(!id) system.runJob(update_fluid(first_pipe, "empty", "l", perm));
 	save_network();
 	return [pipes_counter, input_counter, output_counter];
 }
@@ -201,7 +201,7 @@ function connect_pipes(pipe) {
 			block.setPermutation(block.permutation.withState(pipe_opposite_side[side], 1));
 			states[pipe_same_side[side]] = 1;
 
-			let network_id = world.getDynamicProperty(JSON.stringify(block.location));
+			let network_id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
 			pipes.push(block);
 			if(network_id && !network_ids.includes(network_id)) network_ids.push(network_id);
 		}
@@ -229,7 +229,7 @@ function connect_pipes(pipe) {
 		}else if(network_ids.length > 1){
 			let capacity = 0;
 			network_ids.forEach((id) => {
-				if(network_id == id) capacity += fluid_network[network_id].c;
+				if(fluid_network[id] && fluid_network[id].t == fluid_network[network_id].t && fluid_network[id].l == fluid_network[network_id].l) capacity += fluid_network[network_id].c;
 				else delete fluid_network[id];
 			});
 			refresh_network(pipe, network_id);
