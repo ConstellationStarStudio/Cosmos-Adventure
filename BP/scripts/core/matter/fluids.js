@@ -32,11 +32,12 @@ const fluid_canisters = {
     n2: "cosmos:n2_canister",
     fuel: "cosmos:fuel_canister",
     oil: "cosmos:oil_canister",
-    
+    methane: "cosmos:methane_canister",
     "cosmos:o2_canister": "o2", 
     "cosmos:n2_canister": "n2",
     "cosmos:fuel_canister": "fuel",
     "cosmos:oil_canister": "oil",
+    "cosmos:methane_canister": "methane"
 }
 const fluid_buckets = {
     water: "minecraft:water_bucket",
@@ -52,7 +53,8 @@ const liquid_lores = {
     "cosmos:o2_canister": "Oxygen: ",
     "cosmos:n2_canister": "Nitrogen: ",
     "cosmos:fuel_canister": "Fuel: ",
-    "cosmos:oil_canister": "Oil: "
+    "cosmos:oil_canister": "Oil: ",
+    "cosmos:methane_canister": "Methane: "
 }
 
 const empty_canister = (type = "cosmos:empty_canister") => { // using a function to get a new object
@@ -253,7 +255,7 @@ export function load_to_item(amount, fluid_type, container, slot){
 export function load_to_canister(canister, amount, fluid_type, container, slot) {
     const empty = canister.typeId == "cosmos:empty_canister" // is it empty?
     const canister_type = fluid_canisters[fluid_type] // what type of canister to fill?
-    if (canister.typeId != canister_type && !empty) return amount // if empty or contains the same fluid
+    if (!canister_type || (canister.typeId != canister_type && !empty)) return amount // if empty or contains the same fluid
     if (empty) canister = empty_canister(canister_type) // if empty set its type
     const durability = canister.getComponent('minecraft:durability')
     if (!durability.damage) return amount // the canister is full

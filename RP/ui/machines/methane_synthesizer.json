@@ -1,0 +1,92 @@
+{
+    "namespace": "methane_synthesizer",
+
+    "interface@machines.dynamic_interface": {
+        "$size": ["100%", 168],
+        "$show_close_button": false,
+        "$content": [
+            { "close@common.close_button": {
+                "offset": [-36, 10]
+            }},
+            { "title": {
+                "type": "label",
+                "text": "Methane Synthesizer",
+                "color": "$title_text_color",
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 47, 5 ]
+            }},
+            { "h2_input@machines.item_slot": {
+                "$index": 0,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 6, 6 ]
+            }},
+            { "battery_slot@machines.item_slot": {
+                "$index": 1,
+                "$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 51, 52 ]
+            }},
+            { "co2_input@machines.item_slot": {
+                "$index": 2,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 27, 6 ]
+            }},
+            { "methane_output@machines.item_slot": {
+                "$index": 3,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 152, 6 ]
+            }},
+            { "coal_item@machines.item_slot": {
+                "$index": 4,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 27, 52 ]
+            }},
+
+            { "hydrogen_tank@machines.fluid_tank": {
+                "$liquid": "hydrogen_gas",
+                "$index": 5,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 6, 27 ]
+            }},
+            { "carbon_dioxide_tank@machines.small_fluid_tank": {
+                "$liquid": "carbon_dioxide_gas",
+                "$index": 6,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 27, 27 ]
+            }},
+            { "methane_tank@machines.fluid_tank": {
+                "$liquid": "methane_gas",
+                "$index": 7,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 152, 27 ]
+            }},
+            { "energy_bar@machines.energy_bar": {
+                "$index": 8,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 66, 16 ]
+            }},
+            { "status@machines.item_text": {
+                "$index": 9,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 72, 50 ]
+            }},
+            { "start_button@machines.machine_button": {
+                "$index": 10,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [ 62, 28 ]
+            }}
+        ]
+    }
+}

@@ -31,8 +31,8 @@ const data = {
         water = input_fluid({type: "water", slot: "water"}, entity, block, water)[0]
         water = load_from_item(water, "water", data.water.capacity, container, InputSlot)
 
-        o2 = output_fluid({type: 'o2', slot: 'o2', liqiuid_type: "g"}, entity, block, o2);
-        h2 = output_fluid({type: 'h2', slot: 'h2', liqiuid_type: "g"}, entity, block, h2);
+        o2 = output_fluid({type: 'o2', slot: 'o2', liquid_type: "g"}, entity, block, o2);
+        h2 = output_fluid({type: 'h2', slot: 'h2', liquid_type: "g"}, entity, block, h2);
 
         let status = energy < 375 ? '§cLow energy' : !water ? '§cNo Water!' : '§6Idle'
         if (o2 + 2 > data.o2.capacity && h2 + 4 > data.h2.capacity) status = '§cTanks Full'

@@ -24,6 +24,7 @@
     "ui/machines/oxygen_storage.json",
     "ui/machines/solar_panel.json",
     "ui/machines/deconstructor.json",
+    "ui/machines/methane_synthesizer.json",
 
     "ui/vehicles/rocket.json",
     "ui/fuel/fuel_chest/fuel_chest_inventory_0.json",

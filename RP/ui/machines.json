@@ -68,6 +68,52 @@
 			}}
 		]
 	},
+	"small_fluid_tank": {
+		"type":"panel",
+		"size": [ 18, 22],
+		"controls": [
+			{ "tank_back": {
+				"type":"image",
+				"texture": "textures/ui/cosmos/machines/small_tank_back",
+				"layer": 1
+			}},
+			{ "fluid@machines.specific_slot": {
+				"anchor_from": "bottom_left",
+				"anchor_to": "bottom_left",
+				"offset": [0, -1],
+				"layer": 2,
+				"controls": [
+					{ "unit": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "bottom_left",
+						"anchor_to": "bottom_left",
+						"size": [0, 1],
+						"controls": [
+							{ "image": {
+								"type": "image",
+								"tiled": true,
+								"texture": "('textures/ui/liquids/' + $liquid)",
+								"anchor_from": "bottom_left",
+								"anchor_to": "bottom_left",
+								"size": [18, 1],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_y",
+								"$visible_if": "(not (#data = 1000))"
+							}}
+						]
+					}}
+				]
+			}},
+			{ "tank_front": {
+				"type": "image",
+				"texture": "textures/ui/cosmos/machines/small_tank_front",
+				"layer": 3
+			}},
+			{ "tank_hover@machines.item_hover": {} }
+		]
+	},
 	"fluid_tank": {
 		"type":"panel",
 		"size": [ 18, 40 ],

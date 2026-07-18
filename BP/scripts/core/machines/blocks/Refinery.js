@@ -58,7 +58,7 @@ const data = {
 
 		//move fluids
 		fuel = load_to_item(fuel, "fuel", container, OutputSlot)
-		fuel = output_fluid({type: "fuel", slot: "fuel", liqiud_type: "l"}, entity, block, fuel);
+		fuel = output_fluid({type: "fuel", slot: "fuel", liquid_type: "l"}, entity, block, fuel);
 
 		// refine oil
 		if (!active && system.currentTick % 2 == 0 && oil > 0 && energy > (data.energy.rate * 2) && fuel < data.fuel.capacity) {

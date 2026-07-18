@@ -118,6 +118,9 @@
     "hydrogen": {
       "textures": "textures/blocks/fluids/hydrogen"
     },
+    "methane": {
+      "textures": "textures/blocks/fluids/methane"
+    },
 
     //machines
     "advanced_energy_input": {
