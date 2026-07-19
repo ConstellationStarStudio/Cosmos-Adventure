@@ -44,7 +44,7 @@ function onTick(entity, block){
 	energy = charge_from_machine(entity, block, energy)
 	energy = charge_from_battery(entity, energy, BatterySlot);
 	if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
-	
+
 	const items = InputSlots.map(slot => container.getItem(slot))
 	const ingredients = items.map(item => item?.typeId).filter(i => i).sort()
 	const recipe = find_recipe(ingredients)
@@ -106,7 +106,7 @@ function onTick(entity, block){
 			}
 		}
 	}
-	if(!compare_lists(first_values, [energy, progress]) || !container.getItem(EnergyDisplay)){
+	if((entity.active_ui && !compare_lists(first_values, [energy, progress])) || !container.getItem(EnergyDisplay)){
 		save_dynamic_object(entity, {progress, energy}, "machine_data")
 		
 		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${compressor_data.energy.capacity} gJ`

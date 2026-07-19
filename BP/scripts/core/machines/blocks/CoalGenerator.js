@@ -35,7 +35,7 @@ const data = {
 		if (burnTime === 0 && system.currentTick % 3 === 0 && power > 0) power--
 
 		// Save and Update UI 
-		if (!compare_lists(first_values, [burnTime, heat, power]) || !container.getItem(StatusDisplay)) {
+		if ((entity.active_ui && !compare_lists(first_values, [burnTime, heat, power])) || !container.getItem(StatusDisplay)) {
 			save_dynamic_object(entity, { burnTime, heat, power }, "machine_data")
 			const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
 			container.add_ui_display(StatusDisplay, display_text)

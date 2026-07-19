@@ -143,27 +143,30 @@ function onTick(entity, block) {
 	power = Math.min(energy, panel_data.energy.maxPower)
 	save_dynamic_object(e, { energy, solar_strength, power }, "machine_data");
 
-	const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${panel_data.energy.capacity} gJ`
-	const is_generating = `§r${power == 0 ? 'Generating: Not Generating' : 'Generating: ' + generated_energy + ' gJ/t'}`;
-	let status = "§rStatus: ";
-	let status_info = (stopped) ? '§6Disabled' :
-	(solar_strength > 0 && solar_strength < 9) ? '§4Sun Partially Visible' :
-	(solar_strength == 9) ? '§2Collecting Energy' :
-	'§4Sun Is Not Visible';
+	if(entity.active_ui || !container.getItem(1)){
+		const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${panel_data.energy.capacity} gJ`
+		const is_generating = `§r${power == 0 ? 'Generating: Not Generating' : 'Generating: ' + generated_energy + ' gJ/t'}`;
+		let status = "§rStatus: ";
+		let status_info = (stopped) ? '§6Disabled' :
+		(solar_strength > 0 && solar_strength < 9) ? '§4Sun Partially Visible' :
+		(solar_strength == 9) ? '§2Collecting Energy' :
+		'§4Sun Is Not Visible';
 
-	status = status + status_info;
+		status = status + status_info;
 
-	let solar = "Sun Visible: "
-	solar = solar + (solar_strength / 9 * 100).toFixed(1) + "%"
+		let solar = "Sun Visible: "
+		solar = solar + (solar_strength / 9 * 100).toFixed(1) + "%"
 
-	container.add_ui_display(1, energy_hover, Math.round((energy / panel_data.energy.capacity) * 55))
-	container.add_ui_display(2, solar, solar_strength > 0 ? 55 : 0);
+		container.add_ui_display(1, energy_hover, Math.round((energy / panel_data.energy.capacity) * 55))
+		container.add_ui_display(2, solar, solar_strength > 0 ? 55 : 0);
 
-	container.add_ui_display(3, is_generating)
-	container.add_ui_display(4, status)
-	container.add_ui_display(5, `§rEnvinromental Boost: ${Math.floor(Math.round((solar_boost - 1) * 1000)/10)}.0%%`)
+		container.add_ui_display(3, is_generating)
+		container.add_ui_display(4, status)
+		container.add_ui_display(5, `§rEnvinromental Boost: ${Math.floor(Math.round((solar_boost - 1) * 1000)/10)}.0%%`)
 
-	container.add_ui_button(6, stopped ? 'Disable' : 'Enable', entity, 'stopped', !stopped)
+		container.add_ui_button(6, stopped ? 'Disable' : 'Enable', entity, 'stopped', !stopped)
+	}
+
 }; export default data;
 
 function get_solar_energy(solar_strength, solar_angle, current_angle, boost){

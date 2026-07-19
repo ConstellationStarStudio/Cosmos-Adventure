@@ -34,17 +34,19 @@ const data = {
             }
         }
         save_dynamic_object(entity, {energy, o2}, "machine_data");
-        
-        let status = (energy <= (data.energy.rate * 20))? "§4Not Enough Power":
-        (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
-        (durability.damage == durability.maxDurability)? "§4Oxygen Tank Empty":
-        "§2Active";
-        
-        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data["energy"].capacity} gJ`;
-        const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
 
-        container.add_ui_display(2, energy_hover, Math.round((energy / data["energy"].capacity) * 55))
-        container.add_ui_display(3, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
-        container.add_ui_display(4, '§rStatus: ' + status)
+        if(entity.active_ui || !container.getItem(2)){
+            let status = (energy <= (data.energy.rate * 20))? "§4Not Enough Power":
+            (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
+            (durability.damage == durability.maxDurability)? "§4Oxygen Tank Empty":
+            "§2Active";
+            
+            const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data["energy"].capacity} gJ`;
+            const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
+
+            container.add_ui_display(2, energy_hover, Math.round((energy / data["energy"].capacity) * 55))
+            container.add_ui_display(3, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
+            container.add_ui_display(4, '§rStatus: ' + status)
+        }
     }
 }; export default data

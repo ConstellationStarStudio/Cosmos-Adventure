@@ -63,9 +63,8 @@ const data = {
 			else container.setItem(OutputSlot, new ItemStack(recipe))
 		}
 
-
-		if(!compare_lists(first_values, [burnTime, burnDuration, progress]) || !container.getItem(BurnDisplay)){
-			save_dynamic_object(entity, {progress, burnDuration, burnTime}, "machine_data")
+		save_dynamic_object(entity, {progress, burnDuration, burnTime}, "machine_data")
+		if((entity.active_ui && !compare_lists(first_values, [burnTime, burnDuration, progress])) || !container.getItem(BurnDisplay)){
 			container.add_ui_display(BurnDisplay, '', Math.round((burnTime / burnDuration) * 13))
 			container.add_ui_display(ProgressDisplay, '', Math.ceil((progress / MaxProgress) * 52))
 			container.add_ui_display(StatusDisplay, `§r   Status:\n${progress ? '§2Compressing' : '    §6Idle' }`)

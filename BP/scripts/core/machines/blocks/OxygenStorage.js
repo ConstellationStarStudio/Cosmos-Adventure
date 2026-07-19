@@ -31,10 +31,12 @@ const data = {
 				rate: data.o2.maxInput * 10
 			})
 		} 
-
-		const text_offset = (o2 < 100)? "   ": "";
-		save_dynamic_object(entity, {o2}, "machine_data");
-		container.add_ui_display(1, text_offset + `§r${o2} of\n  ${store_data.o2.capacity}`)
-		container.add_ui_display(2, '', Math.ceil((o2 / store_data.o2.capacity) * 75 ))
+		
+		if(entity.active_ui || !container.getItem(1)){
+			const text_offset = (o2 < 100)? "   ": "";
+			save_dynamic_object(entity, {o2}, "machine_data");
+			container.add_ui_display(1, text_offset + `§r${o2} of\n  ${store_data.o2.capacity}`)
+			container.add_ui_display(2, '', Math.ceil((o2 / store_data.o2.capacity) * 75 ))
+		}
 	}
 }; export default data

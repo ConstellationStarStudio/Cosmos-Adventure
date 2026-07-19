@@ -78,7 +78,7 @@ function onTick(entity, block) {
 		if(progress > 0) progress = Math.max(progress - 1, 0);
 	}
 
-	if(!compare_lists(first_values, [energy, progress]) || !container.getItem(4)){
+	if((entity.active_ui && !compare_lists(first_values, [energy, progress])) || !container.getItem(4)){
 		save_dynamic_object(entity, {energy, progress}, "machine_data");
 		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${furnace_data.energy.capacity} gJ`
 		container.add_ui_display(2, energy_hover, Math.round((energy / furnace_data.energy.capacity) * 55))

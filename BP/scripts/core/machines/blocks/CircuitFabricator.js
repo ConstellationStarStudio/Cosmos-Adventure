@@ -59,7 +59,7 @@ const data = {
 		}
 
 		save_dynamic_object(entity, {energy, progress}, "machine_data")
-		if(!compare_lists(first_values, [energy, progress]) || !container.getItem(EnergyDisplay)){
+		if((entity.active_ui && !compare_lists(first_values, [energy, progress])) || !container.getItem(EnergyDisplay)){
 			const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 			container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
 			container.add_ui_display(ProgressDisplay, `Progress: ${Math.round((progress / time_required) * 100)}%`, Math.round((progress / time_required) * 51))

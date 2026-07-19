@@ -42,13 +42,6 @@ const data = {
         let coal_item = container.getItem(CoalItem);
         let can_produce = (h2, methane, co2, coal_item) => (active && h2 > 0 && methane < data.methane.capacity && (co2 > 0 || (coal_item && coal_item.typeId == "cosmos:fragmented_carbon") || coal_partial > 0));
 
-        let status = energy < data.energy.rate ? 
-        '§cLow energy' : progress > -8 ? '§2Synthesizing' :
-        h2 == 0 ? '§cNo gas': 
-        h2 > 0 && !active ? '§2Ready':
-        methane == data.methane.capacity ? '§cTank full':
-        '§cNeeds carbon';
-
         if (can_produce(h2, methane, co2, coal_item) && energy > data.energy.rate) {
             const tier = load_dynamic_object(entity, "machine_data", "energy_tier")?.level ?? 1;
             let time = Math.max(1, 4 - tier);
@@ -79,7 +72,14 @@ const data = {
         save_dynamic_object(entity, {energy, co2, h2, methane, coal_partial, progress}, "machine_data")
             
         //ui display
-        if (system.currentTick % 3 == 0) {
+        if ((entity.active_ui || !container.getItem(StatusDisplay)) && system.currentTick % 3 == 0) {
+            let status = energy < data.energy.rate ? 
+            '§cLow energy' : progress > -8 ? '§2Synthesizing' :
+            h2 == 0 ? '§cNo gas': 
+            h2 > 0 && !active ? '§2Ready':
+            methane == data.methane.capacity ? '§cTank full':
+            '§cNeeds carbon';
+
             container.add_ui_display(MethaneDisplay, `Gas Storage\n(Methane Gas)\n§e${methane} / ${data.methane.capacity}`, Math.ceil((methane / data.methane.capacity) * 38))
             container.add_ui_display(CO2Display, `Gas Storage\n(Carbon Dioxide)\n§e${co2} / ${data.co2.capacity}`, Math.ceil((co2 / data.co2.capacity) * 38))
             container.add_ui_display(HydrogenDisplay, `Gas Storage\n(Hydrogen Gas)\n§e${h2} / ${data.h2.capacity}`, Math.ceil((h2 / data.h2.capacity) * 38))

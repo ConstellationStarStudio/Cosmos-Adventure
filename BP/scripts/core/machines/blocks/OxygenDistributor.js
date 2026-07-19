@@ -70,17 +70,18 @@ const data = {
         distributor.setProperty("cosmos:bubble_radius", visible_button ? bubble_radius : 0)
         save_dynamic_object(distributor, {energy, o2, bubble_radius}, "machine_data");
 
-        let status = (energy <= (data.energy.rate * 2))? "§4Not Enough Power":
-        (o2 < 30)? "§4Not Enough Oxygen":
-        "§2Active";
+        if(entity.active_ui || !container.getItem(StatusDisplay)){
+            let status = (energy <= (data.energy.rate * 2))? "§4Not Enough Power":
+            (o2 < 30)? "§4Not Enough Oxygen":
+            "§2Active";
+ 
+            const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`;
+            const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
 
-        
-        const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`;
-        const oxygen_hover = `Oxygen Storage\n§aOxygen: ${o2}/${data["o2"].capacity}`; 
-
-        container.add_ui_display(OxygenDisplay, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
-        container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
-        container.add_ui_display(StatusDisplay, '§rStatus: ' + status)
+            container.add_ui_display(OxygenDisplay, oxygen_hover, Math.round((o2 / data["o2"].capacity) * 55))
+            container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
+            container.add_ui_display(StatusDisplay, '§rStatus: ' + status)
+        }
         if (!container.getItem(ButtonSlot)) {
             entity.setDynamicProperty('visible_button', !visible_button)
             container.add_ui_toggle(ButtonSlot, visible_button ? 0 : 1)

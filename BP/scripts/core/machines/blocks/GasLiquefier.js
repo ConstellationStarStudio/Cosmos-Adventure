@@ -91,20 +91,22 @@ const data = {
 		// venus has Co2(for Methane Synthesizer) and Nitrogen(for GasLiquefier)
 
 		save_dynamic_object(entity, {energy, input_tank: gas, output_tank: liquid}, "machine_data")
-		
-		const status = energy == 0 ? "§cLow energy"
-		: gas.amount == 0 ? "§cNo gas"
-		: liquid.amount == data.liquid.capacity ? "§cTanks full"
-		: active ? "§6Ready"
-		: "§2Liquefying"
 
-		// UI Display:
-		container.add_ui_display(EnergyDisplay, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((energy / data.energy.capacity) * 55))
-		container.add_ui_display(GasDisplay, `Gas Storage\n(${fluid_names[gas.type]})\n§e${gas.amount} / ${data.gas.capacity}`, Math.ceil((gas.amount / data.gas.capacity) * 38))
-		container.add_ui_display(GasTexture, '', fluid_textures[gas.type] ?? 0)
-		container.add_ui_display(LiquidDisplay, `Liquid Tank\n(${fluid_names[liquid.type]})\n§e${liquid.amount} / ${data.liquid.capacity}`, Math.ceil((liquid.amount / data.liquid.capacity) * 38))
-		container.add_ui_display(LiquidTexture, '', fluid_textures[liquid.type] ?? 0)
-		container.add_ui_display(StatusDisplay, `§rStatus:\n ${status}`)
+		if(entity.active_ui || !container.getItem(StatusDisplay)){
+			const status = energy == 0 ? "§cLow energy"
+			: gas.amount == 0 ? "§cNo gas"
+			: liquid.amount == data.liquid.capacity ? "§cTanks full"
+			: active ? "§6Ready"
+			: "§2Liquefying"
+
+			// UI Display:
+			container.add_ui_display(EnergyDisplay, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.ceil((energy / data.energy.capacity) * 55))
+			container.add_ui_display(GasDisplay, `Gas Storage\n(${fluid_names[gas.type]})\n§e${gas.amount} / ${data.gas.capacity}`, Math.ceil((gas.amount / data.gas.capacity) * 38))
+			container.add_ui_display(GasTexture, '', fluid_textures[gas.type] ?? 0)
+			container.add_ui_display(LiquidDisplay, `Liquid Tank\n(${fluid_names[liquid.type]})\n§e${liquid.amount} / ${data.liquid.capacity}`, Math.ceil((liquid.amount / data.liquid.capacity) * 38))
+			container.add_ui_display(LiquidTexture, '', fluid_textures[liquid.type] ?? 0)
+			container.add_ui_display(StatusDisplay, `§rStatus:\n ${status}`)
+		}
 	},
 	onPlace(entity) {
 		entity.setDynamicProperty('active', true) // initial state is on

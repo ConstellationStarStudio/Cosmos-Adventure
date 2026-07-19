@@ -34,10 +34,12 @@ const data = {
 			}
 		}else if(progress > 0) progress = 0;
 
-		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
-		container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
-		container.add_ui_display(ProgressDisplay, '', Math.ceil((progress / 250) * 52))
-		container.add_ui_display(StatusDisplay, `§r   Status:\n${progress ? '§2Running' : '    §6Idle' }`)
+		if(entity.active_ui || !container.getItem(StatusDisplay)){
+			const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
+		    container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
+		    container.add_ui_display(ProgressDisplay, '', Math.ceil((progress / 250) * 52))
+		    container.add_ui_display(StatusDisplay, `§r   Status:\n${progress ? '§2Running' : '    §6Idle' }`)
+		}
 
 		save_dynamic_object(entity, {progress, energy}, "machine_data")
 	}

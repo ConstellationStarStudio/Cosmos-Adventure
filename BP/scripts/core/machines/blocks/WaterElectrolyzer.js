@@ -49,7 +49,7 @@ const data = {
         save_dynamic_object(entity, {energy, water, o2, h2}, "machine_data")
             
         //ui display
-        if (system.currentTick % 3 == 0) {
+        if ((entity.active_ui || !container.getItem(StatusDisplay)) && system.currentTick % 3 == 0) {
             container.add_ui_display(WaterDisplay, `Water Tank\n§e${water} / ${data.water.capacity}`, Math.ceil((water / data.water.capacity) * 38))
             container.add_ui_display(OxygenDisplay, `Gas Storage\n(Oxygen Gas)\n§e${o2} / ${data.o2.capacity}`, Math.ceil((o2 / data.o2.capacity) * 38))
             container.add_ui_display(HydrogenDisplay, `Gas Storage\n(Hydrogen Gas)\n§e${h2} / ${data.h2.capacity}`, Math.ceil((h2 / data.h2.capacity) * 38))
