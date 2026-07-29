@@ -3,7 +3,7 @@
 		"animation.rocket.hold_rocket_tier_3": {
 			"loop": true,
 			"bones": {
-				"entity": {
+				"item_bone": {
 					"rotation": ["-180.5 + 400 * c.is_first_person", "65 + 35 * c.is_first_person", "-273 + 581 * c.is_first_person"],
 					"position": ["36 - 47 * c.is_first_person", "39 + 10 * c.is_first_person - 3.5 * q.is_on_ground * !c.is_first_person - 3.5 * q.is_sneaking * !c.is_first_person + 3.5 * q.is_sneaking * q.is_on_ground * !c.is_first_person ", "-6 + 25 * c.is_first_person"],
                                         "scale": ["0.87", "0.87", "0.87"]

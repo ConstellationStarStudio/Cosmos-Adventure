@@ -16,6 +16,7 @@
                     "particle_effects": [
                     {
                         "effect": "launch_flame",
+                        "pre_effect_script": "v.y = 1; v.x = 0; v.z = 0;",
                         "locator": "engine"
                     }
                     ],

@@ -1,0 +1,52 @@
+{
+    "format_version": "1.10.0",
+    "animation_controllers": {
+        "controller.animation.rocket_tier_3.flame_particle": {
+            "initial_state": "default",
+            "states": {
+                "default": {
+                    "transitions": [
+                        {
+                            "flame": "query.property('cosmos:launched')"
+                        }
+                    ]
+                },
+                "flame": {
+                    "animations": ["spawn_flame"],
+                    "particle_effects": [
+                    {
+                        "effect": "default_launch_flame",
+                        "pre_effect_script": "v.y = 1; v.x = 0; v.z = 0;",
+                        "locator": "engine"
+                    },
+                    {
+                        "effect": "launch_flame",
+                        "pre_effect_script": "v.y = 1; v.x = 0.3; v.z = 0;",
+                        "locator": "engine"
+                    },
+                    {
+                        "effect": "launch_flame",
+                        "pre_effect_script": "v.y = 1; v.x = -0.3; v.z = 0;",
+                        "locator": "engine"
+                    },
+                                        {
+                        "effect": "launch_flame",
+                        "pre_effect_script": "v.y = 1; v.x = -0.3; v.z = 0.3;",
+                        "locator": "engine"
+                    },
+                    {
+                        "effect": "launch_flame",
+                        "pre_effect_script": "v.y = 1; v.x = -0.3; v.z = -0.3;",
+                        "locator": "engine"
+                    }
+                    ],
+                    "transitions": [
+                        {
+                            "default": "!query.property('cosmos:launched')"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

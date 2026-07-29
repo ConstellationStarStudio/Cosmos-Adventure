@@ -84,7 +84,7 @@ export const components = {
 		onUseOn({block, source:player, usedOnBlockPermutation:pad, itemStack:item}) {
 			if (block.typeId != "cosmos:rocket_launch_pad") return
 			if (!pad.getState("cosmos:center")) return
-			if (!["cosmos:rocket_tier_1_item", "cosmos:rocket_tier_2_item"].includes(item.typeId)) return
+			if (!["cosmos:rocket_tier_1_item", "cosmos:rocket_tier_2_item", "cosmos:rocket_tier_3_item"].includes(item.typeId)) return
 			if (player.dimension.getEntities({ location: block.center(), maxDistance: 1 }).length) return
 
 			const {x, y, z} = block.center()

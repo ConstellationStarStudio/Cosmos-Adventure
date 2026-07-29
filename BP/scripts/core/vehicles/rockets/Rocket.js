@@ -1,4 +1,4 @@
-import { system } from "@minecraft/server"
+import { system, world } from "@minecraft/server"
 import { start_countdown, dismount} from "../../../api/player/liftoff";
 import { start_celestial_selector } from "../../../api/player/celestial_selector";
 import { load_dynamic_object } from "../../../api/utils";
@@ -37,7 +37,7 @@ export default function(entity){
     rider.inputPermissions.setPermissionCategory(6, false)
     rider.setProperty("cosmos:is_sitting", 1);
     //camera shake
-    if (active) rider.runCommand(`camerashake add @s 0.1 0.5`)
+    if (active) rider.runCommand(`camerashake add @s 0.3 0.5`)
     //ignite the engine when the player jumps
     if (!active && rider.inputInfo.getButtonState("Jump") == "Pressed") {
         const space_gear = JSON.parse(rider.getDynamicProperty("space_gear") ?? '{}')

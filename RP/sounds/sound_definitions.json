@@ -39,12 +39,13 @@
 				}
 			]
 		},
-                "rocket.launch":{
+		"rocket.launch":{
 			"category": "neutral",
 			"sounds": [
 				{
 				"name": "sounds/rocket/shuttle",
-				"volume": 1
+				"volume": 4,
+				"distance": 99.0
 				}
 			]
 		}

@@ -12,7 +12,12 @@
 			},
 			"bones": [
 				{
+					"name": "item_bone",
+					"pivot": [0, 0, 0]
+				},
+				{
 					"name": "entity",
+					"parent": "item_bone",
 					"pivot": [0, 24, 0]
 				},
 				{
@@ -458,9 +463,6 @@
 					"name": "engine",
 					"parent": "bone45",
 					"pivot": [0, 0, 0],
-					"locators": {
-						"engine": [0, 0, 0]
-					},
 					"cubes": [
 						{
 							"origin": [-9.00984, 0, -9.00984],
@@ -474,7 +476,10 @@
 								"down": {"uv": [28, 14], "uv_size": [14, -14]}
 							}
 						}
-					]
+					],
+					"locators": {
+						"engine": [0, 0, 0]
+					}
 				},
 				{
 					"name": "bone2",

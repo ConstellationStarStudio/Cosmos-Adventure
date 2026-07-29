@@ -23,6 +23,15 @@ export default  {
 		camera: "cosmos:rocket_camera",
 		drops_item: true
 	},
+	"cosmos:rocket_tier_3": {
+		ui: '§f§u§e§l§',
+		class: Rocket,
+		tier: 3,
+		inventory_index: 2,
+		speed: 3,
+		camera: "cosmos:rocket_camera",
+		drops_item: true
+	},
 	"cosmos:lander": {
 		ui: '§f§u§e§l§_§c§h§e§s§t§',
 		class: MoonLander,
