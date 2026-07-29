@@ -7,7 +7,8 @@ export let saved_rocket_items = new Map();
 
 export function start_countdown(rocket, player) {
     rocket.setDynamicProperty('active', true)
-    rocket.dimension.playSound("rocket.launch", rocket.location);
+    rocket.dimension.playSound("rocket.launch_for_all", rocket.location);
+    player.playSound("rocket.launch");
     player.inputPermissions.setPermissionCategory(2, false)
     let countdown = player.getGameMode() == 'Creative' ? 20 : 20
     rocket.dimension.spawnParticle("cosmos:rocket_smoke", {x: rocket.location.x, y: rocket.location.y + 1.1, z: rocket.location.z});
@@ -87,8 +88,6 @@ export function rocket_flight(rocket) {
         if (t == 40) world.sendMessage('§7Do not save & quit or disconnect while flying the rocket or in the celestial selector.')
         if (!rocket || !rocket.isValid) return
         if (t > 40) rocket.setDynamicProperty('rocket_launched', true)
-
-        if(t == 200) rocket.dimension.playSound("rocket.launch", rocket.location);
         let rotation = rocket_rotation(player, rocket);
         let velocity = rocket_motion(t, rotation, data.speed);
         rocket.clearVelocity();

@@ -40,11 +40,21 @@
 			]
 		},
 		"rocket.launch":{
+			"category": "ui",
+			"sounds": [
+				{
+				"name": "sounds/rocket/shuttle",
+				"volume": 1,
+				"distance": 99.0
+				}
+			]
+		},
+		"rocket.launch_for_all":{
 			"category": "neutral",
 			"sounds": [
 				{
 				"name": "sounds/rocket/shuttle",
-				"volume": 4,
+				"volume": 1,
 				"distance": 99.0
 				}
 			]
