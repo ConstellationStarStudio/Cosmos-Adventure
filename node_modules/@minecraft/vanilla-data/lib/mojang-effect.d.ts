@@ -5,6 +5,7 @@ export declare enum MinecraftEffectTypes {
     Absorption = "minecraft:absorption",
     BadOmen = "minecraft:bad_omen",
     Blindness = "minecraft:blindness",
+    BreathOfTheNautilus = "minecraft:breath_of_the_nautilus",
     ConduitPower = "minecraft:conduit_power",
     Darkness = "minecraft:darkness",
     FatalPoison = "minecraft:fatal_poison",

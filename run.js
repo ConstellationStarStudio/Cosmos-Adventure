@@ -47,7 +47,7 @@ switch (process.argv[2]) {
         case 'bp': copy_folders([["BP/", behavior_packs, "cosmos_bp"]], "Copied Behavior Pack"); break
 
         case 'scripts': copy_folders([["BP/scripts/", behavior_packs, "cosmos_bp/scripts"]], "Copied Scripts"); break
-    }; break
+    } break
 
     case 'remove': case 'delete': {
         fs.rmSync(`${behavior_packs}/cosmos_bp`, { recursive: true, force: true })

@@ -353,6 +353,7 @@
 				"button_mappings": [
 					{
 						"from_button_id": "button.menu_select",
+						// not using button.drop_one because hoppers can pickup the item
 						"to_button_id": "button.container_auto_place",
         				"mapping_type": "pressed"
 					},
@@ -473,7 +474,7 @@
 	},
 
 //---------------------------------------------------------
-// depricated elements
+// deprecated elements
 	"old_button": {
 		"type": "button",
 		"size": [75, 18],

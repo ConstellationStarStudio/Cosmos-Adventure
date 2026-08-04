@@ -23,6 +23,7 @@ export declare enum MinecraftEnchantmentTypes {
     Looting = "minecraft:looting",
     Loyalty = "minecraft:loyalty",
     LuckOfTheSea = "minecraft:luck_of_the_sea",
+    Lunge = "minecraft:lunge",
     Lure = "minecraft:lure",
     Mending = "minecraft:mending",
     Multishot = "minecraft:multishot",

@@ -25,22 +25,138 @@
  * ```json
  * {
  *   "module_name": "@minecraft/server-ui",
- *   "version": "2.0.0"
+ *   "version": "2.1.0"
  * }
  * ```
  *
  */
 import * as minecraftcommon from '@minecraft/common';
 import * as minecraftserver from '@minecraft/server';
-export enum FormCancelationReason {
+/**
+ * The reason why a data driven UI screen (MessageBox or
+ * CustomForm) was closed.
+ */
+export enum DataDrivenScreenClosedReason {
+    /**
+     * @remarks
+     * The screen was closed by the client (e.g., the player
+     * dismissed it or there was a client authoritative close
+     * button).
+     *
+     */
+    ClientClosed = 'ClientClosed',
+    /**
+     * @remarks
+     * The screen was closed by the server, likely by the close
+     * API.
+     *
+     */
+    ServerClosed = 'ServerClosed',
+    /**
+     * @remarks
+     * The screen could not be shown because the player was busy
+     * with another UI interaction.
+     *
+     */
     UserBusy = 'UserBusy',
+}
+
+/**
+ * An enum representing the reasons why a form was canceled.
+ */
+export enum FormCancelationReason {
+    /**
+     * @remarks
+     * The form was canceled because the player was busy with
+     * another UI interaction.
+     *
+     */
+    UserBusy = 'UserBusy',
+    /**
+     * @remarks
+     * The form was canceled because the player closed it.
+     *
+     */
     UserClosed = 'UserClosed',
 }
 
+/**
+ * An enum representing the reasons why a form was rejected.
+ */
 export enum FormRejectReason {
+    /**
+     * @remarks
+     * The form was rejected because the response from the client
+     * was malformed or could not be parsed.
+     *
+     */
     MalformedResponse = 'MalformedResponse',
+    /**
+     * @remarks
+     * The form was rejected because the player quit the game
+     * before responding.
+     *
+     */
     PlayerQuit = 'PlayerQuit',
+    /**
+     * @remarks
+     * The form was rejected because the server shut down before
+     * the player responded.
+     *
+     */
     ServerShutdown = 'ServerShutdown',
+}
+
+/**
+ * The reason why a form visibility operation failed.
+ */
+export enum FormVisibilityErrorReason {
+    /**
+     * @remarks
+     * The operation failed because the form is already being shown
+     * to the player.
+     *
+     */
+    AlreadyShowing = 'AlreadyShowing',
+    /**
+     * @remarks
+     * The operation failed because the form is not currently being
+     * shown to the player.
+     *
+     */
+    NotShowing = 'NotShowing',
+}
+
+/**
+ * An enum representing the errors that can occur during text
+ * filtering. This is used to provide more context about the
+ * filtering process.
+ */
+export enum TextFilteringError {
+    /**
+     * @remarks
+     * The text was not filtered because the player disabled text
+     * filtering in their settings.
+     *
+     */
+    DisabledByPlayer = 'DisabledByPlayer',
+    /**
+     * @remarks
+     * The text was not filtered because the service is
+     * unreachable. This can occur if there are network issues or
+     * if the service is down for maintenance.
+     *
+     */
+    TextProcessorServiceUnreachable = 'TextProcessorServiceUnreachable',
+    /**
+     * @remarks
+     * An unknown error occurred during text filtering. This can
+     * occur if there is an unexpected issue with the text
+     * filtering service or if the service returns an error that is
+     * not categorized under the other error types.
+     *
+     */
+    Unknown = 'Unknown',
 }
 
 /**
@@ -48,28 +164,28 @@ export enum FormRejectReason {
  * take action.
  * @example showActionForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { ActionFormData, ActionFormResponse } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
  *
  * function showActionForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const playerList = world.getPlayers();
  *
  *   if (playerList.length >= 1) {
  *     const form = new ActionFormData()
- *       .title("Test Title")
- *       .body("Body text here!")
- *       .button("btn 1")
- *       .button("btn 2")
- *       .button("btn 3")
- *       .button("btn 4")
- *       .button("btn 5");
+ *       .title('Test Title')
+ *       .body('Body text here!')
+ *       .button('btn 1')
+ *       .button('btn 2')
+ *       .button('btn 3')
+ *       .button('btn 4')
+ *       .button('btn 5');
  *
  *     form.show(playerList[0]).then((result: ActionFormResponse) => {
  *       if (result.canceled) {
- *         log("Player exited out of the dialog. Note that if the chat window is up, dialogs are automatically canceled.");
+ *         log('Player exited out of the dialog. Note that if the chat window is up, dialogs are automatically canceled.');
  *         return -1;
  *       } else {
- *         log("Your result was: " + result.selection);
+ *         log('Your result was: ' + result.selection);
  *       }
  *     });
  *   }
@@ -77,25 +193,25 @@ export enum FormRejectReason {
  * ```
  * @example showFavoriteMonth.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { ActionFormData, ActionFormResponse } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
  *
  * function showFavoriteMonth(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
  *   if (players.length >= 1) {
  *     const form = new ActionFormData()
- *       .title("Months")
- *       .body("Choose your favorite month!")
- *       .button("January")
- *       .button("February")
- *       .button("March")
- *       .button("April")
- *       .button("May");
+ *       .title('Months')
+ *       .body('Choose your favorite month!')
+ *       .button('January')
+ *       .button('February')
+ *       .button('March')
+ *       .button('April')
+ *       .button('May');
  *
  *     form.show(players[0]).then((response: ActionFormResponse) => {
  *       if (response.selection === 3) {
- *         log("I like April too!");
+ *         log('I like April too!');
  *         return -1;
  *       }
  *     });
@@ -145,7 +261,7 @@ export class ActionFormData {
      * asynchronously when the player confirms or cancels the
      * dialog.
      *
-     * This function can't be called in read-only mode.
+     * This function can't be called in restricted-execution mode.
      *
      * @param player
      * Player to show this dialog to.
@@ -171,28 +287,28 @@ export class ActionFormData {
  * form.
  * @example showActionForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { ActionFormData, ActionFormResponse } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
  *
  * function showActionForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const playerList = world.getPlayers();
  *
  *   if (playerList.length >= 1) {
  *     const form = new ActionFormData()
- *       .title("Test Title")
- *       .body("Body text here!")
- *       .button("btn 1")
- *       .button("btn 2")
- *       .button("btn 3")
- *       .button("btn 4")
- *       .button("btn 5");
+ *       .title('Test Title')
+ *       .body('Body text here!')
+ *       .button('btn 1')
+ *       .button('btn 2')
+ *       .button('btn 3')
+ *       .button('btn 4')
+ *       .button('btn 5');
  *
  *     form.show(playerList[0]).then((result: ActionFormResponse) => {
  *       if (result.canceled) {
- *         log("Player exited out of the dialog. Note that if the chat window is up, dialogs are automatically canceled.");
+ *         log('Player exited out of the dialog. Note that if the chat window is up, dialogs are automatically canceled.');
  *         return -1;
  *       } else {
- *         log("Your result was: " + result.selection);
+ *         log('Your result was: ' + result.selection);
  *       }
  *     });
  *   }
@@ -200,25 +316,25 @@ export class ActionFormData {
  * ```
  * @example showFavoriteMonth.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { ActionFormData, ActionFormResponse } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { ActionFormData, ActionFormResponse } from '@minecraft/server-ui';
  *
  * function showFavoriteMonth(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
  *   if (players.length >= 1) {
  *     const form = new ActionFormData()
- *       .title("Months")
- *       .body("Choose your favorite month!")
- *       .button("January")
- *       .button("February")
- *       .button("March")
- *       .button("April")
- *       .button("May");
+ *       .title('Months')
+ *       .body('Choose your favorite month!')
+ *       .button('January')
+ *       .button('February')
+ *       .button('March')
+ *       .button('April')
+ *       .button('May');
  *
  *     form.show(players[0]).then((response: ActionFormResponse) => {
  *       if (response.selection === 3) {
- *         log("I like April too!");
+ *         log('I like April too!');
  *         return -1;
  *       }
  *     });
@@ -235,6 +351,299 @@ export class ActionFormResponse extends FormResponse {
      *
      */
     readonly selection?: number;
+}
+
+/**
+ * A customizable data driven (DDUI) form that lets you add
+ * buttons, labels, toggles, dropdowns, sliders, text fields,
+ * and more. The form layout is built by calling methods to add
+ * components before calling show(). Any Observable values
+ * bound to form components will automatically update the UI
+ * when their values change.
+ */
+export class CustomForm {
+    /**
+     * @remarks
+     * Creates a new CustomForm for the specified player with the
+     * given title.
+     *
+     * @param player
+     * The player to show this form to.
+     * @param title
+     * The title text to display at the top of the form.
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    constructor(
+        player: minecraftserver.Player,
+        title: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+    );
+    /**
+     * @remarks
+     * Adds a clickable button to the form layout. Returns the form
+     * instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label to display on the button.
+     * @param onClick
+     * A callback function that is invoked when the player clicks
+     * the button.
+     * @param options
+     * Optional configuration for the button, such as a tooltip,
+     * disabled state, or visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    button(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        onClick: () => void,
+        options?: ButtonOptions,
+    ): CustomForm;
+    /**
+     * @remarks
+     * Closes the form if it is currently being shown to the
+     * player. Throws a FormVisibilityError if the form is not
+     * currently open.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftcommon.EngineError}
+     *
+     * {@link FormVisibilityError}
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    close(): void;
+    /**
+     * @remarks
+     * Adds a close button to the form at the bottom and as an 'X'
+     * in the corner. Returns the form instance to allow method
+     * chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    closeButton(): CustomForm;
+    /**
+     * @remarks
+     * Adds a horizontal divider line to the form layout. Useful
+     * for visually separating sections of the form. Returns the
+     * form instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param options
+     * Optional configuration for the divider, such as visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    divider(options?: DividerOptions): CustomForm;
+    /**
+     * @remarks
+     * Adds a dropdown selection control to the form layout. The
+     * current selection is tracked via an ObservableNumber and
+     * will update when the player changes the selection. Returns
+     * the form instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label displayed around the dropdown.
+     * @param value
+     * An ObservableNumber that holds the index of the currently
+     * selected item.
+     * @param items
+     * The list of items to display in the dropdown.
+     * @param options
+     * Optional configuration for the dropdown, such as a
+     * description, disabled state, or visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     *
+     * {@link InvalidObservableError}
+     */
+    dropdown(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        value: ObservableNumber,
+        items: DropdownItemData[],
+        options?: DropdownOptions,
+    ): CustomForm;
+    /**
+     * @remarks
+     * Adds a header text component to the form layout. Headers are
+     * displayed in a larger or bolder style than regular labels,
+     * and are suitable for section titles. Returns the form
+     * instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param text
+     * The header text to display.
+     * @param options
+     * Optional configuration for the header, such as visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    header(text: ObservableString | ObservableUIRawMessage | string | UIRawMessage, options?: TextOptions): CustomForm;
+    /**
+     * @remarks
+     * Returns true if the form is currently being shown to the
+     * player, false otherwise.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     */
+    isShowing(): boolean;
+    /**
+     * @remarks
+     * Adds a read-only text label to the form layout. Returns the
+     * form instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param text
+     * The text to display in the label.
+     * @param options
+     * Optional configuration for the label, such as visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    label(text: ObservableString | ObservableUIRawMessage | string | UIRawMessage, options?: TextOptions): CustomForm;
+    /**
+     * @remarks
+     * Shows the form to the player. Returns a promise that
+     * resolves with a DataDrivenScreenClosedReason indicating how
+     * the form was closed.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftcommon.EngineError}
+     *
+     * {@link FormVisibilityError}
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    show(): Promise<DataDrivenScreenClosedReason>;
+    /**
+     * @remarks
+     * Adds a numeric slider control to the form layout. The
+     * current value is tracked via an ObservableNumber and will
+     * update as the player moves the slider. Returns the form
+     * instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label displayed around the slider.
+     * @param value
+     * An ObservableNumber that holds the current value of the
+     * slider.
+     * @param min
+     * The minimum value of the slider range.
+     * @param max
+     * The maximum value of the slider range.
+     * @param options
+     * Optional configuration for the slider, such as step size, a
+     * description, disabled state, or visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     *
+     * {@link InvalidObservableError}
+     */
+    slider(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        value: ObservableNumber,
+        min: number | ObservableNumber,
+        max: number | ObservableNumber,
+        options?: SliderOptions,
+    ): CustomForm;
+    /**
+     * @remarks
+     * Adds a vertical spacer component to the form layout. Useful
+     * for adding empty space between form components. Returns the
+     * form instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param options
+     * Optional configuration for the spacer, such as visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    spacer(options?: SpacingOptions): CustomForm;
+    /**
+     * @remarks
+     * Adds a text input field to the form layout. The current text
+     * value is tracked via an ObservableString and will update as
+     * the player types. Returns the form instance to allow method
+     * chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label displayed around the text field.
+     * @param text
+     * An ObservableString that holds the current text value of the
+     * input field.
+     * @param options
+     * Optional configuration for the text field, such as a
+     * description, disabled state, or visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     *
+     * {@link InvalidObservableError}
+     */
+    textField(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        text: ObservableString,
+        options?: TextFieldOptions,
+    ): CustomForm;
+    /**
+     * @remarks
+     * Adds a toggle (on/off switch) control to the form layout.
+     * The current state is tracked via an ObservableBoolean and
+     * will update when the player toggles it. Returns the form
+     * instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label displayed next to the toggle.
+     * @param toggled
+     * An ObservableBoolean that holds the current on/off state of
+     * the toggle.
+     * @param options
+     * Optional configuration for the toggle, such as a
+     * description, disabled state, or visibility.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     *
+     * {@link InvalidObservableError}
+     */
+    toggle(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        toggled: ObservableBoolean,
+        options?: ToggleOptions,
+    ): CustomForm;
 }
 
 /**
@@ -258,23 +667,143 @@ export class FormResponse {
 }
 
 /**
+ * A simple message form with two buttons and a text body. Use
+ * this class to show a basic dialog to a player and handle the
+ * player's button selection.
+ */
+export class MessageBox {
+    /**
+     * @remarks
+     * Creates a new MessageBox for the specified player with the
+     * given title.
+     *
+     * @param player
+     * The player to show this message box to.
+     * @param title
+     * The title text to display at the top of the message box.
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    constructor(
+        player: minecraftserver.Player,
+        title: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+    );
+    /**
+     * @remarks
+     * Sets the body text displayed in the message box. Returns the
+     * message box instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param body
+     * The body text to display. Accepts either a plain string or
+     * an ObservableString.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    body(body: ObservableString | ObservableUIRawMessage | string | UIRawMessage): MessageBox;
+    /**
+     * @remarks
+     * Sets the label for the first button of the message box.
+     * Returns the message box instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label to display on the first button.
+     * @param tooltip
+     * Optional tooltip text shown when hovering over the first
+     * button.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    button1(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        tooltip?: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+    ): MessageBox;
+    /**
+     * @remarks
+     * Sets the label for the second button of the message box.
+     * Returns the message box instance to allow method chaining.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @param label
+     * The text label to display on the second button.
+     * @param tooltip
+     * Optional tooltip text shown when hovering over the second
+     * button.
+     * @throws This function can throw errors.
+     *
+     * {@link InvalidFormModificationError}
+     */
+    button2(
+        label: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+        tooltip?: ObservableString | ObservableUIRawMessage | string | UIRawMessage,
+    ): MessageBox;
+    /**
+     * @remarks
+     * Closes the message box if it is currently being shown to the
+     * player. Throws a FormVisibilityError if the form is not
+     * currently open.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftcommon.EngineError}
+     *
+     * {@link FormVisibilityError}
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    close(): void;
+    /**
+     * @remarks
+     * Returns true if the message box is currently being shown to
+     * the player, false otherwise.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     */
+    isShowing(): boolean;
+    /**
+     * @remarks
+     * Shows the message box to the player. Returns a promise that
+     * resolves with a MessageBoxResult containing the close reason
+     * and the player's button selection.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftcommon.EngineError}
+     *
+     * {@link FormVisibilityError}
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    show(): Promise<MessageBoxResult>;
+}
+
+/**
  * Builds a simple two-button modal dialog.
  * @example showBasicMessageForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { MessageFormResponse, MessageFormData } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { MessageFormResponse, MessageFormData } from '@minecraft/server-ui';
  *
- * function showBasicMessageForm(
- *   log: (message: string, status?: number) => void,
- *   targetLocation: DimensionLocation
- * ) {
+ * function showBasicMessageForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
  *   const messageForm = new MessageFormData()
- *     .title("Message Form Example")
- *     .body("This shows a simple example using §o§7MessageFormData§r.")
- *     .button1("Button 1")
- *     .button2("Button 2");
+ *     .title('Message Form Example')
+ *     .body('This shows a simple example using §o§7MessageFormData§r.')
+ *     .button1('Button 1')
+ *     .button2('Button 2');
  *
  *   messageForm
  *     .show(players[0])
@@ -284,30 +813,27 @@ export class FormResponse {
  *         return;
  *       }
  *
- *       log(`You selected ${formData.selection === 0 ? "Button 1" : "Button 2"}`);
+ *       log(`You selected ${formData.selection === 0 ? 'Button 1' : 'Button 2'}`);
  *     })
  *     .catch((error: Error) => {
- *       log("Failed to show form: " + error);
+ *       log('Failed to show form: ' + error);
  *       return -1;
  *     });
  * }
  * ```
  * @example showTranslatedMessageForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { MessageFormResponse, MessageFormData } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { MessageFormResponse, MessageFormData } from '@minecraft/server-ui';
  *
- * function showTranslatedMessageForm(
- *   log: (message: string, status?: number) => void,
- *   targetLocation: DimensionLocation
- * ) {
+ * function showTranslatedMessageForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
  *   const messageForm = new MessageFormData()
- *     .title({ translate: "permissions.removeplayer" })
- *     .body({ translate: "accessibility.list.or.two", with: ["Player 1", "Player 2"] })
- *     .button1("Player 1")
- *     .button2("Player 2");
+ *     .title({ translate: 'permissions.removeplayer' })
+ *     .body({ translate: 'accessibility.list.or.two', with: ['Player 1', 'Player 2'] })
+ *     .button1('Player 1')
+ *     .button2('Player 2');
  *
  *   messageForm
  *     .show(players[0])
@@ -317,10 +843,10 @@ export class FormResponse {
  *         return;
  *       }
  *
- *       log(`You selected ${formData.selection === 0 ? "Player 1" : "Player 2"}`);
+ *       log(`You selected ${formData.selection === 0 ? 'Player 1' : 'Player 2'}`);
  *     })
  *     .catch((error: Error) => {
- *       log("Failed to show form: " + error);
+ *       log('Failed to show form: ' + error);
  *       return -1;
  *     });
  * }
@@ -353,7 +879,7 @@ export class MessageFormData {
      * asynchronously when the player confirms or cancels the
      * dialog.
      *
-     * This function can't be called in read-only mode.
+     * This function can't be called in restricted-execution mode.
      *
      * @param player
      * Player to show this dialog to.
@@ -379,20 +905,17 @@ export class MessageFormData {
  * form.
  * @example showBasicMessageForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { MessageFormResponse, MessageFormData } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { MessageFormResponse, MessageFormData } from '@minecraft/server-ui';
  *
- * function showBasicMessageForm(
- *   log: (message: string, status?: number) => void,
- *   targetLocation: DimensionLocation
- * ) {
+ * function showBasicMessageForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
  *   const messageForm = new MessageFormData()
- *     .title("Message Form Example")
- *     .body("This shows a simple example using §o§7MessageFormData§r.")
- *     .button1("Button 1")
- *     .button2("Button 2");
+ *     .title('Message Form Example')
+ *     .body('This shows a simple example using §o§7MessageFormData§r.')
+ *     .button1('Button 1')
+ *     .button2('Button 2');
  *
  *   messageForm
  *     .show(players[0])
@@ -402,30 +925,27 @@ export class MessageFormData {
  *         return;
  *       }
  *
- *       log(`You selected ${formData.selection === 0 ? "Button 1" : "Button 2"}`);
+ *       log(`You selected ${formData.selection === 0 ? 'Button 1' : 'Button 2'}`);
  *     })
  *     .catch((error: Error) => {
- *       log("Failed to show form: " + error);
+ *       log('Failed to show form: ' + error);
  *       return -1;
  *     });
  * }
  * ```
  * @example showTranslatedMessageForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { MessageFormResponse, MessageFormData } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { MessageFormResponse, MessageFormData } from '@minecraft/server-ui';
  *
- * function showTranslatedMessageForm(
- *   log: (message: string, status?: number) => void,
- *   targetLocation: DimensionLocation
- * ) {
+ * function showTranslatedMessageForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
  *   const messageForm = new MessageFormData()
- *     .title({ translate: "permissions.removeplayer" })
- *     .body({ translate: "accessibility.list.or.two", with: ["Player 1", "Player 2"] })
- *     .button1("Player 1")
- *     .button2("Player 2");
+ *     .title({ translate: 'permissions.removeplayer' })
+ *     .body({ translate: 'accessibility.list.or.two', with: ['Player 1', 'Player 2'] })
+ *     .button1('Player 1')
+ *     .button2('Player 2');
  *
  *   messageForm
  *     .show(players[0])
@@ -435,10 +955,10 @@ export class MessageFormData {
  *         return;
  *       }
  *
- *       log(`You selected ${formData.selection === 0 ? "Player 1" : "Player 2"}`);
+ *       log(`You selected ${formData.selection === 0 ? 'Player 1' : 'Player 2'}`);
  *     })
  *     .catch((error: Error) => {
- *       log("Failed to show form: " + error);
+ *       log('Failed to show form: ' + error);
  *       return -1;
  *     });
  * }
@@ -460,33 +980,33 @@ export class MessageFormResponse extends FormResponse {
  * player.
  * @example showBasicModalForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { ModalFormData } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { ModalFormData } from '@minecraft/server-ui';
  *
  * function showBasicModalForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
- *   const modalForm = new ModalFormData().title("Example Modal Controls for §o§7ModalFormData§r");
+ *   const modalForm = new ModalFormData().title('Example Modal Controls for §o§7ModalFormData§r');
  *
- *   modalForm.toggle("Toggle w/o default");
- *   modalForm.toggle("Toggle w/ default", true);
+ *   modalForm.toggle('Toggle w/o default');
+ *   modalForm.toggle('Toggle w/ default', true);
  *
- *   modalForm.slider("Slider w/o default", 0, 50, 5);
- *   modalForm.slider("Slider w/ default", 0, 50, 5, 30);
+ *   modalForm.slider('Slider w/o default', 0, 50, 5);
+ *   modalForm.slider('Slider w/ default', 0, 50, 5, 30);
  *
- *   modalForm.dropdown("Dropdown w/o default", ["option 1", "option 2", "option 3"]);
- *   modalForm.dropdown("Dropdown w/ default", ["option 1", "option 2", "option 3"], 2);
+ *   modalForm.dropdown('Dropdown w/o default', ['option 1', 'option 2', 'option 3']);
+ *   modalForm.dropdown('Dropdown w/ default', ['option 1', 'option 2', 'option 3'], 2);
  *
- *   modalForm.textField("Input w/o default", "type text here");
- *   modalForm.textField("Input w/ default", "type text here", "this is default");
+ *   modalForm.textField('Input w/o default', 'type text here');
+ *   modalForm.textField('Input w/ default', 'type text here', 'this is default');
  *
  *   modalForm
  *     .show(players[0])
- *     .then((formData) => {
+ *     .then(formData => {
  *       players[0].sendMessage(`Modal form results: ${JSON.stringify(formData.formValues, undefined, 2)}`);
  *     })
  *     .catch((error: Error) => {
- *       log("Failed to show form: " + error);
+ *       log('Failed to show form: ' + error);
  *       return -1;
  *     });
  * }
@@ -537,7 +1057,7 @@ export class ModalFormData {
      * asynchronously when the player confirms or cancels the
      * dialog.
      *
-     * This function can't be called in read-only mode.
+     * This function can't be called in restricted-execution mode.
      *
      * @param player
      * Player to show this dialog to.
@@ -608,33 +1128,33 @@ export class ModalFormData {
  * Returns data about player responses to a modal form.
  * @example showBasicModalForm.ts
  * ```typescript
- * import { world, DimensionLocation } from "@minecraft/server";
- * import { ModalFormData } from "@minecraft/server-ui";
+ * import { world, DimensionLocation } from '@minecraft/server';
+ * import { ModalFormData } from '@minecraft/server-ui';
  *
  * function showBasicModalForm(log: (message: string, status?: number) => void, targetLocation: DimensionLocation) {
  *   const players = world.getPlayers();
  *
- *   const modalForm = new ModalFormData().title("Example Modal Controls for §o§7ModalFormData§r");
+ *   const modalForm = new ModalFormData().title('Example Modal Controls for §o§7ModalFormData§r');
  *
- *   modalForm.toggle("Toggle w/o default");
- *   modalForm.toggle("Toggle w/ default", true);
+ *   modalForm.toggle('Toggle w/o default');
+ *   modalForm.toggle('Toggle w/ default', true);
  *
- *   modalForm.slider("Slider w/o default", 0, 50, 5);
- *   modalForm.slider("Slider w/ default", 0, 50, 5, 30);
+ *   modalForm.slider('Slider w/o default', 0, 50, 5);
+ *   modalForm.slider('Slider w/ default', 0, 50, 5, 30);
  *
- *   modalForm.dropdown("Dropdown w/o default", ["option 1", "option 2", "option 3"]);
- *   modalForm.dropdown("Dropdown w/ default", ["option 1", "option 2", "option 3"], 2);
+ *   modalForm.dropdown('Dropdown w/o default', ['option 1', 'option 2', 'option 3']);
+ *   modalForm.dropdown('Dropdown w/ default', ['option 1', 'option 2', 'option 3'], 2);
  *
- *   modalForm.textField("Input w/o default", "type text here");
- *   modalForm.textField("Input w/ default", "type text here", "this is default");
+ *   modalForm.textField('Input w/o default', 'type text here');
+ *   modalForm.textField('Input w/ default', 'type text here', 'this is default');
  *
  *   modalForm
  *     .show(players[0])
- *     .then((formData) => {
+ *     .then(formData => {
  *       players[0].sendMessage(`Modal form results: ${JSON.stringify(formData.formValues, undefined, 2)}`);
  *     })
  *     .catch((error: Error) => {
- *       log("Failed to show form: " + error);
+ *       log('Failed to show form: ' + error);
  *       return -1;
  *     });
  * }
@@ -652,15 +1172,455 @@ export class ModalFormResponse extends FormResponse {
     readonly formValues?: (boolean | number | string | undefined)[];
 }
 
+/**
+ * An observable that holds a boolean value. Listeners are
+ * notified whenever the value changes.
+ */
+export class ObservableBoolean {
+    /**
+     * @remarks
+     * Creates a new ObservableBoolean with the provided initial
+     * boolean value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The initial boolean value for this observable.
+     * @param options
+     * Optional configuration for the observable, such as whether
+     * the value can be written by the client.
+     */
+    constructor(data: boolean, options?: ObservableOptions);
+    /**
+     * @remarks
+     * Returns the current boolean value held by this observable.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     */
+    getData(): boolean;
+    /**
+     * @remarks
+     * Updates the boolean value held by this observable. If the
+     * new value differs from the current value, all subscribed
+     * listeners are notified with the new value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The new boolean value to set.
+     */
+    setData(data: boolean): void;
+    /**
+     * @remarks
+     * Registers a callback to be invoked whenever the observable's
+     * value changes. Returns the callback, which can be passed to
+     * unsubscribe to remove the listener.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * A function that receives the new boolean value each time the
+     * observable changes.
+     */
+    subscribe(callback: (arg0: boolean) => void): (arg0: boolean) => void;
+    /**
+     * @remarks
+     * Removes a previously registered listener from this
+     * observable. Returns true if the listener was found and
+     * removed, false if it was not found.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * The callback handle previously returned by subscribe.
+     */
+    unsubscribe(callback: (arg0: boolean) => void): boolean;
+}
+
+/**
+ * An observable that holds a numeric value. Listeners are
+ * notified whenever the value changes.
+ */
+export class ObservableNumber {
+    /**
+     * @remarks
+     * Creates a new ObservableNumber with the provided initial
+     * numeric value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The initial numeric value for this observable.
+     * @param options
+     * Optional configuration for the observable, such as whether
+     * the value can be written by the client.
+     */
+    constructor(data: number, options?: ObservableOptions);
+    /**
+     * @remarks
+     * Returns the current numeric value held by this observable.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     */
+    getData(): number;
+    /**
+     * @remarks
+     * Updates the numeric value held by this observable. If the
+     * new value differs from the current value, all subscribed
+     * listeners are notified with the new value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The new numeric value to set.
+     */
+    setData(data: number): void;
+    /**
+     * @remarks
+     * Registers a callback to be invoked whenever the observable's
+     * value changes. Returns the callback, which can be passed to
+     * unsubscribe to remove the listener.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * A function that receives the new numeric value each time the
+     * observable changes.
+     */
+    subscribe(callback: (arg0: number) => void): (arg0: number) => void;
+    /**
+     * @remarks
+     * Removes a previously registered listener from this
+     * observable. Returns true if the listener was found and
+     * removed, false if it was not found.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * The callback handle previously returned by subscribe.
+     */
+    unsubscribe(callback: (arg0: number) => void): boolean;
+}
+
+/**
+ * An observable that holds a string value. Listeners are
+ * notified whenever the value changes.
+ */
+export class ObservableString {
+    /**
+     * @remarks
+     * Creates a new ObservableString with the provided initial
+     * string value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The initial string value for this observable.
+     * @param options
+     * Optional configuration for the observable, such as whether
+     * the value can be written by the client.
+     */
+    constructor(data: string, options?: ObservableOptions);
+    /**
+     * @remarks
+     * Returns the current string value held by this observable.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     */
+    getData(): string;
+    /**
+     * @remarks
+     * Gets filtered data from the Observable (only available for
+     * strings). In case of failure, it will return an array of
+     * TextFilteringError that can provide more context about the
+     * filtering process. For testing purposes, the options are
+     * available under 'Creator -> Text Filtering' settings menu.
+     * This delay is only applied to the getFilteredText function
+     * and can be used to simulate network latency when testing.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * @throws This function can throw errors.
+     *
+     * {@link minecraftcommon.EngineError}
+     *
+     * {@link minecraftserver.InvalidEntityError}
+     */
+    getFilteredText(player: minecraftserver.Player): Promise<TextFilteringError[] | string>;
+    /**
+     * @remarks
+     * Updates the string value held by this observable. If the new
+     * value differs from the current value, all subscribed
+     * listeners are notified with the new value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The new string value to set.
+     */
+    setData(data: string): void;
+    /**
+     * @remarks
+     * Registers a callback to be invoked whenever the observable's
+     * value changes. Returns the callback, which can be passed to
+     * unsubscribe to remove the listener.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * A function that receives the new string value each time the
+     * observable changes.
+     */
+    subscribe(callback: (arg0: string) => void): (arg0: string) => void;
+    /**
+     * @remarks
+     * Removes a previously registered listener from this
+     * observable. Returns true if the listener was found and
+     * removed, false if it was not found.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * The callback handle previously returned by subscribe.
+     */
+    unsubscribe(callback: (arg0: string) => void): boolean;
+}
+
+/**
+ * An observable that holds a UIRawMessage value. Listeners are
+ * notified whenever the value changes.
+ */
+export class ObservableUIRawMessage {
+    /**
+     * @remarks
+     * Creates a new ObservableUIRawMessage with the provided
+     * initial UIRawMessage value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The initial UIRawMessage value for this observable.
+     * @param options
+     * Optional configuration for the observable, such as whether
+     * the value can be written by the client.
+     */
+    constructor(data: UIRawMessage, options?: ObservableOptions);
+    /**
+     * @remarks
+     * Returns the current UIRawMessage value held by this
+     * observable.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     */
+    getData(): UIRawMessage;
+    /**
+     * @remarks
+     * Updates the UIRawMessage value held by this observable. If
+     * the new value differs from the current value, all subscribed
+     * listeners are notified with the new value.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param data
+     * The new UIRawMessage value to set.
+     */
+    setData(data: UIRawMessage): void;
+    /**
+     * @remarks
+     * Registers a callback to be invoked whenever the observable's
+     * value changes. Returns the callback, which can be passed to
+     * unsubscribe to remove the listener.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * A function that receives the new UIRawMessage value each
+     * time the observable changes.
+     */
+    subscribe(callback: (arg0: UIRawMessage) => void): (arg0: UIRawMessage) => void;
+    /**
+     * @remarks
+     * Removes a previously registered listener from this
+     * observable. Returns true if the listener was found and
+     * removed, false if it was not found.
+     *
+     * This function can't be called in restricted-execution mode.
+     *
+     * This function can be called in early-execution mode.
+     *
+     * @param callback
+     * The callback handle previously returned by subscribe.
+     */
+    unsubscribe(callback: (arg0: UIRawMessage) => void): boolean;
+}
+
 export class UIManager {
     private constructor();
     /**
      * @remarks
-     * This function can't be called in read-only mode.
+     * This function can't be called in restricted-execution mode.
      *
      * @throws This function can throw errors.
      */
     closeAllForms(player: minecraftserver.Player): void;
+}
+
+/**
+ * Options for configuring a button component.
+ */
+export interface ButtonOptions {
+    /**
+     * @remarks
+     * When true or bound to a true ObservableBoolean, the button
+     * is shown but cannot be pressed.
+     *
+     */
+    disabled?: boolean | ObservableBoolean;
+    /**
+     * @remarks
+     * Text shown in a tooltip when the player hovers over the
+     * button.
+     *
+     */
+    tooltip?: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the button
+     * is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * Options for configuring a divider component in a CustomForm.
+ */
+export interface DividerOptions {
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the
+     * divider is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * Represents a single item in a dropdown component.
+ */
+export interface DropdownItemData {
+    /**
+     * @remarks
+     * Optional descriptive text shown around the dropdown when
+     * this item is selected.
+     *
+     */
+    description?: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * The text displayed for this item in the dropdown list.
+     *
+     */
+    label: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * The numeric value associated with this dropdown item. This
+     * is the value the bound ObservableNumber will be set to when
+     * the player selects this item.
+     *
+     */
+    value: number;
+}
+
+/**
+ * Options for configuring a dropdown component.
+ */
+export interface DropdownOptions {
+    /**
+     * @remarks
+     * Descriptive text shown around the dropdown to provide
+     * additional context.
+     *
+     */
+    description?: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * When true or bound to a true ObservableBoolean, the dropdown
+     * is shown but cannot be changed.
+     *
+     */
+    disabled?: boolean | ObservableBoolean;
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the
+     * dropdown is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * The result returned when an MessageBox is closed. Contains
+ * the reason the message box was closed and the player's
+ * button selection, if applicable.
+ */
+export interface MessageBoxResult {
+    /**
+     * @remarks
+     * The reason the message box was closed.
+     *
+     */
+    closeReason: DataDrivenScreenClosedReason;
+    /**
+     * @remarks
+     * The index of the button the player selected. Not set if the
+     * message box was closed without a button selection (e.g., the
+     * player was busy or the server closed it).
+     *
+     */
+    selection?: number;
 }
 
 /**
@@ -724,7 +1684,7 @@ export interface ModalFormDataTextFieldOptions {
      * The default value for the textfield.
      *
      */
-    defaultValue?: string;
+    defaultValue?: minecraftserver.RawMessage | string;
     /**
      * @remarks
      * It will show an exclamation icon that will display a tooltip
@@ -755,15 +1715,274 @@ export interface ModalFormDataToggleOptions {
     tooltip?: minecraftserver.RawMessage | string;
 }
 
+/**
+ * Configuration options for creating an Observable. Controls
+ * how the observable value can be accessed and modified.
+ */
+export interface ObservableOptions {
+    /**
+     * @remarks
+     * When true, allows the client to write to this observable's
+     * value directly, enabling two-way data binding between the UI
+     * and the observable.
+     *
+     */
+    clientWritable: boolean;
+}
+
+/**
+ * Options for configuring a slider component.
+ */
+export interface SliderOptions {
+    /**
+     * @remarks
+     * Descriptive text shown around the slider to provide
+     * additional context.
+     *
+     */
+    description?: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * When true or bound to a true ObservableBoolean, the slider
+     * is shown but cannot be moved.
+     *
+     */
+    disabled?: boolean | ObservableBoolean;
+    /**
+     * @remarks
+     * The increment amount between each slider step. Defaults to 1
+     * if not specified.
+     *
+     */
+    step?: number | ObservableNumber;
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the slider
+     * is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * Options for configuring a spacer component.
+ */
+export interface SpacingOptions {
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the spacer
+     * is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * Options for configuring a text field component.
+ */
+export interface TextFieldOptions {
+    /**
+     * @remarks
+     * Descriptive text shown around the text field label to
+     * provide additional context.
+     *
+     */
+    description?: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * When true or bound to a true ObservableBoolean, the text
+     * field is shown but cannot be edited.
+     *
+     */
+    disabled?: boolean | ObservableBoolean;
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the text
+     * field is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * Options for configuring a text component (label or header).
+ */
+export interface TextOptions {
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the text
+     * component is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * Options for configuring a toggle component.
+ */
+export interface ToggleOptions {
+    /**
+     * @remarks
+     * Descriptive text shown around the toggle to provide
+     * additional context.
+     *
+     */
+    description?: ObservableString | ObservableUIRawMessage | string | UIRawMessage;
+    /**
+     * @remarks
+     * When true or bound to a true ObservableBoolean, the toggle
+     * is shown but cannot be interacted with.
+     *
+     */
+    disabled?: boolean | ObservableBoolean;
+    /**
+     * @remarks
+     * When false or bound to a false ObservableBoolean, the toggle
+     * is hidden.
+     *
+     */
+    visible?: boolean | ObservableBoolean;
+}
+
+/**
+ * A message that can be sent to the client. This is a subset
+ * of the RawMessage type, and is used for UI messages.
+ */
+export interface UIRawMessage {
+    /**
+     * @remarks
+     * Provides a raw-text equivalent of the current message.
+     *
+     */
+    rawtext?: UIRawMessage[];
+    /**
+     * @remarks
+     * Provides a string literal value to use.
+     *
+     */
+    text?: string;
+    /**
+     * @remarks
+     * Provides a localization string where, if the client has an
+     * available resource in the players' language which matches
+     * the localization string, will get translated on the client.
+     *
+     */
+    translate?: string;
+    /**
+     * @remarks
+     * Arguments for the localization string. Can be either an
+     * array of strings or UIRawMessage containing an array of raw
+     * text objects.
+     *
+     */
+    with?: string[] | UIRawMessage;
+}
+
+/**
+ * Thrown when a form is rejected. Contains the reason for the
+ * rejection.
+ */
 // @ts-ignore Class inheritance allowed for native defined classes
 export class FormRejectError extends Error {
     private constructor();
     /**
      * @remarks
+     * The reason the form was rejected.
+     *
      * This property can be read in early-execution mode.
      *
      */
-    reason: FormRejectReason;
+    readonly reason: FormRejectReason;
+}
+
+/**
+ * Thrown when a form visibility operation fails, such as
+ * attempting to show a form that is already showing or
+ * attempting to close a form that is not currently open.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class FormVisibilityError extends Error {
+    private constructor();
+    /**
+     * @remarks
+     * The identifier of the form that caused the visibility error.
+     *
+     * This property can be read in early-execution mode.
+     *
+     */
+    readonly formId: string;
+    /**
+     * @remarks
+     * The reason the form visibility operation failed.
+     *
+     * This property can be read in early-execution mode.
+     *
+     */
+    readonly reason: FormVisibilityErrorReason;
+}
+
+/**
+ * Thrown when attempting to interact with a form using an
+ * invalid or unknown form identifier.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class InvalidFormError extends Error {
+    private constructor();
+    /**
+     * @remarks
+     * The identifier of the invalid form that was referenced.
+     *
+     * This property can be read in early-execution mode.
+     *
+     */
+    readonly formId: string;
+}
+
+/**
+ * Thrown when attempting to modify a form after it has already
+ * been shown to a player. Form properties cannot be changed
+ * while the form is active.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class InvalidFormModificationError extends Error {
+    private constructor();
+    /**
+     * @remarks
+     * The identifier of the form that was illegally modified after
+     * being shown.
+     *
+     * This property can be read in early-execution mode.
+     *
+     */
+    readonly formId: string;
+}
+
+/**
+ * Thrown when an observable value is expected to be writable,
+ * but it is not.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class InvalidObservableError extends Error {
+    private constructor();
+}
+
+/**
+ * Thrown when a form operation fails because the target player
+ * has left the game.
+ */
+// @ts-ignore Class inheritance allowed for native defined classes
+export class PlayerLeftError extends Error {
+    private constructor();
+    /**
+     * @remarks
+     * The identifier of the form that was being shown when the
+     * player left the game.
+     *
+     * This property can be read in early-execution mode.
+     *
+     */
+    readonly formId: string;
 }
 
 export const uiManager: UIManager;

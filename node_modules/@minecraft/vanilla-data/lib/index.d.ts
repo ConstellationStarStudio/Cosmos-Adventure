@@ -8,6 +8,5 @@ export * from './mojang-enchantment';
 export * from './mojang-entity';
 export * from './mojang-feature';
 export * from './mojang-item';
+export * from './mojang-potionDelivery';
 export * from './mojang-potionEffect';
-export * from './mojang-potionLiquid';
-export * from './mojang-potionModifier';
