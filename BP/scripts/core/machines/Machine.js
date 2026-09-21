@@ -1,9 +1,10 @@
 import { world, system, ItemStack } from "@minecraft/server";
 import machines from "./AllMachineBlocks";
+import { multi_blocks } from "../mullti_blocks/MultiBlock";
 import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
 import { attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
 import { pickaxes } from "../../api/utils";
-import { setSolarPanelBlocks } from "./blocks/SolarPanel";
+import { setSolarPanelBlocks } from "./blocks/SolarPanel"; 
 import data from "./blocks/CoalGenerator";
 
 const multi_block_machines = {
@@ -146,7 +147,7 @@ function block_entity_access() {
 world.afterEvents.worldLoad.subscribe(() => {
 	world.getDims(dimension => dimension.getEntities({includeFamilies: ['machine']})).forEach(entity => {reload_machine(entity)});
 	system.runInterval(() => {
-		if (machine_entities.size === 0) return;
+		if (machine_entities.size === 0 && multi_blocks.size === 0) return;
 		// give block access every 2 ticks
 		if (!(system.currentTick % 2)) block_entity_access();
 

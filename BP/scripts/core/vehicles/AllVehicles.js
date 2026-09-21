@@ -2,6 +2,7 @@ import Rocket from "./rockets/Rocket";
 import MoonLander from "./landers/MoonLander";
 import LandingBalloons from "./landers/LandingBalloons";
 import Buggy from "./Buggy";
+import AstroMiner from "./AstroMiner";
 
 export default  {
     "cosmos:rocket_tier_1": {
@@ -49,5 +50,9 @@ export default  {
 		class: Buggy,
 		inventory_index: 2,
 		drops_item: true
+	},
+	"cosmos:astro_miner": {
+		class: AstroMiner,
+		drops_items: false
 	}
 }

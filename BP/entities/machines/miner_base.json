@@ -1,0 +1,110 @@
+{
+    "format_version": "1.20.0",
+    "minecraft:entity": {
+        "description": {
+            "identifier": "cosmos:astro_miner_base",
+            "is_summonable": true,
+			"properties": {
+				"cosmos:rotation": {
+                  "type": "int",
+                  "range": [0, 360],
+                  "default": 0,
+                  "client_sync": true
+                }
+			}
+        },
+        "component_groups": {
+			"shrink": {
+				"minecraft:collision_box": {
+					"width": 1.7,
+					"height": 1.7
+				},
+				"minecraft:timer": {
+					"time": 0.1,
+					"time_down_event": {
+						"event":"cosmos:expand"
+					}
+				}
+			},
+			"expand": {
+				"minecraft:collision_box": {
+					"width": 2,
+					"height": 2
+				}
+			},
+			"despawn": {
+				"minecraft:instant_despawn": {}
+			}
+		},
+        "components": {
+            "minecraft:damage_sensor": {
+                "triggers": {
+                    "deals_damage": false
+                }
+            },
+			"minecraft:type_family": {
+                "family": [
+                    "cosmos",
+					"has_power_input",
+					"multi_block",
+					"astro_miner_base"
+                ]
+            },
+			"minecraft:renders_when_invisible": {},
+			"minecraft:spell_effects": {
+				"add_effects": [
+					{
+						"visible": false,
+                        "effect": "invisibility",
+                        "duration": "infinite"
+                    }
+                ]
+            },
+            "minecraft:collision_box": {
+                "width": 2,
+                "height": 2
+            },
+			"minecraft:health": {
+				"value": 1,
+				"max": 1,
+				"min": 1
+			},
+            "minecraft:knockback_resistance": {
+                "value": 100,
+                "max": 100
+            },
+            "minecraft:inventory": {
+                "container_type": "container",
+                "inventory_size": 75
+            },
+            "minecraft:pushable": {
+                "is_pushable": false,
+                "is_pushable_by_piston": false
+            },
+            "minecraft:physics": {
+                "has_gravity": false,
+				"has_collision": false
+            }
+        },
+		"events": {
+			"cosmos:shrink": {
+				"add": {
+					"component_groups": ["shrink"]
+				}
+			},
+			"cosmos:despawn": {
+				"add": {
+					"component_groups": ["despawn"]
+				}
+			},
+			"cosmos:expand": {
+				"remove": {
+					"component_groups": ["shrink"]
+				},
+				"add": {
+					"component_groups": ["expand"]
+				}
+			}
+		}
+    }
+}

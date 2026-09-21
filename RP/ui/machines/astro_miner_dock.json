@@ -1,0 +1,139 @@
+{
+	"namespace": "astro_miner_dock",
+	"interface@machines.dynamic_interface_large": {
+		"$size": [
+			"100%",
+			221
+		],
+		"$show_bottom_half": false,
+		"$show_hotbar": false,
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Astro Miner Dock",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"bg": {
+					"type": "image",
+					"texture": "textures/ui/cosmos/machines/gui_astro_miner_dock",
+					"size": [
+						256,
+						221
+					],
+					"layer": -1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						0,
+						0
+					]
+				}
+			},
+			{
+				"dock_slots@machines.item_grid": {
+					"size": [
+						216,
+						108
+					],
+					"grid_dimensions": [
+						12,
+						6
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						7,
+						17
+					]
+				}
+			},
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 72,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						229,
+						107
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar_vertical": {
+					"$index": 73,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						233,
+						28
+					]
+				}
+			},
+			{
+				"player_inventory@common.inventory_panel_bottom_half_with_label": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						-1,
+						128
+					],
+					"size": [
+						176,
+						90
+					],
+					 "controls": [
+					{ "inventory_panel@inventory_panel": {} },
+					{
+						"inventory_label@section_heading_label": {
+						"anchor_from": "top_left",
+						"anchor_to": "top_left",
+						"offset": [ 7, -1 ],
+						"layer": 2,
+						"text": "container.inventory"
+						}
+					}
+					]
+				}
+			},
+			{
+				"player_hotbar@common.hotbar_grid_template": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						6,
+						196
+					],
+					"size": [
+						162,
+						18
+					]
+				}
+			},
+			{
+				"recall_button@machines.machine_button": {
+					"$index": 74,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						173,
+						195
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			}
+		]
+	}
+}

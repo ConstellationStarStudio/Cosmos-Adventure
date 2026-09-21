@@ -1,0 +1,22 @@
+{
+    "format_version": "1.8.0",
+    "render_controllers": {
+      "controller.render.astro_miner": {
+        "is_hurt_color": {
+            "r": "0.0",
+            "g": "0.0",
+            "b": "0.0",
+            "a": "0.0"
+        },
+        "on_fire_color": {
+            "r": "0.0",
+            "g": "0.0",
+            "b": "0.0",
+            "a": "0.0"
+        },
+        "geometry": "Geometry.default",
+        "materials": [ { "*": "Material.default" } ],
+        "textures": [ "query.property('cosmos:enabled') ? Texture.on: Texture.off" ]
+      }
+    }
+  }

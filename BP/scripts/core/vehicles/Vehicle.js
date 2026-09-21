@@ -8,7 +8,7 @@ export const pads = {
 	"cosmos:rocket_launch_pad": "rocket",
 }
 
-function reload_vehicle(entity){
+export function reload_vehicle(entity){
     if (!Object.keys(AllVehicles).includes(entity.typeId) || vehicles.has(entity.id)) return;
     const dynamic_object = JSON.parse(entity.getDynamicProperty("vehicle_data") ?? "{}");
     vehicles.set(entity.id, { entity_data: dynamic_object });
@@ -36,7 +36,8 @@ world.afterEvents.entitySpawn.subscribe(({entity}) => {
         reload_vehicle(entity)
         let inventory = entity.getComponent("minecraft:inventory");
         if(!inventory) return;
-        let data = get_vehicle_data(entity)
+        let data = get_vehicle_data(entity);
+        if(!data.ui) return;
         const inventory_size = inventory.inventorySize - data.inventory_index;
         entity.nameTag = data.ui + rocket_nametags[inventory_size];
     }

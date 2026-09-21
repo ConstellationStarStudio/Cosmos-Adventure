@@ -284,6 +284,65 @@
 			{ "energy_hover@machines.item_hover": {} }
 		]
 	},
+	"energy_bar_vertical": {
+		"type":"image",
+		"texture": "textures/ui/cosmos/machines/progress_bar",
+		"size": [ 10, 68 ],
+		"controls": [
+			{ "energy@machines.specific_slot": {
+				"anchor_from": "bottom_left",
+				"anchor_to": "bottom_left",
+				"offset": [0, -1],
+				"layer": 2,
+				"size": ["100%", "100%"],
+				"controls": [
+					{ "gray_icon": {
+						"type": "image",
+						"texture": "textures/ui/cosmos/slot_overlay/power",
+						"size": [16, 16],
+						"offset": [13, -13],
+						"anchor_from": "top_left",
+						"anchor_to": "top_right",
+						"color": [0.9, 0.9, 0.9]
+					}},
+					{ "energy_bar": {
+						"type": "panel",
+						"collection_index": "$index",
+						"anchor_from": "bottom_left",
+						"anchor_to": "bottom_left",
+						"size": ["100%", 1],
+						"controls": [
+							{ "active_icon": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/slot_overlay/power_active",
+								"size": [16, 16],
+								"offset": [13, -81],
+								"anchor_from": "top_left",
+								"anchor_to": "top_right",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(not (#data = 1000))"
+							}},
+							{ "image": {
+								"type": "image",
+								"offset": [1, 0],
+								"texture": "textures/ui/cosmos/machines/energy_bar_vertical_fill",
+								"color": [0.75, 0.66, 0.14],
+								"anchor_from": "bottom_left",
+								"anchor_to": "bottom_left",
+								"size": [8, 1],
+								"bindings": "$use_durability",
+								"$source": "#data",
+								"$target": "#size_binding_y",
+								"$visible_if": "(not (#data = 1000))"
+							}}
+						]
+					}}
+				]
+			}},
+			{ "energy_hover@machines.item_hover": {} }
+		]
+	},
 	"oxygen_bar": {
 		"type":"image",
 		"texture": "textures/ui/cosmos/machines/progress_bar",
@@ -765,6 +824,43 @@
 			}
 		]
 	},
+
+	"dynamic_interface_large": {
+        "type": "panel",
+		"$content": [],
+		"$size": ["100%", 166],
+		"$show_close_button": true,
+        "controls": [
+            { "container_gamepad_helpers@common.container_gamepad_helpers": {} },
+            { "selected_item_details_factory@common.selected_item_details_factory": {} },
+            { "item_lock_notification_factory@common.item_lock_notification_factory": {} },
+            {
+                "root_panel@common.root_panel": {
+                    "size": [ 256, "100%" ],
+                    "layer": 1,
+                    "controls": [
+                        { "content": {
+							"type": "panel",
+							"size": "$size",
+							"controls": [
+								{"close_button@common.close_button": {
+									"visible": "$show_close_button"
+								}},
+								{ "top_half": {
+									"type": "panel",
+									"layer": 5,
+									"controls": "$content"
+								}},
+								{ "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {} }
+							]
+                        }},
+                        { "inventory_selected_icon_button@common.inventory_selected_icon_button": {} },
+                        { "gamepad_cursor@common.gamepad_cursor_button": {} }
+                    ]
+                }
+            }
+        ]
+    },
 
     "dynamic_interface": {
         "type": "panel",

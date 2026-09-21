@@ -41,7 +41,7 @@ const AllMachines = {
 	gas_liquefier: GasLiquefier,
 	deconstructor: Deconstructor,
     methane_synthesizer: MethaneSynthesizer,
-	parachest: Parachest,
+	parachest: Parachest
 }
 
 for (const machine in AllMachines) AllMachines[machine].ui = `§${machine.split('').join('§')}`

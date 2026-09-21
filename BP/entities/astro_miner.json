@@ -1,0 +1,50 @@
+{ 
+  "format_version": "1.13.0",
+  "minecraft:entity": {
+    "description": {
+      "identifier": "cosmos:astro_miner",
+      "is_spawnable": false,
+      "is_summonable": true,
+      "is_experimental": false,
+      "properties": {
+        "cosmos:enabled": {
+          "type": "bool",
+          "default": false,
+          "client_sync": true
+        },
+        "cosmos:rotation_x": {
+          "type": "float",
+          "range": [-90.0, 90.0],
+          "default": 0.0,
+          "client_sync": true
+        },
+        "cosmos:rotation_y": {
+          "type": "float",
+          "range": [0.0, 360.0],
+          "default": 0.0,
+          "client_sync": true
+        }
+      }
+    },
+    "components": {
+       "minecraft:physics": {
+          "has_gravity": false,
+          "has_collision": false
+        },
+        "minecraft:inventory": {
+          "container_type": "container",
+          "inventory_size": 226
+        },
+        "minecraft:collision_box": {
+            "height": 1.7,
+            "width": 1.8
+         },
+        "minecraft:is_collidable": {},
+        "minecraft:type_family": {
+          "family": [
+            "vehicle"
+          ]
+        }
+    }
+	}
+}

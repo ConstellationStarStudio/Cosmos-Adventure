@@ -1,0 +1,28 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "cosmos:astro_miner_base",
+			"textures": {
+				"default": "textures/astrominer/minerbase"
+			},
+			"materials": {
+				"default": "skeleton"
+			},
+			"geometry": {
+				"default": "geometry.miner_base"
+			},
+			"render_controllers": [
+				"controller.render.rocket"
+			],
+			"enable_attachables": false,
+			"hide_armor": true,
+			"scripts": {
+				"animate": ["rotation"]
+			},
+			"animations": {
+				"rotation": "animation.astro_miner_base.rotation"
+			}
+		}
+	}
+}

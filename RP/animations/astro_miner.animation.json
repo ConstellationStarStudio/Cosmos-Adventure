@@ -1,0 +1,13 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.astro_miner.rotation": {
+			"loop": true,
+			"bones": {
+				"bone": {
+					"rotation": ["query.property('cosmos:rotation_x')/2", "query.property('cosmos:rotation_y')", 0]
+				}
+			}
+		}
+	}
+}

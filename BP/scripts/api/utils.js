@@ -2,11 +2,13 @@
 
 import {machine_entities} from "../core/machines/Machine";
 import {vehicles} from "../core/vehicles/Vehicle";
+import { multi_blocks } from "../core/mullti_blocks/MultiBlock";
 import ALL_PLANETS from "../planets/AllPlanets";
 
 const data_maps = {
 	"machine_data": machine_entities,
-	"vehicle_data": vehicles
+	"vehicle_data": vehicles,
+	"multi_block_data": multi_blocks
 }
 export function load_dynamic_object(storage, type, name = 'variables'){
 	const data = data_maps[type].get(storage.id)?.entity_data[name];

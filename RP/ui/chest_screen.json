@@ -216,6 +216,12 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§a§s§t§r§o§_§m§i§n§e§r§_§b§a§s§e') = $ct))",
+                "$screen_content": "astro_miner_dock.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "$debug",
                 "$screen_content": "machines.debugging_interface",
                 "$screen_bg_content": "common.screen_background",

@@ -1,6 +1,7 @@
 import { world, system } from "@minecraft/server";
 import { compare_position, get_entity, load_dynamic_object, save_dynamic_object, location_of_side } from "../../api/utils";
 import { get_data } from "../machines/Machine";
+import { get_multi_block_data } from "../mullti_blocks/MultiBlock";
 
 export class MachinesInNetwork {
 	constructor(machine) {
@@ -68,7 +69,7 @@ export function charge_from_machine(entity, block, energy) {
 	} return energy
 }
 export function charge_from_battery(entity, energy, slot) {
-	const data = get_data(entity)
+	const data = get_data(entity) ?? get_multi_block_data(entity);
 	const container = entity.getComponent('minecraft:inventory').container
 	const battery = container.getItem(slot);
 	if (battery && energy < data.energy.capacity){
