@@ -1,4 +1,4 @@
-import { system, world, BlockPermutation } from "@minecraft/server"
+import { system, world, BlockPermutation, ItemStack } from "@minecraft/server"
 import { load_dynamic_object, save_dynamic_object } from "../../api/utils";
 import { get_multi_block_data } from "../mullti_blocks/MultiBlock";
 import { find_next_target_base } from "../mullti_blocks/blocks/MinerBase";
@@ -172,7 +172,8 @@ function at_base(base, miner, info, waypoints, minepoints){
     waypoints.length = 0;
 
     let somethingTransferred = true;
-    if(info.ticks_existed % 5 == 0) somethingTransferred = transfer_items(miner, base, info);
+    let container = miner.getComponent("minecraft:inventory").container;
+    if(info.ticks_existed % 5 == 0) somethingTransferred = transfer_items(container, base);
 
     info.inventory_drops = 0;
   
@@ -186,8 +187,8 @@ function at_base(base, miner, info, waypoints, minepoints){
         info.energy += 16;
         base_info.energy -= base_data.energy.rate;
     }
-    // && this.hasHoldSpace()
-    if(info.energy >= 12000 && !somethingTransferred){
+
+    if(info.energy >= 12000 && !somethingTransferred && container.emptySlotsCount > 0){
         info.energy = 12000;
         if(find_next_target(base, info, minepoints)){
             info.ai_state = 2;
@@ -197,21 +198,39 @@ function at_base(base, miner, info, waypoints, minepoints){
     }
 }
 
-function transfer_items(miner, base, info){
-    let miner_container = miner.getComponent("minecraft:inventory").container;
-    if(miner_container.emptySlotsCount == 226) return false;
+function transfer_items(miner_container, base){
+    let empty_slots = miner_container.emptySlotsCount;
+    if(empty_slots == 226) return false;
 
     let base_container = base.getComponent("minecraft:inventory").container;
 
-    let battery_count = base_container.getItem(72) ? 0: 1;
-    if(base_container.emptySlotsCount == battery_count) return false;
-
+    let first_empty_slot = base_container.firstEmptySlot();
     let size = 226 - miner_container.emptySlotsCount;
 
-    for(let i = -1; i <= size;){
-        i++;
+    let battery = base_container.getItem(72);
+
+    //a little crutch here so instead of large function i made this so transfer items method would'nt transfer them to battery slot
+    if(first_empty_slot == 72 || (size < empty_slots - 1 && !battery)){
+        base_container.setItem(72, new ItemStack("cosmos:ui"));
+    }
+
+   
+    let transferred_items = [];
+    for(let i = size; i >= 1;){
+        i--;
         let transferred = miner_container.transferItem(i, base_container);
-        if(transferred) return true;
+        if(transferred){
+            miner_container.setItem(i, transferred);
+            transferred_items.push(i);
+        }
+    }
+
+    transferred_items.forEach((index) => {
+        miner_container.transferItem(index, miner_container);
+    });
+
+    if(first_empty_slot == 72 || (size < empty_slots - 1 && !battery)){
+        base_container.setItem(72, undefined);
     }
 
     return true;
