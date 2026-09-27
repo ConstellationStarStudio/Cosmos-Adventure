@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:airlock_seal"
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": { "render_method": "blend", "texture": "air_lock_seal" }
+      },
+      "minecraft:collision_box": false,
+      "minecraft:selection_box": false,
+      "minecraft:destructible_by_mining": false,
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:light_emission": 15
+    }
+  }
+}

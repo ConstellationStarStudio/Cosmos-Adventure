@@ -1,0 +1,116 @@
+{
+	"namespace": "airlock_controller",
+	"interface@machines.dynamic_interface_large": {
+		"$size": [
+			"100%",
+			139
+		],
+		"$show_bottom_half": false,
+		"$show_hotbar": false,
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Airlock Controller",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						5
+					]
+				}
+			},
+			{
+				"redstone@machines.machine_button": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						20
+					],
+					"$button_size": [
+						161,
+						18
+					]
+				}
+			},
+			{
+				"distance@machines.machine_button": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						40
+					],
+					"$button_size": [
+						161,
+						18
+					]
+				}
+			},
+			{
+				"distance_value@machines.machine_button": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						60
+					],
+					"$button_size": [
+						161,
+						18
+					]
+				}
+			},
+			{
+				"owner_only@machines.machine_button": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						80
+					],
+					"$button_size": [
+						161,
+						18
+					]
+				}
+			},
+			{
+				"invert@machines.machine_button": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						100
+					],
+					"$button_size": [
+						78,
+						18
+					]
+				}
+			},
+			{
+				"horizontal@machines.machine_button": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						93,
+						100
+					],
+					"$button_size": [
+						78,
+						18
+					]
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,102 @@
+{
+	"namespace": "chromatic_applicator",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			186
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Chromatic Applicator",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"to_be_painted@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						40,
+						25
+					]
+				}
+			},
+			{
+				"dyes@machines.item_slot": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						122,
+						25
+					]
+				}
+			},
+			{
+				"color_selector@machines.item_slot": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						79,
+						24
+					]
+				}
+			},
+			{
+				"apply_paint@machines.machine_button": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						92,
+						45
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			},
+			{
+				"mix_paint@machines.machine_button": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						8,
+						45
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			},
+			{
+				"reset_paint@machines.machine_button": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						8,
+						67
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			}
+		]
+	}
+}

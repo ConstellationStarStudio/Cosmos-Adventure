@@ -119,9 +119,16 @@ world.afterEvents.entitySpawn.subscribe(data => {
   if (!GravityEntities.includes(data.entity)) GravityEntities.push(data.entity)
 })
 
+const SPACE_DIMENSIONS = ['cosmos:moon', 'cosmos:mars', 'cosmos:venus', 'cosmos:asteroids', 'cosmos:space_stations'];
+
 system.runInterval(() => {
-  for (let dimension of ['the_end'].map(id => world.getDimension(id))) {
-    GravityEntities = GravityEntities.concat(dimension.getEntities().filter(entity => !GravityEntities.includes(entity)))
+  for (let dimId of SPACE_DIMENSIONS) {
+    try {
+      const dimension = world.getDimension(dimId);
+      if (dimension) {
+        GravityEntities = GravityEntities.concat(dimension.getEntities().filter(entity => !GravityEntities.includes(entity)));
+      }
+    } catch (e) {}
   }
 }, 10)
 
@@ -200,46 +207,56 @@ export function player_gravity(){
     player.fallingVelocity = player.fallVelocity/2
   }
 
-  GravityEntities.forEach((entity, index) => {
-    if (!entity.isValid || entity.dimension.id != 'minecraft:the_end') return GravityEntities.splice(index, 1);
-    if(entity.knockback) return;
-    setGravity(entity)
+  for (let index = GravityEntities.length - 1; index >= 0; index--) {
+    const entity = GravityEntities[index];
+    if (!entity.isValid || !SPACE_DIMENSIONS.includes(entity.dimension.id)) {
+      GravityEntities.splice(index, 1);
+      continue;
+    }
+    if (entity.knockback) continue;
+    setGravity(entity);
 
     if (entity.isInWater) entity.fallingVelocity = 0;
+    if (entity.isOnGround) {
+      let velocity = entity.fallingVelocity || 0;
+      let damage = (velocity * 2) ** 1.7;
+      entity.fallingVelocity = 0;
+      if (damage >= 1 && !entity.getEffect('slow_falling')) entity.applyDamage(damage, { cause: 'fall' });
+    }
 
-    if (entity.typeId == 'minecraft:player') return;
+    if (entity.typeId == 'minecraft:player') continue;
 
-    const gravity = Gravity.of(entity)
-    if (gravity.value == 9.8) return;
+    const gravity = Gravity.of(entity);
+    if (gravity.value == 9.8) continue;
 
-    if (entity.isOnGround || entity.isSwimming || entity.isInWater || entity.getComponent('can_fly')) return;
+    if (entity.isOnGround || entity.isSwimming || entity.isInWater || entity.getComponent('can_fly')) continue;
 
     if (entity.getComponent('projectile') == undefined) {
-      entity.applyImpulse({ x: 0, z: 0, y: (9.8 - gravity.value)/130/(EntityGravityMod[entity.typeId] || 1) })
+      entity.applyImpulse({ x: 0, z: 0, y: (9.8 - gravity.value)/130/(EntityGravityMod[entity.typeId] || 1) });
 
       let ray = entity.dimension.getBlockFromRay(entity.location, { 
         x: 0,
         y: -1,
         z: 0
-      })
-      if (ray == undefined) return; 
+      });
+      if (ray == undefined) continue; 
 
-
-      let distance = entity.location.y - sumObjects(ray.block, ray.faceLocation).y
+      let distance = entity.location.y - sumObjects(ray.block, ray.faceLocation).y;
       entity.distance = distance;
+      if (distance < -entity.getVelocity().y*2) entity.addEffect('slow_falling', 5, { amplifier: 0, showParticles: false });
 
-      entity.fallingVelocity = -entity.getVelocity().y
+      entity.fallingVelocity = -entity.getVelocity().y;
     } else {
-      let projectile = entity.getComponent('projectile')
-      let oldGravity = entity.getDynamicProperty('sert:defaultGravity')
+      let projectile = entity.getComponent('projectile');
+      let oldGravity = entity.getDynamicProperty('sert:defaultGravity');
       if (oldGravity == undefined) {
-        entity.setDynamicProperty('sert:defaultGravity', projectile.gravity)
-        oldGravity = projectile.gravity
+        entity.setDynamicProperty('sert:defaultGravity', projectile.gravity);
+        oldGravity = projectile.gravity;
       }
 
-      projectile.gravity = oldGravity - (9.8 - gravity.value)*oldGravity/20
+      projectile.gravity = oldGravity - (9.8 - gravity.value)*oldGravity/20;
     }
-  })
+  }
 }
 
 const Geo = new class {

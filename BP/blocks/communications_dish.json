@@ -1,18 +1,19 @@
 {
-  "format_version": "1.21.50",
+  "format_version": "1.26.20",
   "minecraft:block": {
 	"description": {
 		"identifier": "cosmos:communications_dish",
 		"menu_category": { "category": "items" }
 	},
 	"components": {
-	  "minecraft:custom_components":["cosmos:communication_dish"],
+
 	  "minecraft:material_instances": {
 		"*": { "texture": "dishbase", "render_method": "alpha_test"}
 	  },
 	  "minecraft:loot": "loot_tables/blocks/dishbase.json",
 	  "minecraft:geometry": "minecraft:geometry.full_block",
 	  "minecraft:destructible_by_explosion": false,
+	  "cosmos:dishbase": {},
 	  "minecraft:destructible_by_mining": {
 		  "seconds_to_destroy": 0.5
 	  }

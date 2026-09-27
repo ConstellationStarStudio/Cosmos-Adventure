@@ -1,54 +1,96 @@
 {
-    "namespace": "fuel_loader",
-	
+	"namespace": "fuel_loader",
 	"interface@machines.dynamic_interface": {
-		"$size": ["100%", 168],
+		"$size": [
+			"100%",
+			168
+		],
 		"$content": [
-			{ "title": {
-				"type": "label",
-				"color": "$title_text_color",
-				"text": "Fuel Loader",
-				"anchor_from": "top_middle",  
-				"offset": [ 0, 10 ]
-            }},
-            { "input@machines.item_slot": {
-				"$index": 0 ,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [6, 6]
-			}},
-			{ "battery@machines.item_slot": {
-				"$index": 1,
-				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [50, 49]
-			}},
-			{ "energy_bar@machines.energy_bar": {
-				"$index": 2,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 112, 60 ]
-			}},
-            { "fuel_tank@machines.fluid_tank": {
-                "$liquid": "fuel",
-                "$index": 3,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 6, 27 ]
-            }},
-            { "status@machines.item_text": {
-                "$index": 4,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 28, 17 ]
-            }},
-            { "start_button@machines.machine_button": {
-                "$index": 5,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 90, 36 ]
-            }}
+			{
+				"title": {
+					"type": "label",
+					"text": "Fuel Loader",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						5
+					]
+				}
+			},
+			{
+				"input@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						6,
+						6
+					]
+				}
+			},
+			{
+				"battery@machines.item_slot": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						50,
+						49
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						112,
+						60
+					]
+				}
+			},
+			{
+				"fuel_tank@machines.fluid_tank": {
+					"$liquid": "fuel",
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						6,
+						27
+					]
+				}
+			},
+			{
+				"status@machines.item_text": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						28,
+						17
+					]
+				}
+			},
+			{
+				"start_button@machines.machine_button": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						90,
+						36
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			}
 		]
 	}
 }

@@ -1,35 +1,58 @@
 {
-    "namespace": "coal_generator",
-	
-    "interface@machines.dynamic_interface": {
-        "$content": [
-			{ "title": {
-				"type": "label",
-				"text": "Coal Generator",
-				"color": "$title_text_color",
-                "anchor_from": "top_middle",
-                "anchor_to": "top_middle",
-                "offset": [ 0, 5 ]
-			}},
-			{ "coal_input@machines.item_slot": {
-				"$index": 0,
-				"$overlay_texture": "textures/items/coal",
-				"$overlay_alpha": 0.25,
-				"anchor_from": "top_middle",
-				"anchor_to": "top_middle",
-				"offset": [ -50, 33 ]
-			}},
-			{ "arrow@crafting.crafting_arrow_large": {
-				"anchor_from": "top_middle",
-				"anchor_to": "top_middle",
-				"offset": [ -20, 33 ]
-			}},
-            { "heat_and_power@machines.item_text": {
-				"$index": 1,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 85, 33 ]
-			}}
+	"namespace": "coal_generator",
+	"interface@machines.dynamic_interface": {
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Coal Generator",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						5
+					]
+				}
+			},
+			{
+				"coal_input@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						-50,
+						33
+					],
+					"$overlay_texture": "textures/items/coal",
+					"$overlay_alpha": 0.25
+				}
+			},
+			{
+				"arrow@crafting.crafting_arrow_large": {
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						-20,
+						33
+					],
+					"size": [
+						22,
+						15
+					]
+				}
+			},
+			{
+				"heat_and_power@machines.item_text": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						85,
+						33
+					]
+				}
+			}
 		]
-    }
+	}
 }

@@ -1,161 +1,263 @@
 {
-    "namespace": "compressor",
-
-    "interface@machines.dynamic_interface": {
-        "$size": ["100%", 192],
-        "$content": [
-			{ "title": {
-				"type": "label",
-				"text": "Compressor",
-				"color": "$title_text_color",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 10, 5 ]
-			}},
-			{ "input_grid@machines.item_grid": {
-				"size": [ 54, 54 ],
-				"grid_dimensions": [ 3, 3 ],
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 18, 17 ]
-			}},
-            { "fuel_slot@machines.item_slot": {
-				"$index": 9,
-				"$overlay_texture": "textures/items/coal",
-				"$overlay_alpha": 0.25,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 54, 74 ]
-			}},
-			{ "fuel_text": {
-				"type": "label",
-				"text": "Fuel:",
-				"color": "$title_text_color",
-				"layer": 2,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 27, 79 ]
-			}},
-            { "output_slot@machines.item_slot": {
-				"$index": 10,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 137, 37 ]
-            }},
-			{ "progress@compressor.progress_bar": {
-				"$index": 12,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 77, 28 ]
-			}},
-			{ "burn_time@compressor.burn_time": {
-				"$index": 11,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [81, 28]
-			}},
-            { "status@machines.item_text": {
-				"$index": 13,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 97, 70 ]
-			}}
-		]
-	},
-
-	"progress_bar": {
-		"type":"image",
-		"texture": "textures/ui/cosmos/machines/compressor_bar",
-		"size": [ 52, 25 ],
-		"controls": [
-			{ "progress@machines.specific_slot": {
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"controls": [
-					{ "progress_bar": {
-						"type": "panel",
-						"collection_index": "$index",
-						"anchor_from": "top_left",
-						"anchor_to": "top_left",
-						"size": [1, 0],
-						"controls": [
-							{ "hammering": {
-								"type": "image",
-								"texture": "textures/ui/cosmos/machines/compressor_on",
-								"size": [15, 13],
-								"anchor_from": "top_left",
-								"anchor_to": "top_left",
-								"offset": [24, 1],
-								"bindings": "$use_durability",
-								"$source": "#null", "$target": "#null",
-								"$visible_if": "(#data > 26 and not (#data = 1000))"
-							}},
-							{ "progress_fill": {
-								"type": "panel",
-								"clips_children": true,
-								"size": [1, 17],
-								"anchor_to": "top_left",
-								"anchor_from": "top_left",
-								"offset": [0, 9],
-								"bindings": "$use_durability",
-								"$source": "#data",
-								"$target": "#size_binding_x",
-								"$visible_if": "(not (#data = 1000))",
-								"controls": [
-									{ "image": {
-										"anchor_to": "top_left",
-										"anchor_from": "top_left",
-										"type": "image",
-										"size": [52, 17],
-										"texture": "textures/ui/cosmos/machines/compressor_bar_fill"
-									}}
-								]
-							}}
-						]
-					}}
-				]
-			}}
+	"namespace": "compressor",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			192
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Compressor",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"input_grid@machines.item_grid": {
+					"size": [
+						54,
+						54
+					],
+					"grid_dimensions": [
+						3,
+						3
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						18,
+						17
+					]
+				}
+			},
+			{
+				"fuel_slot@machines.item_slot": {
+					"$index": 9,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						54,
+						74
+					],
+					"$overlay_texture": "textures/items/coal",
+					"$overlay_alpha": 0.25
+				}
+			},
+			{
+				"fuel_text": {
+					"type": "label",
+					"text": "Fuel:",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						27,
+						79
+					],
+					"layer": 2
+				}
+			},
+			{
+				"output_slot@machines.item_slot": {
+					"$index": 10,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						137,
+						37
+					]
+				}
+			},
+			{
+				"burn_time@compressor.burn_time": {
+					"$index": 11,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						81,
+						28
+					]
+				}
+			},
+			{
+				"progress@compressor.progress_bar": {
+					"$index": 12,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						77,
+						28
+					]
+				}
+			},
+			{
+				"status@machines.item_text": {
+					"$index": 13,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						97,
+						70
+					]
+				}
+			}
 		]
 	},
 	"burn_time": {
 		"type": "image",
 		"texture": "textures/ui/flame_empty_image",
-		"size": [13, 13],
+		"size": [
+			13,
+			13
+		],
 		"controls": [
-			{ "progress@machines.specific_slot": {
-				"size": ["100%", "100%"],
-				"controls": [
-					{ "unit_size": {
-						"type": "panel",
-						"collection_index": "$index",
-						"anchor_from": "bottom_left",
-						"anchor_to": "bottom_left",
-						"size": [0, 1],
-						"controls": [
-							{ "clipper": {
+			{
+				"progress@machines.specific_slot": {
+					"size": [
+						"100%",
+						"100%"
+					],
+					"controls": [
+						{
+							"unit_size": {
 								"type": "panel",
-								"clips_children": true,
-								"size": [13, 1],
+								"collection_index": "$index",
 								"anchor_from": "bottom_left",
 								"anchor_to": "bottom_left",
-								"bindings": "$use_durability",
-								"$source": "#data",
-								"$target": "#size_binding_y",
-								"$visible_if": "(not (#data = 1000))",
+								"size": [
+									0,
+									1
+								],
 								"controls": [
-									{ "image": {
-										"type": "image",
-										"texture": "textures/ui/flame_full_image",
-										"size": [13, 13],
-										"anchor_to": "bottom_left",
-										"anchor_from": "bottom_left"
-									}}
+									{
+										"clipper": {
+											"type": "panel",
+											"clips_children": true,
+											"size": [
+												13,
+												1
+											],
+											"anchor_from": "bottom_left",
+											"anchor_to": "bottom_left",
+											"bindings": "$use_durability",
+											"$source": "#data",
+											"$target": "#size_binding_y",
+											"$visible_if": "(not (#data = 1000))",
+											"controls": [
+												{
+													"image": {
+														"type": "image",
+														"texture": "textures/ui/flame_full_image",
+														"size": [
+															13,
+															13
+														],
+														"anchor_to": "bottom_left",
+														"anchor_from": "bottom_left"
+													}
+												}
+											]
+										}
+									}
 								]
-							}}
-						]
-					}}
-				]
-			}}
+							}
+						}
+					]
+				}
+			}
+		]
+	},
+	"progress_bar": {
+		"type": "image",
+		"texture": "textures/ui/cosmos/machines/compressor_bar",
+		"size": [
+			52,
+			25
+		],
+		"controls": [
+			{
+				"progress@machines.specific_slot": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"controls": [
+						{
+							"progress_bar": {
+								"type": "panel",
+								"collection_index": "$index",
+								"anchor_from": "top_left",
+								"anchor_to": "top_left",
+								"size": [
+									1,
+									0
+								],
+								"controls": [
+									{
+										"hammering": {
+											"type": "image",
+											"texture": "textures/ui/cosmos/machines/compressor_on",
+											"size": [
+												15,
+												13
+											],
+											"anchor_from": "top_left",
+											"anchor_to": "top_left",
+											"offset": [
+												24,
+												1
+											],
+											"bindings": "$use_durability",
+											"$source": "#null",
+											"$target": "#null",
+											"$visible_if": "(#data > 26 and not (#data = 1000))"
+										}
+									},
+									{
+										"progress_fill": {
+											"type": "panel",
+											"clips_children": true,
+											"size": [
+												1,
+												17
+											],
+											"anchor_to": "top_left",
+											"anchor_from": "top_left",
+											"offset": [
+												0,
+												9
+											],
+											"bindings": "$use_durability",
+											"$source": "#data",
+											"$target": "#size_binding_x",
+											"$visible_if": "(not (#data = 1000))",
+											"controls": [
+												{
+													"image": {
+														"anchor_to": "top_left",
+														"anchor_from": "top_left",
+														"type": "image",
+														"size": [
+															52,
+															17
+														],
+														"texture": "textures/ui/cosmos/machines/compressor_bar_fill"
+													}
+												}
+											]
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
 		]
 	}
 }

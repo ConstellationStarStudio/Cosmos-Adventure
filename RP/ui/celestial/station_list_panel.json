@@ -1,0 +1,191 @@
+{
+  "namespace": "celestial",
+  "station_list_panel": {
+    "type": "image",
+    "texture": "textures/ui/cosmos/celestial_selector/launch_button_holder",
+    "color": [
+      0,
+      0.5,
+      1
+    ],
+    "size": [
+      95,
+      80
+    ],
+    "anchor_from": "top_right",
+    "anchor_to": "top_right",
+    "offset": [
+      -5,
+      147
+    ],
+    "layer": 8,
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "zoom_toggle_overworld",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#overworld_zoomed"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#overworld_zoomed and not (#form_text - 'Station' = #form_text))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "title": {
+          "type": "label",
+          "text": "Space Stations",
+          "size": [
+            "100%",
+            10
+          ],
+          "offset": [
+            0,
+            4
+          ],
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "text_alignment": "center",
+          "layer": 9
+        }
+      },
+      {
+        "list_content": {
+          "type": "panel",
+          "size": [
+            85,
+            60
+          ],
+          "offset": [
+            0,
+            15
+          ],
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "layer": 9,
+          "controls": [
+            {
+              "station_list_content@celestial.station_list_content": {}
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "station_list_content": {
+    "type": "stack_panel",
+    "orientation": "vertical",
+    "size": [
+      "100%",
+      "default"
+    ],
+    "controls": [
+      {
+        "stations_collection": {
+          "type": "stack_panel",
+          "orientation": "vertical",
+          "size": [
+            "100%",
+            "default"
+          ],
+          "collection_name": "form_buttons",
+          "factory": {
+            "name": "buttons",
+            "control_name": "celestial.station_list_item"
+          },
+          "bindings": [
+            {
+              "binding_name": "#form_button_length",
+              "binding_name_override": "#collection_length"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "station_list_item@cosmos.button": {
+    "size": [
+      85,
+      14
+    ],
+    "bindings": [
+      {
+        "binding_type": "collection_details",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_name": "#form_button_text",
+        "binding_type": "collection",
+        "binding_collection_name": "form_buttons"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(not (#form_button_text - 'Launch to ' = #form_button_text) and (#form_button_text - 'Overworld' = #form_button_text) and (#form_button_text - 'Moon' = #form_button_text) and (#form_button_text - 'Mars' = #form_button_text) and (#form_button_text - 'Venus' = #form_button_text) and (#form_button_text - 'Asteroids' = #form_button_text))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "$action": "button.form_button_click",
+    "controls": [
+      {
+        "default": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/station_list_item",
+          "color": [
+            0,
+            0.6,
+            1
+          ],
+          "size": [
+            85,
+            12
+          ],
+          "layer": 2
+        }
+      },
+      {
+        "hover": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/station_list_item",
+          "color": [
+            0,
+            0.8,
+            1
+          ],
+          "size": [
+            85,
+            12
+          ],
+          "layer": 2
+        }
+      },
+      {
+        "label": {
+          "type": "label",
+          "text": "#name",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "size": [
+            "100% - 6px",
+            10
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center",
+          "text_alignment": "center",
+          "layer": 3,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_button_text - 'Launch to ')",
+              "target_property_name": "#name"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

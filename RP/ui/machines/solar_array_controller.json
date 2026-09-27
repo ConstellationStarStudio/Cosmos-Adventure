@@ -1,0 +1,95 @@
+{
+	"namespace": "solar_array_controller",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			209
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Solar Array Controller",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						7
+					]
+				}
+			},
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						152,
+						91
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"generating@machines.item_text": {
+					"$index": 1,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						46
+					]
+				}
+			},
+			{
+				"status@machines.item_text": {
+					"$index": 2,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						57
+					]
+				}
+			},
+			{
+				"environment@machines.item_text": {
+					"$index": 3,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						68
+					]
+				}
+			},
+			{
+				"connected_panels@machines.item_text": {
+					"$index": 4,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						79
+					]
+				}
+			},
+			{
+				"enable_button@machines.machine_button": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						52,
+						93
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			}
+		]
+	}
+}

@@ -2,7 +2,7 @@
   "format_version": "1.20.10",
   "minecraft:recipe_shaped": {
     "description": {
-      "identifier": "cosmos:air_lock_controller"
+      "identifier": "cosmos:airlock_controller"
     },
     "tags": [
       "crafting_table"
@@ -21,7 +21,7 @@
       "cosmos:compressed_meteoric_iron"
     ],
     "result": {
-      "item": "cosmos:air_lock_controller"
+      "item": "cosmos:airlock_controller"
     }
   }
 }

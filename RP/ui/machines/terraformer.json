@@ -1,0 +1,246 @@
+{
+	"namespace": "terraformer",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			237
+		],
+		"$show_close_button": false,
+		"$content": [
+			{
+				"close@common.close_button": {
+					"offset": [
+						150,
+						4
+					]
+				}
+			},
+			{
+				"water_bucket@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						25,
+						19
+					]
+				}
+			},
+			{
+				"battery@machines.item_slot": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						25,
+						39
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"bonemeal_0@machines.item_slot": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						25,
+						63
+					]
+				}
+			},
+			{
+				"bonemeal_1@machines.item_slot": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						43,
+						63
+					]
+				}
+			},
+			{
+				"bonemeal_2@machines.item_slot": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						61,
+						63
+					]
+				}
+			},
+			{
+				"bonemeal_3@machines.item_slot": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						79,
+						63
+					]
+				}
+			},
+			{
+				"sapling_0@machines.item_slot": {
+					"$index": 6,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						25,
+						87
+					]
+				}
+			},
+			{
+				"sapling_1@machines.item_slot": {
+					"$index": 7,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						43,
+						87
+					]
+				}
+			},
+			{
+				"sapling_2@machines.item_slot": {
+					"$index": 8,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						61,
+						87
+					]
+				}
+			},
+			{
+				"sapling_3@machines.item_slot": {
+					"$index": 9,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						79,
+						87
+					]
+				}
+			},
+			{
+				"seed_0@machines.item_slot": {
+					"$index": 10,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						25,
+						111
+					]
+				}
+			},
+			{
+				"seed_1@machines.item_slot": {
+					"$index": 11,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						43,
+						111
+					]
+				}
+			},
+			{
+				"seed_2@machines.item_slot": {
+					"$index": 12,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						61,
+						111
+					]
+				}
+			},
+			{
+				"seed_3@machines.item_slot": {
+					"$index": 13,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						79,
+						111
+					]
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 14,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						45,
+						48
+					]
+				}
+			},
+			{
+				"water_tank@machines.fluid_tank": {
+					"$liquid": "water",
+					"$index": 15,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						56,
+						18
+					],
+					"$tank_width": 41,
+					"$tank_size": [
+						"41px",
+						"28px"
+					],
+					"$tank_back_tex": "textures/ui/cosmos/machines/tank_back_41x28",
+					"$tank_front_tex": "textures/ui/cosmos/machines/tank_front_41x28"
+				}
+			},
+			{
+				"toggle_trees@machines.machine_button": {
+					"$index": 16,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						98,
+						85
+					],
+					"$button_size": [
+						72,
+						20
+					]
+				}
+			},
+			{
+				"toggle_grass@machines.machine_button": {
+					"$index": 17,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						98,
+						109
+					],
+					"$button_size": [
+						72,
+						20
+					]
+				}
+			},
+			{
+				"toggle_bubble@machines.machine_toggle": {
+					"$index": 18,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						85,
+						132
+					]
+				}
+			}
+		]
+	}
+}

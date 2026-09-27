@@ -1,0 +1,53 @@
+{
+	"format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:terraformer",
+			"menu_category": { "category": "items" },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": ["minecraft:cardinal_direction"],
+          "y_rotation_offset": 180
+        }
+      }
+    },
+    "components": {
+      "tag:machine": {},
+      "cosmos:machine": {},
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:movable": { "movement_type": "immovable" },
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:material_instances": {
+        "up": { "render_method": "opaque", "texture": "machine_blank" },
+        "down": { "render_method": "opaque", "texture": "machine_blank" },
+        "north": { "render_method": "opaque", "texture": "terraformer" },
+        "east": { "render_method": "opaque", "texture": "energy_input" },
+        "south": { "render_method": "opaque", "texture": "machine_side" },
+        "west": { "render_method": "opaque", "texture": "machine_side" }
+      }
+    },
+    "permutations": [
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, 180, 0] }
+          }
+        },
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, 90, 0] }
+          }
+        },
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, -90, 0] }
+          }
+        }
+    ]
+  }
+}

@@ -1,0 +1,1133 @@
+{
+  "namespace": "celestial",
+  "selector_screen": {
+    "type": "screen",
+    "button_mappings": [
+      {
+        "from_button_id": "button.menu_cancel",
+        "to_button_id": "button.menu_exit",
+        "mapping_type": "global"
+      }
+    ],
+    "controls": [
+      {
+        "input_panel": {
+          "type": "input_panel",
+          "hover_enabled": false,
+          "prevent_touch_input": false,
+          "controls": [
+            {
+              "screen_background": {
+                "type": "image",
+                "texture": "textures/ui/cosmos/celestial_selector/space",
+                "layer": -1
+              }
+            },
+            {
+              "catalog@celestial.catalog": {}
+            },
+            {
+              "launch_panel@celestial.launch_panel": {}
+            },
+            {
+              "station_list_panel@celestial.station_list_panel": {}
+            },
+            {
+              "top_rename_panel@celestial.top_rename_panel": {}
+            },
+            {
+              "solar_system@celestial.solar_system": {}
+            },
+            {
+              "zoomed_solar_system_mercury@celestial.zoomed_solar_system_mercury": {}
+            },
+            {
+              "zoomed_solar_system_venus@celestial.zoomed_solar_system_venus": {}
+            },
+            {
+              "zoomed_solar_system_overworld@celestial.zoomed_solar_system_overworld": {}
+            },
+            {
+              "zoomed_solar_system_mars@celestial.zoomed_solar_system_mars": {}
+            },
+            {
+              "zoomed_solar_system_asteroids@celestial.zoomed_solar_system_asteroids": {}
+            },
+            {
+              "zoomed_solar_system_jupiter@celestial.zoomed_solar_system_jupiter": {}
+            },
+            {
+              "zoomed_solar_system_saturn@celestial.zoomed_solar_system_saturn": {}
+            },
+            {
+              "zoomed_solar_system_uranus@celestial.zoomed_solar_system_uranus": {}
+            },
+            {
+              "zoomed_solar_system_neptune@celestial.zoomed_solar_system_neptune": {}
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "catalog": {
+    "type": "image",
+    "texture": "textures/ui/cosmos/celestial_selector/catalog",
+    "color": [
+      0,
+      0.5,
+      1
+    ],
+    "size": [
+      87,
+      12
+    ],
+    "anchor_from": "top_left",
+    "anchor_to": "top_left",
+    "offset": [
+      6,
+      5
+    ],
+    "controls": [
+      {
+        "name": {
+          "type": "label",
+          "text": "CATALOG",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [
+            20,
+            1
+          ]
+        }
+      },
+      {
+        "center": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/catalog_center",
+          "color": [
+            0,
+            0.5,
+            1
+          ],
+          "size": [
+            95,
+            43
+          ],
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "anims": [
+            {
+              "go_right": {
+                "anim_type": "offset",
+                "duration": 0.5,
+                "from": [
+                  -100,
+                  10
+                ],
+                "to": [
+                  -1,
+                  10
+                ]
+              }
+            }
+          ],
+          "controls": [
+            {
+              "back_button": {
+                "type": "image",
+                "texture": "textures/ui/cosmos/celestial_selector/back_button",
+                "color": [
+                  1,
+                  1,
+                  0
+                ],
+                "size": [
+                  93,
+                  17
+                ],
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+                "offset": [
+                  2,
+                  4
+                ],
+                "layer": 2,
+                "controls": [
+                  {
+                    "zoom_toggle_sol@cosmos.toggle": {
+                      "size": [
+                        93,
+                        10
+                      ],
+                      "offset": [
+                        0,
+                        1
+                      ],
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "toggle_group_forced_index": 0,
+                      "toggle_grid_collection_name": "zoom_planet",
+                      "toggle_name": "zoom_planet",
+                      "checked_hover_control": "hover",
+                      "unchecked_hover_control": "hover",
+                      "controls": [
+                        {
+                          "hover": {
+                            "type": "image",
+                            "texture": "textures/ui/cosmos/celestial_selector/fade2",
+                            "color": [
+                              1,
+                              1,
+                              0
+                            ],
+                            "size": [
+                              89,
+                              10
+                            ],
+                            "layer": 1
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "sol_label": {
+                      "type": "label",
+                      "text": "\u00a77Sol",
+                      "anchor_from": "top_left",
+                      "anchor_to": "top_left",
+                      "offset": [
+                        4,
+                        1
+                      ],
+                      "layer": 3
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Sol",
+                "$toggle": "zoom_toggle_sol"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Mercury",
+                "$toggle": "zoom_toggle_mercury"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Venus",
+                "$toggle": "zoom_toggle_venus"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Overworld",
+                "bindings": [
+                  {
+                    "binding_type": "view",
+                    "source_control_name": "zoom_toggle_overworld",
+                    "source_property_name": "#toggle_state",
+                    "target_property_name": "#overworld"
+                  },
+                  {
+                    "binding_type": "view",
+                    "source_control_name": "zoom_toggle_moon",
+                    "source_property_name": "#toggle_state",
+                    "target_property_name": "#moon"
+                  },
+                  {
+                    "binding_type": "view",
+                    "source_property_name": "(#overworld or #moon)",
+                    "target_property_name": "#visible"
+                  }
+                ]
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Mars",
+                "$toggle": "zoom_toggle_mars"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Asteroids",
+                "$toggle": "zoom_toggle_asteroids"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Jupiter",
+                "$toggle": "zoom_toggle_jupiter"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Saturn",
+                "$toggle": "zoom_toggle_saturn"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Uranus",
+                "$toggle": "zoom_toggle_uranus"
+              }
+            },
+            {
+              "centeral_planet@celestial.central_planet_label": {
+                "$name": "Neptune",
+                "$toggle": "zoom_toggle_neptune"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "planet_toggles": {
+          "type": "stack_panel",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [
+            1,
+            49
+          ],
+          "controls": [
+            {
+              "mercury@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Mercury",
+                "$control_name": "mercury",
+                "$tier": 4,
+                "$time": 0.25,
+                "$index": 1
+              }
+            },
+            {
+              "venus@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Venus",
+                "$control_name": "venus",
+                "$tier": 3,
+                "$time": 0.5,
+                "$index": 2
+              }
+            },
+            {
+              "overworld@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Overworld",
+                "$control_name": "overworld",
+                "$tier": 1,
+                "$time": 0.75,
+                "$index": 3,
+                "$button_id": "button.overworld_on"
+              }
+            },
+            {
+              "moon@celestial.catalog_moon": {}
+            },
+            {
+              "mars@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Mars",
+                "$control_name": "mars",
+                "$tier": 2,
+                "$time": 1,
+                "$index": 4
+              }
+            },
+            {
+              "asteroids@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Asteroids",
+                "$control_name": "asteroids",
+                "$tier": 3,
+                "$time": 1.25,
+                "$index": 5
+              }
+            },
+            {
+              "jupiter@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Jupiter",
+                "$control_name": "jupiter",
+                "$tier": 4,
+                "$time": 1.5,
+                "$index": 6
+              }
+            },
+            {
+              "saturn@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Saturn",
+                "$control_name": "saturn",
+                "$tier": 99,
+                "$time": 1.75,
+                "$index": 7
+              }
+            },
+            {
+              "uranus@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Uranus",
+                "$control_name": "uranus",
+                "$tier": 99,
+                "$time": 2,
+                "$index": 8
+              }
+            },
+            {
+              "neptune@celestial.catalog_select_and_zoom_toggle": {
+                "$name": "Neptune",
+                "$control_name": "neptune",
+                "$tier": 99,
+                "$time": 2.25,
+                "$index": 9
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "catalog_select_and_zoom_toggle": {
+    "type": "panel",
+    "size": [
+      93,
+      14
+    ],
+    "$select_name": "('catalog_toggle_' + $control_name)",
+    "$zoom_name": "('zoom_toggle_' + $control_name)",
+    "$button_id": "button.menu_select",
+    "controls": [
+      {
+        "$select_name@cosmos.toggle": {
+          "toggle_group_forced_index": "$index",
+          "toggle_grid_collection_name": "catalog_planet",
+          "toggle_name": "catalog_planet",
+          "button_mappings": [
+            {
+              "from_button_id": "button.menu_select",
+              "to_button_id": "$button_id",
+              "mapping_type": "pressed"
+            },
+            {
+              "from_button_id": "button.menu_ok",
+              "to_button_id": "$button_id",
+              "mapping_type": "focused"
+            }
+          ],
+          "controls": [
+            {
+              "unchecked@celestial.animated_catalog_toggle": {}
+            },
+            {
+              "unchecked_hover@celestial.animated_catalog_toggle": {
+                "color": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "$select_name",
+              "source_property_name": "(not #toggle_state)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "$zoom_name@cosmos.toggle": {
+          "toggle_group_forced_index": "$index",
+          "toggle_grid_collection_name": "zoom_planet",
+          "toggle_name": "zoom_planet",
+          "offset": [
+            6,
+            0
+          ],
+          "controls": [
+            {
+              "unchecked@celestial.catalog_toggle_visuals": {}
+            },
+            {
+              "unchecked_hover@celestial.catalog_toggle_visuals": {
+                "color": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "$select_name",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "zoom_toggle_sol",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "animated_catalog_toggle@celestial.catalog_toggle_visuals": {
+    "alpha": 0,
+    "anims": [
+      {
+        "fade_in": {
+          "anim_type": "wait",
+          "duration": "$time",
+          "next": "@celestial.fade_in"
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "$control_name",
+        "source_property_name": "(not #toggle_state)",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "catalog_toggle_visuals": {
+    "type": "image",
+    "texture": "textures/ui/cosmos/celestial_selector/planet_box",
+    "propagate_alpha": true,
+    "color": [
+      0,
+      0.5,
+      1
+    ],
+    "size": [
+      93,
+      14
+    ],
+    "layer": 4,
+    "controls": [
+      {
+        "green_fade": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/fade1",
+          "color": [
+            0,
+            1,
+            0
+          ],
+          "size": [
+            98,
+            10
+          ],
+          "layer": 3,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_text - 'Tier ')",
+              "target_property_name": "#tier"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#tier > $tier or #tier = $tier)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "red_fade": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/fade1",
+          "color": [
+            1,
+            0,
+            0
+          ],
+          "size": [
+            98,
+            10
+          ],
+          "layer": 3,
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_text - 'Tier ')",
+              "target_property_name": "#tier"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#tier < $tier)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "planet_name": {
+          "type": "label",
+          "text": "$name",
+          "anchor_from": "top_left",
+          "anchor_to": "top_left",
+          "offset": [
+            4,
+            2.5
+          ],
+          "layer": 5
+        }
+      }
+    ]
+  },
+  "central_planet_label": {
+    "type": "label",
+    "text": "$name",
+    "layer": 2,
+    "anchor_from": "top_left",
+    "anchor_to": "top_left",
+    "offset": [
+      8,
+      23.5
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "$toggle",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "catalog_moon": {
+    "type": "panel",
+    "propagate_alpha": true,
+    "$name": "Moon",
+    "$tier": 1,
+    "alpha": 0,
+    "size": [
+      0,
+      0
+    ],
+    "anims": [
+      {
+        "push_down": {
+          "anim_type": "size",
+          "play_event": "button.overworld_on",
+          "duration": 0.25,
+          "from": [
+            93,
+            0
+          ],
+          "to": [
+            93,
+            14
+          ],
+          "next": "@celestial.appear_imediatly"
+        }
+      }
+    ],
+    "controls": [
+      {
+        "catalog_toggle_moon@cosmos.toggle": {
+          "toggle_group_forced_index": 80,
+          "toggle_grid_collection_name": "catalog_planet",
+          "toggle_name": "catalog_planet",
+          "controls": [
+            {
+              "unchecked@celestial.catalog_toggle_visuals": {}
+            },
+            {
+              "unchecked_hover@celestial.catalog_toggle_visuals": {
+                "color": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_moon",
+              "source_property_name": "(not #toggle_state)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "zoom_toggle_moon@cosmos.toggle": {
+          "toggle_group_forced_index": 80,
+          "toggle_grid_collection_name": "zoom_planet",
+          "toggle_name": "zoom_planet",
+          "offset": [
+            6,
+            0
+          ],
+          "controls": [
+            {
+              "unchecked@celestial.catalog_toggle_visuals": {}
+            },
+            {
+              "unchecked_hover@celestial.catalog_toggle_visuals": {
+                "color": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "checked@celestial.catalog_toggle_visuals": {
+                "color": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            },
+            {
+              "checked_hover@celestial.catalog_toggle_visuals": {
+                "color": [
+                  0,
+                  1,
+                  1
+                ]
+              }
+            }
+          ],
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_moon",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "select_toggle_overworld",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#overworld"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "zoom_toggle_overworld",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#on_overworld"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "select_toggle_moon",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#selected"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "zoom_toggle_moon",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#zoomed"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#overworld or #on_overworld or #selected or #zoomed)",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "fade_in": {
+    "anim_type": "alpha",
+    "duration": 0.5,
+    "from": 0,
+    "to": 1
+  },
+  "fade_loop": {
+    "anim_type": "alpha",
+    "duration": 0.5,
+    "from": 0,
+    "to": 1,
+    "next": "@celestial.fade_loop_out"
+  },
+  "fade_loop_out": {
+    "anim_type": "alpha",
+    "duration": 0.5,
+    "from": 1,
+    "to": 0,
+    "next": "@celestial.fade_loop"
+  },
+  "appear_imediatly": {
+    "anim_type": "alpha",
+    "duration": 0,
+    "from": 0,
+    "to": 1
+  },
+  "planet_header": {
+    "type": "image",
+    "texture": "textures/ui/cosmos/celestial_selector/station_list_item",
+    "color": [
+      0,
+      0.6,
+      1
+    ],
+    "size": [
+      94,
+      11
+    ],
+    "anchor_from": "top_middle",
+    "anchor_to": "top_middle",
+    "offset": [
+      0,
+      8
+    ],
+    "layer": 5,
+    "controls": [
+      {
+        "label": {
+          "type": "label",
+          "text": "$planet_title",
+          "color": [
+            1,
+            1,
+            1
+          ],
+          "size": [
+            "100%",
+            10
+          ],
+          "anchor_from": "center",
+          "anchor_to": "center",
+          "text_alignment": "center",
+          "layer": 6
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "$toggle",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "top_rename_panel": {
+    "type": "panel",
+    "size": [
+      "100%",
+      "100%"
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "zoom_toggle_overworld",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#zoom_earth"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "zoom_toggle_moon",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#zoom_moon"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "((#title_text - 'Celestial Panel ' = 'Solar System') and (#zoom_earth or #zoom_moon))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "mercury_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_mercury",
+          "$planet_title": "MERCURY"
+        }
+      },
+      {
+        "venus_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_venus",
+          "$planet_title": "VENUS"
+        }
+      },
+      {
+        "earth_header@celestial.planet_header": {
+          "$planet_title": "EARTH",
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_overworld",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#earth_selected"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_station",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#station_selected"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#earth_selected and not #station_selected)",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "moon_header@celestial.planet_header": {
+          "$toggle": "orbital_toggle_moon",
+          "$planet_title": "MOON"
+        }
+      },
+      {
+        "mars_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_mars",
+          "$planet_title": "MARS"
+        }
+      },
+      {
+        "asteroids_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_asteroids",
+          "$planet_title": "ASTEROIDS"
+        }
+      },
+      {
+        "jupiter_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_jupiter",
+          "$planet_title": "JUPITER"
+        }
+      },
+      {
+        "saturn_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_saturn",
+          "$planet_title": "SATURN"
+        }
+      },
+      {
+        "uranus_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_uranus",
+          "$planet_title": "URANUS"
+        }
+      },
+      {
+        "neptune_header@celestial.planet_header": {
+          "$toggle": "catalog_toggle_neptune",
+          "$planet_title": "NEPTUNE"
+        }
+      },
+      {
+        "rename_collection": {
+          "type": "stack_panel",
+          "orientation": "vertical",
+          "size": [
+            94,
+            11
+          ],
+          "anchor_from": "top_middle",
+          "anchor_to": "top_middle",
+          "offset": [
+            0,
+            8
+          ],
+          "collection_name": "form_buttons",
+          "factory": {
+            "name": "buttons",
+            "control_name": "celestial.top_rename_item"
+          },
+          "bindings": [
+            {
+              "binding_name": "#form_button_length",
+              "binding_name_override": "#collection_length"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "top_rename_item": {
+    "type": "panel",
+    "size": [
+      94,
+      11
+    ],
+    "controls": [
+      {
+        "clickable_rename@cosmos.button": {
+          "size": [
+            94,
+            11
+          ],
+          "bindings": [
+            {
+              "binding_type": "collection_details",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "#form_text",
+              "target_property_name": "#form_val"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_val - ('%.27s' * #form_val))",
+              "target_property_name": "#player_name"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_station",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#station_selected"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#station_selected and not (#form_button_text - 'Rename ' = #form_button_text) and not (#form_button_text - #player_name = #form_button_text))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "$action": "button.form_button_click",
+          "controls": [
+            {
+              "default": {
+                "type": "image",
+                "texture": "textures/ui/cosmos/celestial_selector/station_list_item",
+                "color": [
+                  0,
+                  0.8,
+                  0
+                ],
+                "size": [
+                  94,
+                  11
+                ],
+                "layer": 5
+              }
+            },
+            {
+              "hover": {
+                "type": "image",
+                "texture": "textures/ui/cosmos/celestial_selector/station_list_item",
+                "color": [
+                  0,
+                  1,
+                  0
+                ],
+                "size": [
+                  94,
+                  11
+                ],
+                "layer": 5
+              }
+            },
+            {
+              "label": {
+                "type": "label",
+                "text": "RENAME",
+                "color": [
+                  1,
+                  1,
+                  1
+                ],
+                "size": [
+                  "100%",
+                  10
+                ],
+                "anchor_from": "center",
+                "anchor_to": "center",
+                "text_alignment": "center",
+                "layer": 6
+              }
+            }
+          ]
+        }
+      },
+      {
+        "static_rename": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/station_list_item",
+          "color": [
+            0.8,
+            0,
+            0
+          ],
+          "size": [
+            94,
+            11
+          ],
+          "layer": 5,
+          "bindings": [
+            {
+              "binding_type": "collection_details",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_name": "#form_button_text",
+              "binding_type": "collection",
+              "binding_collection_name": "form_buttons"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "#form_text",
+              "target_property_name": "#form_val"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_val - ('%.27s' * #form_val))",
+              "target_property_name": "#player_name"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_station",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#station_selected"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#station_selected and not (#form_button_text - 'Rename ' = #form_button_text) and (#form_button_text - #player_name = #form_button_text))",
+              "target_property_name": "#visible"
+            }
+          ],
+          "controls": [
+            {
+              "label": {
+                "type": "label",
+                "text": "RENAME",
+                "color": [
+                  1,
+                  1,
+                  1
+                ],
+                "size": [
+                  "100%",
+                  10
+                ],
+                "anchor_from": "center",
+                "anchor_to": "center",
+                "text_alignment": "center",
+                "layer": 6
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "footer": {}
+}

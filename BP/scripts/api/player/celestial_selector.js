@@ -1,5 +1,5 @@
-import { ActionFormData } from "@minecraft/server-ui";
-import { world, system } from "@minecraft/server";
+import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
+import { world, system, Player } from "@minecraft/server";
 import { get_rocket_data } from "./liftoff";
 import { launch_to_earth } from "../../planets/dimensions/Overworld";
 import { saved_rocket_items } from "./liftoff";
@@ -33,7 +33,7 @@ export function select_solar_system(player, tier = 1, calledViaCommand = false) 
 	const has_station = player.nameTag in space_stations
 	let form = new ActionFormData()
 		.title("Celestial Panel Solar System")
-		.body(`Tier ${tier} Station ${has_station || ('false ' + JSON.stringify(read_inventory(player)))}`)
+		.body(`Tier ${tier} Station ${has_station ? 'true Player:' + player.nameTag : 'false ' + JSON.stringify(read_inventory(player))}`)
 		.button(`Launch to Overworld`)
 		.button(`Launch to Moon`)
 		.button(`Launch to Mars`)
@@ -55,7 +55,13 @@ export function select_solar_system(player, tier = 1, calledViaCommand = false) 
 			case 2: if (tier >= 2) launch(player, "Mars", calledViaCommand); return
 			case 3: if (tier >= 3) launch(player, "Venus", calledViaCommand); return
 			case 4: if (tier >= 3) launch(player, "Asteroids", calledViaCommand); return
-			case 5: if (!Object.values(read_inventory(player)).includes(false)) create_station(player); return
+			case 5: {
+				if (!Object.values(read_inventory(player)).includes(false)) {
+					create_station(player);
+					select_solar_system(player, tier, calledViaCommand);
+				}
+				return
+			}
 		}
 		const station_index = response.selection - 6
 		const station = Object.values(space_stations)[Math.floor(station_index / 2)]
@@ -108,7 +114,39 @@ function launch_to_station(player, station, station_object, calledViaCommand) {
 }
 
 function rename_station(player, station) {
-	if (debug) player.sendMessage(`Rename ${station.name}`)
+	const space_stations = JSON.parse(world.getDynamicProperty("all_space_stations") ?? '{}')
+	const owner = Object.keys(space_stations).find(key => space_stations[key].location.x === station.location.x)
+	if (!owner) return
+	
+	if (owner !== player.nameTag) {
+		player.sendMessage("§cYou can only rename your own space station!");
+		return
+	}
+
+	const modal = new ModalFormData()
+		.title("Rename Space Station")
+		.textField("Enter new name:", "My Space Station", station.name);
+
+	modal.show(player).then((response) => {
+		if (response.canceled || !response.formValues || !response.formValues[0]) {
+			select_solar_system(player);
+			return;
+		}
+
+		const newName = response.formValues[0].trim();
+		if (newName === "") {
+			select_solar_system(player);
+			return;
+		}
+
+		const updated_stations = JSON.parse(world.getDynamicProperty("all_space_stations") ?? '{}')
+		if (updated_stations[owner]) {
+			updated_stations[owner].name = newName;
+			world.setDynamicProperty("all_space_stations", JSON.stringify(updated_stations));
+			player.sendMessage(`§aSpace station successfully renamed to: ${newName}`);
+		}
+		select_solar_system(player);
+	})
 }
 
 function create_station(player) {
@@ -117,9 +155,15 @@ function create_station(player) {
     let station_location = {x: 0 + Object.keys(space_stations).length * 2000, y: 70, z: 0}
 	space_stations[player.nameTag] = { name: `${player.nameTag}'s Space Station`, location: station_location, is_generated: false}
 	world.setDynamicProperty("all_space_stations", JSON.stringify(space_stations))
+	if (player.getGameMode() !== "Creative") {
+		player.runCommand("clear @s cosmos:aluminum_ingot 0 16");
+		player.runCommand("clear @s cosmos:advanced_wafer 0 1");
+		player.runCommand("clear @s cosmos:tin_ingot 0 32");
+		player.runCommand("clear @s minecraft:iron_ingot 0 24");
+	}
 }
 
-export function start_celestial_selector(player, tier = 1) {
+export function start_celestial_selector(player, tier = 1, calledViaCommand = false) {
 	player.setDynamicProperty('in_celestial_selector', true)
 	player.runCommand('hud @s hide all')
 	const fade = system.runInterval(() => {
@@ -130,5 +174,5 @@ export function start_celestial_selector(player, tier = 1) {
 			system.clearRun(fade)
 		}
 	}, 20)
-	select_solar_system(player, tier)
+	select_solar_system(player, tier, calledViaCommand)
 }

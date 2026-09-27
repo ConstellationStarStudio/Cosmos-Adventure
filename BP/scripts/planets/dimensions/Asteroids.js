@@ -1,14 +1,16 @@
 import { world, system } from "@minecraft/server";
-import { Planet } from "../../planets/GalacticraftPlanets";
+import { Planet } from "../GalacticraftPlanets.js";
 
-export class Asteroids extends Planet{
-    constructor(){
+export class Asteroids extends Planet {
+    constructor() {
         super();
         this._type = "asteroids";
-        this._range = { start: { x: -100000, z: -100000 }, end: { x: -50000, z: -50000 } };
+        this._dimensionId = "cosmos:asteroids";
+        this._range = { start: { x: -30000000, z: -30000000 }, end: { x: 30000000, z: 30000000 } };
         this._gravity = 0.05;
+        this._center = { x: 0, z: 0 };
         this._fuelMultiplier = 0.9;
         this._solarEnergyMultiplier = 0.77;
     }
-    launching(){}
+    launching() {}
 }

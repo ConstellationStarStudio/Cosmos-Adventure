@@ -124,6 +124,24 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§a§i§r§l§o§c§k§_§c§o§n§t§r§o§l§l§e§r') = $ct))",
+                "$screen_content": "airlock_controller.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§e§l§e§c§t§r§i§c§_§a§r§c§_§f§u§r§n§a§c§e') = $ct))",
+                "$screen_content": "electric_arc_furnace.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§a§d§v§a§n§c§e§d§_§c§o§m§p§r§e§s§s§o§r') = $ct))",
+                "$screen_content": "advanced_compressor.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "(not (($ct - '§o§x§y§g§e§n§_§d§i§s§t§r§i§b§u§t§o§r') = $ct))",
                 "$screen_content": "oxygen_distributor.interface",
                 "$screen_bg_content": "common.screen_background",
@@ -132,12 +150,6 @@
             {
                 "requires": "(not (($ct - '§o§x§y§g§e§n§_§s§t§o§r§a§g§e') = $ct))",
                 "$screen_content": "oxygen_storage.interface",
-                "$screen_bg_content": "common.screen_background",
-                "$screen_background_alpha": 0.4
-            },
-            {
-                "requires": "(not (($ct - '§d§e§c§o§n§s§t§r§u§c§t§o§r') = $ct))",
-                "$screen_content": "deconstructor.interface",
                 "$screen_bg_content": "common.screen_background",
                 "$screen_background_alpha": 0.4
             },
@@ -210,14 +222,86 @@
                 "$screen_background_alpha": 0.4
             },
             {
+                "requires": "(not (($ct - '§s§o§l§a§r§_§p§a§n§e§l') = $ct))",
+                "$screen_content": "solar_panel.standart_interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
                 "requires": "(not (($ct - '§m§e§t§h§a§n§e§_§s§y§n§t§h§e§s§i§z§e§r') = $ct))",
                 "$screen_content": "methane_synthesizer.interface",
                 "$screen_bg_content": "common.screen_background",
                 "$screen_background_alpha": 0.4
             },
             {
-                "requires": "(not (($ct - '§a§s§t§r§o§_§m§i§n§e§r§_§b§a§s§e') = $ct))",
+                "requires": "(not (($ct - '§c§a§r§g§o§_§l§o§a§d§e§r') = $ct))",
+                "$screen_content": "cargo_loader.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§c§a§r§g§o§_§u§n§l§o§a§d§e§r') = $ct))",
+                "$screen_content": "cargo_unloader.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§d§e§c§o§n§s§t§r§u§c§t§o§r') = $ct))",
+                "$screen_content": "deconstructor.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§o§x§y§g§e§n§_§s§e§a§l§e§r') = $ct))",
+                "$screen_content": "oxygen_sealer.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§c§h§r§o§m§a§t§i§c§_§a§p§p§l§i§c§a§t§o§r') = $ct))",
+                "$screen_content": "chromatic_applicator.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§s§h§o§r§t§_§r§a§n§g§e§_§t§e§l§e§p§a§d') = $ct))",
+                "$screen_content": "short_range_telepad.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "((not (($ct - '§a§s§t§r§o§_§m§i§n§e§r§_§d§o§c§k') = $ct)) or (not (($ct - '§a§s§t§r§o§_§m§i§n§e§r§_§b§a§s§e') = $ct)))",
                 "$screen_content": "astro_miner_dock.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§l§a§u§n§c§h§_§c§o§n§t§r§o§l§l§e§r') = $ct))",
+                "$screen_content": "launch_controller.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§a§d§v§a§n§c§e§d§_§l§a§u§n§c§h§_§c§o§n§t§r§o§l§l§e§r') = $ct))",
+                "$screen_content": "advanced_launch_controller.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§g§e§o§t§h§e§r§m§a§l§_§g§e§n§e§r§a§t§o§r') = $ct))",
+                "$screen_content": "geothermal_generator.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§t§e§r§r§a§f§o§r§m§e§r') = $ct))",
+                "$screen_content": "terraformer.interface",
+                "$screen_bg_content": "common.screen_background",
+                "$screen_background_alpha": 0.4
+            },
+            {
+                "requires": "(not (($ct - '§s§o§l§a§r§_§a§r§r§a§y§_§c§o§n§t§r§o§l§l§e§r') = $ct))",
+                "$screen_content": "solar_array_controller.interface",
                 "$screen_bg_content": "common.screen_background",
                 "$screen_background_alpha": 0.4
             },

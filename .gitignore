@@ -1,0 +1,4 @@
+.agents/
+node_modules/
+*.mcaddon
+.gigalith/

@@ -1,78 +1,120 @@
 {
-    "namespace": "oxygen_storage",
-
-    "interface@machines.dynamic_interface": {
-        "$content": [
-			{ "title": {
-				"type": "label",
-				"color": "$title_text_color",
-				"text": "Oxygen Storage Module",
-                "anchor_from": "top_middle",
-                "anchor_to": "top_middle",
-                "offset": [ 0, 6 ]
-			}},
-			{ "canister_slot@machines.item_slot": {
-				"$index": 0,
-				"offset": [16, 24],
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "$overlay_texture": "textures/ui/cosmos/slot_overlay/o2"
-			}},
-            { "stored_oxygen@machines.item_text": {
-				"$index": 1,
-			    "anchor_from": "top_middle",
-				"anchor_to": "top_middle",
-				"offset": [ 0, 33 ]
-			}},
-			{ "capacity@oxygen_storage.capacity": {
-				"$index": 2,
-				"anchor_from": "top_middle",
-				"anchor_to": "top_middle",
-				"offset": [ 0, 56 ]
-			}},
-			{ "max_output": {
-				"type": "label",
-				"color": "$title_text_color",
-				"text": "Max Output: 10000/s",
-				"anchor_from": "top_middle",
-				"anchor_to": "top_middle",
-                "offset": [ 0, 64 ]
-			}}
+	"namespace": "oxygen_storage",
+	"interface@machines.dynamic_interface": {
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Oxygen Storage Module",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						6
+					]
+				}
+			},
+			{
+				"canister_slot@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						16,
+						24
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/o2"
+				}
+			},
+			{
+				"stored_oxygen@machines.item_text": {
+					"$index": 1,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						33
+					]
+				}
+			},
+			{
+				"capacity@oxygen_storage.capacity": {
+					"$index": 2,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						56
+					]
+				}
+			},
+			{
+				"max_output": {
+					"type": "label",
+					"text": "Max Output: 10000/s",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						64
+					]
+				}
+			}
 		]
-    },
-    
+	},
 	"capacity": {
-		"type":"image",
+		"type": "image",
 		"texture": "textures/ui/cosmos/machines/progress_bar",
-		"size": [ 75, 5 ],
+		"size": [
+			75,
+			5
+		],
 		"controls": [
-			{ "capacity@machines.specific_slot": {
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"controls": [
-					{ "capacity": {
-						"type": "panel",
-						"collection_index": "$index",
-						"anchor_from": "top_left",
-						"anchor_to": "top_left",
-						"size": [1, 0],
-						"controls": [
-							{ "capacity": {
-								"type": "image",
-								"texture": "textures/ui/cosmos/machines/progress_bar_fill",
-								"color": [0.29, 0.63, 0.89],
-								"size": [1, 5],
-								"anchor_to": "top_left",
+			{
+				"capacity@machines.specific_slot": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"controls": [
+						{
+							"capacity": {
+								"type": "panel",
+								"collection_index": "$index",
 								"anchor_from": "top_left",
-								"bindings": "$use_durability",
-								"$source": "#data",
-								"$target": "#size_binding_x",
-								"$visible_if": "(not (#data = 1000))"
-							}}
-						]
-					}}
-				]
-			}}
+								"anchor_to": "top_left",
+								"size": [
+									1,
+									0
+								],
+								"controls": [
+									{
+										"capacity": {
+											"type": "image",
+											"texture": "textures/ui/cosmos/machines/progress_bar_fill",
+											"color": [
+												0.29,
+												0.63,
+												0.89
+											],
+											"size": [
+												1,
+												5
+											],
+											"anchor_to": "top_left",
+											"anchor_from": "top_left",
+											"bindings": "$use_durability",
+											"$source": "#data",
+											"$target": "#size_binding_x",
+											"$visible_if": "(not (#data = 1000))"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
 		]
 	}
 }

@@ -1,33 +1,43 @@
-import { Moon } from "./dimensions/Moon";
-import { Mars } from "./dimensions/Mars";
-import { Venus } from "./dimensions/Venus";
-import { Asteroids } from "./dimensions/Asteroids";
-import { SpaceStations } from "./dimensions/SpaceStations";
+import { Moon } from "./dimensions/Moon.js";
+import { Mars } from "./dimensions/Mars.js";
+import { Venus } from "./dimensions/Venus.js";
+import { Asteroids } from "./dimensions/Asteroids.js";
+import { SpaceStations } from "./dimensions/SpaceStations.js";
+
+const FULL_RANGE = {
+    start: { x: -30000000, z: -30000000 },
+    end: { x: 30000000, z: 30000000 }
+};
 
 export default [
     {
         id: 'moon',
-        range: { start: { x: 50000, z: 50000 }, end: { x:100000, z: 100000 } },
+        dimensionId: 'cosmos:moon',
+        range: FULL_RANGE,
         class: new Moon()
     },
     {
         id: 'mars',
-        range: { start: { x: -100000, z: 50000 }, end: { x: -50000, z: 100000 } },
+        dimensionId: 'cosmos:mars',
+        range: FULL_RANGE,
         class: new Mars()
     },
     {
         id: 'venus',
-        range: { start: { x: 50000, z: -100000 }, end: { x: 100000, z: -50000 } },
+        dimensionId: 'cosmos:venus',
+        range: FULL_RANGE,
         class: new Venus()
     },
     {
         id: 'asteroids',
-        range: { start: { x: -100000, z: -100000 }, end: { x: -50000, z: -50000 } },
+        dimensionId: 'cosmos:asteroids',
+        range: FULL_RANGE,
         class: new Asteroids()
     },
     {
         id: 'stations',
-        range: { start: { x: -1000000, z: -1000000 }, end: { x: 1000000, z: 1000000 } },
+        dimensionId: 'cosmos:space_stations',
+        range: FULL_RANGE,
         class: new SpaceStations()
     }
 ];

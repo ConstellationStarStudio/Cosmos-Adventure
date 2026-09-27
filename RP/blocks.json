@@ -216,27 +216,6 @@
       "sound": "stone",
       "textures": "ilmenite_ore"
    },
-
-   "oxygen_detector": {
-      "sound": "stone",
-      "textures": {
-         "side": "oxygen_detector",
-         "down": "machine_blank",
-         "up": "machine_blank"
-      }
-   },
-   "air_lock_controller": {
-      "sound": "stone",
-      "textures": {
-         "side": "air_lock_controller",
-         "down": "air_lock_frame",
-         "up": "air_lock_frame"
-      }
-   },
-   "air_lock_frame": {
-      "sound": "stone",
-      "textures": "air_lock_frame"
-   },
    "telemetry_unit": {
       "sound": "stone",
       "textures": "telemetry_unit"

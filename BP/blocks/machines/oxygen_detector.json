@@ -1,0 +1,45 @@
+{
+  "format_version": "1.26.10",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:oxygen_detector",
+      "menu_category": { "category": "items" },
+      "states": {
+        "cosmos:active": [false, true]
+      }
+    },
+    "components": {
+      "cosmos:oxygen_detector": {},
+      "minecraft:display_name": "%tile.oxygen_detector.name",
+      "minecraft:tick": {
+        "interval_range": [ 50, 50 ]
+      },
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": { "render_method": "opaque", "texture": "oxygen_detector" }
+      }
+    },
+    "permutations": [
+      {
+        "condition": "query.block_state('cosmos:active')",
+        "components": {
+          "minecraft:redstone_producer": {
+            "power": 15
+          }
+        }
+      },
+      {
+        "condition": "!query.block_state('cosmos:active')",
+        "components": {
+          "minecraft:redstone_producer": {
+            "power": 0
+          }
+        }
+      }
+    ]
+  }
+}

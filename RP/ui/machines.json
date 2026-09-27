@@ -57,12 +57,14 @@
 	"item_text@machines.specific_slot": {
 		"$alignment": "top_left",
 		"$color": "$title_text_color",
+		"$text_font_scale|default": 1.0,
 		"controls": [
 			{ "text": {
 				"type": "label",
 				"text": "#hover_text",
 				"collection_index": "$index",
 				"color": "$color",
+				"font_scale_factor": "$text_font_scale",
 				"text_alignment": "$alignment",
 				"bindings": "$fetch_item_hover"
 			}}
@@ -116,11 +118,15 @@
 	},
 	"fluid_tank": {
 		"type":"panel",
-		"size": [ 18, 40 ],
+		"$tank_width|default": 18,
+		"$tank_size|default": [ "18px", "40px" ],
+		"$tank_back_tex|default": "textures/ui/cosmos/machines/tank_back",
+		"$tank_front_tex|default": "textures/ui/cosmos/machines/tank_front",
+		"size": "$tank_size",
 		"controls": [
 			{ "tank_back": {
 				"type":"image",
-				"texture": "textures/ui/cosmos/machines/tank_back",
+				"texture": "$tank_back_tex",
 				"layer": 1
 			}},
 			{ "fluid@machines.specific_slot": {
@@ -128,13 +134,14 @@
 				"anchor_to": "bottom_left",
 				"offset": [0, -1],
 				"layer": 2,
+				"size": ["100%", "100%"],
 				"controls": [
 					{ "unit": {
 						"type": "panel",
 						"collection_index": "$index",
 						"anchor_from": "bottom_left",
 						"anchor_to": "bottom_left",
-						"size": [0, 1],
+						"size": ["100%", 1],
 						"controls": [
 							{ "image": {
 								"type": "image",
@@ -142,7 +149,7 @@
 								"texture": "('textures/ui/liquids/' + $liquid)",
 								"anchor_from": "bottom_left",
 								"anchor_to": "bottom_left",
-								"size": [18, 1],
+								"size": ["100%", 1],
 								"bindings": "$use_durability",
 								"$source": "#data",
 								"$target": "#size_binding_y",
@@ -154,7 +161,7 @@
 			}},
 			{ "tank_front": {
 				"type": "image",
-				"texture": "textures/ui/cosmos/machines/tank_front",
+				"texture": "$tank_front_tex",
 				"layer": 3
 			}},
 			{ "tank_hover@machines.item_hover": {} }
@@ -231,7 +238,11 @@
 	},
 	"energy_bar": {
 		"type":"image",
-		"texture": "textures/ui/cosmos/machines/progress_bar",
+		"$energy_bg_tex|default": "textures/ui/cosmos/machines/progress_bar",
+		"$energy_icon_gray_tex|default": "textures/ui/cosmos/slot_overlay/power",
+		"$energy_icon_active_tex|default": "textures/ui/cosmos/slot_overlay/power_active",
+		"$energy_fill_tex|default": "textures/ui/cosmos/machines/progress_bar_fill",
+		"texture": "$energy_bg_tex",
 		"size": [ 55, 9 ],
 		"controls": [
 			{ "energy@machines.specific_slot": {
@@ -240,7 +251,7 @@
 				"controls": [
 					{ "gray_icon": {
 						"type": "image",
-						"texture": "textures/ui/cosmos/slot_overlay/power",
+						"texture": "$energy_icon_gray_tex",
 						"size": [16, 16],
 						"offset": [1, -3],
 						"anchor_from": "top_left",
@@ -256,7 +267,7 @@
 						"controls": [
 							{ "active_icon": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/slot_overlay/power_active",
+								"texture": "$energy_icon_active_tex",
 								"size": [16, 16],
 								"offset": [1, -3],
 								"anchor_from": "top_left",
@@ -267,7 +278,7 @@
 							}},
 							{ "image": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/machines/progress_bar_fill",
+								"texture": "$energy_fill_tex",
 								"color": [0.75, 0.66, 0.14],
 								"anchor_from": "top_left",
 								"anchor_to": "top_left",
@@ -345,7 +356,11 @@
 	},
 	"oxygen_bar": {
 		"type":"image",
-		"texture": "textures/ui/cosmos/machines/progress_bar",
+		"$oxygen_bg_tex|default": "textures/ui/cosmos/machines/progress_bar",
+		"$oxygen_icon_gray_tex|default": "textures/ui/cosmos/slot_overlay/o2",
+		"$oxygen_icon_active_tex|default": "textures/ui/cosmos/slot_overlay/o2_active",
+		"$oxygen_fill_tex|default": "textures/ui/cosmos/machines/progress_bar_fill",
+		"texture": "$oxygen_bg_tex",
 		"size": [ 55, 9 ],
 		"controls": [
 			{ "oxygen@machines.specific_slot": {
@@ -354,11 +369,12 @@
 				"controls": [
 					{ "gray_icon": {
 						"type": "image",
-						"anchor_from": "left_middle",
-						"anchor_to": "right_middle",
-						"texture": "textures/ui/cosmos/slot_overlay/o2",
+						"texture": "$oxygen_icon_gray_tex",
 						"size": [16, 16],
-						"offset": [1, -3.5]
+						"offset": [1, -3],
+						"anchor_from": "top_left",
+						"anchor_to": "top_right",
+						"color": [0.9, 0.9, 0.9]
 					}},
 					{ "oxygen_bar": {
 						"type": "panel",
@@ -369,9 +385,9 @@
 						"controls": [
 							{ "active_icon": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/slot_overlay/o2_active",
+								"texture": "$oxygen_icon_active_tex",
 								"size": [16, 16],
-								"offset": [1, -3.5],
+								"offset": [1, -3],
 								"anchor_from": "top_left",
 								"anchor_to": "top_right",
 								"bindings": "$use_durability",
@@ -380,8 +396,8 @@
 							}},
 							{ "image": {
 								"type": "image",
-								"texture": "textures/ui/cosmos/machines/progress_bar_fill",
-								"color": [0.29, 0.63, 0.89],
+								"texture": "$oxygen_fill_tex",
+								"color": [0.44, 0.69, 0.94],
 								"anchor_from": "top_left",
 								"anchor_to": "top_left",
 								"size": [1, 9],
@@ -398,11 +414,13 @@
 		]
 	},
 	"machine_button@machines.specific_slot": {
+		"$button_size|default": [75, 18],
+		"$button_font_scale|default": 1.0,
 		"controls": [
 			{ "button": {
 				"type": "button",
 				"collection_index": "$index",
-				"size": [75, 18],
+				"size": "$button_size",
 				"default_control": "default",
 				"hover_control": "hover",
 				"pressed_control": "pressed",
@@ -418,7 +436,7 @@
 					},
 					{
 						"from_button_id": "button.menu_ok",
-						"to_button_id": "button.container_auto_place",
+						"to_button_id": "button.container_take_all_place_all",
 						"mapping_type": "pressed"
 					}
 				],
@@ -432,6 +450,52 @@
 							"layer": 1,
 							"text": "#hover_text",
 							"shadow": true,
+							"font_scale_factor": "$button_font_scale",
+							"bindings": "$fetch_item_hover"
+						}
+					}
+				]
+			}}
+		]
+	},
+	"machine_textbox@machines.specific_slot": {
+		"$button_size|default": [75, 18],
+		"$button_font_scale|default": 1.0,
+		"controls": [
+			{ "button": {
+				"type": "button",
+				"collection_index": "$index",
+				"size": "$button_size",
+				"default_control": "default",
+				"hover_control": "hover",
+				"pressed_control": "pressed",
+				"sound_name": "random.click",
+				"bindings": "$fetch_container_slot",
+				"$tag": "",
+				"button_mappings": [
+					{
+						"from_button_id": "button.menu_select",
+						"to_button_id": "button.container_take_all_place_all",
+        				"mapping_type": "pressed"
+					},
+					{
+						"from_button_id": "button.menu_ok",
+						"to_button_id": "button.container_take_all_place_all",
+						"mapping_type": "pressed"
+					}
+				],
+				"controls": [
+					{ "default": { "type": "image", "texture": "textures/ui/cosmos/machines/text_box" } },
+					{ "hover": { "type": "image", "texture": "textures/ui/cosmos/machines/text_box" } },
+					{ "pressed": { "type": "image", "texture": "textures/ui/cosmos/machines/text_box" } },
+					{
+						"button_text": {
+							"type": "label",
+							"layer": 1,
+							"text": "#hover_text",
+							"shadow": false,
+							"color": [1, 1, 1],
+							"font_scale_factor": "$button_font_scale",
 							"bindings": "$fetch_item_hover"
 						}
 					}
@@ -454,17 +518,17 @@
 				"button_mappings": [
 					{
 						"from_button_id": "button.menu_select",
-						"to_button_id": "button.container_auto_place",
+						"to_button_id": "button.container_take_all_place_all",
 						"mapping_type": "pressed"
 					},
 					{
 						"from_button_id": "button.menu_ok",
-						"to_button_id": "button.container_auto_place",
+						"to_button_id": "button.container_take_all_place_all",
 						"mapping_type": "pressed"
 					}
 				],
 				"controls": [
-					{"texture": {
+					{"default": {
 						"type": "panel",
 						"controls": [
 							{ "on": {
@@ -488,6 +552,25 @@
 						"texture": "textures/white",
 						"size": ["100% -2px", "100% -2px"],
 						"alpha": 0.2
+					}},
+					{"pressed": {
+						"type": "panel",
+						"controls": [
+							{ "on": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/machines/toggle_on",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(#data = 1)"
+							}},
+							{ "off": {
+								"type": "image",
+								"texture": "textures/ui/cosmos/machines/toggle_off",
+								"bindings": "$use_durability",
+								"$source": "#null", "$target": "#null",
+								"$visible_if": "(not (#data = 1))"
+							}}
+						]
 					}}
 				]
 			}}
@@ -546,12 +629,12 @@
 		"button_mappings": [
 			{
 				"from_button_id": "button.menu_select",
-				"to_button_id": "button.container_auto_place",
+				"to_button_id": "button.container_take_all_place_all",
 				"mapping_type": "pressed"
 			},
 			{
 				"from_button_id": "button.menu_ok",
-				"to_button_id": "button.container_auto_place",
+				"to_button_id": "button.container_take_all_place_all",
 				"mapping_type": "pressed"
 			}
 		],
@@ -617,12 +700,12 @@
 			"button_mappings": [
 				{
 					"from_button_id": "button.menu_select",
-					"to_button_id": "button.container_auto_place",
+					"to_button_id": "button.container_take_all_place_all",
 					"mapping_type": "pressed"
 				},
 				{
 					"from_button_id": "button.menu_ok",
-					"to_button_id": "button.container_auto_place",
+					"to_button_id": "button.container_take_all_place_all",
 					"mapping_type": "pressed"
 				}
 			],
@@ -651,6 +734,94 @@
 						"text": "#text",
 						"layer": 6,
 						"shadow": true,
+						"bindings": [
+							{
+								"binding_name": "#hover_text",
+								"binding_name_override": "#text",
+								"binding_type": "collection",
+								"binding_collection_name": "container_items"
+							},
+							{
+								"binding_type": "view",
+								"source_property_name": "(#text - $button_tag - '§o' - '§f' )",
+								"target_property_name": "#text"
+							}
+						]
+					}
+				}
+			]
+		}}],
+		"bindings": [
+			{
+				"binding_name": "#hover_text",
+				"binding_type": "collection",
+				"binding_collection_name": "container_items"
+			},
+			{
+				"binding_type": "view",
+				"source_property_name": "(not(#hover_text - $button_tag = #hover_text))",
+				"target_property_name": "#visible"
+			}
+		]
+	},
+
+	"ui_textbox@machines.new_item_data": {
+		"$button_tag": "§textbox",
+		"$name": "ui_textbox_button"
+	},
+	
+	"ui_textbox_button": {
+		"type": "panel",
+		"size": [0, 0],
+		"controls": [{ "button@cosmos.button": {
+			"$button_tag": "$button_tag",
+			"size": ["100%", "100%"],
+			"pressed_control": "pressed",
+			"bindings": [
+			  {
+				"binding_type": "collection_details",
+				"binding_collection_name": "container_items",
+				"binding_condition": "once"
+			  }
+			],
+			"button_mappings": [
+				{
+					"from_button_id": "button.menu_select",
+					"to_button_id": "button.container_take_all_place_all",
+					"mapping_type": "pressed"
+				},
+				{
+					"from_button_id": "button.menu_ok",
+					"to_button_id": "button.container_take_all_place_all",
+					"mapping_type": "pressed"
+				}
+			],
+			"controls": [
+				{
+					"default": {
+						"type": "image",
+						"texture": "textures/ui/textedit_box"
+					}
+				},
+				{
+					"hover": {
+						"type": "image",
+						"texture": "textures/ui/textedit_box_hover"
+					}
+				},
+				{
+					"pressed": {
+						"type": "image",
+						"texture": "textures/ui/textedit_box_pressed"
+					}
+				},
+				{
+					"text": {
+						"type": "label",
+						"text": "#text",
+						"layer": 6,
+						"shadow": false,
+						"color": [1, 1, 1],
 						"bindings": [
 							{
 								"binding_name": "#hover_text",
@@ -867,6 +1038,7 @@
 		"$content": [],
 		"$size": ["100%", 166],
 		"$show_close_button": true,
+		"$show_bottom_half": true,
         "controls": [
             { "container_gamepad_helpers@common.container_gamepad_helpers": {} },
             { "selected_item_details_factory@common.selected_item_details_factory": {} },
@@ -887,7 +1059,9 @@
 									"layer": 5,
 									"controls": "$content"
 								}},
-								{ "bottom_half@common.inventory_panel_bottom_half_with_label": {} },
+								{ "bottom_half@common.inventory_panel_bottom_half_with_label": {
+									"visible": "$show_bottom_half"
+								}},
 								{ "hotbar_grid@common.hotbar_grid_template": {} },
 								{ "inventory_take_progress_icon_button@common.inventory_take_progress_icon_button": {} }
 							]

@@ -135,7 +135,7 @@
 		},
 		{
 			"binding_type": "view",
-			"source_property_name": "(#hover_text - '§o' - '\n§8Has Custom Properties')", // only works in english
+			"source_property_name": "(#hover_text - '§o' - '§f' - '\n§8Has Custom Properties')", // only works in english
 			"target_property_name": "#hover_text"
 		}
 	],
@@ -367,7 +367,13 @@
 	"$can_have_station": [
 		{
 			"binding_type": "view",
-			"source_property_name": "((('%.6s' * #form_text) - ('%.5s' * #form_text) = 'f') and (#form_text - ('%.12s' * #form_text) = 'Overworld'))",
+			"source_control_name": "catalog_toggle_overworld",
+			"source_property_name": "#toggle_state",
+			"target_property_name": "#overworld_selected"
+		},
+		{
+			"binding_type": "view",
+			"source_property_name": "(#overworld_selected and not (#form_text - 'Station false' = #form_text))",
 			"target_property_name": "#visible"
 		}
 	],
@@ -493,7 +499,7 @@
 		},
 		{
 			"binding_type": "view",
-			"source_property_name": "(not (#form_button_text - 'CREATE' = #form_button_text))",
+			"source_property_name": "(not (#form_button_text - 'Create Space Station' = #form_button_text))",
 			"target_property_name": "#visible"
 		}
 	],
@@ -509,7 +515,7 @@
 		},
 		{
 			"binding_type": "view",
-			"source_property_name": "((('%.12s' * #form_button_text) = '§t§t§t§t'))",
+			"source_property_name": "(not (#form_text - '\"aluminum\":true' = #form_text) and not (#form_text - '\"wafer\":true' = #form_text) and not (#form_text - '\"tin\":true' = #form_text) and not (#form_text - '\"iron\":true' = #form_text))",
 			"target_property_name": "#visible"
 		}
 	],
@@ -525,71 +531,63 @@
 		},
 		{
 			"binding_type": "view",
-			"source_property_name": "(not (('%.12s' * #form_button_text) = '§t§t§t§t'))",
+			"source_property_name": "(not (not (#form_text - '\"aluminum\":true' = #form_text) and not (#form_text - '\"wafer\":true' = #form_text) and not (#form_text - '\"tin\":true' = #form_text) and not (#form_text - '\"iron\":true' = #form_text)))",
 			"target_property_name": "#visible"
 		}
 	],
 	"$has_aluminum": [
 		{
-			"binding_type": "collection_details",
-			"binding_collection_name": "form_buttons"
-		},
-		{
-			"binding_name": "#form_button_text",
-			"binding_type": "collection",
-			"binding_collection_name": "form_buttons"
-		},
-		{
 			"binding_type": "view",
-			"source_property_name": "((('%.3s' * #form_button_text) - ('%.2s' * #form_button_text) = 't') and not (#form_button_text - 'CREATE' = #form_button_text))",
+			"source_property_name": "(not (#form_text - '\"aluminum\":true' = #form_text))",
 			"target_property_name": "#visible"
 		}
 	],
 	"$has_wafer": [
 		{
-			"binding_type": "collection_details",
-			"binding_collection_name": "form_buttons"
-		},
-		{
-			"binding_name": "#form_button_text",
-			"binding_type": "collection",
-			"binding_collection_name": "form_buttons"
-		},
-		{
 			"binding_type": "view",
-			"source_property_name": "((('%.6s' * #form_button_text) - ('%.5s' * #form_button_text) = 't') and not (#form_button_text - 'CREATE' = #form_button_text))",
+			"source_property_name": "(not (#form_text - '\"wafer\":true' = #form_text))",
 			"target_property_name": "#visible"
 		}
 	],
 	"$has_tin": [
 		{
-			"binding_type": "collection_details",
-			"binding_collection_name": "form_buttons"
-		},
-		{
-			"binding_name": "#form_button_text",
-			"binding_type": "collection",
-			"binding_collection_name": "form_buttons"
-		},
-		{
 			"binding_type": "view",
-			"source_property_name": "((('%.9s' * #form_button_text) - ('%.8s' * #form_button_text) = 't') and not (#form_button_text - 'CREATE' = #form_button_text))",
+			"source_property_name": "(not (#form_text - '\"tin\":true' = #form_text))",
 			"target_property_name": "#visible"
 		}
 	],
 	"$has_iron": [
 		{
-			"binding_type": "collection_details",
-			"binding_collection_name": "form_buttons"
-		},
-		{
-			"binding_name": "#form_button_text",
-			"binding_type": "collection",
-			"binding_collection_name": "form_buttons"
-		},
+			"binding_type": "view",
+			"source_property_name": "(not (#form_text - '\"iron\":true' = #form_text))",
+			"target_property_name": "#visible"
+		}
+	],
+	"$no_aluminum": [
 		{
 			"binding_type": "view",
-			"source_property_name": "((('%.12s' * #form_button_text) - ('%.11s' * #form_button_text) = 't') and not (#form_button_text - 'CREATE' = #form_button_text))",
+			"source_property_name": "(#form_text - '\"aluminum\":true' = #form_text)",
+			"target_property_name": "#visible"
+		}
+	],
+	"$no_wafer": [
+		{
+			"binding_type": "view",
+			"source_property_name": "(#form_text - '\"wafer\":true' = #form_text)",
+			"target_property_name": "#visible"
+		}
+	],
+	"$no_tin": [
+		{
+			"binding_type": "view",
+			"source_property_name": "(#form_text - '\"tin\":true' = #form_text)",
+			"target_property_name": "#visible"
+		}
+	],
+	"$no_iron": [
+		{
+			"binding_type": "view",
+			"source_property_name": "(#form_text - '\"iron\":true' = #form_text)",
 			"target_property_name": "#visible"
 		}
 	],
@@ -655,7 +653,7 @@
 		},
 		{
 			"binding_type": "view",
-			"source_property_name": "(#form_button_text - ('%.21s' * #form_button_text))",
+			"source_property_name": "(#form_button_text - 'Rename ' = #form_button_text ? #form_button_text - 'Launch to ' : 'Rename')",
 			"target_property_name": "#name"
 		}
 	],

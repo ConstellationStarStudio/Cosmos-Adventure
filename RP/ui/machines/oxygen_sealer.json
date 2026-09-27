@@ -1,0 +1,151 @@
+{
+	"namespace": "oxygen_sealer",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			200
+		],
+		"$content": [
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						33,
+						27
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"oxygen_slot@machines.item_slot": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						27
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/o2"
+				}
+			},
+			{
+				"thermal_slot@machines.item_slot": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						56,
+						27
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/gear"
+				}
+			},
+			{
+				"oxygen_bar@machines.oxygen_bar": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						113,
+						24
+					]
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						113,
+						37
+					]
+				}
+			},
+			{
+				"disable_button@machines.machine_button": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						50,
+						91
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			},
+			{
+				"status_text@machines.item_text": {
+					"$index": 6,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						50
+					]
+				}
+			},
+			{
+				"oxygen_usage_text@machines.item_text": {
+					"$index": 7,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						60
+					]
+				}
+			},
+			{
+				"thermal_status_text@machines.item_text": {
+					"$index": 8,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						70
+					]
+				}
+			},
+			{
+				"in_": {
+					"type": "label",
+					"text": "In:",
+					"color": [
+						0.25,
+						0.25,
+						0.25
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						80,
+						26
+					]
+				}
+			},
+			{
+				"in_": {
+					"type": "label",
+					"text": "In:",
+					"color": [
+						0.25,
+						0.25,
+						0.25
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						80,
+						38
+					]
+				}
+			}
+		]
+	}
+}
