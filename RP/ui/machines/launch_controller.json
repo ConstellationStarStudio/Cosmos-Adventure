@@ -1,0 +1,167 @@
+{
+	"namespace": "launch_controller",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			209
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Launch Controller",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						152,
+						105
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						99,
+						114
+					]
+				}
+			},
+			{
+				"enable_button@machines.machine_button": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						122,
+						16
+					],
+					"$button_size": [
+						48,
+						20
+					],
+					"$button_font_scale": 0.8
+				}
+			},
+			{
+				"frequency_button@machines.machine_textbox": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						66,
+						16
+					],
+					"$button_size": [
+						48,
+						20
+					],
+					"$button_font_scale": 0.8
+				}
+			},
+			{
+				"dest_frequency_button@machines.machine_textbox": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						45,
+						38
+					],
+					"$button_size": [
+						48,
+						20
+					],
+					"$button_font_scale": 0.8
+				}
+			},
+			{
+				"hide_dest_button@machines.machine_button": {
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						95,
+						38
+					],
+					"$button_size": [
+						39,
+						20
+					],
+					"$button_font_scale": 0.65
+				}
+			},
+			{
+				"advanced_button@machines.machine_button": {
+					"$index": 6,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						48,
+						62
+					],
+					"$button_size": [
+						80,
+						20
+					],
+					"$button_font_scale": 0.8
+				}
+			},
+			{
+				"status_text@machines.item_text": {
+					"$index": 7,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						86
+					],
+					"$text_font_scale": 0.8
+				}
+			},
+			{
+				"frequency_": {
+					"type": "label",
+					"text": "Frequency:",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						7,
+						22
+					],
+					"font_scale_factor": 0.8
+				}
+			},
+			{
+				"dest_frequency_": {
+					"type": "label",
+					"text": "Dest Frequency:",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						7,
+						44
+					],
+					"font_scale_factor": 0.8
+				}
+			}
+		]
+	}
+}

@@ -1,0 +1,54 @@
+{
+    "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:oxygen_sealer",
+			"menu_category": { "category": "items" },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": ["minecraft:cardinal_direction"],
+          "y_rotation_offset": 180
+        }
+      }
+    },
+    "components": {
+	    "tag:machine": {},
+      "minecraft:display_name": "%tile.sealer.name\n§7%tile.sealer.description",
+      "cosmos:machine": {},
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:movable": { "movement_type": "immovable" },
+        "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "up": { "render_method": "opaque", "texture": "oxygen_sealer" },
+        "down": { "render_method": "opaque", "texture": "oxygen_sealer" },
+        "north": { "render_method": "opaque", "texture": "oxygen_sealer" },
+        "east": { "render_method": "opaque", "texture": "energy_input" },
+        "south": { "render_method": "opaque", "texture": "oxygen_sealer" },
+        "west": { "render_method": "opaque", "texture": "oxygen_input" }
+      }
+    },
+    "permutations": [
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, 180, 0] }
+          }
+        },
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, 90, 0] }
+          }
+        },
+        {
+          "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+          "components": {
+            "minecraft:transformation": { "rotation": [0, -90, 0] }
+          }
+        }
+    ]
+  }
+}

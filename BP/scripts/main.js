@@ -21,3 +21,12 @@ import "./core/entities/evolved_skeleton_boss.js"
 import "./core/PlayerWorldCycle.js"
 
 import "./planets/events/unlit_torch.js"
+import "./planets/dimensions.js"
+import { startWorldgenCoordinator } from "./planets/worldgen.js"
+import { startVoidRecoveryLoop } from "./planets/teleport.js"
+import { startFogManager } from "./planets/fog_manager.js"
+
+// Start custom dimension systems
+startWorldgenCoordinator();
+startVoidRecoveryLoop();
+startFogManager();

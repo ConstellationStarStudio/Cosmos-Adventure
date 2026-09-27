@@ -1,55 +1,189 @@
 {
-    "namespace": "deconstructor",
-
-    "interface@machines.dynamic_interface": {
-        "$size": ["100%", 199],
-        "$content": [
-			{ "title": {
-				"type": "label",
-				"text": "Deconstructor",
-				"color": "$title_text_color",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 10, 5 ]
-			}},
-			{ "input_grid@machines.item_grid": {
-				"size": [ 54, 54 ],
-				"grid_dimensions": [ 3, 3 ],
-				"anchor_from": "top_right",
-				"anchor_to": "top_right",
-				"offset": [ -12, 20 ]
-			}},
-            { "battery_slot@machines.item_slot": {
-				"$index": 9,
-				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 54, 74 ]
-			}},
-            { "input@machines.item_slot": {
-				"$index": 10,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 24, 38 ]
-            }},
-            { "energy_bar@machines.energy_bar": {
-                "$index": 11,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 17, 95 ]
-            }},
-			{ "progress@compressor.progress_bar": {
-				"$index": 12,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 52, 31 ]
-			}},
-            { "status@machines.item_text": {
-				"$index": 13,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 78, 76 ]
-			}}
+	"namespace": "deconstructor",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			199
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Deconstructor",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"output_grid@machines.item_grid": {
+					"size": [
+						54,
+						54
+					],
+					"grid_dimensions": [
+						3,
+						3
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						112,
+						18
+					]
+				}
+			},
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 9,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						55,
+						75
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"input_slot@machines.item_slot": {
+					"$index": 10,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						26,
+						36
+					]
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 11,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						18,
+						96
+					]
+				}
+			},
+			{
+				"progress@deconstructor.progress_bar": {
+					"$index": 12,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						53,
+						36
+					]
+				}
+			},
+			{
+				"power_icon": {
+					"type": "image",
+					"texture": "textures/ui/cosmos/slot_overlay/power",
+					"size": [
+						11,
+						10
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						4,
+						95
+					]
+				}
+			}
+		]
+	},
+	"progress_bar": {
+		"type": "image",
+		"texture": "textures/ui/cosmos/machines/deconstructor_bar",
+		"size": [
+			54,
+			17
+		],
+		"controls": [
+			{
+				"progress@machines.specific_slot": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"controls": [
+						{
+							"progress_bar": {
+								"type": "panel",
+								"collection_index": "$index",
+								"anchor_from": "top_left",
+								"anchor_to": "top_left",
+								"size": [
+									1,
+									0
+								],
+								"controls": [
+									{
+										"deconstructor_on": {
+											"type": "image",
+											"texture": "textures/ui/cosmos/machines/deconstructor_on",
+											"size": [
+												15,
+												13
+											],
+											"anchor_from": "top_left",
+											"anchor_to": "top_left",
+											"offset": [
+												24,
+												-8
+											],
+											"bindings": "$use_durability",
+											"$source": "#null",
+											"$target": "#null",
+											"$visible_if": "(#data > 500 and not (#data = 1000))"
+										}
+									},
+									{
+										"progress_fill": {
+											"type": "panel",
+											"clips_children": true,
+											"size": [
+												54,
+												17
+											],
+											"anchor_to": "top_left",
+											"anchor_from": "top_left",
+											"offset": [
+												0,
+												0
+											],
+											"bindings": "$use_durability",
+											"$source": "#data",
+											"$target": "#size_binding_x",
+											"$visible_if": "(not (#data = 1000))",
+											"controls": [
+												{
+													"image": {
+														"anchor_to": "top_left",
+														"anchor_from": "top_left",
+														"type": "image",
+														"size": [
+															54,
+															17
+														],
+														"texture": "textures/ui/cosmos/machines/deconstructor_bar_fill"
+													}
+												}
+											]
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
 		]
 	}
 }

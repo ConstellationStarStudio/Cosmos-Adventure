@@ -17,8 +17,8 @@ function get_vehicles(block) {
     let front = location_of_side(block, "front")
     let back = location_of_side(block, "back")
 
-	const front_offset = {x: (x - front.x) * 2, z: (z - front.z) * 2};
-	const back_offset = {x: (x - back.x) * 2, z: (z- back.z) * 2};
+	const front_offset = {x: (front.x - x) * 2, z: (front.z - z) * 2};
+	const back_offset = {x: (back.x - x) * 2, z: (back.z - z) * 2};
 
     front = block.dimension.getBlock({x: x + front_offset.x, y: y, z: z + front_offset.z});
 	back = block.dimension.getBlock({x: x + back_offset.x, y: y, z: z + back_offset.z});

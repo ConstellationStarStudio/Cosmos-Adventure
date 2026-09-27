@@ -768,7 +768,6 @@ tile.view_screen.name=Display Screen
 tile.wall_gc.moon.name=Moon Rock Wall
 tile.wall_gc.moon_bricks.name=Moon Dungeon Brick Wall
 tile.wall_gc.tin.name=Tin Decoration Wall
-
 advancement.galacticraft.root.title=Galacticraft
 advancement.galacticraft.root.description=Explore the Moon... and beyond!
 advancement.galacticraft.coal_generator.title=Coal Power
@@ -1163,7 +1162,6 @@ tile.mars_stairs_cobblestone.name=Mars Cobblestone Stairs
 tile.methane_synthesizer.description=With a source of hydrogen and a source of carbon,\nthis manufactures Methane for further processing in a Gas Liquefier.
 tile.miner_base.description=The Astro Miner Base is the docking point for an Astro Miner. \nIt's big ... try making a 2 x 2 x 2 cube with these.
 tile.miner_base.name=Astro Miner Base
-tile.miner_base_full.name=Astro Miner Base
 tile.slab_gc_half.mars_bricks_slab.name=Mars Dungeon Brick Slab
 tile.slab_gc_half.mars_slab.name=Mars Cobblestone Slab
 tile.slab_gc_half.asteroids_slab.name=Dark Decoration Slab
@@ -1217,9 +1215,7 @@ achievement.asteroids=To The Asteroid Belt
 achievement.asteroids.desc=Take a Tier 3 Rocket to The Asteroid Belt!
 achievement.venus=To Venus!
 achievement.venus.desc=Take a Tier 3 Rocket to Venus!
-
 ## The official translation keys for cosmos adventure (Added by Yasser444)
-
 ##items
 item.cosmos:advanced_wafer=Advanced Wafer
 item.cosmos:aluminum_ingot=Aluminum Ingot
@@ -1399,6 +1395,7 @@ item.cosmos:volcanic_pickaxe=Volcanic Pickaxe
 item.cosmos:switchable_aluminum_wire=Switchable Aluminum Wire
 item.cosmos:switchable_heavy_aluminum_wire=Switchable Heavy Aluminum Wire
 
+
 ##fluids
 fluid.undefined=Empty
 fluid.oil=Oil
@@ -1417,7 +1414,6 @@ fluid.liquid_methane=Liquid Methane
 fluid.liquid_argon=Liquid Argon
 fluid.bacterial_sludge=Bacterial Sludge
 fluid.sulphuric_acid=Sulphuric Acid
-
 ## blocks
 tile.cosmos:tin_ore.name=Tin Ore
 tile.cosmos:aluminum_block.name=Aluminum Block
@@ -1436,10 +1432,12 @@ tile.cosmos:advanced_compressor.name=Advanced Compressor
 tile.cosmos:advanced_solar_panel.name=Advanced Solar Panel
 tile.cosmos:air_lock_controller.name=Air Lock Controller
 tile.cosmos:air_lock_frame.name=Air Lock Frame
+tile.cosmos:airlock_controller.name=Air Lock Controller
+tile.cosmos:airlock_frame.name=Air Lock Frame
+tile.cosmos:airlock_seal.name=Air Lock Seal
 tile.cosmos:asteroids_rock.name=Asteroids Rock
 tile.cosmos:asteroids_hard_rock.name=Asteroids Hard Rock
 tile.cosmos:asteroids_soft_rock.name=Asteroids Soft Rock
-tile.cosmos:astro_miner_base.name=Astro Miner Base
 tile.cosmos:basic_solar_panel.name=Basic Solar Panel
 tile.cosmos:beam_receiver.name=Beam Receiver
 tile.cosmos:beam_reflector.name=Beam Reflector
@@ -1475,6 +1473,8 @@ tile.cosmos:ilmenite_ore.name=Ilmenite Ore
 tile.cosmos:incased_redstone_dust.name=Incased Redstone Dust
 tile.cosmos:incased_redstone_repeater.name=Incased Redstone Repeater
 tile.cosmos:launch_controller.name=Launch Controller
+tile.cosmos:advanced_launch_controller.name=Advanced Launch Controller
+tile.advanced_launch_controller.description=Launch Controllers are used to customize launch behavior,\nincluding launch criteria and destination launch pad for auto launches.
 tile.cosmos:lead_block.name=Lead Block
 tile.cosmos:lighting_panel.name=Lighting Panel (Square)
 tile.cosmos:linear_lighting_panel.name=Lighting Panel (Linear)
@@ -1486,7 +1486,6 @@ tile.cosmos:mars_dungeon_bricks_wall.name=Mars Dungeon Bricks Wall
 tile.cosmos:mars_dungeon_bricks_stairs.name=Mars Dungeon Bricks Stairs
 tile.cosmos:meteoric_iron_block.name=Meteoric Iron Block
 tile.cosmos:methane_synthesizer.name=Methane Synthesizer
-
 tile.cosmos:moon_dirt.name=Moon Dirt
 tile.cosmos:moon_turf.name=Moon Turf
 tile.cosmos:moon_rock.name=Moon Rock
@@ -1497,13 +1496,11 @@ tile.cosmos:moon_dungeon_bricks_stairs.name=Moon Dungeon Bricks Stairs
 tile.cosmos:moon_rock_slab.name=Moon Rock Slab
 tile.cosmos:moon_rock_wall.name=Moon Rock Wall
 tile.cosmos:moon_rock_stairs.name=Moon Rock Stairs
-
 tile.cosmos:mars_fine_regolith.name=Mars Fine Regolith
 tile.cosmos:mars_regolith.name=Mars Regolith
 tile.cosmos:mars_stone.name=Mars Stone
 tile.cosmos:mars_cobblestone.name=Mars Cobblestone
 tile.cosmos:mars_cobblestone_stairs.name=Mars Cobblestone Stairs
-
 tile.cosmos:oxygen_storage_module.name=Oxygen Storage Module
 tile.cosmos:oxygen_distributor.name=Oxygen Bubble Distributor
 tile.cosmos:oxygen_compressor.name=Oxygen Compressor
@@ -1523,11 +1520,9 @@ tile.cosmos:water_electrolyzer.name=Water Electrolyzer
 tile.cosmos:tier1_treasure_chest.name=Tier 1 Treasure Chest
 tile.cosmos:tier2_treasure_chest.name=Tier 2 Treasure Chest
 tile.cosmos:tier3_treasure_chest.name=Tier 3 Treasure Chest
-
 ## ui
 action.hint.exit.cosmos:rocket_tier_1=Press SNEAK to Exit, Hold JUMP to Launch
 custom.coords=Position
-
 ## entites
 entity.cosmos:treasure_chest.name=Treasure Chest
 
@@ -1540,9 +1535,7 @@ cosmos:cosmos_items=Cosmos Items
 cosmos:cosmos_blocks=Cosmos Blocks
 cosmos:cosmos_machines=Cosmos Machines
 cosmos:debug_items=Debug Items
-
 ## Automatically generated keys (Need to be checked and sorted by a human)
-
 tile.cosmos:buggy_fueling_pad.name=Buggy Fueling Pad
 tile.cosmos:clear_tin_vacuum_glass.name=Clear Tin Vacuum Glass
 tile.cosmos:clear_vacuum_glass.name=Clear Vacuum Glass

@@ -1,10 +1,11 @@
 import { ItemStack, system, world } from "@minecraft/server";
 import { space_gear_component } from "./player/space_gear";
 import { end_cleaner_component } from "./world/PlanetBuilder";
-import { aluminum_wire_component, switchable_wire_component} from "../core/blocks/aluminum_wire";
+import { aluminum_wire_component, switchable_wire_component } from "../core/blocks/aluminum_wire";
+import { oxygen_detector_component } from "../core/blocks/oxygen_detector";
 import { cavernous_vines_component } from "../core/blocks/cavernous_vines";
-import { communication_dish_component } from "../core/blocks/dishbase";
 import { cryogenic_chamber_component } from "../core/blocks/cryogenic_chamber";
+import { communication_dish_component } from "../core/blocks/dishbase";
 import { walkway_component } from "../core/blocks/walkway";
 import { arc_lamp, cheese_block, fallen_meteor } from "../core/matter/blocks";
 import { fluid_pipe_component } from "../core/blocks/fluid_pipe";
@@ -23,10 +24,11 @@ import { bucket_component } from "../core/matter/fluids";
 import { solar_panel_component } from "../core/machines/blocks/SolarPanel";
 import { machine_component } from "../core/machines/Machine";
 import { multi_block_component } from "../core/mullti_blocks/MultiBlock";
-import { select_solar_system } from "./player/celestial_selector";
+import { select_solar_system, start_celestial_selector } from "./player/celestial_selector";
 import { volcanic_pickaxe_component } from "../core/items/volcanic_pickaxe";
 import { fluid_tick_component } from "../core/matter/fluid_network";
 import nasa_workbench_recipes from "../recipes/nasa_workbench";
+import { registerKorolev } from "../planets/korolev.js";
 
 system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegistry, blockComponentRegistry, dimensionRegistry}) => {
     const register_block_component = blockComponentRegistry.registerCustomComponent.bind(blockComponentRegistry)
@@ -42,7 +44,8 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
     register_block_component('cosmos:arc_lamp', arc_lamp)
     register_block_component("cosmos:cavernous_vines", cavernous_vines_component)
     register_block_component("cosmos:cheese_block", cheese_block)
-    register_block_component("cosmos:communication_dish", communication_dish_component)
+    register_block_component("cosmos:cryogenic_chamber", cryogenic_chamber_component)
+    register_block_component("cosmos:dishbase", communication_dish_component)
     register_block_component('cosmos:fallen_meteor', fallen_meteor)
     register_block_component('cosmos:fluid_pipe', fluid_pipe_component)
     register_block_component('cosmos:fluid_tank', fluid_tank_component)
@@ -50,13 +53,13 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
 	register_block_component('cosmos:rocket_launch_pad', launch_pad_components.rocket_launch_pad)
 	register_block_component('cosmos:buggy_fueling_pad', launch_pad_components.buggy_fueling_pad)
     register_block_component("cosmos:nasa_workbench", nasa_workbench_component)
-    register_block_component('cosmos:cryogenic_chamber', cryogenic_chamber_component)
     register_block_component('cosmos:walkway', walkway_component)
     // register_block_component('cosmos:wall', wall_component)
     register_block_component('cosmos:treasure_chest', treasure_chest_component)
     register_block_component("cosmos:boss_block", evolved_skeleton_component)
     register_block_component('cosmos:solar_panel', solar_panel_component)
     register_block_component('cosmos:machine', machine_component)
+    register_block_component('cosmos:oxygen_detector', oxygen_detector_component)
     register_block_component('cosmos:fluid_tick', fluid_tick_component)
     register_block_component("cosmos:multi_block", multi_block_component)
     
@@ -75,6 +78,10 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
     register_item_component("cosmos:volcanic_pickaxe", volcanic_pickaxe_component)
 
     // Dimensions
+    register_dimension("cosmos:moon")
+    register_dimension("cosmos:mars")
+    register_dimension("cosmos:venus")
+    register_dimension("cosmos:asteroids")
     register_dimension("cosmos:space_stations")
     // Commands
     register_command({
@@ -97,6 +104,20 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
     ({sourceType, sourceEntity}) => {
         if (sourceType == "Entity" && sourceEntity.typeId == "minecraft:player") {
             system.run(() => select_solar_system(sourceEntity, 3, true))
+        }
+    })
+
+    register_command({
+        name: "cosmos:planet_selector",
+        description: "Opens the planet selector screen.",
+        cheatsRequired: true, permissionLevel: 1,
+        optionalParameters: [
+            { type: "Integer", name: "tier" }
+        ]
+    }, 
+    ({sourceType, sourceEntity}, tier = 1) => {
+        if (sourceType == "Entity" && sourceEntity.typeId == "minecraft:player") {
+            system.run(() => start_celestial_selector(sourceEntity, tier, true))
         }
     })
 
@@ -127,4 +148,7 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
             inventory.addItem(rocket)
         })
 	})
+
+    // Korolev Dimension Warp System
+    registerKorolev(customCommandRegistry);
 })

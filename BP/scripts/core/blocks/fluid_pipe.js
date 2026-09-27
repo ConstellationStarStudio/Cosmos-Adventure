@@ -239,7 +239,6 @@ function connect_pipes(pipe) {
 	}else if(network_id) refresh_network(pipe, undefined);
 }
 
-
 export const fluid_pipe_component = {
 	beforeOnPlayerPlace({block}) {
 		system.run(() => {connect_pipes(block)});

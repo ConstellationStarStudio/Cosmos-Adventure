@@ -1,10 +1,14 @@
 {
   "ui_defs": [
     "ui/cosmos.json",
+    "ui/celestial/celestial_base.json",
+    "ui/celestial/solar_system_map.json",
+    "ui/celestial/planet_views.json",
+    "ui/celestial/station_recipe_panel.json",
+    "ui/celestial/station_list_panel.json",
     "ui/celestial_selector.json",
     "ui/space_gear.json",
     "ui/machines.json",
-    
     "ui/machines/coal_generator.json",
     "ui/machines/energy_storage.json",
     "ui/machines/compressor.json",
@@ -23,13 +27,28 @@
     "ui/machines/oxygen_distributor.json",
     "ui/machines/oxygen_storage.json",
     "ui/machines/solar_panel.json",
-    "ui/machines/deconstructor.json",
-    "ui/machines/methane_synthesizer.json",
-    "ui/machines/astro_miner_dock.json",
+
     "ui/vehicles/rocket.json",
     "ui/fuel/fuel_chest/fuel_chest_inventory_0.json",
     "ui/fuel/fuel_chest/fuel_chest_inventory_18.json",
     "ui/fuel/fuel_chest/fuel_chest_inventory_36.json",
-    "ui/fuel/fuel_chest/fuel_chest_inventory_54.json"
+    "ui/fuel/fuel_chest/fuel_chest_inventory_54.json",
+    "ui/machines/methane_synthesizer.json",
+    "ui/machines/cargo_loader.json",
+    "ui/machines/cargo_unloader.json",
+    "ui/machines/deconstructor.json",
+    "ui/machines/oxygen_sealer.json",
+    "ui/machines/astro_miner_dock.json",
+    "ui/machines/short_range_telepad.json",
+    "ui/machines/launch_controller.json",
+    "ui/machines/advanced_launch_controller.json",
+    "ui/machines/solar_array_controller.json",
+    "ui/machines/geothermal_generator.json",
+    "ui/machines/terraformer.json",
+    "ui/machines/chromatic_applicator.json",
+    "ui/machines/advanced_compressor.json",
+    "ui/machines/electric_arc_furnace.json",
+    "ui/machines/oxygen_detector.json",
+    "ui/machines/airlock_controller.json"
   ]
 }

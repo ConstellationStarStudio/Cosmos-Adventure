@@ -1,0 +1,552 @@
+{
+  "namespace": "celestial",
+  "launch_panel": {
+    "type": "image",
+    "texture": "textures/ui/cosmos/celestial_selector/launch_button_holder",
+    "color": [
+      0,
+      0.5,
+      1
+    ],
+    "size": [
+      95,
+      137
+    ],
+    "anchor_from": "top_right",
+    "anchor_to": "top_right",
+    "offset": [
+      -5,
+      5
+    ],
+    "controls": [
+      {
+        "launch_to_overworld@celestial.green_launch_button": {
+          "$toggle_name": "overworld",
+          "$index": 0,
+          "$tier": 1
+        }
+      },
+      {
+        "launch_to_moon@celestial.green_launch_button": {
+          "$toggle_name": "moon",
+          "$index": 1,
+          "$tier": 1
+        }
+      },
+      {
+        "launch_to_overworld@celestial.green_launch_button": {
+          "$toggle_name": "mars",
+          "$index": 2,
+          "$tier": 2
+        }
+      },
+      {
+        "launch_to_venus@celestial.green_launch_button": {
+          "$toggle_name": "venus",
+          "$index": 3,
+          "$tier": 3
+        }
+      },
+      {
+        "launch_to_asteroids@celestial.green_launch_button": {
+          "$toggle_name": "asteroids",
+          "$index": 4,
+          "$tier": 3
+        }
+      },
+      {
+        "red_launch_button@celestial.red_launch_button": {
+          "bindings": [
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_mercury",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_mercury"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_venus",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_venus"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_overworld",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_overworld"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_mars",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_mars"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_asteroids",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_asteroids"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_jupiter",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_jupiter"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_saturn",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_saturn"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_uranus",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_uranus"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "catalog_toggle_neptune",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#catalog_neptune"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_mercury",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_mercury"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_venus",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_venus"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_overworld",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_overworld"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_mars",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_mars"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_asteroids",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_asteroids"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_jupiter",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_jupiter"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_saturn",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_saturn"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_uranus",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_uranus"
+            },
+            {
+              "binding_type": "view",
+              "source_control_name": "orbital_toggle_neptune",
+              "source_property_name": "#toggle_state",
+              "target_property_name": "#orbital_neptune"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#form_text - 'Tier ')",
+              "target_property_name": "#tier"
+            },
+            {
+              "binding_type": "view",
+              "source_property_name": "(#catalog_mercury or #catalog_jupiter or #catalog_saturn or #catalog_uranus or #catalog_neptune or (#catalog_mars and #tier < 2) or ((#catalog_venus or #catalog_asteroids) and #tier < 3))",
+              "target_property_name": "#visible"
+            }
+          ]
+        }
+      },
+      {
+        "create_station": {
+          "type": "image",
+          "texture": "textures/ui/cosmos/celestial_selector/station_panel",
+          "color": [
+            0,
+            0.5,
+            1
+          ],
+          "size": [
+            93,
+            64
+          ],
+          "anchor_from": "bottom_left",
+          "anchor_to": "top_left",
+          "offset": [
+            0,
+            -8
+          ],
+          "layer": 2,
+          "controls": [
+            {
+              "station_label": {
+                "type": "label",
+                "text": "A Space Station can be created here!",
+                "text_alignment": "center",
+                "size": [
+                  "100%",
+                  "default"
+                ],
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [
+                  0,
+                  6
+                ],
+                "layer": 3
+              }
+            },
+            {
+              "green_fade": {
+                "type": "label",
+                "text": "A Space Station can be created here!",
+                "color": [
+                  0,
+                  1,
+                  0
+                ],
+                "text_alignment": "center",
+                "size": [
+                  "100%",
+                  "default"
+                ],
+                "anchor_from": "top_middle",
+                "anchor_to": "top_middle",
+                "offset": [
+                  0,
+                  6
+                ],
+                "layer": 4,
+                "anims": [
+                  "@cosmos.text_fade_in"
+                ]
+              }
+            },
+            {
+              "materials": {
+                "type": "stack_panel",
+                "orientation": "horizontal",
+                "size": [
+                  "100%",
+                  32
+                ],
+                "offset": [
+                  0,
+                  4
+                ],
+                "anchor_from": "bottom_middle",
+                "anchor_to": "bottom_middle",
+                "layer": 4,
+                "controls": [
+                  {
+                    "left_pad": {
+                      "type": "panel",
+                      "size": [
+                        "10%",
+                        32
+                      ]
+                    }
+                  },
+                  {
+                    "aluminum@cosmos.material": {
+                      "$id": "aluminum_ingot",
+                      "$name": "Aluminum Ingot",
+                      "$condition": "$has_aluminum",
+                      "$no_condition": "$no_aluminum",
+                      "$amount": "16"
+                    }
+                  },
+                  {
+                    "wafer@cosmos.material": {
+                      "$id": "advanced_wafer",
+                      "$name": "Advanced Wafer",
+                      "$condition": "$has_wafer",
+                      "$no_condition": "$no_wafer",
+                      "$amount": "1"
+                    }
+                  },
+                  {
+                    "tin@cosmos.material": {
+                      "$id": "tin_ingot",
+                      "$name": "Tin Ingot",
+                      "$condition": "$has_tin",
+                      "$no_condition": "$no_tin",
+                      "$amount": "32"
+                    }
+                  },
+                  {
+                    "iron@cosmos.material": {
+                      "$id": "iron_ingot",
+                      "$name": "Iron Ingot",
+                      "$condition": "$has_iron",
+                      "$no_condition": "$no_iron",
+                      "$amount": "24"
+                    }
+                  },
+                  {
+                    "right_pad": {
+                      "type": "panel",
+                      "size": [
+                        "10%",
+                        32
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "station_button@cosmos.form_buttons": {
+                "$buttons": "cosmos.create_station_button",
+                "offset": [
+                  0,
+                  1
+                ],
+                "anchor_from": "bottom_middle",
+                "anchor_to": "top_middle"
+              }
+            }
+          ],
+          "bindings": "$can_have_station"
+        }
+      }
+    ],
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_mercury",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_mercury"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_venus",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_venus"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_overworld",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_overworld"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_moon",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_moon"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_mars",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_mars"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_asteroids",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_asteroids"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_jupiter",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_jupiter"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_saturn",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_saturn"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_uranus",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_uranus"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "catalog_toggle_neptune",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog_neptune"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_mercury",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_mercury"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_venus",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_venus"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_overworld",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_overworld"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_moon",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_moon"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_mars",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_mars"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_asteroids",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_asteroids"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_jupiter",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_jupiter"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_saturn",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_saturn"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_uranus",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_uranus"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "orbital_toggle_neptune",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital_neptune"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#catalog_mercury or #catalog_venus or #catalog_overworld or #catalog_moon or #catalog_mars or #catalog_asteroids or #catalog_jupiter or #catalog_saturn or #catalog_uranus or #catalog_neptune)",
+        "target_property_name": "#visible"
+      }
+    ]
+  },
+  "green_launch_button": {
+    "type": "collection_panel",
+    "collection_name": "form_buttons",
+    "anchor_from": "top_right",
+    "anchor_to": "top_right",
+    "bindings": [
+      {
+        "binding_type": "view",
+        "source_control_name": "('catalog_toggle_' + $toggle_name)",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#catalog"
+      },
+      {
+        "binding_type": "view",
+        "source_control_name": "('orbital_toggle_' + $toggle_name)",
+        "source_property_name": "#toggle_state",
+        "target_property_name": "#orbital"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "(#form_text - 'Tier ')",
+        "target_property_name": "#tier"
+      },
+      {
+        "binding_type": "view",
+        "source_property_name": "((#catalog) and not (#tier < $tier))",
+        "target_property_name": "#visible"
+      }
+    ],
+    "controls": [
+      {
+        "launch_button@cosmos.button": {
+          "size": [
+            74,
+            11
+          ],
+          "collection_index": "$index",
+          "anchor_from": "top_right",
+          "anchor_to": "top_right",
+          "$action": "button.form_button_click",
+          "bindings": "$form_buttons",
+          "controls": [
+            {
+              "default@celestial.red_launch_button": {
+                "color": [
+                  0,
+                  1,
+                  0
+                ]
+              }
+            },
+            {
+              "hover@celestial.red_launch_button": {
+                "color": [
+                  0.7,
+                  1,
+                  0.3
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "red_launch_button": {
+    "type": "image",
+    "texture": "textures/ui/cosmos/celestial_selector/launch",
+    "color": [
+      1,
+      0,
+      0
+    ],
+    "size": [
+      74,
+      11
+    ],
+    "anchor_from": "top_right",
+    "anchor_to": "top_right",
+    "controls": [
+      {
+        "launch_label": {
+          "type": "label",
+          "text": "LAUNCH",
+          "layer": 3
+        }
+      }
+    ]
+  }
+}

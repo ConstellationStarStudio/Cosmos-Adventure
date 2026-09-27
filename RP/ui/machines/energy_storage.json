@@ -1,106 +1,168 @@
 {
-    "namespace": "energy_storage",
-	
-    "module_interface@energy_storage.interface": {
+	"namespace": "energy_storage",
+	"module_interface@energy_storage.interface": {
 		"$title": "Energy Storage Module",
 		"$maxPower": "Max Output: 300 gJ/t"
-    },
-    "cluster_interface@energy_storage.interface": {
+	},
+	"cluster_interface@energy_storage.interface": {
 		"$title": "Energy Storage Cluster",
 		"$maxPower": "Max Output: 1,800 gJ/t"
-    },
-
-    "interface@machines.dynamic_interface": {
-        "$content": [
-			{ "title": {
-				"type": "label",
-				"color": "$title_text_color",
-				"text": "$title",
-                "anchor_from": "top_middle",
-                "anchor_to": "top_middle",
-                "offset": [ 0, 5 ]
-			}},
-			{ "output_battery@machines.item_slot": {
-				"$index": 0,
-				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 32, 23 ]
-			}},
-			{ "input_battery@machines.item_slot": {
-				"$index": 1,
-				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 32, 47 ]
-			}},
-			{ "output_arrow@crafting.crafting_arrow_large": {
-				"size": [ -22, 15 ],
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [76, 25]
-			}},
-			{ "input_arrow@crafting.crafting_arrow_large": {
-				"size": [ 22, 15 ],
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [54, 48]
-			}},
-            { "stored_energy@machines.item_text": {
-				"$index": 2,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 88, 25 ]
-			}},
-			{ "capacity@energy_storage.capacity": {
-				"$index": 3,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 88, 51 ]
-			}},
-			{ "maxPower": {
-				"type": "label",
-				"color": "$title_text_color",
-				"text": "$maxPower",
-				"anchor_from": "top_right",
-				"anchor_to": "top_right",
-                "offset": [ -10, 64 ]
-			}}
+	},
+	"interface@machines.dynamic_interface": {
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "$title",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						5
+					]
+				}
+			},
+			{
+				"output_battery@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						32,
+						23
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"input_battery@machines.item_slot": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						32,
+						47
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"output_arrow@crafting.crafting_arrow_large": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						76,
+						25
+					],
+					"size": [
+						-22,
+						15
+					]
+				}
+			},
+			{
+				"input_arrow@crafting.crafting_arrow_large": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						54,
+						48
+					],
+					"size": [
+						22,
+						15
+					]
+				}
+			},
+			{
+				"stored_energy@machines.item_text": {
+					"$index": 2,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						88,
+						25
+					]
+				}
+			},
+			{
+				"capacity@energy_storage.capacity": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						88,
+						51
+					]
+				}
+			},
+			{
+				"maxPower": {
+					"type": "label",
+					"text": "$maxPower",
+					"color": "$title_text_color",
+					"anchor_from": "top_right",
+					"anchor_to": "top_right",
+					"offset": [
+						-10,
+						64
+					]
+				}
+			}
 		]
-    },
-    
+	},
 	"capacity": {
-		"type":"image",
+		"type": "image",
 		"texture": "textures/ui/cosmos/machines/progress_bar",
-		"size": [ 75, 5 ],
+		"size": [
+			75,
+			5
+		],
 		"controls": [
-			{ "capacity@machines.specific_slot": {
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"controls": [
-					{ "capacity": {
-						"type": "panel",
-						"collection_index": "$index",
-						"anchor_from": "top_left",
-						"anchor_to": "top_left",
-						"size": [1, 0],
-						"controls": [
-							{ "capacity": {
-								"type": "image",
-								"texture": "textures/ui/cosmos/machines/progress_bar_fill",
-								"color": [0, 0.7, 0],
-								"size": [1, 5],
-								"anchor_to": "top_left",
+			{
+				"capacity@machines.specific_slot": {
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"controls": [
+						{
+							"capacity": {
+								"type": "panel",
+								"collection_index": "$index",
 								"anchor_from": "top_left",
-								"bindings": "$use_durability",
-								"$source": "#data",
-								"$target": "#size_binding_x",
-								"$visible_if": "(not (#data = 1000))"
-							}}
-						]
-					}}
-				]
-			}}
+								"anchor_to": "top_left",
+								"size": [
+									1,
+									0
+								],
+								"controls": [
+									{
+										"capacity": {
+											"type": "image",
+											"texture": "textures/ui/cosmos/machines/progress_bar_fill",
+											"color": [
+												0,
+												0.7,
+												0
+											],
+											"size": [
+												1,
+												5
+											],
+											"anchor_to": "top_left",
+											"anchor_from": "top_left",
+											"bindings": "$use_durability",
+											"$source": "#data",
+											"$target": "#size_binding_x",
+											"$visible_if": "(not (#data = 1000))"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
 		]
 	}
 }

@@ -1,71 +1,128 @@
 {
 	"namespace": "refinery",
-
 	"interface@machines.dynamic_interface": {
-		"$size": ["100%", 168],
+		"$size": [
+			"100%",
+			168
+		],
 		"$show_close_button": false,
 		"$content": [
-			{ "close@common.close_button": {
-				"offset": [-22, 2]
-			}},
-			{ "title": {
-				"type": "label",
-				"text": "Refinery",
-				"color": "$title_text_color",
-				"anchor_from": "top_middle",  
-				"offset": [ 0, 10 ]
-            }},
-            { "input@machines.item_slot": {
-				"$index": 0 ,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [6, 6]
-			}},
-			{ "battery@machines.item_slot": {
-				"$index": 1,
-				"$overlay_texture": "textures/ui/cosmos/slot_overlay/power",
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [37, 50]
-			}},
-			{ "output@machines.item_slot": {
-				"$index": 2,
-				"anchor_from": "top_right",
-				"anchor_to": "top_right",
-				"offset": [-6, 6]
-			}},
-			{ "energy_bar@machines.energy_bar": {
-				"$index": 3,
-				"anchor_from": "top_left",
-				"anchor_to": "top_left",
-				"offset": [ 62, 16 ]
-			}},
-            { "oil_tank@machines.fluid_tank": {
-                "$liquid": "oil",
-                "$index": 4,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 6, 27 ]
-            }},
-            { "fuel_tank@machines.fluid_tank": {
-                "$liquid": "fuel",
-                "$index": 5,
-				"anchor_from": "top_right",
-				"anchor_to": "top_right",
-                "offset": [ -6, 27 ]
-            }},
-            { "status@machines.item_text": {
-                "$index": 6,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 60, 50 ]
-            }},
-            { "start_button@machines.machine_button": {
-                "$index": 7,
-                "anchor_from": "top_left",
-                "anchor_to": "top_left",
-                "offset": [ 49, 28 ]
-            }}
+			{
+				"close@common.close_button": {
+					"offset": [
+						-22,
+						2
+					]
+				}
+			},
+			{
+				"title": {
+					"type": "label",
+					"text": "Refinery",
+					"color": "$title_text_color",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						10
+					]
+				}
+			},
+			{
+				"input@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						6,
+						6
+					]
+				}
+			},
+			{
+				"battery@machines.item_slot": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						37,
+						50
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"output@machines.item_slot": {
+					"$index": 2,
+					"anchor_from": "top_right",
+					"anchor_to": "top_right",
+					"offset": [
+						-6,
+						6
+					]
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 3,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						62,
+						16
+					]
+				}
+			},
+			{
+				"oil_tank@machines.fluid_tank": {
+					"$liquid": "oil",
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						6,
+						27
+					]
+				}
+			},
+			{
+				"fuel_tank@machines.fluid_tank": {
+					"$liquid": "fuel",
+					"$index": 5,
+					"anchor_from": "top_right",
+					"anchor_to": "top_right",
+					"offset": [
+						-6,
+						27
+					]
+				}
+			},
+			{
+				"status@machines.item_text": {
+					"$index": 6,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						60,
+						50
+					]
+				}
+			},
+			{
+				"start_button@machines.machine_button": {
+					"$index": 7,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						49,
+						28
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			}
 		]
 	}
 }

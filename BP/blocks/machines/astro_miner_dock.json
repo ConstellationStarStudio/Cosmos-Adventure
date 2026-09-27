@@ -1,0 +1,49 @@
+{
+	"format_version": "1.21.100",
+  "minecraft:block": {
+	"description": {
+	  "identifier": "cosmos:astro_miner_dock",
+			"menu_category": { "category": "items" },
+      "traits": {
+        "minecraft:placement_direction": {
+          "enabled_states": ["minecraft:cardinal_direction"],
+          "y_rotation_offset": 180
+        }
+      }
+	},
+	"components": {
+      "minecraft:display_name": "%tile.miner_base.name\n§7%tile.miner_base.description",
+	  "tag:machine": {},
+      "cosmos:machine": {},
+      "minecraft:destructible_by_explosion": false,
+      "minecraft:movable": { "movement_type": "immovable" },
+	  "minecraft:destructible_by_mining": {
+		  "seconds_to_destroy": 0.5
+	  },
+	  "minecraft:geometry": "minecraft:geometry.full_block",
+	  "minecraft:material_instances": {
+		  "*": { "render_method": "opaque", "texture": "astro_miner_base" }
+	  }
+	},
+	"permutations": [
+    {
+      "condition": "q.block_state('minecraft:cardinal_direction') == 'south'",
+      "components": {
+        "minecraft:transformation": { "rotation": [0, 180, 0] }
+      }
+    },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'west'",
+        "components": {
+          "minecraft:transformation": { "rotation": [0, 90, 0] }
+        }
+      },
+      {
+        "condition": "q.block_state('minecraft:cardinal_direction') == 'east'",
+        "components": {
+          "minecraft:transformation": { "rotation": [0, -90, 0] }
+        }
+      }
+	]
+  }
+}

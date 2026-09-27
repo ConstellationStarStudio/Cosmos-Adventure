@@ -1,0 +1,19 @@
+{
+  "format_version": "1.21.100",
+  "minecraft:block": {
+    "description": {
+      "identifier": "cosmos:airlock_frame",
+		  "menu_category": { "category": "items" }
+    },
+    "components": {
+      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:material_instances": {
+        "*": { "render_method": "opaque", "texture": "air_lock_frame" }
+      },
+      "minecraft:destructible_by_mining": {
+        "seconds_to_destroy": 0.5
+      },
+      "minecraft:destructible_by_explosion": false
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+	"format_version": "1.10.0",
+	"minecraft:client_entity": {
+		"description": {
+			"identifier": "cosmos:parachute_chest_entity",
+			"textures": {
+				"parachute_black": "textures/parachute/black",
+				"parachute_blue": "textures/parachute/blue",
+				"parachute_brown": "textures/parachute/brown",
+				"parachute_darkblue": "textures/parachute/darkblue",
+				"parachute_darkgray": "textures/parachute/darkgray",
+				"parachute_darkgreen": "textures/parachute/darkgreen",
+				"parachute_gray": "textures/parachute/gray",
+				"parachute_lime": "textures/parachute/lime",
+				"parachute_magenta": "textures/parachute/magenta",
+				"parachute_orange": "textures/parachute/orange",
+				"parachute_pink": "textures/parachute/pink",
+				"parachute_plain": "textures/parachute/plain",
+				"parachute_purple": "textures/parachute/purple",
+				"parachute_red": "textures/parachute/red",
+				"parachute_teal": "textures/parachute/teal",
+				"parachute_yellow": "textures/parachute/yellow"
+			},
+			"materials": {
+				"default": "skeleton"
+			},
+			"geometry": {
+				"parachute": "geometry.para_chest_entity"
+			},
+			"render_controllers": [
+				"controller.render.parachute_chest_entity"
+			]
+		}
+	}
+}

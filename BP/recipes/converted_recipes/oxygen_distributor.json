@@ -4,25 +4,15 @@
     "description": {
       "identifier": "cosmos:oxygen_distributor"
     },
-    "tags": [
-      "crafting_table"
-    ],
-    "pattern": [
-      "WXW",
-      "YZY",
-      "WXW"
-    ],
+    "tags": ["crafting_table"],
+    "pattern": ["WXW", "YZY", "WXW"],
     "key": {
       "W": "cosmos:compressed_steel",
       "X": "cosmos:oxygen_fan",
       "Y": "cosmos:oxygen_vent",
       "Z": "cosmos:compressed_aluminum"
     },
-    "unlock": [
-      "cosmos:compressed_steel"
-    ],
-    "result": {
-      "item": "cosmos:oxygen_distributor"
-    }
+    "unlock": ["cosmos:compressed_steel"],
+    "result": { "item": "cosmos:oxygen_distributor" }
   }
 }

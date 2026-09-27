@@ -16,7 +16,6 @@
 			}
 		},
 		"components": {
-	  		"tag:fluid_pipe": {},
 			//"minecraft:display_name": "%tile.fluid_pipe.name\n§7%tile.fluid_pipe.description",
 			"minecraft:material_instances": {
 				"*": { "texture": "fluid_pipe", "render_method": "blend" },
@@ -24,12 +23,13 @@
 				"color": { "texture": "fluid_pipe_color", "render_method": "blend" },
 				"pull": { "texture": "fluid_pipe_pull", "render_method": "blend" }
 			},
-			"minecraft:collision_box": { "sorigin": [-2.5, 5.5, -2.5], "size": [5, 5, 5] },
+			"minecraft:collision_box": { "origin": [-2.5, 5.5, -2.5], "size": [5, 5, 5] },
 			"minecraft:selection_box": { "origin": [-5, 3, -5], "size": [10, 10, 10] },
 			"minecraft:light_dampening": 0,
 			"minecraft:loot": "loot_tables/blocks/fluid_pipe.json",
 			"minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
 			"minecraft:destructible_by_explosion": false,
+			"tag:fluid_pipe": {},
 			"cosmos:fluid_pipe": {},
 			"minecraft:geometry": {
 				"identifier": "geometry.fluid_pipe",

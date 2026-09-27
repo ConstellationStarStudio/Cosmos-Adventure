@@ -125,11 +125,8 @@ function tick(workbench) {
     // add the side buttons
     const button_names = ['Tier 1 Rocket', 'Tier 2 Rocket', 'Tier 3 Rocket', 'Moon Buggy', 'Cargo Rocket', 'Astro Miner']
     for (let i in button_names) {
-        const side_button = inventory.getItem(BUTTONS + +i)
         //detect a button press
-        if (!side_button) {
-            //reset the button
-            workbench.runCommand('clear @a cosmos:ui_button')
+        if (inventory.was_ui_clicked(BUTTONS + +i, workbench)) {
             //return the items to the nearest player and change the selected recipe
             select_recipe(Object.keys(recipes)[i], workbench, nearest_player)
             inventory.add_ui_display(SCHEMAS + schematic_names.length, button_names[i], +i+1)
@@ -140,11 +137,7 @@ function tick(workbench) {
     }
 
     //the button that takes you to the schematic insertion screen
-    const schematic_button = inventory.getItem(SCHEMA)
-    // if the button got pressed
-    if (!schematic_button) {
-        //reset the button
-        workbench.runCommand('clear @a cosmos:ui_button')
+    if (inventory.was_ui_clicked(SCHEMA, workbench)) {
         block_all_slots(workbench, nearest_player)
         inventory.add_ui_display(SCHEMAS + schematic_names.length, 'Add New Schematics', 7)
     }
@@ -153,10 +146,7 @@ function tick(workbench) {
     if (inventory.getItem(SCHEMA)?.nameTag != unlock_button_name) set_ui_button(inventory, SCHEMA, unlock_button_name)
 
     //detect pressing the unlock button
-    const unlock_button = inventory.getItem(SCHEMA + 1)
-    if (!unlock_button) {
-        //reset the button
-        workbench.runCommand('clear @a cosmos:ui_button')
+    if (inventory.was_ui_clicked(SCHEMA + 1, workbench)) {
         set_ui_button(inventory, SCHEMA + 1, 'Unlock')
         //get the placed schematic and make sure its new
         if (!schematic) return

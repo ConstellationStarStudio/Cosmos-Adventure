@@ -153,6 +153,9 @@
     "advansed_electric_compressor": {
       "textures": "textures/blocks/machines/advansed_electric_compressor"
     },
+    "air_lock_seal": {
+      "textures": "textures/blocks/machines/air_lock_seal"
+    },
     "air_lock_controller": {
       "textures": "textures/blocks/machines/air_lock_controller"
     },
@@ -299,6 +302,9 @@
     },
     "oxygen_output": {
       "textures": "textures/blocks/machines/oxygen_output"
+    },
+    "painter": {
+      "textures": "textures/blocks/machines/painter"
     },
     "oxygen_sealer": {
       "textures": "textures/blocks/machines/oxygen_sealer"

@@ -43,9 +43,11 @@ world.afterEvents.worldLoad.subscribe(() => {
     });
 });
 
+const SPACE_DIMENSIONS = ["cosmos:moon", "cosmos:mars", "cosmos:venus", "cosmos:asteroids", "cosmos:space_stations"];
+
 //removes space tags and sets standart permissions to default
 world.afterEvents.playerSpawn.subscribe(({player}) => {
-    if(!["cosmos:space_stations", "minecraft:the_end"].includes(player.dimension.id)){
+    if(!SPACE_DIMENSIONS.includes(player.dimension.id)){
         space_tags_removing(player)
     }
     player.removeTag("gravity_falling")
@@ -58,14 +60,16 @@ world.afterEvents.playerSpawn.subscribe(({player}) => {
 });
 
 world.afterEvents.playerDimensionChange.subscribe((data) => {
-    if(["cosmos:space_stations", "minecraft:the_end"].includes(data.toDimension.id)){
-        let planet = getPlanetByLocation(data.toLocation);
+    if(SPACE_DIMENSIONS.includes(data.toDimension.id)){
+        let planet = data.player.getPlanet() || getPlanetByLocation(data.toLocation, data.toDimension);
         if(!planet) return;
         data.player.addTag("in_space");
         data.player.addTag("ableToOxygen");
     }
-    if(["cosmos:space_stations", "minecraft:the_end"].includes(data.fromDimension.id)){
-        data.player.runCommand("fog @s remove mars")
+    if(SPACE_DIMENSIONS.includes(data.fromDimension.id)){
+        try {
+            data.player.runCommand("fog @s remove mars");
+        } catch (e) {}
         space_tags_removing(data.player);
         data.player.removeTag("gravity_falling")
     }

@@ -1,0 +1,28 @@
+{
+    "format_version": "1.10.0",
+    "minecraft:client_entity": {
+        "description": {
+            "identifier": "cosmos:oxygen_distributor",
+            "materials": {
+                "default": "beacon_beam_transparent"
+            },
+            "textures": {
+                "default": "textures/entity/breatheable_air"
+            },
+            "geometry": {
+                "default": "geometry.cosmos_sphere"
+            },
+            "scripts": {
+				"animate": [
+					"idle"
+				]
+			},
+            "animations": {
+				"idle": "animation.oxygen_distributor.idle"
+			},
+            "render_controllers": [
+                "controller.render.nasa_workbench"
+            ]
+        }
+    }
+}

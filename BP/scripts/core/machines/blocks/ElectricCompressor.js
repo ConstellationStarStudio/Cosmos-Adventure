@@ -1,7 +1,7 @@
-import { system, ItemStack } from "@minecraft/server";
-import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
-import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js"
+import { ItemStack, system } from "@minecraft/server";
+import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import { find_recipe } from "./Compressor.js";
+import { compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
 
 const InputSlots = Array.from(Array(9).keys()) // 0 to 8
 const BatterySlot = 9, OutputSlots = [10, 11]
@@ -68,19 +68,19 @@ function onTick(entity, block){
 			}
 		}
 		if((min < 2) && (one_has_space(64) || two_has_space(64))){
-		for (let i = 0; i < 9; i++){
-			if (items[i]) container.setItem(i, items[i].decrementStack(1))
-		}
-		if(one_has_space(64)){
-			if(output_items[0]?.typeId == recipe) {
-				container.setItem(OutputSlots[0], output_items[0].incrementStack())
-			} else container.setItem(OutputSlots[0], new ItemStack(recipe))
-		}
-		else if(two_has_space(64) && !one_has_space(64)){
-			if(output_items[1]?.typeId == recipe) {
-				container.setItem(OutputSlots[1], output_items[1].incrementStack())
-			} else container.setItem(OutputSlots[1], new ItemStack(recipe))
-		}
+			for (let i = 0; i < 9; i++){
+				if (items[i]) container.setItem(i, items[i].decrementStack(1))
+			}
+			if(one_has_space(64)){
+				if(output_items[0]?.typeId == recipe) {
+					container.setItem(OutputSlots[0], output_items[0].incrementStack())
+				} else container.setItem(OutputSlots[0], new ItemStack(recipe))
+			}
+			else if(two_has_space(64) && !one_has_space(64)){
+				if(output_items[1]?.typeId == recipe) {
+					container.setItem(OutputSlots[1], output_items[1].incrementStack())
+				} else container.setItem(OutputSlots[1], new ItemStack(recipe))
+			}
 		}
 		else if((min >= 2) && (one_has_space(63) || two_has_space(63))){
 			for (let i = 0; i < 9; i++){

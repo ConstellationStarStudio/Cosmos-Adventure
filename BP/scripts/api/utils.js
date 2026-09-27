@@ -1,5 +1,6 @@
 // This file is for general Utility functions only.
 
+import * as mc from "@minecraft/server";
 import {machine_entities} from "../core/machines/Machine";
 import {vehicles} from "../core/vehicles/Vehicle";
 import { multi_blocks } from "../core/mullti_blocks/MultiBlock";
@@ -21,7 +22,11 @@ export function save_dynamic_object(storage, value, type, name = 'variables'){
 	entity.entity_data = entity.entity_data ?? {};
 	entity.entity_data[name] = value;
 	data_maps[type].set(storage.id, entity);
-	storage.setDynamicProperty(type, JSON.stringify(entity.entity_data)) 
+	const new_str = JSON.stringify(entity.entity_data);
+	if (entity.last_str !== new_str) {
+		entity.last_str = new_str;
+		storage.setDynamicProperty(type, new_str);
+	}
 }
 
 export function str(object) { return JSON.stringify(object) }
@@ -38,6 +43,10 @@ export function six_neighbors(block) {
 	const blocks = {}
 	six_neighbors_array.forEach(side => blocks[side] = block[side]())
 	return blocks
+}
+
+export function get_neighbors(block) {
+	return six_neighbors_array.map(side => block[side]())
 }
 
 // this function takes a Block and a Side (above, below, left, right, back, or front) and returns a location {x, y, z}
@@ -57,7 +66,8 @@ export function location_of_side(block, side) {
 }
 
 export function get_entity(dimension, location, family) {
-	if (location) return dimension.getEntities({
+	if (!location) return
+	return dimension.getEntities({
 		families: [family],
 		location: {
 			x: Math.floor(location.x) + 0.5,
@@ -68,6 +78,17 @@ export function get_entity(dimension, location, family) {
 	})[0]
 }
 
+export const getHand = (() => {
+	const handsMap = new WeakMap();
+	/**
+	 * @param {mc.Entity} source
+	 * @returns {mc.ContainerSlot} 'Mainhand' ContainerSlot of the entity
+	 **/
+	return source => handsMap.get(source) ?? handsMap.set(
+		source, source.getComponent("equippable")?.getEquipmentSlot("Mainhand")
+	).get(source)
+
+})();
 
 /**@type {<T>(list?: T[])=>T}  */
 export function select_random_item(list = []) {
@@ -113,10 +134,47 @@ export function compare_position(a, b) {
 export function floor_position({ x, y, z }) {
 	return { x: Math.floor(x), y: Math.floor(y), z: Math.floor(z) };
 }
-export function getPlanetByLocation(location){
+export function getPlanetByLocation(location, dimension){
+    if (dimension) {
+        const dimId = typeof dimension === 'string' ? dimension : dimension.id;
+        const entry = ALL_PLANETS.find(p => p.dimensionId === dimId || p.id === dimId.replace("cosmos:", ""));
+        if (entry) return entry.class;
+    }
     let {x, y, z} = location;
     return ALL_PLANETS.find((planet) => (
         x >= planet.range.start.x && x <= planet.range.end.x && 
         z >= planet.range.start.z && z <= planet.range.end.z)
     )?.class;
+}
+
+/**
+ * Force-closes any open container UI for the player by temporarily teleporting them out of range.
+ * @param {mc.Player} player 
+ */
+export function closeContainerUI(player) {
+	if (!player || !player.isValid) return;
+	const returnPos = { ...player.location };
+	const rot = player.getRotation();
+	player.teleport({ x: returnPos.x, y: returnPos.y + 500, z: returnPos.z });
+	mc.system.run(() => {
+		if (player.isValid) player.teleport(returnPos, { rotation: rot });
+	});
+}
+
+/**
+ * Gets a random populated slot index in the given range.
+ * @param {mc.Container} container 
+ * @param {number} start 
+ * @param {number} end 
+ * @returns {number} The slot index, or -1 if none found
+ */
+export function getRandomItemSlot(container, start, end) {
+	let validSlots = [];
+	for (let i = start; i <= end; i++) {
+		if (container.getItem(i)) {
+			validSlots.push(i);
+		}
+	}
+	if (validSlots.length === 0) return -1;
+	return validSlots[Math.floor(Math.random() * validSlots.length)];
 }

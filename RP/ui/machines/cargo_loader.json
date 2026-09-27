@@ -1,0 +1,96 @@
+{
+	"namespace": "cargo_loader",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			201
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Cargo Loader",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						27
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"cargo_grid@machines.item_grid": {
+					"size": [
+						126,
+						36
+					],
+					"grid_dimensions": [
+						7,
+						2
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						38,
+						27
+					]
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 15,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						108,
+						102
+					]
+				}
+			},
+			{
+				"lightning_icon": {
+					"type": "image",
+					"texture": "textures/ui/cosmos/slot_overlay/power",
+					"size": [
+						11,
+						10
+					],
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						94,
+						101
+					]
+				}
+			},
+			{
+				"load_items_button@machines.machine_button": {
+					"$index": 16,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						87,
+						77
+					],
+					"$button_size": [
+						75,
+						18
+					]
+				}
+			}
+		]
+	}
+}

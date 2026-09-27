@@ -5,7 +5,7 @@
       "name": "Cosmos Adventure",
       "version": [5, 0, 7],
       "uuid": "c4a889c0-c968-43cb-bd29-cf4f2b456965",
-      "min_engine_version": [1, 20, 60]
+      "min_engine_version": [1, 21, 60]
    },
    "modules": [
         {

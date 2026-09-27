@@ -1,0 +1,105 @@
+{
+	"namespace": "geothermal_generator",
+	"interface@machines.dynamic_interface": {
+		"$size": [
+			"100%",
+			201
+		],
+		"$content": [
+			{
+				"title": {
+					"type": "label",
+					"text": "Geothermal Generator",
+					"color": "$title_text_color",
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						10,
+						5
+					]
+				}
+			},
+			{
+				"battery_slot@machines.item_slot": {
+					"$index": 0,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						152,
+						83
+					],
+					"$overlay_texture": "textures/ui/cosmos/slot_overlay/power"
+				}
+			},
+			{
+				"energy_bar@machines.energy_bar": {
+					"$index": 1,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						97,
+						25
+					]
+				}
+			},
+			{
+				"generating_label@machines.item_text": {
+					"$index": 2,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						46
+					],
+					"$text_font_scale": 0.8
+				}
+			},
+			{
+				"status_label@machines.item_text": {
+					"$index": 3,
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [
+						0,
+						57
+					],
+					"$text_font_scale": 0.8
+				}
+			},
+			{
+				"enable_button@machines.machine_button": {
+					"$index": 4,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						52,
+						81
+					],
+					"$button_size": [
+						72,
+						20
+					]
+				}
+			},
+			{
+				"lava_tank@machines.fluid_tank": {
+					"$liquid": "lava",
+					"$index": 5,
+					"anchor_from": "top_left",
+					"anchor_to": "top_left",
+					"offset": [
+						33,
+						21
+					],
+					"$tank_width": 18,
+					"$tank_size": [
+						"18px",
+						"18px"
+					],
+					"$tank_back_tex": "textures/ui/cosmos/machines/tank_back_18",
+					"$tank_front_tex": "textures/ui/cosmos/machines/tank_front_18"
+				}
+			}
+		]
+	}
+}

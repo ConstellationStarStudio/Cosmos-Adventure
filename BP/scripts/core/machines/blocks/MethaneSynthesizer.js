@@ -2,7 +2,7 @@ import { system } from "@minecraft/server"
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
 import { charge_from_machine, charge_from_battery } from "../../matter/electricity"
 import { machine_buttons, setup_ui_button } from "../MachineButtons"
-import { input_fluid, load_from_item, load_to_canister, output_fluid } from "../../matter/fluids"
+import { input_fluid, load_from_item, load_to_canister, output_fluid } from "../../matter/fluids.js"
 
 const InputSlot = 0, BatterySlot = 1, Co2Input = 2, MethaneOutput = 3, CoalItem = 4
 const HydrogenDisplay = 5, CO2Display = 6, MethaneDisplay = 7, EnergyDisplay = 8

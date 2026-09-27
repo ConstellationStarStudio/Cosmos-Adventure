@@ -971,18 +971,31 @@
 				}
 			},
 			{
-				"red_number@form_buttons": {
-					"offset": [1, 6],
-					"$color": [1, 0, 0],
-					"$condition": "$is_create_station_button",
-					"$buttons": "cosmos.amount_label"
+				"red_number": {
+					"type": "label",
+					"color": [1, 0, 0],
+					"text_alignment": "center",
+					"text": "$amount",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [1, 16],
+					"size": [16, 12],
+					"layer": 5,
+					"bindings": "$no_condition"
 				}
 			},
 			{
-				"green_number@form_buttons": {
-					"offset": [1, 6],
-					"$color": [0, 1, 0],
-					"$buttons": "cosmos.amount_label"
+				"green_number": {
+					"type": "label",
+					"color": [0, 1, 0],
+					"text_alignment": "center",
+					"text": "$amount",
+					"anchor_from": "top_middle",
+					"anchor_to": "top_middle",
+					"offset": [1, 16],
+					"size": [16, 12],
+					"layer": 5,
+					"bindings": "$condition"
 				}
 			}
 		]

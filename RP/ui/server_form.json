@@ -41,7 +41,7 @@
 				}
 			},
 			{
-				"celestial_panel@selector.selector_screen": {
+				"celestial_panel@celestial.selector_screen": {
 					"layer": 2,
 					"bindings": [
 						{ "binding_name": "#form_title" },

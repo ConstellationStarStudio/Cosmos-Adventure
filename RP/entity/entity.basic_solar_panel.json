@@ -1,0 +1,28 @@
+{
+  "format_version": "1.10.0",
+  "minecraft:client_entity": {
+    "description": {
+      "geometry": {
+        "default": "geometry.solar_panel"
+      },
+      "identifier": "cosmos:basic_solar_panel",
+      "materials": {
+        "default": "skeleton"
+      },
+      "render_controllers": [
+        "controller.render.default"
+      ],
+      "textures": {
+        "default": "textures/entity/solar_panel_basic"
+      },
+      "scripts": {
+        "animate": [
+					"rotation"
+				]
+      },
+			"animations": {
+				"rotation": "animation.solar_panel.rotation"
+			}
+    }
+  }
+}

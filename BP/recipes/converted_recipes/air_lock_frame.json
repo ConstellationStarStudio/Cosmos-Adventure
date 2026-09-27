@@ -2,7 +2,7 @@
   "format_version": "1.20.10",
   "minecraft:recipe_shaped": {
     "description": {
-      "identifier": "cosmos:air_lock_frame"
+      "identifier": "cosmos:airlock_frame"
     },
     "tags": [
       "crafting_table"
@@ -21,7 +21,7 @@
       "cosmos:compressed_aluminum"
     ],
     "result": {
-      "item": "cosmos:air_lock_frame",
+      "item": "cosmos:airlock_frame",
       "count": 4
     }
   }

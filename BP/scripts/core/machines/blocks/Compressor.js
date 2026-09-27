@@ -34,6 +34,7 @@ const data = {
 		const isCoalBlock = fuelItem?.typeId === 'minecraft:coal_block'; 
 
 		const variables = load_dynamic_object(entity, "machine_data");
+
 		let burnTime = variables.burnTime || 0;
 		let burnDuration = variables.burnDuration || 0;
 		let progress = variables.progress || 0;
