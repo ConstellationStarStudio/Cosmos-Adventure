@@ -144,7 +144,6 @@ export const bucket_component = {
 
 export function output_fluid(fluid_data, entity, block, fluid) {
     if(system.currentTick % 20) return fluid;
-    
     /* debug purposes
     prints fluid system object and all registered pipes
     if you wanna delete registered pipes and system use world.clearDynamicProperties();
@@ -164,7 +163,7 @@ export function output_fluid(fluid_data, entity, block, fluid) {
 
     let condition_state = (fluid_data.liquid_type == "g") ? 1: 2;
     if (target_block.hasTag("fluid_pipe") && target_block.permutation.getState(pipe_same_side[direction]) >= condition_state){
-        let network_id = world.getDynamicProperty(target_block.dimension.id + JSON.stringify(target_block.location));
+        let network_id = target_block.getComponent("minecraft:dynamic_properties").get("network_id");
         if(!network_id){
             fluid = create_network(target_block, fluid_data.type, fluid_data.liquid_type, fluid);
             return fluid;
@@ -189,7 +188,7 @@ export function input_fluid(fluid_data, entity, block, fluid) {
     const source_block = block.dimension.getBlock(source_location)
 
     if (source_block?.hasTag("fluid_pipe")) {
-        let network = world.getDynamicProperty(source_block.dimension.id + JSON.stringify(source_block.location));
+        let network = source_block.getComponent("minecraft:dynamic_properties").get("network_id");
         network = fluid_network[network];
         if(network && fluid_data.type == undefined && network.l == fluid_data.liquid_type){
             fluid_data.type = network.t;

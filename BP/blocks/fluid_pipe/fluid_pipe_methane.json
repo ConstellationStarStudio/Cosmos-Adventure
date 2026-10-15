@@ -1,5 +1,5 @@
 {
-    "format_version": "1.26.0",
+    "format_version": "1.26.50",
 	"minecraft:block": {
 		"description": {
 			"identifier": "cosmos:fluid_pipe_methane",
@@ -15,21 +15,24 @@
 			}
 		},
 		"components": {
-	  		"tag:fluid_pipe": {},
+	  		"minecraft:tags": ["fluid_pipe"],
+			"minecraft:block_entity": {
+				"dynamic_properties": true
+			},
 			"minecraft:material_instances": {
 				"*": { "texture": "fluid_pipe", "render_method": "blend" },
 				"fluid": { "texture": "methane", "render_method": "blend" },
 				"color": { "texture": "fluid_pipe_color", "render_method": "blend" },
 				"pull": { "texture": "fluid_pipe_pull", "render_method": "blend" }
 			},
-			"minecraft:collision_box": { "sorigin": [-2.5, 5.5, -2.5], "size": [5, 5, 5] },
+			"minecraft:collision_box": [{"origin": [-2.5, 5.5, -2.5], "size": [5, 5, 5] }],
 			"minecraft:selection_box": { "origin": [-5, 3, -5], "size": [10, 10, 10] },
 			"minecraft:light_dampening": 0,
 			"minecraft:loot": "loot_tables/blocks/fluid_pipe.json",
 			"minecraft:destructible_by_mining": { "seconds_to_destroy": 0.5 },
 			"minecraft:destructible_by_explosion": false,
 			"cosmos:fluid_pipe": {},
-			"minecraft:geometry": {
+						"minecraft:geometry": {
 				"identifier": "geometry.fluid_pipe",
 				"bone_visibility": {
 					"up": "q.block_state('cosmos:fluid_up') != 0",
@@ -39,7 +42,7 @@
 					"south": "q.block_state('cosmos:fluid_south') != 0",
 					"west": "q.block_state('cosmos:fluid_west') != 0",
 					
-					"fluid_middle": true,
+					"fluid_middle": "true",
 					"fluid_up": "q.block_state('cosmos:fluid_up') != 0",
 					"fluid_down": "q.block_state('cosmos:fluid_down') != 0",
 					"fluid_north": "q.block_state('cosmos:fluid_north') != 0",
@@ -54,22 +57,22 @@
 					"pull_south": "q.block_state('cosmos:fluid_south') == 2",
 					"pull_west": "q.block_state('cosmos:fluid_west') == 2",
 
-					"white": true,
-					"silver": false,
-					"gray": false,
-					"black": false,
-					"brown": false,
-					"red": false,
-					"orange": false,
-					"yellow": false,
-					"lime": false,
-					"green": false,
-					"light_blue": false,
-					"cyan": false,
-					"blue": false,
-					"purple": false,
-					"magenta": false,
-					"pink": false
+					"white": "true",
+					"silver": "false",
+					"gray": "false",
+					"black": "false",
+					"brown": "false",
+					"red": "false",
+					"orange": "false",
+					"yellow": "false",
+					"lime": "false",
+					"green": "false",
+					"light_blue": "false",
+					"cyan": "false",
+					"blue": "false",
+					"purple": "false",
+					"magenta": "false",
+					"pink": "false"
 				}
 			}
 		},

@@ -48,15 +48,14 @@ export function get_direction(location){
 		if(side[0].x == location.x && side[0].y == location.y && side[0].z == location.z) return side[1]
 	}
 }
-export function detach_pipes(block, perm, type = "pipe"){
+export function detach_pipes(block, perm, id, type = "pipe"){
 	const neighbors = six_neighbors(block);
-	let id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
 	let pipes = [];
 	let network_ids = new Set();
 	for (const side in neighbors) {
 		const pipe = neighbors[side]
 		if (!pipe.hasTag("fluid_pipe") || !pipe.permutation.getState(pipe_opposite_side[side])) continue;
-		let network_id = world.getDynamicProperty(pipe.dimension.id + JSON.stringify(pipe.location));
+		let network_id = pipe.getComponent("minecraft:dynamic_properties").get("network_id");
 		network_ids.add(network_id);
 		pipes.push([pipe, side, network_id]);
 	}
@@ -69,7 +68,6 @@ export function detach_pipes(block, perm, type = "pipe"){
 		delete fluid_network[id];
 	    save_network();
 	}
-	world.setDynamicProperty(block.dimension.id + JSON.stringify(block.location), undefined);
 
 	pipes.forEach((pipe) => {
 		pipe[0].setPermutation(pipe[0].permutation.withState(pipe_opposite_side[pipe[1]], 0));
@@ -104,9 +102,9 @@ export function attach_to_machine(pipe){
 		if(!machine || machine.isAir || !machines[machine.typeId.replace('cosmos:', '')]) continue;
 		sides[block] = (sides[block] == 1)? 2: 1;
 	}
+	let network_id = pipe.getComponent("minecraft:dynamic_properties").get("network_id");
 	pipe.setPermutation(BlockPermutation.resolve(pipe.typeId, sides));
 
-	let network_id = world.getDynamicProperty(pipe.dimension.id + JSON.stringify(pipe.location));
 	if(network_id && fluid_network[network_id]){
 		fluid_network[network_id].e = false;
 		save_network();
@@ -156,11 +154,12 @@ export function update_pipe_network(first_pipe, id, perm = first_pipe.permutatio
 		if(value.type == "pipe"){
 			pipes_counter++;
 			let block = value.block;
-			let block_id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
+			let block_id = block.getComponent("minecraft:dynamic_properties").get("network_id");
 			if(block.permutation.getState("cosmos:tick")) block.setPermutation(block.permutation.withState("cosmos:tick", false))
 			if(id && !tick_pipes.length) tick_pipes.push(value.block);
 			if(block_id != id){
-			    world.setDynamicProperty(block.dimension.id + JSON.stringify(block.location), id);
+			    try{ block.getComponent("minecraft:dynamic_properties").set("network_id", id) }
+				catch(undefined){}
 			    delete fluid_network[block_id];
 		    }
 		}else if(id){
@@ -201,7 +200,7 @@ function connect_pipes(pipe) {
 			block.setPermutation(block.permutation.withState(pipe_opposite_side[side], 1));
 			states[pipe_same_side[side]] = 1;
 
-			let network_id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
+			let network_id = block.getComponent("minecraft:dynamic_properties").get("network_id");
 			pipes.push(block);
 			if(network_id && !network_ids.includes(network_id)) network_ids.push(network_id);
 		}
@@ -244,7 +243,12 @@ export const fluid_pipe_component = {
 	beforeOnPlayerPlace({block}) {
 		system.run(() => {connect_pipes(block)});
 	},
-	onPlayerBreak({block, brokenBlockPermutation}) {
-		detach_pipes(block, brokenBlockPermutation)
-	},
 }
+
+world.beforeEvents.playerBreakBlock.subscribe(({block}) => {
+	if(block.hasTag("fluid_pipe")){
+		let id = block.getComponent("minecraft:dynamic_properties").get("network_id");
+		let perm = block.permutation;
+		system.run(() => {detach_pipes(block, perm, id)});
+	}
+});

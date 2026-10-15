@@ -8,7 +8,7 @@ export function create_network(pipe, type, liquid_type, fluid_amount){
     let network_ids = Object.keys(fluid_network);
     let last_id = network_ids.at(-1) ?? 0;
     let new_id = parseInt(last_id) + 1;
-    world.setDynamicProperty(pipe.dimension.id + JSON.stringify(pipe.location), new_id);
+    pipe.getComponent("minecraft:dynamic_properties").set("network_id", new_id);
     fluid_network[new_id] = {type};
     let info = update_pipe_network(pipe, new_id);
     
@@ -41,7 +41,7 @@ export function save_network(){
 
 export const fluid_tick_component = {
     onTick({block}) {
-        let network_id = world.getDynamicProperty(block.dimension.id + JSON.stringify(block.location));
+        let network_id = block.getComponent("minecraft:dynamic_properties").get("network_id")
         let network = fluid_network[network_id];
         if(!network){
             block.setPermutation(block.permutation.withState("cosmos:tick", false));
@@ -75,7 +75,9 @@ export function* update_fluid(pipe, fluid, liquid_type, perm = pipe.permutation)
     if(!pipe.isAir){
         let perm_to_set = pipe.permutation.getAllStates();
         perm_to_set["cosmos:liquid"] = new_liquid_type;
+        let id = pipe.getComponent("minecraft:dynamic_properties").get("network_id");
         pipe.setPermutation(BlockPermutation.resolve(new_type, perm_to_set));
+        if(id) pipe.getComponent("minecraft:dynamic_properties").set("network_id", id);
     }
 
     for(let i = 0; i < pipes_to_update.length; i++){
@@ -86,7 +88,10 @@ export function* update_fluid(pipe, fluid, liquid_type, perm = pipe.permutation)
             pipes_to_update = [...pipes_to_update, ...get_sides(new_pipe, updated_pipes)]
             let new_perm = BlockPermutation.resolve(new_type, new_pipe.permutation.getAllStates());
             new_perm["cosmos:liquid"] = new_liquid_type;
+
+            let id = new_pipe.getComponent("minecraft:dynamic_properties").get("network_id");
             new_pipe.setPermutation(BlockPermutation.resolve(new_type, new_pipe.permutation.getAllStates()));
+            if(id) new_pipe.getComponent("minecraft:dynamic_properties").set("network_id", id)
             yield;
         }
     }
