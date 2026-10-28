@@ -79,6 +79,20 @@
 					]
 				}
 			},
+			{ "status@machines.item_text": {
+                "$index": 74,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+				"layer": 10,
+                "offset": [ 176, 140 ]
+            }},
+			{ "delta@machines.item_text": {
+                "$index": 75,
+                "anchor_from": "top_left",
+                "anchor_to": "top_left",
+				"layer": 10,
+                "offset": [ 180, 139 ]
+            }},
 			{
 				"player_inventory@common.inventory_panel_bottom_half_with_label": {
 					"anchor_from": "top_left",
@@ -121,7 +135,7 @@
 			},
 			{
 				"recall_button@machines.machine_button": {
-					"$index": 74,
+					"$index": 76,
 					"anchor_from": "top_left",
 					"anchor_to": "top_left",
 					"offset": [

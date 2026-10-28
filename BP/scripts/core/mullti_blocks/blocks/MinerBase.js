@@ -6,7 +6,9 @@ import { reload_vehicle } from "../../vehicles/Vehicle.js";
 
 const BatterySlot = 72;
 const EnergyDisplay = 73;
-const ButtonSlot = 74;
+const StatusDisplay = 74;
+const DeltaDisplay = 75;
+const ButtonSlot = 76;
 const data = {
 	energy: {rate: 20, capacity: 16000, maxInput: 50},
 	onTick: onTick,
@@ -38,14 +40,52 @@ function onTick(astro_miner_base){
     let miner_id = miner_data.miner_id;
 	let energy = miner_data.energy ?? 0;
 	let astro_miner;
+	let miner_info;
 	if(miner_id){
 		astro_miner = world.getEntity(miner_id);
 		if(!astro_miner?.isValid) miner_id = undefined;
+		else miner_info = load_dynamic_object(astro_miner, "vehicle_data");
 	}
 
 	energy = charge_from_battery(astro_miner_base, energy, BatterySlot)
     if(!(system.currentTick % 20)) astro_miner_base.addEffect("invisibility", 9999, {showParticles: false});
+	let status = "";
+	let delta = "";
+	
+	if(miner_info){
+		let m_loc = astro_miner.location;
+		let b_lock = astro_miner_base.location;
+		switch(miner_info.ai_state){
+			case -1:
+				status = " §cOffline"
+				break;
+			case 0:
+				status = "§cStuck at: ";
+				delta = `§2\nΔx: ${Math.round(m_loc.x - b_lock.x)}\nΔy: ${Math.round(m_loc.y - b_lock.y)}\nΔz: ${Math.round(m_loc.z - b_lock.z)}`
+				break;
+			case 1:
+				status = "§aDocked"
+				break;
+		    case 2:
+				status = "§aTraveling" + `\n\n\n\n§2Mined: ${miner_info.mine_count}`
+				delta = `§2\nΔx: ${Math.round(m_loc.x - b_lock.x)}\nΔy: ${Math.round(m_loc.y - b_lock.y)}\nΔz: ${Math.round(m_loc.z - b_lock.z)}`
+				break;
+			case 3:
+				status = "§aMining" + `\n\n\n\n§2Mined: ${miner_info.mine_count}`
+				delta = `§2\nΔx: ${Math.round(m_loc.x - b_lock.x)}\nΔy: ${Math.round(m_loc.y - b_lock.y)}\nΔz: ${Math.round(m_loc.z - b_lock.z)}`
+				break;
+			case 4:
+				status = "§aReturning" + `\n\n\n\n§2Mined: ${miner_info.mine_count}`
+				delta = `§2\nΔx: ${Math.round(m_loc.x - b_lock.x)}\nΔy: ${Math.round(m_loc.y - b_lock.y)}\nΔz: ${Math.round(m_loc.z - b_lock.z)}`
+				break;
+			case 5:
+				status = "§aDocking";
+				break;
+		}
+	}
 
+	container.add_ui_display(DeltaDisplay, delta);
+	container.add_ui_display(StatusDisplay, status);
 	container.add_ui_display(EnergyDisplay, `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`, Math.round((energy / data.energy.capacity) * 66))
 	save_dynamic_object(astro_miner_base, {miner_id, energy}, "multi_block_data")
 }

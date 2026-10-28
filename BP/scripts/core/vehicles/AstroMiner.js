@@ -25,7 +25,7 @@ const facing_yaw = {north: 180, south: 0, west: 90, east: 270};
 const unbreakable_blocks = [
     "minecraft:water", "minecraft:lava", "minecraft:bedrock", "minecraft:end_portal", "minecraft:end_frame",
     "minecraft:portal", "minecraft:rail", "minecraft:farmland", "minecraft:lever", "minecraft:redstone_wire",
-    "minecraft:stonebrick", "minecraft:mossy_cobblestone", "cosmos:walkway", "cosmos:astro_miner_base"
+    "minecraft:stone_bricks", "minecraft:mossy_cobblestone", "cosmos:walkway", "cosmos:astro_miner_base"
 ];
 export default function(entity){
     let info = load_dynamic_object(entity, "vehicle_data");
@@ -38,6 +38,7 @@ export default function(entity){
 
     info.targ_rot = info.targ_rot ?? {x: 0, y: 0};
     info.mine_count_down = info.mine_count_down ?? 0;
+    info.mine_count = info.mine_count ?? 0;
     info.velocity = info.velocity ?? {x: 0, y: 0, z: 0}
     info.rot_speed = info.rot_speed ?? 1.5;
     info.ticks_existed = info.ticks_existed ?? 0;
@@ -46,7 +47,7 @@ export default function(entity){
     info.energy = info.energy ?? 0;
 
     let player = world.getEntity(info.player_id);
-
+    
     if(info.ticks_existed % 10 == 0){
         let base = world.getEntity(info.base_id);
         if(!base?.isValid){
@@ -60,6 +61,9 @@ export default function(entity){
                     info.base_id = base.id;
                     save_dynamic_object(base, base_info, "multi_block_data");
                 }
+            }else if(player && (info.fail_message & (1 << 3)) == 0){
+                player?.sendMessage({translate: "gui.message.astro_miner3.fail"})
+                info.fail_message += (1 << 3);
             }
         }
     }
@@ -83,9 +87,9 @@ export default function(entity){
 
     if(info.ai_face != info.last_facing){
         info.last_facing = info.ai_face;
-        broke_blocks(entity, 0, info.ai_face, 12, info)
-        broke_blocks(entity, 1, info.ai_face, 12, info)
-        broke_blocks(entity, 2, info.ai_face, 12, info)
+        broke_blocks(entity, 0, info.ai_face, 12, info, player)
+        broke_blocks(entity, 1, info.ai_face, 12, info, player)
+        broke_blocks(entity, 2, info.ai_face, 12, info, player)
     }
 
     switch(info.ai_state) {
@@ -95,23 +99,23 @@ export default function(entity){
                 // The base was destroyed - see if it has been replaced?
                 if((info.fail_message & 8) >  0){
                     let base = world.getEntity(info.base_id);
-                    at_base(base, entity, info, waypoints, minepoints);
+                    at_base(base, entity, info, waypoints, minepoints, player);
                 }else{
                     // See if the return path has been unblocked, and give a small amount of backup energy to try to get home
-                    info.ai_state = 5;
+                    info.ai_state = 4;
                     if(info.energy <= 0) info.energy = 20
                 }
             }
             break;
         case 1:
             let base = world.getEntity(info.base_id);
-            at_base(base, entity, info, waypoints, minepoints);
+            at_base(base, entity, info, waypoints, minepoints, player);
             save_dynamic_object(entity, waypoints, "vehicle_data", "waypoints");
             save_dynamic_object(entity, minepoints, "vehicle_data", "minepoints");
             break;
         case 2:
             if(!move_to_target(entity, info, waypoints, minepoints)){
-                broke_blocks(entity, 2, info.ai_face, 2, info);
+                broke_blocks(entity, 2, info.ai_face, 2, info, player);
             }
             save_dynamic_object(entity, waypoints, "vehicle_data", "waypoints");
             save_dynamic_object(entity, minepoints, "vehicle_data", "minepoints");
@@ -119,7 +123,7 @@ export default function(entity){
         case 3:
             if(!do_mining(entity, info, minepoints) && info.ticks_existed % 2 == 0){
                 info.energy--;
-                broke_blocks(entity, 2, info.ai_face, 1, info);
+                broke_blocks(entity, 2, info.ai_face, 1, info, player);
             }
             save_dynamic_object(entity, minepoints, "vehicle_data", "minepoints");
             break;
@@ -138,7 +142,7 @@ export default function(entity){
             if(move_to_pos(entity.location, waypoints[waypoints.length - 1], true, info)) waypoints.pop()
             save_dynamic_object(entity, waypoints, "vehicle_data", "waypoints");
 
-            broke_blocks(entity, 1, info.ai_face, 4, info);
+            broke_blocks(entity, 1, info.ai_face, 4, info, player);
 
             break;
         case 5:
@@ -162,7 +166,7 @@ export default function(entity){
     save_dynamic_object(entity, info, "vehicle_data");
 }
 
-function at_base(base, miner, info, waypoints, minepoints){
+function at_base(base, miner, info, waypoints, minepoints, player){
     if(!base?.isValid){
         freeze(3, info);
         return;
@@ -194,7 +198,10 @@ function at_base(base, miner, info, waypoints, minepoints){
             info.ai_state = 2;
             waypoints.push({x: base.location.x, y: base.location.y + 1, z: base.location.z});
             info.mine_count = 0;
-        }else if ((info.fail_message & 64) == 0) info.fail_message += 64;
+        }else if(player && (info.fail_message & 64) == 0){
+            player.sendMessage({translate: "gui.message.astro_miner6.fail"})
+            info.fail_message += 64;
+        }
     }
 }
 
@@ -238,12 +245,15 @@ function transfer_items(miner_container, base){
 function freeze(fail, info){
     info.ai_state = 0;
     info.velocity = {x: 0, y: 0, z: 0};
-    if(info.fail_message & (1 << fail) == 0){
+
+    let player = world.getEntity(info.player_id);
+    if(player && (info.fail_message & (1 << fail)) == 0){
+        player.sendMessage({translate: "gui.message.astro_miner" + fail + ".fail"});
         info.fail_message += (1 << fail);
     }
 }
 
-function broke_blocks(miner, dist, ai_face, limit, info){
+function broke_blocks(miner, dist, ai_face, limit, info, player){
     if(info.mine_count_down > 0){
         info.mine_count_down -= 1;
         return false;
@@ -294,25 +304,36 @@ function broke_blocks(miner, dist, ai_face, limit, info){
         return false;
     }
 
+    let blocking_block;
     for(let vector of mined_blocks){
         vector = {x: in_front.x + (vector.x * Math.cos(sides[ai_face]) - vector.z * Math.sin(sides[ai_face])), 
             y: in_front.y +  vector.y, 
             z: in_front.z + (vector.x * Math.sin(sides[ai_face]) + vector.z * Math.cos(sides[ai_face]))};
         let block = miner.dimension.getBlock(vector);
         if(block && !block.isAir){
-            if(!unbreakable_blocks.includes(block.typeId) && !block.hasTag("wire") && !block.hasTag("pipe")){
+            if(!unbreakable_blocks.includes(block.typeId) && !block.hasTag("wire") && !block.hasTag("fluid_pipe") && !block.hasTag("machine")){
                 let item = block.getItemStack();
                 try{
                     miner.getComponent('minecraft:inventory').container.addItem(item);
                 }catch{
                     block.dimension.spawnItem(item, block.location);
                 }
+                info.mine_count++;
                 block.setPermutation(BlockPermutation.resolve("minecraft:air"))
-            }else is_way_barred = true;
+            }else{
+                blocking_block = block;
+                is_way_barred = true;
+            }
         }
     }
 
     if(is_way_barred){
+        if(player && blocking_block){
+            let message;
+            if(blocking_block.typeId == "minecraft:stone_bricks") message = {rawtext: [{translate: "gui.message.astro_miner1_a.fail"}, {"text": " "}, {translate: "gui.message.astro_miner1_b.fail"}]}
+            else message =  {rawtext: [{translate: "gui.message.astro_miner1_a.fail"}, {"text": " "}, {translate: blocking_block.localizationKey}]}
+            player.sendMessage(message);
+        }
         info.velocity = {x: 0, y: 0, z: 0};
         info.try_block_limit = 0;
         if(info.ai_state == 2) info.ai_state = 4
