@@ -55,6 +55,10 @@ export default function(entity){
     let player = world.getEntity(info.player_id);
     
     if(info.ticks_existed % 10 == 0){
+        let enabled = entity.getProperty("cosmos:enabled");
+        if(!enabled && info.ai_state > 1) entity.setProperty("cosmos:enabled", true)
+        else if(enabled && info.ai_state <= 1) entity.setProperty("cosmos:enabled", false)
+
         let base = world.getEntity(info.base_id);
         if(!base?.isValid){
             base = entity.dimension.getEntities({type: "cosmos:astro_miner_base", maxDistance: 0.5, location: info.base_blocks})[0]
