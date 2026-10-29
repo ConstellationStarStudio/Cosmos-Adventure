@@ -79,10 +79,13 @@ export function set_items_to_vehicle(vehicle, size, items_to_set, typeId){
     container.setItem(inventorySize - 1, rocket_item)
 }
 export function get_vehicle_item(vehicle){
-    const inventory = vehicle.getComponent("minecraft:inventory")
-    const inventory_size = inventory ? inventory.inventorySize - get_vehicle_data(vehicle).inventory_index : 0;
+    const inventory = vehicle.getComponent("minecraft:inventory");
+    let vehicle_data =  get_vehicle_data(vehicle);
     let item = new ItemStack(vehicle.typeId + "_item");
-    item.setDynamicProperty("inventory_size", inventory_size);
-    item.setLore([`§r§7Storage Space: ${inventory_size}`]);
+    if(vehicle_data.different_storage_sizes){
+        const inventory_size = inventory ? inventory.inventorySize - get_vehicle_data(vehicle).inventory_index : 0;
+        item.setDynamicProperty("inventory_size", inventory_size);
+        item.setLore([`§r§7Storage Space: ${inventory_size}`]);
+    }
     return item;
 }

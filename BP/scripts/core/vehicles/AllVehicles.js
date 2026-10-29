@@ -12,7 +12,8 @@ export default  {
 		inventory_index: 2,
 		speed: 1,
 		camera: "minecraft:follow_orbit",
-		drops_item: true
+		drops_item: true,
+		different_storage_sizes: true
 
 	},
 	"cosmos:rocket_tier_2": {
@@ -22,7 +23,8 @@ export default  {
 		inventory_index: 2,
 		speed: 2,
 		camera: "cosmos:rocket_camera",
-		drops_item: true
+		drops_item: true,
+		different_storage_sizes: true
 	},
 	"cosmos:rocket_tier_3": {
 		ui: '§f§u§e§l§',
@@ -31,7 +33,8 @@ export default  {
 		inventory_index: 2,
 		speed: 3,
 		camera: "cosmos:rocket_camera",
-		drops_item: true
+		drops_item: true,
+		different_storage_sizes: true
 	},
 	"cosmos:lander": {
 		ui: '§f§u§e§l§_§c§h§e§s§t§',
@@ -49,10 +52,12 @@ export default  {
 		ui: '§f§u§e§l§',
 		class: Buggy,
 		inventory_index: 2,
-		drops_item: true
+		drops_item: true,
+		different_storage_sizes: true
 	},
 	"cosmos:astro_miner": {
 		class: AstroMiner,
-		drops_items: false
+		drops_item: true,
+		different_storage_sizes: false
 	}
 }

@@ -31,6 +31,20 @@
           "has_gravity": false,
           "has_collision": false
         },
+        "minecraft:health": {
+          "max": 1,
+          "value": 1
+        },
+        "minecraft:knockback_resistance": {
+          "value": 1
+        },
+        "minecraft:push_through": {
+          "value": 1
+        },
+        "minecraft:pushable": {
+          "is_pushable": false,
+          "is_pushable_by_piston": false
+        },
         "minecraft:inventory": {
           "container_type": "container",
           "inventory_size": 226
