@@ -27,6 +27,12 @@ const unbreakable_blocks = [
     "minecraft:portal", "minecraft:rail", "minecraft:farmland", "minecraft:lever", "minecraft:redstone_wire",
     "minecraft:stone_bricks", "minecraft:mossy_cobblestone", "cosmos:walkway", "cosmos:astro_miner_base"
 ];
+const block_with_no_drop = [
+    "minecraft:tall_grass", "minecraft:short_grass", "minecraft:tall_dry_grass", "minecraft:short_dry_grass",
+    "minecraft:waterlily", "minecraft:wheat", "minecraft:potatoes", "minecraft:carrots", "minecraft:beetroot",
+    "minecraft:reeds"
+]
+
 export default function(entity){
     let info = load_dynamic_object(entity, "vehicle_data");
 
@@ -312,13 +318,15 @@ function broke_blocks(miner, dist, ai_face, limit, info, player){
         let block = miner.dimension.getBlock(vector);
         if(block && !block.isAir){
             if(!unbreakable_blocks.includes(block.typeId) && !block.hasTag("wire") && !block.hasTag("fluid_pipe") && !block.hasTag("machine")){
-                let item = block.getItemStack();
-                try{
-                    miner.getComponent('minecraft:inventory').container.addItem(item);
-                }catch{
-                    block.dimension.spawnItem(item, block.location);
+                if(!block_with_no_drop.includes(block.typeId)){
+                    let item = block.getItemStack();
+                    try{
+                        miner.getComponent('minecraft:inventory').container.addItem(item);
+                    }catch{
+                        block.dimension.spawnItem(item, block.location);
+                    }
+                    info.mine_count++;
                 }
-                info.mine_count++;
                 block.setPermutation(BlockPermutation.resolve("minecraft:air"))
             }else{
                 blocking_block = block;
