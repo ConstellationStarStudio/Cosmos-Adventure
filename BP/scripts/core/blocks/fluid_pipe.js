@@ -155,7 +155,11 @@ export function update_pipe_network(first_pipe, id, perm = first_pipe.permutatio
 			pipes_counter++;
 			let block = value.block;
 			let block_id = block.getComponent("minecraft:dynamic_properties").get("network_id");
-			if(block.permutation.getState("cosmos:tick")) block.setPermutation(block.permutation.withState("cosmos:tick", false))
+			if(block.permutation.getState("cosmos:tick")){
+				block.setPermutation(block.permutation.withState("cosmos:tick", false));
+				try{block.getComponent("minecraft:dynamic_properties").set("dirty_check", undefined)}
+				catch(undefined){}
+			}
 			if(id && !tick_pipes.length) tick_pipes.push(value.block);
 			if(block_id != id){
 			    try{ block.getComponent("minecraft:dynamic_properties").set("network_id", id) }

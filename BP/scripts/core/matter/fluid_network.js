@@ -45,27 +45,33 @@ export const fluid_tick_component = {
         let network = fluid_network[network_id];
         if(!network){
             block.setPermutation(block.permutation.withState("cosmos:tick", false));
+            try{block.getComponent("minecraft:dynamic_properties").set("dirty_check", undefined);}
+            catch(undefined){}
             return;
         }
-
-        let fluid_type = block.typeId.replace("cosmos:fluid_pipe_", '');
-        fluid_type = (fluid_type == "cosmos:fluid_pipe")? undefined: fluid_type;
-
         if(network.o === 0 && network.c === 0){
             refresh_network(block, undefined);
             block.setPermutation(block.permutation.withState("cosmos:tick", false));
+            try{block.getComponent("minecraft:dynamic_properties").set("dirty_check", undefined)}
+            catch(undefined){}
             return;
         }
-        if(fluid_type && network.c === 0 && !network.e){
+
+        let dirty = block.getComponent("minecraft:dynamic_properties").get("dirty_check");
+        
+        if(dirty && network.c === 0 && !network.e){
             system.runJob(update_fluid(block, "empty", "l"));
-        }else if(!fluid_type && (network.c > 0 || network.e)){
+            block.getComponent("minecraft:dynamic_properties").set("dirty_check", false);
+        }else if(!dirty && (network.c > 0 || network.e)){
             system.runJob(update_fluid(block, network.t, network.l));
+            block.getComponent("minecraft:dynamic_properties").set("dirty_check", true);
         }
     },
 }
 //updates visual part of pipes
 export function* update_fluid(pipe, fluid, liquid_type, perm = pipe.permutation){
-    let updated_pipes = [];
+    //i don't just stringify block.location because once there was a minecraft bug that caused vector string have reversed xyz so it zyx in string
+    let updated_pipes = [JSON.stringify({x: pipe.location.x, y: pipe.location.y, z: pipe.location.z})];
     let pipes_to_update = [];
     let new_liquid_type = liquid_type == "l"? "liquid": "gas";
 
@@ -73,11 +79,21 @@ export function* update_fluid(pipe, fluid, liquid_type, perm = pipe.permutation)
     pipes_to_update = get_sides(pipe, updated_pipes, perm);
 
     if(!pipe.isAir){
+        let type_to_set = pipe.hasTag("sealed_fluid_pipe") ? pipe.typeId: new_type;
         let perm_to_set = pipe.permutation.getAllStates();
         perm_to_set["cosmos:liquid"] = new_liquid_type;
-        let id = pipe.getComponent("minecraft:dynamic_properties").get("network_id");
-        pipe.setPermutation(BlockPermutation.resolve(new_type, perm_to_set));
-        if(id) pipe.getComponent("minecraft:dynamic_properties").set("network_id", id);
+        perm_to_set = BlockPermutation.resolve(type_to_set, perm_to_set);
+
+        let dynamic_properties = pipe.getComponent("minecraft:dynamic_properties");
+        let id = dynamic_properties.get("network_id");
+        let dirty_check = dynamic_properties.get("dirty_check");
+
+        pipe.setPermutation(perm_to_set);
+        //saving old dynamic properties because they are deleted if pipe have a new type
+        //dirty check is saved only here because you don't need to save them in other blocks in network
+        dynamic_properties = pipe.getComponent("minecraft:dynamic_properties");
+        if(id) dynamic_properties.set("network_id", id);
+        if(dirty_check) dynamic_properties.set("dirty_check", dirty_check);
     }
 
     for(let i = 0; i < pipes_to_update.length; i++){
@@ -86,11 +102,13 @@ export function* update_fluid(pipe, fluid, liquid_type, perm = pipe.permutation)
         let new_pipe = pipe.dimension.getBlock(block);
         if(new_pipe && !new_pipe.isAir && new_pipe.hasTag("fluid_pipe")){
             pipes_to_update = [...pipes_to_update, ...get_sides(new_pipe, updated_pipes)]
-            let new_perm = BlockPermutation.resolve(new_type, new_pipe.permutation.getAllStates());
-            new_perm["cosmos:liquid"] = new_liquid_type;
-
             let id = new_pipe.getComponent("minecraft:dynamic_properties").get("network_id");
-            new_pipe.setPermutation(BlockPermutation.resolve(new_type, new_pipe.permutation.getAllStates()));
+            let type_to_set = new_pipe.hasTag("sealed_fluid_pipe") ? new_pipe.typeId: new_type;
+
+            let new_perm = new_pipe.permutation.getAllStates();
+            new_perm["cosmos:liquid"] = new_liquid_type;
+            new_perm = BlockPermutation.resolve(type_to_set, new_perm);
+            new_pipe.setPermutation(new_perm); 
             if(id) new_pipe.getComponent("minecraft:dynamic_properties").set("network_id", id)
             yield;
         }
