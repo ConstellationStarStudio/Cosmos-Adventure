@@ -1589,23 +1589,27 @@ tile.cosmos:venus_volcanic_rock.name=Venus Volcanic Rock
 tile.cosmos:vapor_spout.name=Vapor Spout
 
 ## Block with descriptions
-tile.arc_lamp.name=Arc Lamp
-tile.arclamp.description=Arc Lamps are used to provide strong light to a large area,\nalso causing most mobs to flee.
-tile.buggy_fueling_pad.name=Buggy Fueling Pad
-tile.buggy_pad.description=Fueling Pads will allow a buggy on the pad to be refueled\nby an attached Fuel Loaders if set up in a 3x3 square.\n Cannot be used to launch rockets!
-tile.compressor.name=Compressor
-tile.compressor.description=Compressor will process ingots into their compressed equivalents.\nThe most essential machine in Galacticraft!
-tile.circuit_fabricator.name=Circuit Fabricator
-tile.circuit_fabricator.description=Circuit Fabricator will process basic materials into silicon wafers,\nused for advanced machines.
-tile.electric_compressor.name=Electric Compressor
-tile.compressor_electric.description=Electric Compressor will process ingots into their compressed equivalents.\nCompresses two at a time, making it more effective than its predecessor.
-tile.advanced_compressor.name=Advanced Compressor
-tile.compressor_advanced.description=A faster version of the Electric Compressor.\n Rapidly processes ingots into their compressed equivalents.
-tile.nasa_workbench.name=NASA Workbench
-tile.rocket_workbench.description=The NASA Workbench is used to create many advanced parts and vehicles.\nNew schematics can be added as they are found.
-tile.parachest.name=Parachest
-tile.parachest.description=Parachests will fall from the sky after landing on certain planets/moons, such as Earth.\nContains rocket, fuel, and cargo from previous launch.
-tile.rocket_launch_pad.name=Rocket Launch Pad
-tile.landing_pad.description=Launch Pads will allow placement of Rockets if set up in a 3x3 square.\nFuel Loaders, Cargo Loaders, and Launch Controllers can be attached.
-tile.oxygen_collector.name=Oxygen Collector
-tile.collector.description=Oxygen Collector will store oxygen\ncollected from leaves in the surrounding area.
+tile.cosmos:arc_lamp.name=Arc Lamp
+tile.cosmos:arc_lamp.tooltip=Arc Lamps are used to provide strong light to a large area,\nalso causing most mobs to flee.
+tile.cosmos:buggy_fueling_pad.name=Buggy Fueling Pad
+tile.cosmos:buggy_fueling_pad.tooltip=Fueling Pads will allow a buggy on the pad to be refueled\nby an attached Fuel Loaders if set up in a 3x3 square.\nCannot be used to launch rockets!
+tile.cosmos:compressor.name=Compressor
+tile.cosmos:compressor.tooltip=Compressor will process ingots into their compressed equivalents.\nThe most essential machine in Galacticraft!
+tile.cosmos:circuit_fabricator.name=Circuit Fabricator
+tile.cosmos:circuit_fabricator.tooltip=Circuit Fabricator will process basic materials into silicon wafers,\nused for advanced machines.
+tile.cosmos:electric_compressor.name=Electric Compressor
+tile.cosmos:electric_compressor.tooltip=Electric Compressor will process ingots into their compressed equivalents.\nCompresses two at a time, making it more effective than its predecessor.
+tile.cosmos:advanced_compressor.name=Advanced Compressor
+tile.cosmos:advanced_compressor.tooltip=A faster version of the Electric Compressor.\nRapidly processes ingots into their compressed equivalents.
+tile.cosmos:nasa_workbench.name=NASA Workbench
+tile.cosmos:nasa_workbench.tooltip=The NASA Workbench is used to create many advanced parts and vehicles.\nNew schematics can be added as they are found.
+tile.cosmos:parachest.name=Parachest
+tile.cosmos:parachest.tooltip=Parachests will fall from the sky after landing on certain planets/moons, such as Earth.\nContains rocket, fuel, and cargo from previous launch.
+tile.cosmos:rocket_launch_pad.name=Rocket Launch Pad
+tile.cosmos:rocket_launch_pad.tooltip=Launch Pads will allow placement of Rockets if set up in a 3x3 square.\nFuel Loaders, Cargo Loaders, and Launch Controllers can be attached.
+tile.cosmos:oxygen_collector.name=Oxygen Collector
+tile.cosmos:oxygen_collector.tooltip=Oxygen Collector will store oxygen\ncollected from leaves in the surrounding area.
+
+## chat messages
+message.cryo_chamber.cant_use=I can't use this for another
+message.seconds=seconds

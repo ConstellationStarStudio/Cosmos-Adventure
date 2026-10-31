@@ -16,7 +16,6 @@
 	  }
     },
     "components": {
-        // "minecraft:display_name": "%tile.machine.8.name\n§7%tile.energy_storage_module_tier2.description",
 	  	"minecraft:tags": ["machine"],
 		"cosmos:machine": {},
 		"minecraft:destructible_by_explosion": false,

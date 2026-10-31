@@ -101,7 +101,6 @@
             }
         ],
         "components":{
-            "minecraft:display_name": "%tile.arc_lamp.name\n§7%tile.arclamp.description",
             "minecraft:collision_box": false,
             "minecraft:selection_box": {
                 "origin": [-5, 0, -5],

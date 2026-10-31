@@ -20,7 +20,6 @@
 			"minecraft:block_entity": {
 				"dynamic_properties": true
 			},
-			//"minecraft:display_name": "%tile.fluid_pipe.name\n§7%tile.fluid_pipe.description",
 			"minecraft:material_instances": {
 				"*": { "texture": "fluid_pipe", "render_method": "blend" },
 				"fluid": { "texture": "still_lava", "render_method": "blend" },

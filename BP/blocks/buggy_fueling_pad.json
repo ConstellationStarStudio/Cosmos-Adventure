@@ -9,7 +9,6 @@
         }
       },
       "components": {
-        "minecraft:display_name": "%tile.buggy_fueling_pad.name\n§7%tile.buggy_pad.description",
         "minecraft:geometry": {
           "identifier": "geometry.buggy_fueling_pad",
           "bone_visibility": {

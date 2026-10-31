@@ -9,7 +9,6 @@
 	}
 	},
 	"components": {
-        "minecraft:display_name": "%tile.parachest.name\n§7%tile.parachest.description",
         "tag:machine": {},
         "minecraft:custom_components": ["cosmos:machine"],
         "minecraft:destructible_by_explosion": false,

@@ -2,14 +2,13 @@ import { world, system, BlockPermutation, CatmullRomSpline, EasingType } from "@
 
 
 export const cryogenic_chamber_component = {
-    onPlayerInteract({player, block, dimension}){
+    onPlayerInteract({player, block}){
         let states = block.permutation.getAllStates();
         let {x, y, z} = block.location;
         let pos = [ {x: x, y: y, z: z}, {x: x, y: y - 1, z: z}, {x: x, y: y - 2, z: z}
-        ][states["cosmos:chamber"]];
+        ][states["minecraft:multi_block_part"]];
 
-        let main_block = block.dimension.getBlock(pos);
-        if(main_block.permutation.getState("cosmos:is_occupied")) return;
+        if(states["cosmos:is_occupied"]) return;
 
         let time = player.getDynamicProperty("chamber_time");
 
@@ -22,9 +21,11 @@ export const cryogenic_chamber_component = {
             player.teleport({x: pos.x + 0.5, y: pos.y + 0.75, z: pos.z + 0.5}, {rotation: {x: 21, y: degree + 90}});
             play_camera_animation(player, pos, degree, cam_degree);
 
-            main_block.setPermutation(main_block.permutation.withState("cosmos:is_occupied", true));
+            block.getParts().forEach((b) => b.setPermutation(b.permutation.withState("cosmos:is_occupied", true)));
             system.runTimeout(() => {
-                if(main_block.typeId == "cosmos:cryogenic_chamber") main_block.setPermutation(main_block.permutation.withState("cosmos:is_occupied", false));
+                if(block.typeId == "cosmos:cryogenic_chamber"){
+                    block.getParts().forEach((b) => {b.setPermutation(b.permutation.withState("cosmos:is_occupied", false))});
+                }
                 player.inputPermissions.setPermissionCategory(1, true);
                 player.inputPermissions.setPermissionCategory(2, true);
                 player.camera.clear();
@@ -39,34 +40,14 @@ export const cryogenic_chamber_component = {
             world.setAbsoluteTime(world.getAbsoluteTime() + added_time);
             player.setDynamicProperty("chamber_time", system.currentTick + 6000);
         }else{
-            world.sendMessage({"rawtext": [{"text": "I can't use this for another"},
+            world.sendMessage({rawtext: [{translate: "message.cryo_chamber.cant_use"},
                 {"text": ` ${Math.floor((time - system.currentTick)/20)} `},
-                {"translate": "seconds"}
+                {"translate": "message.seconds"}
             ]});
         }
     },
-
-    beforeOnPlayerPlace(event){
-        if(!event.block.above().isAir || !event.block.above(2).isAir) event.cancel = true;
-        else system.run(() => {
-                let direction = event.permutationToPlace.getState("minecraft:cardinal_direction")
-                event.block.above().setPermutation(BlockPermutation.resolve("cosmos:cryogenic_chamber", {"cosmos:chamber": 1, "minecraft:cardinal_direction": direction}));
-                event.block.above(2).setPermutation(BlockPermutation.resolve("cosmos:cryogenic_chamber", {"cosmos:chamber": 2, "minecraft:cardinal_direction": direction}));
-            });
-    },
-    onPlayerBreak({brokenBlockPermutation: perm, block}) {
-        let {x, y, z} = block.location;
-        let positions = [[{x: x, y: y + 1, z: z}, {x: x, y: y + 2, z: z}], 
-        [{x: x, y: y - 1, z: z}, {x: x, y: y + 1, z: z}],
-        [{x: x, y: y - 1, z: z}, {x: x, y: y - 2, z: z}]
-        ][perm.getState("cosmos:chamber")];
-
-        positions.forEach((vector) => {
-            block.dimension.getBlock(vector).setPermutation(BlockPermutation.resolve("air"))
-        });
-    },
     onTick({block}){
-        if(block.permutation.getState("cosmos:chamber")) return;
+        if(block.permutation.getState("minecraft:multi_block_part")) return;
         let {x, y, z} = block.location;
 
         block.dimension.spawnParticle("cosmos:chamber_up", {x: x + 0.3 + Math.random() * 0.4, y: y, z: z + 0.3 + Math.random() * 0.4})

@@ -12,7 +12,6 @@
     }
 	},
 	"components": {
-    // "minecraft:display_name": "%tile.machine.0.name\n§7%tile.coal_generator.description",
 	  "tag:machine": {},
     "cosmos:machine": {},
     "minecraft:destructible_by_explosion": false,

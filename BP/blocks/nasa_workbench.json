@@ -7,7 +7,6 @@
 		},
 		"components": {
 			"cosmos:nasa_workbench": {},
-			"minecraft:display_name": "%tile.nasa_workbench.name\n§7%tile.rocket_workbench.description",
 			"minecraft:destructible_by_explosion": false,
 			"minecraft:movable": { "movement_type": "immovable" },
 			"minecraft:destructible_by_mining": {
