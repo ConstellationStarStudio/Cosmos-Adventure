@@ -23,7 +23,7 @@
             },
             "minecraft:tags": ["dungeon_chest"],
             "minecraft:block_entity": {
-                "dynamic_properties": true,
+                "dynamic_properties": false,
                 "container": {
                     "slot_count": 27,
                     "title": "Tier 1 Treasure Chest"

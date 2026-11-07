@@ -13,22 +13,13 @@ const rewards = [
     ['cosmos:volcanic_pickaxe', 'cosmos:shield_controller'],
 ]
 
+const paths = ["chests/moon_dungeon", "chests/mars_dungeon", "chests/venus_dungeon"];
 
 let cooldown
 function hint(player, tier) {
     if (cooldown) return
     player.sendMessage(`I will propably need a Tier ${tier} Dungeon Key to unlock this!`)
     cooldown = system.runTimeout(() => {cooldown = undefined}, 100)
-}
-
-export const treasure_chest_component = {
-    onPlayerInteract({block, player, dimension}) {
-        const chest = block.permutation;
-        if (chest.getState('cosmos:chest_state') == 'unlocked') {
-            block.dimension.playSound('random.chestopen', block.location)
-            block.setPermutation(chest.withState('cosmos:chest_state', 'open'))
-        }
-    }
 }
 
 world.beforeEvents.playerInteractWithBlock.subscribe((event) =>  {
@@ -41,7 +32,28 @@ world.beforeEvents.playerInteractWithBlock.subscribe((event) =>  {
             hint(player, tier); return
         }
         system.run(() => {
-            block.setPermutation(block.permutation.withState('cosmos:chest_state', 'unlocked'))
+            block.setPermutation(block.permutation.withState('cosmos:chest_state', 'unlocked'));
+            
+            let loot = world.getLootTableManager().getLootTable(paths[tier - 1]);
+            loot = world.getLootTableManager().generateLootFromTable(loot);
+            let indexes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+                25, 26
+            ];
+            const reward = select_random_item(rewards[tier - 1]);
+            loot.push(new ItemStack(reward));
+
+            //fisher-yates shuffle
+            for(let i = 26; i > 0; i--){
+                let rand = Math.floor(Math.random() * (i + 1));
+                [indexes[i], indexes[rand]] = [indexes[rand], indexes[i]];
+            }
+            let container = block.getComponent("minecraft:inventory").container;
+
+            for(let i = -1; i < (loot.length - 1);){
+                i++;
+                container.setItem(indexes[i], loot[i])
+            }
+
             if (player.getGameMode() != 'Creative') player.runCommand(`clear @s ${item.typeId} 0 1`)
         });
     }
