@@ -40,9 +40,6 @@ const AllMachines = {
 	water_electrolyzer: WaterElectrolyzer,
 	gas_liquefier: GasLiquefier,
 	deconstructor: Deconstructor,
-    methane_synthesizer: MethaneSynthesizer,
-	parachest: Parachest
+    methane_synthesizer: MethaneSynthesizer
 }
-
-for (const machine in AllMachines) AllMachines[machine].ui = `§${machine.split('').join('§')}`
 export default AllMachines

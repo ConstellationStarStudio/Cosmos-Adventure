@@ -1,8 +1,7 @@
 import { system, ItemStack } from "@minecraft/server";
-import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
+import { compare_lists, load_machine_data, save_machine_data} from "../../../api/utils";
 import recipes from "../../../recipes/electric_furnace"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
-import electric_furnace from "../../../recipes/electric_furnace";
 
 const data = {
 	electric_furnace: {
@@ -28,19 +27,19 @@ const data = {
 }; 
 
 
-function onTick(entity, block) {
-	const container = entity.getComponent('minecraft:inventory').container;
-	const variables = load_dynamic_object(entity, "machine_data");
-	const furnace_data = data[entity.typeId.replace('cosmos:', '')];
+function onTick(block, ui_opened) {
+	const container = block.getComponent('minecraft:inventory').container;
+	const variables = load_machine_data(block);
+	const furnace_data = data[block.typeId.replace('cosmos:', '')];
 	let energy = variables.energy || 0
 	let progress = variables.progress || 0
 	let first_values = [energy, progress]
-	energy = charge_from_machine(entity, block, energy)
-	energy = charge_from_battery(entity, energy, 1);
+	energy = charge_from_machine(block, energy)
+	energy = charge_from_battery(block, energy, 1);
 
 	let required_time = (furnace_data.tier == 2)? 100: 130;
 	if(furnace_data.tier == 2){
-		const tier = load_dynamic_object(entity, "machine_data", "energy_tier")?.level ?? 1;
+		const tier = load_machine_data(block, "energy_tier")?.level ?? 1;
 		required_time = Math.floor(required_time / 2 / tier)
 	}
 
@@ -78,8 +77,8 @@ function onTick(entity, block) {
 		if(progress > 0) progress = Math.max(progress - 1, 0);
 	}
 
-	if((entity.active_ui && !compare_lists(first_values, [energy, progress])) || !container.getItem(4)){
-		save_dynamic_object(entity, {energy, progress}, "machine_data");
+	if((ui_opened && !compare_lists(first_values, [energy, progress])) || !container.getItem(4)){
+		save_machine_data(block, {energy, progress});
 		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${furnace_data.energy.capacity} gJ`
 		container.add_ui_display(2, energy_hover, Math.round((energy / furnace_data.energy.capacity) * 55))
 		container.add_ui_display(3, '', Math.ceil((progress / required_time) * 24))

@@ -1,8 +1,8 @@
 import {world, system} from "@minecraft/server";
 import {detach_wires, attach_to_wires} from "../blocks/aluminum_wire"
-import {machine_entities} from "../machines/Machine"
 import { attach_to_machine, attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
 import { rotate_base } from "../mullti_blocks/blocks/MinerBase";
+import { get_data } from "../machines/Machine";
 
 const directions = ["north", "east", "south", "west"]
 
@@ -23,29 +23,16 @@ export function remove(block) {
   detach_pipes(block, block.permutation, undefined, "machine")
   const {dimension, location} = block
   const coords = `${location.x} ${location.y} ${location.z}`
-  const machineEntity = dimension.getEntities({
-    type: block.permutation.type.id,
-    location: {
-        x: Math.floor(block.location.x) + 0.5,
-        y: Math.floor(block.location.y) + 0.5,
-        z: Math.floor(block.location.z) + 0.5,
-    },
-    maxDistance: 0.5,})[0];
-    dimension.runCommand(`fill ${coords} ${coords} air destroy`)
-    if(machineEntity){
-      machine_entities.delete(machineEntity.id);
-      const container = machineEntity.getComponent('minecraft:inventory')?.container;
-      if (container) {
-        for (let i = 0; i < container.size; i++) {
-          const itemId = container.getItem(i)?.typeId;
-          if (!['cosmos:ui', 'cosmos:ui_button'].includes(itemId)) continue;
-          container.setItem(i);
-        }
-      }
-      machineEntity?.runCommand('kill @s');
-      machineEntity?.remove();
-    }
+  let data = get_data(block);
 
+  if(data?.visual_entity){
+    let entity = dimension.getEntities({type: block.typeId, location: { x: Math.floor(block.location.x) + 0.5, y: Math.floor(block.location.y) + 0.5,
+		z: Math.floor(block.location.z) + 0.5, }, maxDistance: 0.5,})[0];
+
+		if(entity) entity.remove();
+  }
+
+  dimension.runCommand(`fill ${coords} ${coords} air destroy`)
 }
 
 export const wrench_component = {

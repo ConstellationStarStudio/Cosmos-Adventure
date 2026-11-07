@@ -1,6 +1,6 @@
 import { system, world, ItemStack } from "@minecraft/server";
 import { get_data } from "../Machine";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { load_machine_data, save_machine_data } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
 import { output_fluid } from "../../matter/fluids";
 import { update_tank, tanks } from "../../../api/player/oxygen";
@@ -8,19 +8,19 @@ import { update_tank, tanks } from "../../../api/player/oxygen";
 const data = {
     energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {output: "left", capacity: 1200},
-    onTick(entity, block) {
-        const container = entity.getComponent('minecraft:inventory').container;
-        const data = get_data(entity);
+    onTick(block, ui_opened) {
+        const container = block.getComponent('minecraft:inventory').container;
+        const data = get_data(block);
         let tank = container.getItem(1);
         const durability = tank?.getComponent("minecraft:durability");
 
-        const variables = load_dynamic_object(entity, "machine_data");
+        const variables = load_machine_data(block);
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
-        o2 = output_fluid({type: "o2", slot: "o2", liquid_type: "g"}, entity, block, o2)[0];
+        o2 = output_fluid({type: "o2", slot: "o2", liquid_type: "g"}, block, o2)[0];
         // Energy management
-        energy = charge_from_machine(entity, block, energy);
-        energy = charge_from_battery(entity, energy, 0);
+        energy = charge_from_machine(block, energy);
+        energy = charge_from_battery(block, energy, 0);
         
         if(!(system.currentTick % 20)){
             energy = Math.max(energy - 5, 0);
@@ -33,9 +33,9 @@ const data = {
                 energy = Math.max(0, energy - (data.energy.rate * 20));
             }
         }
-        save_dynamic_object(entity, {energy, o2}, "machine_data");
+        save_machine_data(block, {energy, o2});
 
-        if(entity.active_ui || !container.getItem(2)){
+        if(ui_opened || !container.getItem(2)){
             let status = (energy <= (data.energy.rate * 20))? "§4Not Enough Power":
             (!tank || !Object.keys(tanks).includes(tank.typeId))? "§4No Valid Oxygen Tank":
             (durability.damage == durability.maxDurability)? "§4Oxygen Tank Empty":

@@ -1,5 +1,5 @@
 {
-  "format_version": "1.26.20",
+  "format_version": "1.26.60",
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:energy_storage_module",
@@ -16,18 +16,24 @@
 	  }
     },
     "components": {
-	  	"minecraft:tags": ["machine"],
+		"minecraft:tags": ["cosmos", "power", "machine", "energy_storage", "has_power_input",  "has_power_output"],
+		"minecraft:tick": {
+			"interval_range": [1, 1]
+		},
+		"minecraft:block_entity": {
+			"dynamic_properties": true,
+			"container": {
+			"slot_count": 5,
+			"title": "§e§n§e§r§g§y§_§s§t§o§r§a§g§e§_§m§o§d§u§l§e"
+			}
+		},
 		"cosmos:machine": {},
 		"minecraft:destructible_by_explosion": false,
 		"minecraft:movable": { "movement_type": "immovable" },
-		"minecraft:geometry": "minecraft:geometry.full_block",
+		"minecraft:geometry": "minecraft:geometry.full_block_v1",
 		"minecraft:material_instances": {},
 		"minecraft:destructible_by_mining": {
 			"seconds_to_destroy": 0.5
-		},
-		"minecraft:tick": {
-			"looping": true,
-			"interval_range": [1, 1]
 		}
 	},
 	"permutations": [

@@ -1,6 +1,6 @@
 import { system, BlockVolume} from "@minecraft/server";
 import { get_data } from "../Machine";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { load_machine_data, save_machine_data } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
 import { output_fluid } from "../../matter/fluids";
 
@@ -20,11 +20,11 @@ const valid_oxygen_blocks = ["minecraft:oak_leaves",
 const data = {
     energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {output: "left", capacity: 6000},
-    onTick(entity, block) {
-        const dimension_id = entity.dimension.id;
-        const data = get_data(entity);
-        const container = entity.getComponent('minecraft:inventory').container;
-        const variables = load_dynamic_object(entity, "machine_data");
+    onTick(block, ui_opened) {
+        const dimension_id = block.dimension.id;
+        const data = get_data(block);
+        const container = block.getComponent('minecraft:inventory').container;
+        const variables = load_machine_data(block);
 
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
@@ -33,11 +33,11 @@ const data = {
         (energy > data.energy.rate)? oxygen_source_bloks:
         0;
 
-        o2 = output_fluid({type: "o2", slot: "o2", liquid_type: "g"}, entity, block, o2);
+        o2 = output_fluid({type: "o2", slot: "o2", liquid_type: "g"}, block, o2);
         //checks for leaves or cropes approximately once every 40 ticks
         if(Math.floor(Math.random() * 10) === 0 && ["cosmos:space_stations", "minecraft:the_end"].includes(dimension_id) && energy > (data.energy.rate * 10)){
             oxygen_source_bloks = 0;
-            let {x, y, z} = entity.location;
+            let {x, y, z} = block.location;
             for(let location of block.dimension.getBlocks(
                 new BlockVolume({x: x + 5, y: y + 5, z: z + 5}, {x: x - 5, y: y - 5, z: z - 5}),
                 { includeTypes: valid_oxygen_blocks }
@@ -52,13 +52,13 @@ const data = {
         }
 
         // Energy management
-        energy = charge_from_machine(entity, block, energy);
-        energy = charge_from_battery(entity, energy, 0);
+        energy = charge_from_machine(block, energy);
+        energy = charge_from_battery(block, energy, 0);
         energy = Math.max(0, energy - data.energy.rate);
 
-        save_dynamic_object(entity, {energy, o2, oxygen_source_bloks}, "machine_data");
-
-        if(entity.active_ui || !container.getItem(1)){
+        save_machine_data(block, {energy, o2, oxygen_source_bloks});
+        
+        if(ui_opened || !container.getItem(1)){
             const status = energy <= data.energy.rate ? "§4Not Enough Power" :
             (oxygen_source_bloks < 2 && dimension_id !== "minecraft:overworld")? "§4Not Enough Leaf Blocks":
             "§2Active";

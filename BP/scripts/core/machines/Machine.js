@@ -1,39 +1,19 @@
 import { world, system, ItemStack } from "@minecraft/server";
 import machines from "./AllMachineBlocks";
-import { multi_blocks } from "../mullti_blocks/MultiBlock";
 import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
 import { attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
-import { pickaxes } from "../../api/utils";
 import { setSolarPanelBlocks } from "./blocks/SolarPanel"; 
-import data from "./blocks/CoalGenerator";
 
 const multi_block_machines = {
 	"cosmos:basic_solar_panel": setSolarPanelBlocks,
 	"cosmos:advanced_solar_panel": setSolarPanelBlocks
 }
-export let machine_entities = new Map();
 
-export function get_data(entity) {
-	return machines[entity.typeId.replace('cosmos:', '')]
-}
-function reload_machine(entity){
-	const machine_name = entity.typeId.replace('cosmos:', '');
-	if (!Object.keys(machines).includes(machine_name)) return;
-	if (machine_entities.has(entity.id)) return;
-	const block = entity.dimension.getBlock(entity.location);
-	if (block && block.typeId != entity.typeId) {
-		machine_entities.delete(entity.id);
-		entity.remove();
-		return;
-	}
-	let block_location = (block)? block.location: entity.location;
-	block_location = {x: Math.floor(block_location.x), y: Math.floor(block_location.y), z: Math.floor(block_location.z)};
-
-	const dynamic_object = JSON.parse(entity.getDynamicProperty("machine_data") ?? "{}");
-	machine_entities.set(entity.id, { type: machine_name, location: block_location, entity_data: dynamic_object });
+export function get_data(machine) {
+	return machines[machine.typeId.replace('cosmos:', '')]
 }
 
-function hopper_interactions(block, entity, data) {
+function hopper_interactions(block, data) {
 	;(()=>{ // drain items out of the output slots
 		let hopper; try { hopper = block.below()} catch {} // makes sure it doesn't try pick a block below the world bottom 
 		if (hopper?.typeId != "minecraft:hopper") return // it's a hopper
@@ -41,7 +21,7 @@ function hopper_interactions(block, entity, data) {
 		if (!data.items.output) return // the machine has outputs
 
 		// get the outputs of the machine
-		const machine_container = entity.getComponent("inventory").container
+		const machine_container = block.getComponent("inventory").container
 		const hopper_container = hopper.getComponent("inventory").container
 		const outputs = data.items.output.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
@@ -72,7 +52,7 @@ function hopper_interactions(block, entity, data) {
 		if (!item_to_move) return
 		
 		// get the inputs of the machine
-		const machine_container = entity.getComponent("inventory").container
+		const machine_container = block.getComponent("inventory").container
 		const inputs = data.items.top_input.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
 		// check if the machine inputs have space
@@ -102,7 +82,7 @@ function hopper_interactions(block, entity, data) {
 		if (!item_to_move) return
 		
 		// get the side inputs of the machine
-		const machine_container = entity.getComponent("inventory").container
+		const machine_container = block.getComponent("inventory").container
 		const inputs = data.items.side_input.map(i => ({slot: i, item: machine_container.getItem(i)}))
 
 		// check if the machine inputs have space
@@ -120,51 +100,6 @@ function hopper_interactions(block, entity, data) {
 	;["north", "east", "south", "west"].forEach(direction => send_to_side(direction))
 }
 
-
-
-function block_entity_access() {
-	const players = world.getAllPlayers();
-	for (const player of players) {
-		if (!player) continue;
-		const targetEntity = player.getEntitiesFromViewDirection({
-			maxDistance: 6,
-			families: ["cosmos"],
-			ignoreBlockCollision: true
-		})[0]?.entity;
-		if (player.isSneaking) {
-			if (targetEntity) targetEntity.triggerEvent("cosmos:shrink");
-			continue;
-		}
-		const item = player.getComponent("minecraft:equippable").getEquipment("Mainhand")?.typeId;
-		const has_pickaxe = pickaxes.has(item);
-		const has_wrench = item === "cosmos:standard_wrench";
-		if (has_pickaxe || has_wrench) {
-			if (targetEntity) targetEntity.triggerEvent("cosmos:shrink");
-		}
-	}
-}
-
-world.afterEvents.worldLoad.subscribe(() => {
-	world.getDims(dimension => dimension.getEntities({includeFamilies: ['machine']})).forEach(entity => {reload_machine(entity)});
-	system.runInterval(() => {
-		if (machine_entities.size === 0 && multi_blocks.size === 0) return;
-		// give block access every 2 ticks
-		if (!(system.currentTick % 2)) block_entity_access();
-
-		machine_entities.forEach((machineData, entityId) => {
-			const machineEntity = world.getEntity(entityId);
-			if (!machineEntity?.isValid) return;
-			let block = machineEntity.dimension.getBlock(machineData.location);
-			if(!block) return;
-			const data = machines[machineData.type]
-			// tick the machine
-			data.onTick(machineEntity, block)
-			// hopper support every 8 ticks
-			if (system.currentTick % 8 == 0) hopper_interactions(block, machineEntity, data)
-		});
-	});
-});
-
 export const machine_component = {
 	beforeOnPlayerPlace(event) {
 		const { block, permutationToPlace: perm } = event;
@@ -173,11 +108,7 @@ export const machine_component = {
 		if(machine_object.multi_block && !multi_block_machines[perm.type.id](block)){event.cancel = true; return;}
 		
 		system.run(() => {
-			const entity = block.dimension.spawnEntity(perm.type.id, block.bottomCenter());
-			entity.nameTag = machine_object.ui;
-			if (typeof machine_object.onPlace == 'function') machine_object.onPlace(entity, block)
-			const dynamic_object = JSON.parse(entity.getDynamicProperty("machine_data") ?? "{}");
-			machine_entities.set(entity.id, { type: machine_name, location: block.location, entity_data: dynamic_object });
+			if (typeof machine_object.onPlace == 'function') machine_object.onPlace(block)
 			if (perm.getState("cosmos:full")) {
 				event.permutationToPlace = perm.withState("cosmos:full", false);
 			}
@@ -185,39 +116,29 @@ export const machine_component = {
 			attach_pipes(block)
 		});
 	},
+	onTick(event){
+		const { block } = event;
+		const machine_name = block.typeId.replace('cosmos:', '');
+		const machine_object = machines[machine_name];
+		let ui_opened = block.getComponent("minecraft:dynamic_properties").get("active_ui");
+		machine_object.onTick(event.block, ui_opened);
+		if (system.currentTick % 8 == 0) hopper_interactions(block, machine_object)
+	},
 	onPlayerBreak({ block, dimension, brokenBlockPermutation: perm }) {
 		detach_wires(block);
 		detach_pipes(block, perm, undefined, "machine");
-		
-		const entity = dimension.getEntities({
-			type: perm.type.id,
-			location: {
-				x: Math.floor(block.location.x) + 0.5,
-				y: Math.floor(block.location.y) + 0.5,
+
+		const machine_name = perm.type.id.replace('cosmos:', '');
+		if(machines[machine_name].multi_block) multi_block_machines[perm.type.id](block, true);
+
+		if(machines[machine_name].visual_entity){
+			let entity = dimension.getEntities({type: perm.type.id, location: { x: Math.floor(block.location.x) + 0.5, y: Math.floor(block.location.y) + 0.5,
 				z: Math.floor(block.location.z) + 0.5,
-			},
-			maxDistance: 0.5,
-		})[0];
-		if (!entity) return
-
-		const machine_name = entity.typeId.replace('cosmos:', '');
-		if(machines[machine_name].multi_block) multi_block_machines[entity.typeId](block, true);
-
-		machine_entities.delete(entity.id);
-		const container = entity.getComponent('minecraft:inventory')?.container;
-		if (container) {
-			for (let i = 0; i < container.size; i++) {
-				const itemId = container.getItem(i)?.typeId;
-				if (!['cosmos:ui', 'cosmos:ui_button'].includes(itemId)) continue;
-				container.setItem(i);
-			}
+			}, maxDistance: 0.5,})[0];
+			if(entity) entity.remove();
 		}
-		entity.kill(); // kill to make it drop the items
-		entity.remove();
 	},
 }
-
-world.afterEvents.entityLoad.subscribe(({ entity }) => reload_machine(entity));
 
 //remove the ui item entities
 world.afterEvents.entitySpawn.subscribe((data) => {
@@ -226,12 +147,18 @@ world.afterEvents.entitySpawn.subscribe((data) => {
 	}
 });
 
-world.afterEvents.entityContainerOpened.subscribe(({entity}) => {
-	entity.active_ui = entity.active_ui ? entity.active_ui + 1: 1;
-}, {entityFilter: {families: ["machine"]}});
+world.afterEvents.blockContainerOpened.subscribe(({block}) => {
+	let dm = block.getComponent("minecraft:dynamic_properties");
+	let active_ui = dm.get("active_ui");
+	active_ui = active_ui ? active_ui + 1: 1;
+	dm.set("active_ui", active_ui);
+}, {blockFilter: {includeTags: ["machine"]}});
 
-world.afterEvents.entityContainerClosed.subscribe(({entity}) => {
-	if(entity.active_ui === undefined) return;
-	entity.active_ui -= 1;
-	if(entity.active_ui <= 0) delete entity.active_ui;
-}, {entityFilter: {families: ["machine"]}});
+world.afterEvents.blockContainerClosed.subscribe(({block}) => {
+	let dm = block.getComponent("minecraft:dynamic_properties");
+	let active_ui = dm.get("active_ui");
+	if(active_ui === undefined) return;
+	active_ui -= 1;
+	if(block.active_ui <= 0) active_ui = undefined;
+	dm.set("active_ui", active_ui);
+}, {blockFilter: {includeTags: ["machine"]}});

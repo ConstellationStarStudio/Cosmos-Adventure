@@ -1,5 +1,5 @@
 import { charge_from_machine, charge_from_battery, charge_battery } from "../../matter/electricity.js";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
+import { load_machine_data, save_machine_data } from "../../../api/utils.js";
 
 const data = {
 	energy_storage_module: {
@@ -24,27 +24,27 @@ const data = {
 	}
 }
 
-function onTick(entity, block) {
+function onTick(block, ui_opened) {
 	// retrieve data
-	const container = entity.getComponent('minecraft:inventory').container;
-	const store_data = data[entity.typeId.replace('cosmos:', '')]
-	const variables = load_dynamic_object(entity, "machine_data");
+	const container = block.getComponent('minecraft:inventory').container;
+	const store_data = data[block.typeId.replace('cosmos:', '')]
+	const variables = load_machine_data(block);
 	let energy = variables.energy || 0;
 	let power = variables.power || 0;
 
 	energy = energy ? + energy : 0
 	
-	energy = charge_from_machine(entity, block, energy)
+	energy = charge_from_machine(block, energy)
 	
-	energy = charge_battery(entity, energy, 0)
+	energy = charge_battery(block, energy, 0)
 	
-	energy = charge_from_battery(entity, energy, 1)
+	energy = charge_from_battery(block, energy, 1)
 	
 	power = Math.min(energy, store_data.energy.maxPower);
 	// store and display data
 
-	save_dynamic_object(entity, {energy, power}, "machine_data");
-	if(entity.active_ui || !container.getItem(2)){
+	save_machine_data(block, {energy, power});
+	if(ui_opened|| !container.getItem(2)){
 		container.add_ui_display(2, `§r ${energy} gJ\nof ${store_data.energy.capacity} gJ`)
 	    container.add_ui_display(3, '', Math.ceil((energy/ store_data.energy.capacity) * 75 ))
 	}

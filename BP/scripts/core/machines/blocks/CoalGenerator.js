@@ -1,5 +1,5 @@
 import { system } from "@minecraft/server";
-import { compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils";
+import { compare_lists, load_dynamic_object, load_machine_data, save_dynamic_object, save_machine_data } from "../../../api/utils";
 
 const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"]);
 
@@ -11,11 +11,11 @@ const data = {
 		top_input: [0],
 		side_input: [0],
 	},
-	onTick(entity, block) {
-		const container = entity.getComponent('minecraft:inventory').container
+	onTick(block, ui_opened) {
+		const container = block.getComponent('minecraft:inventory').container
 		const fuel = container.getItem(FuelSlot)
+		const variables = load_machine_data(block);
 
-		const variables = load_dynamic_object(entity, "machine_data")
 		let burnTime = variables.burnTime || 0
 		let heat = variables.heat || 0
 		let power = variables.power || 0
@@ -35,8 +35,8 @@ const data = {
 		if (burnTime === 0 && system.currentTick % 3 === 0 && power > 0) power--
 
 		// Save and Update UI 
-		if ((entity.active_ui && !compare_lists(first_values, [burnTime, heat, power])) || !container.getItem(StatusDisplay)) {
-			save_dynamic_object(entity, { burnTime, heat, power }, "machine_data")
+		if ((ui_opened || !compare_lists(first_values, [burnTime, heat, power])) || !container.getItem(StatusDisplay)) {
+			save_machine_data(block, { burnTime, heat, power })
 			const display_text = `§r${power == 0 ? 'Not Generating' : '   Generating'}\n${power == 0 ? ` Hull Heat: ${heat}%%` : `     §r${power} gJ/t`}`
 			container.add_ui_display(StatusDisplay, display_text)
 		}

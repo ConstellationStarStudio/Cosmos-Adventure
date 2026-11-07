@@ -1,5 +1,5 @@
 {
-	"format_version": "1.21.100",
+	"format_version": "1.26.60",
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:fuel_loader",
@@ -12,11 +12,21 @@
       }
     },
     "components": {
-      "tag:machine": {},
+      "minecraft:tags": ["cosmos", "power", "machine", "has_power_input", "has_fuel_input"],
+      "minecraft:tick": {
+        "interval_range": [1, 1]
+      },
+      "minecraft:block_entity": {
+        "dynamic_properties": true,
+        "container": {
+          "slot_count": 9,
+          "title": "§f§u§e§l§_§l§o§a§d§e§r"
+        }
+      },
       "cosmos:machine": {},
       "minecraft:destructible_by_explosion": false,
       "minecraft:movable": { "movement_type": "immovable" },
-      "minecraft:geometry": "minecraft:geometry.full_block",
+      "minecraft:geometry": "minecraft:geometry.full_block_v1",
       "minecraft:destructible_by_mining": {
         "seconds_to_destroy": 0.5
       },

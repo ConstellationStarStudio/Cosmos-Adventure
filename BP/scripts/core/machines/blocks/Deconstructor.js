@@ -1,5 +1,5 @@
 import { system, ItemStack } from "@minecraft/server";
-import { load_dynamic_object, save_dynamic_object} from "../../../api/utils";
+import { load_machine_data, save_machine_data} from "../../../api/utils";
 import { recipes } from "../../../recipes/deconstructor.js"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 
@@ -8,14 +8,14 @@ const EnergyDisplay = 11, ProgressDisplay = 12, StatusDisplay = 13
 
 const data = {
 	energy: {input: "right", capacity: 16000, maxInput: 187, rate: 75},
-	onTick(entity, block){
-		const container = entity.getComponent('minecraft:inventory').container;
-		const variables = load_dynamic_object(entity, "machine_data");
+	onTick(block, ui_opened){
+		const container = block.getComponent('minecraft:inventory').container;
+		const variables = load_machine_data(block);
 		let energy = variables.energy || 0;
 		let progress = variables.progress || 0;
 
-		energy = charge_from_machine(entity, block, energy)
-		energy = charge_from_battery(entity, energy, BatterySlot);
+		energy = charge_from_machine(block, energy)
+		energy = charge_from_battery(block, energy, BatterySlot);
 		if(!(system.currentTick % 80)) energy -= Math.min(5, energy)
 
 		if(energy > data.energy.rate){
@@ -26,7 +26,7 @@ const data = {
 			}
 			else progress = 0
 
-			if((progress * 5) % 250 == 5) block.dimension.playSound("random.anvil_land", entity.location)
+			if((progress * 5) % 250 == 5) block.dimension.playSound("random.anvil_land", block.location)
 			if (progress > 250) {
 				progress = 0;
 				deconstruct(recipe_item, container);
@@ -34,14 +34,14 @@ const data = {
 			}
 		}else if(progress > 0) progress = 0;
 
-		if(entity.active_ui || !container.getItem(StatusDisplay)){
+		if(ui_opened || !container.getItem(StatusDisplay)){
 			const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 		    container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
 		    container.add_ui_display(ProgressDisplay, '', Math.ceil((progress / 250) * 52))
 		    container.add_ui_display(StatusDisplay, `§r   Status:\n${progress ? '§2Running' : '    §6Idle' }`)
 		}
 
-		save_dynamic_object(entity, {progress, energy}, "machine_data")
+		save_machine_data(block, {progress, energy})
 	}
 }; export default data
 

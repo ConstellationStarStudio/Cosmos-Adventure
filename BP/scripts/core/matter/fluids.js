@@ -1,5 +1,5 @@
 import { world, ItemStack, system } from "@minecraft/server"
-import { compare_position, get_entity, load_dynamic_object, location_of_side, save_dynamic_object } from "../../api/utils"
+import { location_of_side } from "../../api/utils"
 import { get_data } from "../machines/Machine"
 import { create_network, fluid_network, save_network} from "./fluid_network"
 import { get_direction, pipe_same_side } from "../blocks/fluid_pipe"
@@ -142,7 +142,7 @@ export const bucket_component = {
     }
 }
 
-export function output_fluid(fluid_data, entity, block, fluid) {
+export function output_fluid(fluid_data, block, fluid) {
     if(system.currentTick % 20) return fluid;
     /* debug purposes
     prints fluid system object and all registered pipes
@@ -150,8 +150,7 @@ export function output_fluid(fluid_data, entity, block, fluid) {
     note: it might clean stations too
     console.warn(JSON.stringify(world.getDynamicPropertyIds(), fluid_network))
     console.warn(JSON.stringify(fluid_network))*/
-    
-    const data = get_data(entity)
+    const data = get_data(block)
     const target_location = location_of_side(block, data[fluid_data.slot].output)
     if (!target_location) return fluid
     const target_block = block.dimension.getBlock(target_location)
@@ -162,6 +161,7 @@ export function output_fluid(fluid_data, entity, block, fluid) {
     direction = get_direction(direction);
 
     let condition_state = (fluid_data.liquid_type == "g") ? 1: 2;
+    
     if (target_block.hasTag("fluid_pipe") && target_block.permutation.getState(pipe_same_side[direction]) >= condition_state){
         let network_id = target_block.getComponent("minecraft:dynamic_properties").get("network_id");
         if(!network_id){
@@ -180,9 +180,9 @@ export function output_fluid(fluid_data, entity, block, fluid) {
     return fluid;
 }
 
-export function input_fluid(fluid_data, entity, block, fluid) {
+export function input_fluid(fluid_data, block, fluid) {
     if(system.currentTick % 20) return [fluid, fluid_data.type];
-    const data = get_data(entity)
+    const data = get_data(block)
     const source_location = location_of_side(block, data[fluid_data.slot].input)
     if (!source_location || fluid == data[fluid_data.slot].capacity) return [fluid, fluid_data.type]
     const source_block = block.dimension.getBlock(source_location)

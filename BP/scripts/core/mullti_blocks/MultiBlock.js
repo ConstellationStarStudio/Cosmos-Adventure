@@ -1,5 +1,6 @@
 import {system, world, ItemStack} from "@minecraft/server";
 import AllMultiBlocks from "./AllMultiBlocks";
+import { pickaxes } from "../../api/utils";
 
 export let multi_blocks = new Map();
 
@@ -13,10 +14,36 @@ world.afterEvents.entityLoad.subscribe(({ entity }) => {
     reload_mullti_block(entity);
 });
 
+function block_entity_access(){
+	const players = world.getAllPlayers();
+	for (const player of players) {
+		if (!player) continue;
+		const targetEntity = player.getEntitiesFromViewDirection({
+			maxDistance: 6,
+			families: ["cosmos"],
+			ignoreBlockCollision: true
+		})[0]?.entity;
+		if (player.isSneaking) {
+			if (targetEntity) targetEntity.triggerEvent("cosmos:shrink");
+			continue;
+		}
+		const item = player.getComponent("minecraft:equippable").getEquipment("Mainhand")?.typeId;
+		const has_pickaxe = pickaxes.has(item);
+		const has_wrench = item === "cosmos:standard_wrench";
+		if (has_pickaxe || has_wrench) {
+			if (targetEntity) targetEntity.triggerEvent("cosmos:shrink");
+		}
+	}
+}
+
 world.afterEvents.worldLoad.subscribe(() => {
+    world.getDims();
     world.getDims(dimension => dimension.getEntities({includeFamilies: ['multi_block']})).forEach(entity => {reload_mullti_block(entity)});
     system.runInterval(() => {
         if (multi_blocks.size === 0) return;
+        // give block access every 2 ticks
+		if (!(system.currentTick % 2)) block_entity_access();
+
         multi_blocks.forEach((multiBlockData, entityId) => {
             const multi_block = world.getEntity(entityId);
             if(!multi_block?.isValid) return;

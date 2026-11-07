@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server";
 import { space_gear_entities } from "./space_gear";
-import { load_dynamic_object } from "../utils";
+import { load_machine_data } from "../utils";
 
 export let tanks = {
     "cosmos:oxygen_tank_light_full": 900,
@@ -83,9 +83,12 @@ export function is_entity_in_a_bubble(entity){
     if(!bubbles.length) return false;
     for(let bubble of bubbles){
         let {x: bubble_x, y: bubble_y, z: bubble_z} = bubble.location;
-        let radius = load_dynamic_object(bubble, "machine_data")?.bubble_radius ?? 0;
-        if(Math.sqrt((bubble_x - x) ** 2 + (bubble_y - y) ** 2 + (bubble_z - z) ** 2) < radius){
-            return true;
+        let bubble_block = entity.dimension.getBlock(bubble.location);
+        if(!bubble_block.isAir){
+            let radius = load_machine_data(bubble_block)?.bubble_radius ?? 0;
+            if(Math.sqrt((bubble_x - x) ** 2 + (bubble_y - y) ** 2 + (bubble_z - z) ** 2) < radius){
+                return true;
+            }
         }
     }
     return false;

@@ -1,7 +1,7 @@
 import { ItemStack } from "@minecraft/server";
-import { charge_from_battery, charge_from_machine as charge_from_block } from "../../matter/electricity.js";
+import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import recipes from "../../../recipes/circuit_fabricator.js"
-import { compare_lists, load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
+import { compare_lists, load_machine_data, save_machine_data } from "../../../api/utils.js";
 
 const DiamondSlot = 0, Silicon1Slot = 1, Silicon2Slot = 2, RedstoneSlot = 3
 const InputSlot = 4, BatterySlot = 5, OutputSlot = 6
@@ -19,23 +19,23 @@ const data = {
 		side_input: IngredientSlots,
 		output: [OutputSlot]
 	},
-	onTick(entity, block) {
-		const container = entity.getComponent('minecraft:inventory').container
+	onTick(block, ui_opened){
+		const container = block.getComponent('minecraft:inventory').container
 		const materials = IngredientSlots.map(i=> container.getItem(i))
 		const [input_item, output_item] = [InputSlot, OutputSlot].map(i=> container.getItem(i))
 		const recipe = recipes.get(input_item?.typeId)
 		const has_space = !output_item || (recipe && output_item.typeId == recipe.item && recipe.amount + output_item.amount <= 64)
 		const has_ingredients = compare_lists(materials.map(i=> i?.typeId), IngredientTypes)
 
-		const variables = load_dynamic_object(entity, "machine_data")
-		const tier = load_dynamic_object(entity, "machine_data", "energy_tier")?.level ?? 1;
+		const variables = load_machine_data(block)
+		const tier = load_machine_data(block, "energy_tier")?.level ?? 1;
 		let energy = variables.energy || 0
 		let progress = variables.progress || 0
 
 		let first_values = [energy, progress]
 		
-		energy = charge_from_block(entity, block, energy)
-		energy = charge_from_battery(entity, energy, BatterySlot)
+		energy = charge_from_machine(block, energy)
+		energy = charge_from_battery(block, energy, BatterySlot)
 		// increase the progress if has ingredients, the recipe matches, has space, and energy
 		if (has_ingredients && recipe && has_space && energy > data.energy.rate && progress < MaxProgress) progress++, energy -= Math.min(energy, data.energy.rate)
 		// regress the progress if no space or no energy
@@ -55,11 +55,11 @@ const data = {
 			// or increment the output item amount 
 			else output_item.amount += recipe.amount, container.setItem(OutputSlot, output_item)
 			// play sound effect
-			block.dimension.playSound("random.anvil_land", entity.location)
+			block.dimension.playSound("random.anvil_land", block.location)
 		}
 
-		save_dynamic_object(entity, {energy, progress}, "machine_data")
-		if((entity.active_ui && !compare_lists(first_values, [energy, progress])) || !container.getItem(EnergyDisplay)){
+		save_machine_data(block, {energy, progress})
+		if((ui_opened && !compare_lists(first_values, [energy, progress])) || !container.getItem(EnergyDisplay)){
 			const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${data.energy.capacity} gJ`
 			container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / data.energy.capacity) * 55))
 			container.add_ui_display(ProgressDisplay, `Progress: ${Math.round((progress / time_required) * 100)}%`, Math.round((progress / time_required) * 51))

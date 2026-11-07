@@ -1,7 +1,7 @@
 import { system } from "@minecraft/server";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js";
 import { output_fluid, load_to_item, load_from_item } from "../../matter/fluids.js";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils.js";
+import { load_machine_data, save_machine_data } from "../../../api/utils.js";
 import { machine_buttons, setup_ui_button } from "../MachineButtons.js";
 
 const InputSlot = 0, BatterySlot = 1, OutputSlot = 2
@@ -25,19 +25,19 @@ const data = {
 	energy: {input: "above", capacity: 16000, maxInput: 150, rate: 60},
 	oil: {input: "right", capacity: 24000},
 	fuel: {output: "left", capacity: 24000},
-	onTick(entity, block) {
-		const container = entity.getComponent('minecraft:inventory').container
-		const active = entity.getDynamicProperty("active")
+	onTick(block, ui_opened) {
+		const container = block.getComponent('minecraft:inventory').container
+		const active = block.getComponent("minecraft:dynamic_properties").get("active")
 		
-		const variables = load_dynamic_object(entity, "machine_data")
-		const tier = load_dynamic_object(entity, "machine_data", "energy_tier")?.level ?? 1;
+		const variables = load_machine_data(block)
+		const tier = load_machine_data(block, "energy_tier")?.level ?? 1;
 		let energy = variables.energy ?? 0
 		let oil = variables.oil ?? 0
 		let fuel = variables.fuel ?? 0
 		
 		//charge the machine
-		energy = charge_from_machine(entity, block, energy)
-		energy = charge_from_battery(entity, energy, BatterySlot)
+		energy = charge_from_machine(block, energy)
+		energy = charge_from_battery(block, energy, BatterySlot)
 		if (system.currentTick % 30 == 0) energy -= Math.min(10, energy) // passive energy loss
 
 		//load oil from canister or bucket
@@ -46,7 +46,7 @@ const data = {
 		/*
 		//reject invalid input
 		const player_location = dimension.getPlayers({
-			location: entity.location,
+			location: block.location,
 			closest: 1,
 			maxDistance: 6
 		})[0]?.location
@@ -58,7 +58,7 @@ const data = {
 
 		//move fluids
 		fuel = load_to_item(fuel, "fuel", container, OutputSlot)
-		fuel = output_fluid({type: "fuel", slot: "fuel", liquid_type: "l"}, entity, block, fuel);
+		fuel = output_fluid({type: "fuel", slot: "fuel", liquid_type: "l"}, block, fuel);
 
 		// refine oil
 		if (!active && system.currentTick % 2 == 0 && oil > 0 && energy > (data.energy.rate * 2) && fuel < data.fuel.capacity) {
@@ -67,9 +67,9 @@ const data = {
 			if (system.currentTick % 20 == 0) make_smoke(block)
 		}
 
-		save_dynamic_object(entity, {energy, oil, fuel}, "machine_data")
+		save_machine_data(block, {energy, oil, fuel})
 		
-		if(entity.active_ui || !container.getItem(StatusDisplay)){
+		if(ui_opened || !container.getItem(StatusDisplay)){
             // write the status text
 			const status = !energy ? "§4No Power"
 			: oil == 0 ? "§cNo Oil"
@@ -84,18 +84,18 @@ const data = {
 			container.add_ui_display(StatusDisplay, `§rStatus:\n${status}`)
 		}
 	},
-	onPlace(entity) {
+	onPlace(block) {
 		const initial_state = true
-		entity.setDynamicProperty('active', initial_state)
-		setup_ui_button(entity, ButtonSlot, ProcessButtonText(initial_state))
+		block.getComponent("minecraft:dynamic_properties").set('active', initial_state)
+		setup_ui_button(block, ButtonSlot, ProcessButtonText(initial_state))
 	}
 }; export default data
 
 const buttons = []; machine_buttons.set('cosmos:refinery', buttons)
-buttons[ButtonSlot] = function (entity, item) {
-	const container = entity.getComponent('minecraft:inventory').container
-	const active = entity.getDynamicProperty('active')
+buttons[ButtonSlot] = function (block, item) {
+	const container = block.getComponent('minecraft:inventory').container
+	const active = block.getComponent("minecraft:dynamic_properties").get('active')
 	item.nameTag = ProcessButtonText(!active) // flip the button text
-	entity.setDynamicProperty('active', !active) // flip the machine state
+	block.getComponent("minecraft:dynamic_properties").set('active', !active) // flip the machine state
 	container.setItem(ButtonSlot, item)
 }

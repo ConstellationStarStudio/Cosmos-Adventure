@@ -1,5 +1,5 @@
 import { system, world, BlockVolume, BlockPermutation } from "@minecraft/server";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils";
+import { load_machine_data, save_machine_data } from "../../../api/utils";
 import { remove } from "../../items/wrench";
 import { charge_battery } from "../../matter/electricity";
 
@@ -55,7 +55,8 @@ const data = {
 	    },
 	    multi_block: true,
 		onTick: onTick,
-		tier: 1
+		tier: 1,
+		visual_entity: true
 	},
     "advanced_solar_panel": {
 	    energy: { output: "back", capacity: 30000, maxPower: 200 },
@@ -65,23 +66,31 @@ const data = {
 	    },
 	    multi_block: true,
 		onTick: onTick,
-		tier: 2
+		tier: 2,
+		visual_entity: true
 	}
 	
 }; 
 
-function onTick(entity, block) {
-	const e = entity;
-	let stopped = e.getDynamicProperty('stopped');
+function onTick(block, ui_opened) {
+	let dm = block.getComponent("minecraft:dynamic_properties");
+	let stopped = dm.get("stopped");
 	if (stopped == undefined) stopped = true;
-	const container = e.getComponent('minecraft:inventory').container;
-	const panel_data = data[entity.typeId.replace('cosmos:', '')];
+	const container = block.getComponent('minecraft:inventory').container;
+	const panel_data = data[block.typeId.replace('cosmos:', '')];
 
-	const variables = load_dynamic_object(e, "machine_data");
+	let entity = dm.get("entity_id");
+	entity = entity ? world.getEntity(entity): undefined;
+	if(!entity || !entity.isValid){
+		entity = block.dimension.spawnEntity(block.typeId, block.bottomCenter());
+		dm.set("entity_id", entity.id);
+	}
+
+	const variables = load_machine_data(block);
 	let energy = variables.energy || 0;
 	let solar_strength = variables.solar_strength || 0;
 	let power = variables.power || 0;
-	let planet = e.getPlanet();
+	let planet = block.getPlanet();
 	let solar_boost = planet ? planet.solarEnergyMultiplier : 1;
 
 	let time = planet ? planet.getTimeOfDay() : world.getTimeOfDay();
@@ -109,27 +118,24 @@ function onTick(entity, block) {
 	target_angle > 360 ? 0:
 	target_angle;
 
-	let old_current_angle = e.getProperty("cosmos:panel_angle") ?? 0;
+	let old_current_angle = entity.getProperty("cosmos:panel_angle") ?? 0;
 	let current_angle = (old_current_angle + (target_angle - old_current_angle) / 20);
 	current_angle = parseFloat(current_angle.toFixed(4));
 
-	if (old_current_angle.toFixed(3) !== current_angle.toFixed(3)) e.setProperty("cosmos:panel_angle", current_angle);
+	if (old_current_angle.toFixed(3) !== current_angle.toFixed(3)) entity.setProperty("cosmos:panel_angle", current_angle);
 	//e.setProperty("cosmos:panel_angle", 15);
 
-	if (!(system.currentTick % 20)) {
-		e.addEffect("invisibility", 9999, { showParticles: false });
-		if (!stopped) {
-			solar_strength = 0;
-			if (is_day_time && block != undefined) {
-				let { x, y, z } = block.location;
-				let panel_blocks = [{ x: x, z: z }, { x: x + 1, z: z }, { x: x - 1, z: z }, { x: x, z: z + 1 }, { x: x, z: z - 1 },
-				{ x: x + 1, z: z + 1 }, { x: x - 1, z: z - 1 }, { x: x - 1, z: z + 1 }, { x: x + 1, z: z - 1 }];
+	if (!(system.currentTick % 20) && !stopped) {
+		solar_strength = 0;
+		if (is_day_time && block != undefined) {
+			let { x, y, z } = block.location;
+			let panel_blocks = [{ x: x, z: z }, { x: x + 1, z: z }, { x: x - 1, z: z }, { x: x, z: z + 1 }, { x: x, z: z - 1 },
+			{ x: x + 1, z: z + 1 }, { x: x - 1, z: z - 1 }, { x: x - 1, z: z + 1 }, { x: x + 1, z: z - 1 }];
 
-				panel_blocks.forEach((element) => {
-					let topmost_block = e.dimension.getTopmostBlock(element);
-					if (topmost_block != undefined && topmost_block.location.y == (y + 2)) solar_strength += 1;
-				});
-			}
+			panel_blocks.forEach((element) => {
+				let topmost_block = block.dimension.getTopmostBlock(element);
+				if (topmost_block != undefined && topmost_block.location.y == (y + 2)) solar_strength += 1;
+			});
 		}
 	}
 	let generated_energy = 0;
@@ -137,13 +143,13 @@ function onTick(entity, block) {
 		generated_energy = get_solar_energy(solar_strength, solar_angle, current_angle, solar_boost);
 		generated_energy = Math.min(panel_data.energy.maxPower, generated_energy);
 		energy = Math.min(energy + generated_energy, panel_data.energy.capacity);
-		energy = charge_battery(e, energy, 0)
+		energy = charge_battery(block, energy, 0)
 	}
 
 	power = Math.min(energy, panel_data.energy.maxPower)
-	save_dynamic_object(e, { energy, solar_strength, power }, "machine_data");
+	save_machine_data(block, { energy, solar_strength, power });
 
-	if(entity.active_ui || !container.getItem(1)){
+	if(ui_opened || !container.getItem(1)){
 		const energy_hover = `Energy Storage\n§aEnergy: ${energy} gJ\n§cMax Energy: ${panel_data.energy.capacity} gJ`
 		const is_generating = `§r${power == 0 ? 'Generating: Not Generating' : 'Generating: ' + generated_energy + ' gJ/t'}`;
 		let status = "§rStatus: ";
@@ -164,7 +170,7 @@ function onTick(entity, block) {
 		container.add_ui_display(4, status)
 		container.add_ui_display(5, `§rEnvinromental Boost: ${Math.floor(Math.round((solar_boost - 1) * 1000)/10)}.0%%`)
 
-		container.add_ui_button(6, stopped ? 'Disable' : 'Enable', entity, 'stopped', !stopped)
+		container.add_ui_button(6, stopped ? 'Disable' : 'Enable', block, 'stopped', !stopped)
 	}
 
 }; export default data;

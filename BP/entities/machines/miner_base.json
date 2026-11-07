@@ -28,8 +28,8 @@
 			},
 			"expand": {
 				"minecraft:collision_box": {
-					"width": 2,
-					"height": 2
+					"width": 2.0,
+					"height": 2.0
 				}
 			},
 			"despawn": {
@@ -61,8 +61,8 @@
                 ]
             },
             "minecraft:collision_box": {
-                "width": 2,
-                "height": 2
+                "width": 2.0,
+                "height": 2.0
             },
 			"minecraft:health": {
 				"value": 1,

@@ -1,5 +1,5 @@
 import { system, ItemStack } from "@minecraft/server";
-import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
+import { compare_lists, load_machine_data, save_machine_data} from "../../../api/utils";
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity.js"
 import { find_recipe } from "./Compressor.js";
 
@@ -31,18 +31,18 @@ const data = {
     
 };
 
-function onTick(entity, block){
-	const container = entity.getComponent('minecraft:inventory').container;
-	const variables = load_dynamic_object(entity, "machine_data");
-	const compressor_data = data[entity.typeId.replace('cosmos:', '')];
+function onTick(block, ui_opened){
+	const container = block.getComponent('minecraft:inventory').container;
+	const variables = load_machine_data(block);
+	const compressor_data = data[block.typeId.replace('cosmos:', '')];
 	//this is a tier of wires that power machine not the tier of machine itself
-	const tier = load_dynamic_object(entity, "machine_data", "energy_tier")?.level ?? 1;
+	const tier = load_machine_data(block, "energy_tier")?.level ?? 1;
     const required_time = Math.floor(compressor_data.required_time / (2 + tier * 2));
 	let energy = variables.energy || 0;
 	let progress = variables.progress || 0;
 	let first_values = [energy, progress]
-	energy = charge_from_machine(entity, block, energy)
-	energy = charge_from_battery(entity, energy, BatterySlot);
+	energy = charge_from_machine(block, energy)
+	energy = charge_from_battery(block, energy, BatterySlot);
 	if(!(system.currentTick % 80)) energy -= Math.min(1, energy)
 
 	const items = InputSlots.map(slot => container.getItem(slot))
@@ -58,7 +58,7 @@ function onTick(entity, block){
 
 	if ((energy < compressor_data.energy.rate || (recipe === undefined || (!one_has_space(64) && !two_has_space(64)))) && progress > 0) progress = 0;
 	if (progress >= required_time) {
-		block.dimension.playSound("random.anvil_land", entity.location)
+		block.dimension.playSound("random.anvil_land", block.location)
 		progress = 0
 		let itemsWithout = items.filter((itemWithout) => itemWithout != undefined)
 		let min = itemsWithout[0].amount;
@@ -106,8 +106,8 @@ function onTick(entity, block){
 			}
 		}
 	}
-	if((entity.active_ui && !compare_lists(first_values, [energy, progress])) || !container.getItem(EnergyDisplay)){
-		save_dynamic_object(entity, {progress, energy}, "machine_data")
+	if((ui_opened && !compare_lists(first_values, [energy, progress])) || !container.getItem(EnergyDisplay)){
+		save_machine_data(block, {progress, energy})
 		
 		const energy_hover = `Energy Storage\n§aEnergy: ${Math.round(energy)} gJ\n§cMax Energy: ${compressor_data.energy.capacity} gJ`
 		container.add_ui_display(EnergyDisplay, energy_hover, Math.round((energy / compressor_data.energy.capacity) * 55))

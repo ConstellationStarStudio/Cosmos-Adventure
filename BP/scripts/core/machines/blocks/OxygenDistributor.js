@@ -1,8 +1,8 @@
-import { system} from "@minecraft/server";
-import { get_data } from "../Machine";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { system, world } from "@minecraft/server";
+import { load_machine_data, save_machine_data } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
 import { input_fluid, load_from_canister } from "../../matter/fluids";
+import compressor from "../../../recipes/compressor";
 
 const CanisterSlot = 0, BatterySlot = 1
 const OxygenDisplay = 2, EnergyDisplay = 3, StatusDisplay = 4
@@ -11,16 +11,25 @@ const ButtonSlot = 5
 const data = {
     energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {input: "left", capacity: 6000, maxInput: 8},
-    onTick(entity, block) {
-        let distributor = entity;
-        const visible_button = distributor.getDynamicProperty('visible_button')
+    visual_entity: true,
+    onTick(block, ui_opened) {
+        let distributor = block;
+        const visible_button = distributor.getComponent("minecraft:dynamic_properties").get('visible_button')
         const container = distributor.getComponent('minecraft:inventory').container;
         const canister = container.getItem(CanisterSlot)
 
-        const variables = load_dynamic_object(distributor, "machine_data");
+        let dm = block.getComponent("minecraft:dynamic_properties");
+        let entity = dm.get("entity_id");
+        entity = entity ? world.getEntity(entity): undefined;
+        if(!entity || !entity.isValid){
+            entity = block.dimension.spawnEntity(block.typeId, block.bottomCenter());
+            dm.set("entity_id", entity.id);
+        }
+
+        const variables = load_machine_data(distributor);
         let energy = variables.energy || 0;
         let o2 = variables.o2 || 0;
-        o2 = input_fluid({type: "o2", slot: "o2", liquid_type: "g"}, distributor, block, o2)[0]; // input from pipes or machines
+        o2 = input_fluid({type: "o2", slot: "o2", liquid_type: "g"}, distributor, o2)[0]; // input from pipes or machines
         if (!(system.currentTick % 20) && canister) { // input from canister
             if (canister.typeId == "cosmos:o2_canister") o2 = load_from_canister({
                 canister, amount: o2,
@@ -38,13 +47,13 @@ const data = {
             })
         } 
         // Energy management
-        energy = charge_from_machine(distributor, block, energy);
+        energy = charge_from_machine(distributor, energy);
         energy = charge_from_battery(distributor, energy, BatterySlot);
 
         let bubble_radius = variables.bubble_radius || 0;
 
-        if(bubble_radius > 0.5 && !distributor.hasTag("bubble_active")) distributor.addTag("bubble_active")
-        else if(bubble_radius < 0.5){distributor.removeTag("bubble_active")};
+        if(bubble_radius > 0.5 && !entity.hasTag("bubble_active")) entity.addTag("bubble_active")
+        else if(bubble_radius < 0.5){entity.removeTag("bubble_active")};
 
         let active = (bubble_radius > 1 && energy > 0 && o2 > 30);
         if(!(system.currentTick % 2)) {
@@ -62,15 +71,12 @@ const data = {
             //do block thing  //yasser444: what thing?
         }
 
-        if(!(system.currentTick % 20)){
-            distributor.addEffect("invisibility", 9999, {showParticles: false});
-            energy = Math.max(energy - 5, 0);
-        }
+        if(!(system.currentTick % 20)) energy = Math.max(energy - 5, 0);
+        
+        entity.setProperty("cosmos:bubble_radius", visible_button ? bubble_radius : 0)
+        save_machine_data(distributor, {energy, o2, bubble_radius});
 
-        distributor.setProperty("cosmos:bubble_radius", visible_button ? bubble_radius : 0)
-        save_dynamic_object(distributor, {energy, o2, bubble_radius}, "machine_data");
-
-        if(entity.active_ui || !container.getItem(StatusDisplay)){
+        if(ui_opened || !container.getItem(StatusDisplay)){
             let status = (energy <= (data.energy.rate * 2))? "§4Not Enough Power":
             (o2 < 30)? "§4Not Enough Oxygen":
             "§2Active";
@@ -83,7 +89,7 @@ const data = {
             container.add_ui_display(StatusDisplay, '§rStatus: ' + status)
         }
         if (!container.getItem(ButtonSlot)) {
-            entity.setDynamicProperty('visible_button', !visible_button)
+            dm.set('visible_button', !visible_button)
             container.add_ui_toggle(ButtonSlot, visible_button ? 0 : 1)
         }
     }

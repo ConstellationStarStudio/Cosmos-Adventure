@@ -1,6 +1,6 @@
 import { world, system, BlockPermutation } from "@minecraft/server"
 import machines from "../machines/AllMachineBlocks.js"
-import { get_entity, location_of_side, compare_position, six_neighbors, save_dynamic_object } from "../../api/utils.js"
+import { get_entity, location_of_side, compare_position, six_neighbors, save_dynamic_object, save_machine_data } from "../../api/utils.js"
 import { get_data } from "../machines/Machine.js"
 
 export function str_pos(location) {
@@ -33,7 +33,7 @@ export function detach_wires(wire) {
 		if (!neighbor.hasTag("wire")) continue
 		const found_machines = wiresDFS(neighbor)
 		neighbor.setPermutation(neighbor.permutation.withState(opposite_side[side], false))
-		machinesSearch(found_machines)
+		machinesSearch(found_machines, wire.dimension)
 	}
 }
 
@@ -83,11 +83,9 @@ function wiresDFS(firstWire, perm = firstWire.permutation){
 	wiresWillDone.forEach((value, key) => {
 		if(value.type == "wire") return;
 		let block = firstWire.dimension.getBlock(JSON.parse(key));
-		if(block.isAir) return;
-		let machineEntity = get_entity(block.dimension, block.center(), "cosmos");
-		if(!machineEntity) return;
-		
-		let machineData = get_data(machineEntity);
+		if(block.isAir || !block.hasTag("machine")) return;
+
+		let machineData = get_data(block);
 		let input = location_of_side(block, machineData.energy.input);
 		let output = location_of_side(block, machineData.energy.output);
 		let final_slot = (value.slot == "both")? "both":
@@ -97,32 +95,35 @@ function wiresDFS(firstWire, perm = firstWire.permutation){
 
 		//so it's sets tier to 2 if all wires connected to input slot are heavy
 		let energy_tier = {level: 1};
-		if(final_slot && final_slot != "output" && counter.heavy_wires > 0 && counter.wires === 0 && machineEntity.dimension.getBlock(value.connected)?.hasTag("heavy_wire")){
+		if(final_slot && final_slot != "output" && counter.heavy_wires > 0 && counter.wires === 0 && block.dimension.getBlock(value.connected)?.hasTag("heavy_wire")){
 			energy_tier = {level: 2};
 		}
 		
-		foundMachines.push([machineEntity.id, final_slot, energy_tier])
+		foundMachines.push([block.location, final_slot, energy_tier])
 	});
 	return foundMachines;
 }
-export function machinesSearch(foundMachines){
+export function machinesSearch(foundMachines, dimension){
 	foundMachines.forEach((element) => {
-		let final = world.getEntity(element[0])
-		let finalData = get_data(final)
-		let inputSide = (finalData.energy.input)? final.dimension.getBlock(location_of_side(final.dimension.getBlock(final.location), finalData.energy.input)):
+		let final = dimension.getBlock(element[0]);
+		let finalData = get_data(final);
+		let inputSide = (finalData.energy.input)? final.dimension.getBlock(location_of_side(final, finalData.energy.input)):
 		undefined;
-		let outputSide = (finalData.energy.output)? final.dimension.getBlock(location_of_side(final.dimension.getBlock(final.location), finalData.energy.output)):
+		let outputSide = (finalData.energy.output)? final.dimension.getBlock(location_of_side(final, finalData.energy.output)):
 		undefined;
 		
 		let connectedInputSide = (inputSide && !inputSide.isAir && inputSide.hasTag("wire"))? wiresDFS(inputSide): undefined;
 		let connectedOutputSide = (outputSide && !outputSide.isAir && outputSide.hasTag("wire"))? wiresDFS(outputSide): undefined;
-		let finalConnectedInputSide = (connectedInputSide)? connectedInputSide.filter((element) => element[0] != final.id): undefined;
-		let finalConnectedOutputSide = (connectedOutputSide)? connectedOutputSide.filter((element) => element[0] != final.id): undefined;
+		let finalConnectedInputSide = (connectedInputSide)? connectedInputSide.filter((i) => !compare_position(i, element[0])): undefined;
+		let finalConnectedOutputSide = (connectedOutputSide)? connectedOutputSide.filter((o) => !compare_position(o, element[0])): undefined;
 
-		save_dynamic_object(final, element[2], "machine_data", "energy_tier")
+		save_machine_data(final, element[2], "energy_tier")
+		
+		try{save_machine_data(final, finalConnectedInputSide, "input_connected_machines")}
+		catch(undefined){}
 
-		final.setDynamicProperty("input_connected_machines", JSON.stringify(finalConnectedInputSide))
-		final.setDynamicProperty("output_connected_machines", JSON.stringify(finalConnectedOutputSide))
+		try{save_machine_data(final, finalConnectedOutputSide, "output_connected_machines")}
+		catch(undefined){}
 	});
 }
 
@@ -145,8 +146,8 @@ export function attach_to_wires(block) {
 	undefined;
 	let machineInputWire = (machine.energy.input)? block.dimension.getBlock(connections[0]):
 	undefined;
-	if(machineOutputWire && !machineOutputWire.isAir && machineOutputWire.hasTag("wire")) machinesSearch(wiresDFS(machineOutputWire))
-	if(machineInputWire && !machineInputWire.isAir && machineInputWire.hasTag("wire")) machinesSearch(wiresDFS(machineInputWire))
+	if(machineOutputWire && !machineOutputWire.isAir && machineOutputWire.hasTag("wire")) machinesSearch(wiresDFS(machineOutputWire), block.dimension)
+	if(machineInputWire && !machineInputWire.isAir && machineInputWire.hasTag("wire")) machinesSearch(wiresDFS(machineInputWire), block.dimension)
 	});
 }
 // this function takes a Block (A Wire)
@@ -169,7 +170,7 @@ function connect_wires(wire) {
 		}
 	}
 	wire.setPermutation(BlockPermutation.resolve(wire.typeId, states))
-	system.run(() => {machinesSearch(wiresDFS(wire))});
+	system.run(() => {machinesSearch(wiresDFS(wire), wire.dimension)});
 }
 
 export const aluminum_wire_component = {
@@ -178,7 +179,7 @@ export const aluminum_wire_component = {
 	},
 	onPlayerBreak(event){
 		detach_wires(event.block)
-		machinesSearch(wiresDFS(event.block, event.brokenBlockPermutation))
+		machinesSearch(wiresDFS(event.block, event.brokenBlockPermutation), event.block.dimension)
 	}
 }
 

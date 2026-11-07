@@ -1,6 +1,6 @@
 import { ItemStack } from "@minecraft/server";
 import recipes from "../../../recipes/compressor"
-import { compare_lists, load_dynamic_object, save_dynamic_object} from "../../../api/utils";
+import { compare_lists, load_machine_data, save_machine_data} from "../../../api/utils";
 
 const fuelTypes = new Set(["minecraft:coal", "minecraft:charcoal", "minecraft:coal_block"])
 
@@ -23,8 +23,8 @@ const data = {
 		side_input: [FuelSlot],
 		output: [OutputSlot]
 	},
-	onTick(entity, block) {
-		const container = entity.getComponent('minecraft:inventory').container;
+	onTick(block, ui_opened) {
+		const container = block.getComponent('minecraft:inventory').container;
 		const items = InputSlots.map(slot => container.getItem(slot))
 		const ingredients = items.map(item => item?.typeId).filter(i => i).sort()
 		const recipe = find_recipe(ingredients)
@@ -33,7 +33,7 @@ const data = {
 		const fuelItem = container.getItem(FuelSlot);
 		const isCoalBlock = fuelItem?.typeId === 'minecraft:coal_block'; 
 
-		const variables = load_dynamic_object(entity, "machine_data");
+		const variables = load_machine_data(block);
 		let burnTime = variables.burnTime || 0;
 		let burnDuration = variables.burnDuration || 0;
 		let progress = variables.progress || 0;
@@ -52,7 +52,7 @@ const data = {
 
 		if (!recipe && progress > 0) progress = 0
 
-		if ([0.6 * MaxProgress, 0.8 * MaxProgress, MaxProgress].includes(progress)) block.dimension.playSound("random.anvil_land", entity.location)
+		if ([0.6 * MaxProgress, 0.8 * MaxProgress, MaxProgress].includes(progress)) block.dimension.playSound("random.anvil_land", block.location)
 
 		if (progress == MaxProgress) {
 			progress = 0
@@ -63,8 +63,8 @@ const data = {
 			else container.setItem(OutputSlot, new ItemStack(recipe))
 		}
 
-		save_dynamic_object(entity, {progress, burnDuration, burnTime}, "machine_data")
-		if((entity.active_ui && !compare_lists(first_values, [burnTime, burnDuration, progress])) || !container.getItem(BurnDisplay)){
+		save_machine_data(block, {progress, burnDuration, burnTime})
+		if((ui_opened && !compare_lists(first_values, [burnTime, burnDuration, progress])) || !container.getItem(BurnDisplay)){
 			container.add_ui_display(BurnDisplay, '', Math.round((burnTime / burnDuration) * 13))
 			container.add_ui_display(ProgressDisplay, '', Math.ceil((progress / MaxProgress) * 52))
 			container.add_ui_display(StatusDisplay, `§r   Status:\n${progress ? '§2Compressing' : '    §6Idle' }`)

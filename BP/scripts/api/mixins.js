@@ -106,12 +106,12 @@ Merge(mc.Container.prototype, {
         super.setItem(slot, button)
     },
 
-    add_ui_button(slot, text, entity, property, value) {
+    add_ui_button(slot, text, block, property, value) {
         if (super.getItem(slot)) return
         const button = new ItemStack('cosmos:ui_button')
         button.nameTag = text ?? ''
         super.setItem(slot, button)
-        if (property) entity.setDynamicProperty(property, value)
+        if (property) block.getComponent("minecraft:dynamic_properties").set(property, value)
     },
 
     updateUI(uiConfigs, data) {

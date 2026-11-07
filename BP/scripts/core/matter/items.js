@@ -24,11 +24,11 @@ world.afterEvents.playerInventoryItemChange.subscribe(({itemStack:item, slot, pl
         if (!id || !world.getEntity(id)) player.getComponent("minecraft:inventory").container.setItem(slot)
         // the behavior of the rest of machines
         // Using this because hoppers can pickup items faster than it takes the script to detect them
-        const machine_id = item.getDynamicProperty('machine_id') // get the id of the machine entity
+        const machine_vec = item.getDynamicProperty('machine') // get the machine location
         const button_slot = item.getDynamicProperty('slot') // get the slot for that button
-        if (typeof machine_id != 'string' || typeof button_slot != 'number') return // check if the button is linked to a machine
-        const machine = world.getEntity(machine_id) // get the machine entity
-        if (!machine || !machine.isValid) return // check if the entity is still valid
+        if ((typeof machine_vec != 'object' && typeof machine_vec != 'string') || typeof button_slot != 'number') return // check if the button is linked to a machine
+        const machine = typeof machine_vec == "string" ? world.getEntity(machine_vec): player.dimension.getBlock(machine_vec); // get the machine
+        if (!machine || machine.isAir || !machine.isValid) return // check machine
         machine_buttons.get(machine.typeId)[button_slot](machine, item) // run the button function
     }
     else if(item?.typeId && tanks[item.typeId] && !item?.getLore().length){

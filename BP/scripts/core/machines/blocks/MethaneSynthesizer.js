@@ -1,5 +1,5 @@
 import { system } from "@minecraft/server"
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { load_machine_data, save_machine_data } from "../../../api/utils"
 import { charge_from_machine, charge_from_battery } from "../../matter/electricity"
 import { machine_buttons, setup_ui_button } from "../MachineButtons"
 import { input_fluid, load_from_item, load_to_canister, output_fluid } from "../../matter/fluids"
@@ -14,11 +14,11 @@ const data = {
     co2: {capacity: 2000},
 	h2: {input: "right", capacity: 4000},
 	methane: {output: "left", capacity: 2000},
-	onTick(entity, block) {
-        const container = entity.getComponent('minecraft:inventory').container
-        const active = entity.getDynamicProperty('active')
+	onTick(block, ui_opened) {
+        const container = block.getComponent('minecraft:inventory').container
+        const active = block.getComponent("minecraft:dynamic_properties").get('active')
             
-        const variables = load_dynamic_object(entity, "machine_data")
+        const variables = load_machine_data(block)
 
         let energy = variables.energy || 0
         let water = variables.water || 0
@@ -28,22 +28,22 @@ const data = {
         let methane = variables.methane || 0
         let coal_partial = variables.coal_partial || 0
 
-        if(container.getItem(Co2Input)?.typeId == "cosmos:atmospheric_valve" && entity.getPlanet()?.type == "mars"){
+        if(container.getItem(Co2Input)?.typeId == "cosmos:atmospheric_valve" && block.getPlanet()?.type == "mars"){
             co2 = Math.min(data.co2.capacity, co2 + 4);
         }
         //processing
-        energy = charge_from_machine(entity, block, energy);
-        energy = charge_from_battery(entity, energy, BatterySlot)
+        energy = charge_from_machine(block, energy);
+        energy = charge_from_battery(block, energy, BatterySlot)
         if (!(system.currentTick % 20)) energy -= Math.min(5, energy);
 
-        h2 = input_fluid({type: "h2", slot: "h2", liquid_type: "g"}, entity, block, h2)[0]
-        methane = output_fluid({type: 'methane', slot: 'methane', liquid_type: "g"}, entity, block, methane);
+        h2 = input_fluid({type: "h2", slot: "h2", liquid_type: "g"}, block, h2)[0]
+        methane = output_fluid({type: 'methane', slot: 'methane', liquid_type: "g"}, block, methane);
 
         let coal_item = container.getItem(CoalItem);
         let can_produce = (h2, methane, co2, coal_item) => (active && h2 > 0 && methane < data.methane.capacity && (co2 > 0 || (coal_item && coal_item.typeId == "cosmos:fragmented_carbon") || coal_partial > 0));
 
         if (can_produce(h2, methane, co2, coal_item) && energy > data.energy.rate) {
-            const tier = load_dynamic_object(entity, "machine_data", "energy_tier")?.level ?? 1;
+            const tier = load_machine_data(block, "energy_tier")?.level ?? 1;
             let time = Math.max(1, 4 - tier);
             if(progress <= 0){
                 progress = time;
@@ -69,10 +69,10 @@ const data = {
             let output_canister = container.getItem(MethaneOutput);
             if(output_canister) methane = load_to_canister(output_canister, methane, "methane", container, MethaneOutput);
         }
-        save_dynamic_object(entity, {energy, co2, h2, methane, coal_partial, progress}, "machine_data")
+        save_machine_data(block, {energy, co2, h2, methane, coal_partial, progress})
             
         //ui display
-        if ((entity.active_ui || !container.getItem(StatusDisplay)) && system.currentTick % 3 == 0) {
+        if ((ui_opened || !container.getItem(StatusDisplay)) && system.currentTick % 3 == 0) {
             let status = energy < data.energy.rate ? 
             '§cLow energy' : progress > -8 ? '§2Synthesizing' :
             h2 == 0 ? '§cNo gas': 
@@ -87,19 +87,19 @@ const data = {
             container.add_ui_display(StatusDisplay, `§rStatus:\n  ${status}`)
         }
     },
-    onPlace(entity) {
+    onPlace(block) {
         const initial_state = false
-        entity.setDynamicProperty('active', initial_state)
-        setup_ui_button(entity, ButtonSlot, ProcessButtonText(initial_state))
+        block.getComponent("minecraft:dynamic_properties").set('active', initial_state)
+        setup_ui_button(block, ButtonSlot, ProcessButtonText(initial_state))
     }
 }; export default data
 
 const buttons = []; machine_buttons.set('cosmos:methane_synthesizer', buttons)
-buttons[ButtonSlot] = function (entity, item) {
-    const container = entity.getComponent('minecraft:inventory').container
-    const active = entity.getDynamicProperty('active')
+buttons[ButtonSlot] = function (block, item) {
+    const container = block.getComponent('minecraft:inventory').container
+    const active = block.getComponent("minecraft:dynamic_properties").get('active')
     item.nameTag = ProcessButtonText(!active) // flip the button text
-    entity.setDynamicProperty('active', !active) // flip the machine state
+    block.getComponent("minecraft:dynamic_properties").set('active', !active) // flip the machine state
     container.setItem(ButtonSlot, item)
 }
 

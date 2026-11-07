@@ -12,7 +12,6 @@ import { fluid_tank_component } from "../core/blocks/fluid_tank";
 import { hydraulic_platform_component } from "../core/blocks/hydraulic_platform";
 import { components as launch_pad_components } from "../core/blocks/launch_pads";
 import { nasa_workbench_component } from "../core/blocks/nasa_workbench";
-import { treasure_chest_component } from "../core/blocks/treasure_chest";
 import { wall_component } from "../core/blocks/wall";
 import { evolved_skeleton_component } from "../core/entities/evolved_skeleton_boss";
 import { debug_item_components } from "../core/items/debug_items";
@@ -53,7 +52,6 @@ system.beforeEvents.startup.subscribe(({customCommandRegistry, itemComponentRegi
     register_block_component('cosmos:cryogenic_chamber', cryogenic_chamber_component)
     register_block_component('cosmos:walkway', walkway_component)
     // register_block_component('cosmos:wall', wall_component)
-    register_block_component('cosmos:treasure_chest', treasure_chest_component)
     register_block_component("cosmos:boss_block", evolved_skeleton_component)
     register_block_component('cosmos:solar_panel', solar_panel_component)
     register_block_component('cosmos:machine', machine_component)

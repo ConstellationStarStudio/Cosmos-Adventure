@@ -1,6 +1,5 @@
 import { system, BlockPermutation } from "@minecraft/server";
 import { rocket_nametags } from "../../../api/player/liftoff";
-import { machine_entities } from "../Machine";
 import { load_to_item } from "../../matter/fluids";
 import { load_dynamic_object, save_dynamic_object } from "../../../api/utils";
 
@@ -9,14 +8,14 @@ export function place_parachest(fuel, dimension, parachest_loc, inventory_size, 
   let parachest_block = dimension.spawnEntity("cosmos:parachest", parachest_loc)
     
   const machine_name = parachest_block.typeId.replace('cosmos:', '');
-  machine_entities.set(parachest_block.id, { type: machine_name, location: parachest_block.location});
+  //machine_entities.set(parachest_block.id, { type: machine_name, location: parachest_block.location});
   parachest_block.triggerEvent('cosmos:inv' + inventory_size);
   parachest_block.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[inventory_size];
   save_dynamic_object(parachest_block, {fuel}, "machine_data")
   return parachest_block;
 }
 
-const Parachest = {
+const data = {
   onTick(entity) {
     if(system.currentTick % 20) return;
     let parachest = entity;
@@ -35,4 +34,4 @@ const Parachest = {
     entity.nameTag = '§f§u§e§l§_§c§h§e§s§t§' + rocket_nametags[0];
     save_dynamic_object(entity, {fuel: 0}, "machine_data")
   }
-}; export default Parachest
+}; export default data

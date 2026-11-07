@@ -1,5 +1,5 @@
 import { system } from "@minecraft/server";
-import { load_dynamic_object, save_dynamic_object } from "../../../api/utils"
+import { load_machine_data, save_machine_data } from "../../../api/utils"
 import { charge_from_battery, charge_from_machine } from "../../matter/electricity";
 import { fluid_names, fluid_textures, input_fluid, load_from_canister, load_to_canister, output_fluid } from "../../matter/fluids";
 import { machine_buttons, setup_ui_button } from "../MachineButtons";
@@ -14,22 +14,22 @@ const data = {
 	energy: { input: "below", capacity: 16000, maxInput: 150, rate: 60},
 	gas: { input: "right", capacity: 4000 },
 	liquid: { output: "left", capacity: 2000 },
-	onTick(entity, block) {
-		const container = entity.getComponent('minecraft:inventory').container
-		const active = entity.getDynamicProperty('active')
+	onTick(block, ui_opened) {
+		const container = block.getComponent('minecraft:inventory').container
+		const active = block.getComponent("minecraft:dynamic_properties").get('active')
 
 		// load variables
-		const variables = load_dynamic_object(entity, "machine_data")
+		const variables = load_machine_data(block)
 		let energy = variables.energy ?? 0
 		let gas = variables.input_tank ?? {amount: 0}
 		let liquid = variables.output_tank ?? {amount: 0}
 		
 		// manage energy
-		energy = charge_from_machine(entity, block, energy)
-		energy = charge_from_battery(entity, energy, BatterySlot)
+		energy = charge_from_machine(block, energy)
+		energy = charge_from_battery(block, energy, BatterySlot)
 		if (system.currentTick % 30 == 0) energy = Math.max(0, energy - 10)
 
-		let input_gas = input_fluid({type: gas.type, slot: "gas", liquid_type: "g"}, entity, block, gas.amount);
+		let input_gas = input_fluid({type: gas.type, slot: "gas", liquid_type: "g"}, block, gas.amount);
 		gas.amount = input_gas[0];
 		gas.type = input_gas[1];
 		if(gas.amount === 0) gas.type = undefined;
@@ -69,7 +69,7 @@ const data = {
 			}
 		}
 		
-		if(energy > data.energy.rate && gas.amount > 0 && !entity.getDynamicProperty("active") && (!liquid.type || gas.type == liquid.type || (gas.type == "methane" && liquid.type == "fuel"))){
+		if(energy > data.energy.rate && gas.amount > 0 && !block.getComponent("minecraft:dynamic_properties").get("active") && (!liquid.type || gas.type == liquid.type || (gas.type == "methane" && liquid.type == "fuel"))){
 			liquid.type = (gas.type == "methane") ? "fuel": gas.type;
 			let space = data.liquid.capacity - liquid.amount;
 			let added_amount = Math.min(space, Math.floor(Math.min(gas.amount / 2, 3)))
@@ -80,7 +80,7 @@ const data = {
 		if(liquid.type && liquid.amount > 0){
 			let output_canister = container.getItem(OutputSlot);
 			if(output_canister) liquid.amount = load_to_canister(output_canister, liquid.amount, liquid.type, container, OutputSlot);
-			liquid.amount = output_fluid({type: liquid.type, slot: "liquid", liquid_type: "l"}, entity, block, liquid.amount);
+			liquid.amount = output_fluid({type: liquid.type, slot: "liquid", liquid_type: "l"}, block, block, liquid.amount);
 		}
 		// makes snow particles that fall on the sides
 		// oxygen gas into liquid oxygen
@@ -90,9 +90,9 @@ const data = {
 		// mars atmo gases into liquid argon
 		// venus has Co2(for Methane Synthesizer) and Nitrogen(for GasLiquefier)
 
-		save_dynamic_object(entity, {energy, input_tank: gas, output_tank: liquid}, "machine_data")
+		save_machine_data(block, {energy, input_tank: gas, output_tank: liquid});
 
-		if(entity.active_ui || !container.getItem(StatusDisplay)){
+		if(ui_opened || !container.getItem(StatusDisplay)){
 			const status = energy == 0 ? "§cLow energy"
 			: gas.amount == 0 ? "§cNo gas"
 			: liquid.amount == data.liquid.capacity ? "§cTanks full"
@@ -108,17 +108,17 @@ const data = {
 			container.add_ui_display(StatusDisplay, `§rStatus:\n ${status}`)
 		}
 	},
-	onPlace(entity) {
-		entity.setDynamicProperty('active', true) // initial state is on
-		setup_ui_button(entity, ButtonSlot, ProcessButtonText(true))
+	onPlace(block) {
+		block.getComponent("minecraft:dynamic_properties").set('active', true) // initial state is on
+		setup_ui_button(block, ButtonSlot, ProcessButtonText(true))
 	}
 }; export default data
 
 const buttons = []; machine_buttons.set('cosmos:gas_liquefier', buttons)
-buttons[ButtonSlot] = function (entity, item) {
-	const container = entity.getComponent('minecraft:inventory').container
-	const active = entity.getDynamicProperty('active')
+buttons[ButtonSlot] = function (block, item) {
+	const container = block.getComponent('minecraft:inventory').container
+	const active = block.getComponent("minecraft:dynamic_properties").get('active')
 	item.nameTag = ProcessButtonText(!active) // flip the button text
-	entity.setDynamicProperty('active', !active) // flip the machine state
+	block.getComponent("minecraft:dynamic_properties").set('active', !active) // flip the machine state
 	container.setItem(ButtonSlot, item)
 }

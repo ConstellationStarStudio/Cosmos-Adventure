@@ -1,5 +1,5 @@
 {
-	"format_version": "1.21.100",
+	"format_version": "1.26.60",
   "minecraft:block": {
     "description": {
       "identifier": "cosmos:basic_solar_panel",
@@ -12,7 +12,17 @@
       }
     },
     "components": {
-      "tag:machine": {},
+      "minecraft:tags": ["cosmos", "power", "machine", "has_power_output"],
+      "minecraft:tick": {
+        "interval_range": [1, 1]
+      },
+      "minecraft:block_entity": {
+        "dynamic_properties": true,
+        "container": {
+          "slot_count": 7,
+          "title": "§b§a§s§i§c§_§s§o§l§a§r§_§p§a§n§e§l"
+        }
+      },
       "cosmos:machine": {},
       "minecraft:destructible_by_explosion": false,
 			"minecraft:movable": { "movement_type": "immovable" },

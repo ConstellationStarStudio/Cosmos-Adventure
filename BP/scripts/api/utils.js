@@ -1,12 +1,10 @@
 // This file is for general Utility functions only.
 
-import {machine_entities} from "../core/machines/Machine";
 import {vehicles} from "../core/vehicles/Vehicle";
 import { multi_blocks } from "../core/mullti_blocks/MultiBlock";
 import ALL_PLANETS from "../planets/AllPlanets";
 
 const data_maps = {
-	"machine_data": machine_entities,
 	"vehicle_data": vehicles,
 	"multi_block_data": multi_blocks
 }
@@ -22,6 +20,13 @@ export function save_dynamic_object(storage, value, type, name = 'variables'){
 	entity.entity_data[name] = value;
 	data_maps[type].set(storage.id, entity);
 	storage.setDynamicProperty(type, JSON.stringify(entity.entity_data)) 
+}
+
+export function load_machine_data(machine, name = 'variables'){
+	return JSON.parse(machine.getComponent("minecraft:dynamic_properties").get(name) ?? "{}")
+}
+export function save_machine_data(machine, value, name = 'variables'){
+	machine.getComponent("minecraft:dynamic_properties").set(name, JSON.stringify(value));
 }
 
 export function str(object) { return JSON.stringify(object) }

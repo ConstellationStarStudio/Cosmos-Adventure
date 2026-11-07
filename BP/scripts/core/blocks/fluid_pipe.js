@@ -1,11 +1,10 @@
 import { world, BlockPermutation, system } from "@minecraft/server"
 import machines from "../machines/AllMachineBlocks.js"
 import { str_pos } from "./aluminum_wire"
-import { get_entity, six_neighbors } from "../../api/utils.js"
+import { six_neighbors } from "../../api/utils.js"
 import { get_data } from "../machines/Machine.js"
 import { compare_position, location_of_side } from "../../api/utils.js"
-import { update_fluid, fluid_network, create_network, refresh_network, save_network} from "../matter/fluid_network.js"
-import { load_dynamic_object } from "../../api/utils.js"
+import { update_fluid, fluid_network, refresh_network, save_network} from "../matter/fluid_network.js"
 
 export function side_blocks(loc){ 
 	return {

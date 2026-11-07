@@ -189,7 +189,7 @@ function onPlace(event) {
 		}
 		center.x = center.x/4 + 0.5; center.y = center.y/8 - 0.5; center.z = center.z/4 + 0.5;
 		let base = block.dimension.spawnEntity("cosmos:astro_miner_base", center);
-		setup_ui_button(base, ButtonSlot, "Recall");
+		setup_ui_button(base, ButtonSlot, "Recall", "entity");
 		return base;
 	}
 } export default data;
@@ -199,7 +199,7 @@ buttons[ButtonSlot] = function (entity, item) {
 	const container = entity.getComponent('minecraft:inventory').container;
 	let info = load_dynamic_object(entity, "multi_block_data");
 
-	let miner = world.getEntity(info.miner_id);
+	let miner = info.miner_id ? world.getEntity(info.miner_id): undefined;
 	if(miner?.isValid){
 		let miner_info = load_dynamic_object(miner, "vehicle_data");
 		if(miner_info.ai_state > 1 && miner_info.ai_state < 4){
