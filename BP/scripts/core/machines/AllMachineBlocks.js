@@ -40,6 +40,7 @@ const AllMachines = {
 	water_electrolyzer: WaterElectrolyzer,
 	gas_liquefier: GasLiquefier,
 	deconstructor: Deconstructor,
-    methane_synthesizer: MethaneSynthesizer
+    methane_synthesizer: MethaneSynthesizer,
+	parachest: Parachest
 }
 export default AllMachines

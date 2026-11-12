@@ -54,7 +54,7 @@ world.beforeEvents.entityItemPickup.subscribe(event => {
     const entity = event.item // get the item entity
     if (entity?.typeId != "minecraft:item" || !entity.isValid) return // check if the entity is an item
     const item = entity.getComponent("minecraft:item")?.itemStack // convert the entity into an item stack
-    if (item?.typeId == "cosmos:ui_button") event.cancel = true // cancel the pickup event if that item is a ui button
+    if (["cosmos:ui_button", "cosmos:ui"].includes(item?.typeId)) event.cancel = true // cancel the pickup event if that item is a ui button
 })
 
 // to remove the 'Has Custom Properties' text from UI buttons in other languages

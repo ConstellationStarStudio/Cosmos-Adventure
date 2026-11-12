@@ -1,5 +1,5 @@
 import { world, system } from "@minecraft/server";
-import { place_parachest } from "../../core/machines/blocks/Parachest";
+import AllMachines from "../../core/machines/AllMachineBlocks";
 import { set_items_to_vehicle } from "../../core/vehicles/Vehicle";
 import { saved_rocket_items } from "../../api/player/liftoff";
 
@@ -64,7 +64,7 @@ export function return_to_earth(player, player_data, should_place_parachest = tr
                 parachest_loc.y = Math.max(parachest_loc.y, -64)
                 let dimension = parachest.dimension;
                 parachest.remove();
-                let parachest_block = place_parachest(player_data.fuel, dimension, parachest_loc, player_data.size - 2, parachute_color)
+                let parachest_block = AllMachines["parachest"].place(player_data.fuel, dimension, parachest_loc, player_data.size - 2, parachute_color)
 
                 system.runTimeout(() => {
                     set_items_to_vehicle(parachest_block, player_data.size - 2, saved_rocket_items.get(player_data.id), player_data.typeId);

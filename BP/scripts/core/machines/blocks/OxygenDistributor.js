@@ -11,7 +11,7 @@ const ButtonSlot = 5
 const data = {
     energy: {input: "right", capacity: 16000, maxInput: 25, rate: 10},
     o2: {input: "left", capacity: 6000, maxInput: 8},
-    visual_entity: true,
+    has_entity: true,
     onTick(block, ui_opened) {
         let distributor = block;
         const visible_button = distributor.getComponent("minecraft:dynamic_properties").get('visible_button')

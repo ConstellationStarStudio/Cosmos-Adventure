@@ -56,7 +56,7 @@ const data = {
 	    multi_block: true,
 		onTick: onTick,
 		tier: 1,
-		visual_entity: true
+		has_entity: true,
 	},
     "advanced_solar_panel": {
 	    energy: { output: "back", capacity: 30000, maxPower: 200 },
@@ -67,7 +67,7 @@ const data = {
 	    multi_block: true,
 		onTick: onTick,
 		tier: 2,
-		visual_entity: true
+		has_entity: true,
 	}
 	
 }; 

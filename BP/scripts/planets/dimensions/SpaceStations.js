@@ -1,6 +1,6 @@
 import { world, system } from "@minecraft/server";
 import { Planet } from "../../planets/GalacticraftPlanets";
-import { place_parachest } from "../../core/machines/blocks/Parachest";
+import AllMachines from "../../core/machines/AllMachineBlocks";
 import { set_items_to_vehicle } from "../../core/vehicles/Vehicle";
 import { saved_rocket_items } from "../../api/player/liftoff";
 
@@ -32,7 +32,7 @@ export class SpaceStations extends Planet{
                         parachest_loc.y = Math.max(parachest_loc.y, -64)
                         let dimension = parachest.dimension;
                         parachest.remove();
-                        let parachest_block = place_parachest(data.fuel, dimension, parachest_loc, data.size - 2, 11)
+                        let parachest_block = AllMachines["parachest"].place(data.fuel, dimension, parachest_loc, data.size - 2, 11)
             
                         system.runTimeout(() => {
                              set_items_to_vehicle(parachest_block, data.size - 2, saved_rocket_items.get(data.id), data.typeId);

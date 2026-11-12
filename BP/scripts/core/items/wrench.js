@@ -2,7 +2,7 @@ import {world, system} from "@minecraft/server";
 import {detach_wires, attach_to_wires} from "../blocks/aluminum_wire"
 import { attach_to_machine, attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
 import { rotate_base } from "../mullti_blocks/blocks/MinerBase";
-import { get_data } from "../machines/Machine";
+import { get_data, multi_block_machines } from "../machines/Machine";
 
 const directions = ["north", "east", "south", "west"]
 
@@ -25,7 +25,8 @@ export function remove(block) {
   const coords = `${location.x} ${location.y} ${location.z}`
   let data = get_data(block);
 
-  if(data?.visual_entity){
+  if(data?.multi_block) multi_block_machines[block.typeId](block, true);
+  if(data?.has_entity){
     let entity = dimension.getEntities({type: block.typeId, location: { x: Math.floor(block.location.x) + 0.5, y: Math.floor(block.location.y) + 0.5,
 		z: Math.floor(block.location.z) + 0.5, }, maxDistance: 0.5,})[0];
 
@@ -45,7 +46,7 @@ export const wrench_component = {
       return;
     }
     if(block.hasTag("fluid_pipe") && !block.hasTag("sealed_fluid_pipe")) attach_to_machine(block)
-    if (!block.hasTag("machine")) return
+    if (!block.hasTag("machine") || block.typeId == "cosmos:parachest") return
     if (player.isSneaking) remove(block)
     else rotate(block, perm)
   }

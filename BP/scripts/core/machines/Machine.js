@@ -4,7 +4,7 @@ import { detach_wires, attach_to_wires } from "../blocks/aluminum_wire";
 import { attach_pipes, detach_pipes } from "../blocks/fluid_pipe";
 import { setSolarPanelBlocks } from "./blocks/SolarPanel"; 
 
-const multi_block_machines = {
+export const multi_block_machines = {
 	"cosmos:basic_solar_panel": setSolarPanelBlocks,
 	"cosmos:advanced_solar_panel": setSolarPanelBlocks
 }
@@ -131,18 +131,21 @@ export const machine_component = {
 		const machine_name = perm.type.id.replace('cosmos:', '');
 		if(machines[machine_name].multi_block) multi_block_machines[perm.type.id](block, true);
 
-		if(machines[machine_name].visual_entity){
+		if(machines[machine_name].has_entity){
 			let entity = dimension.getEntities({type: perm.type.id, location: { x: Math.floor(block.location.x) + 0.5, y: Math.floor(block.location.y) + 0.5,
 				z: Math.floor(block.location.z) + 0.5,
 			}, maxDistance: 0.5,})[0];
-			if(entity) entity.remove();
+			if(entity){
+				if(machines[machine_name].drops_entity_items) entity.kill()
+				entity.remove();
+			}
 		}
 	},
 }
 
 //remove the ui item entities
 world.afterEvents.entitySpawn.subscribe((data) => {
-	if (data.entity.isValid && data.entity.typeId == "minecraft:item" && data.entity.getComponent("minecraft:item")?.itemStack.typeId == "cosmos:ui") {
+	if (data.entity.isValid && data.entity.typeId == "minecraft:item" && ["cosmos:ui", "cosmos:ui_button"].includes(data.entity.getComponent("minecraft:item")?.itemStack.typeId)) {
 		data.entity.remove();
 	}
 });
